@@ -39,6 +39,11 @@ bool CApp::OnInit() {
         return false;
     }
 
+//    SDL_RendererInfo info;
+//    SDL_GetRendererInfo(this->main_renderer, &info);
+//    std::cout << "renderer info: " << info.flags << std::endl;
+//    return false;
+
     if (this->ImportMedia() == false) {
         std::cout << "Failed to load media" << std::endl;
         return false;

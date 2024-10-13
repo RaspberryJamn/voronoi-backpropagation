@@ -2,6 +2,7 @@
 
 CanvasWindow::CanvasWindow() {
     this->window = nullptr;
+    this->window_id = 0;
     this->renderer = nullptr;
     this->mouse_focus = false;
     this->keyboard_focus = false;
@@ -35,7 +36,7 @@ bool CanvasWindow::Init(const char* window_caption, int x, int y, int w, int h, 
     if (this->window == nullptr) {
         return false;
     }
-
+    this->window_id = SDL_GetWindowID(this->window);
     this->mouse_focus = true;
     this->keyboard_focus = true;
     this->fullscreen = false;
@@ -47,19 +48,15 @@ bool CanvasWindow::Init(const char* window_caption, int x, int y, int w, int h, 
 }
 
 SDL_Renderer* CanvasWindow::CreateRenderer() {
-//    if (this->renderer != nullptr) {
-//       SDL_DestroyRenderer(this->renderer);
-//    }
-//    this->renderer = SDL_CreateRenderer(this->window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-//    return this->renderer;
     if (this->renderer == nullptr) {
-       this->renderer = SDL_CreateRenderer(this->window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+       this->renderer = SDL_CreateRenderer(this->window, -1, SDL_RENDERER_ACCELERATED);// | SDL_RENDERER_PRESENTVSYNC);
+       SDL_SetRenderDrawColor(this->renderer, 0xFF, 0xFF, 0xFF, 0xFF);
     }
     return this->renderer;
 }
 
 void CanvasWindow::HandleEvent(SDL_Event& event) {
-    if (event.type == SDL_WINDOWEVENT) {
+    if ((event.type == SDL_WINDOWEVENT) && (event.window.windowID == this->window_id)) {
         switch (event.window.event) {
 
             case SDL_WINDOWEVENT_SIZE_CHANGED:
@@ -95,19 +92,7 @@ void CanvasWindow::HandleEvent(SDL_Event& event) {
                 this->minimized = false;
                 break;
         }
-    }// else if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_RETURN) {
-//        if( mFullScreen )
-//        {
-//            SDL_SetWindowFullscreen( mWindow, 0 );
-//            mFullScreen = false;
-//        }
-//        else
-//        {
-//            SDL_SetWindowFullscreen( mWindow, SDL_WINDOW_FULLSCREEN_DESKTOP );
-//            mFullScreen = true;
-//            mMinimized = false;
-//        }
-//    }
+    }
 }
 
 int CanvasWindow::GetWidth() {

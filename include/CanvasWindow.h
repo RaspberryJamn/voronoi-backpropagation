@@ -32,6 +32,7 @@ class CanvasWindow {
         //Window data
         SDL_Window* window;
         SDL_Renderer* renderer;
+        int window_id;
 
         //Window dimensions
         int width;
