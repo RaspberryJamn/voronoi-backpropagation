@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1728852232 source:c:\users\james\documents\cpp\voronoi\src\canvaswindow.cpp
+1728855615 source:c:\users\james\documents\cpp\voronoi\src\canvaswindow.cpp
 	"CanvasWindow.h"
 
 1728852126 c:\users\james\documents\cpp\voronoi\include\canvaswindow.h
@@ -424,7 +424,7 @@
 1728799593 source:c:\users\james\documents\cpp\voronoi\src\capp_onevent.cpp
 	"CApp.h"
 
-1728852206 source:c:\users\james\documents\cpp\voronoi\src\capp_oninit.cpp
+1728854672 source:c:\users\james\documents\cpp\voronoi\src\capp_oninit.cpp
 	"CApp.h"
 	<iostream>
 	"CanvasWindow.h"
