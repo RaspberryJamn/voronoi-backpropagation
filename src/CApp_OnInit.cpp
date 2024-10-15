@@ -1,6 +1,5 @@
 #include "CApp.h"
 #include <iostream>
-#include "CanvasWindow.h"
 
 bool CApp::OnInit() {
 
@@ -12,6 +11,11 @@ bool CApp::OnInit() {
     int imgFlags = IMG_INIT_PNG;
     if(!(IMG_Init(imgFlags) & imgFlags)){
         std::cout << "SDL image not initialized, SDL_image error: " << IMG_GetError() << std::endl;
+        return false;
+    }
+
+    if(TTF_Init() == -1){
+        std::cout << "SDL ttf not initialized, SDL_ttf error: " << TTF_GetError() << std::endl;
         return false;
     }
 
@@ -27,27 +31,24 @@ bool CApp::OnInit() {
         return false;
     }
 
-//    this->Display_Surface = SDL_GetWindowSurface(this->Main_Window);
-//    if (this->Display_Surface == nullptr) { // can this even happen?
-//        std::cout << "Window surface not derived, SDL error: " << SDL_GetError() << std::endl;
-//        return false;
-//    }
-
     this->main_renderer = this->main_window->CreateRenderer();
     if (this->main_renderer == nullptr) {
         std::cout << "Main window renderer not created, SDL error: " << SDL_GetError() << std::endl;
         return false;
     }
+    SDL_SetRenderDrawColor(this->main_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 
 //    SDL_RendererInfo info;
 //    SDL_GetRendererInfo(this->main_renderer, &info);
 //    std::cout << "renderer info: " << info.flags << std::endl;
 //    return false;
 
-    if (this->ImportMedia() == false) {
-        std::cout << "Failed to load media" << std::endl;
+    if (this->ImportAssets() == false) {
+        std::cout << "Failed to load assets" << std::endl;
         return false;
     }
+    this->text_texture->SetFont(this->main_font);
+    this->text_texture->SetRenderer(this->main_renderer);
 
     return true;
 }

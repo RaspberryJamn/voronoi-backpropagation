@@ -1,8 +1,8 @@
 # depslib dependency file v1.0
-1728855615 source:c:\users\james\documents\cpp\voronoi\src\canvaswindow.cpp
+1729016399 source:c:\users\james\documents\cpp\voronoi\src\canvaswindow.cpp
 	"CanvasWindow.h"
 
-1728852126 c:\users\james\documents\cpp\voronoi\include\canvaswindow.h
+1729011883 c:\users\james\documents\cpp\voronoi\include\canvaswindow.h
 	<SDL.h>
 
 1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl.h
@@ -399,14 +399,16 @@
 	"begin_code.h"
 	"close_code.h"
 
-1728799428 source:c:\users\james\documents\cpp\voronoi\src\capp.cpp
+1729024635 source:c:\users\james\documents\cpp\voronoi\src\capp.cpp
 	"CApp.h"
-	<iostream>
 
-1728799544 c:\users\james\documents\cpp\voronoi\include\capp.h
+1729023044 c:\users\james\documents\cpp\voronoi\include\capp.h
 	<SDL.h>
 	<SDL_image.h>
+	<SDL_ttf.h>
 	"CanvasWindow.h"
+	"Timer.h"
+	"Texture.h"
 
 1704148564 c:\sdl\sdl2_image-2.8.2\i686-w64-mingw32\include\sdl2\sdl_image.h
 	"SDL.h"
@@ -414,24 +416,48 @@
 	"begin_code.h"
 	"close_code.h"
 
-1728802911 source:c:\users\james\documents\cpp\voronoi\src\capp_importmedia.cpp
+1729018408 source:c:\users\james\documents\cpp\voronoi\src\capp_importmedia.cpp
 	"CApp.h"
 	<iostream>
 
-1728799491 source:c:\users\james\documents\cpp\voronoi\src\capp_oncleanup.cpp
+1729027104 source:c:\users\james\documents\cpp\voronoi\src\capp_oncleanup.cpp
 	"CApp.h"
 
 1728799593 source:c:\users\james\documents\cpp\voronoi\src\capp_onevent.cpp
 	"CApp.h"
 
-1728854672 source:c:\users\james\documents\cpp\voronoi\src\capp_oninit.cpp
+1729032934 source:c:\users\james\documents\cpp\voronoi\src\capp_oninit.cpp
 	"CApp.h"
 	<iostream>
-	"CanvasWindow.h"
 
 1728096506 source:c:\users\james\documents\cpp\voronoi\src\capp_onloop.cpp
 	"CApp.h"
 
-1728854311 source:c:\users\james\documents\cpp\voronoi\src\capp_onrender.cpp
+1729033236 source:c:\users\james\documents\cpp\voronoi\src\capp_onrender.cpp
 	"CApp.h"
+	<sstream>
+
+1705852415 c:\sdl\sdl2_ttf-2.22.0\i686-w64-mingw32\include\sdl2\sdl_ttf.h
+	"SDL.h"
+	"begin_code.h"
+	"close_code.h"
+
+1728865862 source:c:\users\james\documents\cpp\voronoi\src\timer.cpp
+	"Timer.h"
+
+1729015018 c:\users\james\documents\cpp\voronoi\include\timer.h
+	<SDL.h>
+
+1729033117 c:\users\james\documents\cpp\voronoi\include\texture.h
+	<SDL_image.h>
+	<SDL_ttf.h>
+	<iostream>
+
+1729033155 source:c:\users\james\documents\cpp\voronoi\src\texture.cpp
+	"Texture.h"
+	<iostream>
+
+1729033255 source:c:\users\james\documents\cpp\voronoi\src\capp_importassets.cpp
+	"CApp.h"
+	<iostream>
 

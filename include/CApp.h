@@ -3,7 +3,10 @@
 
 #include <SDL.h>
 #include <SDL_image.h>
+#include <SDL_ttf.h>
 #include "CanvasWindow.h"
+#include "Timer.h"
+#include "Texture.h"
 
 class CApp {
     private:
@@ -15,10 +18,16 @@ class CApp {
 
         SDL_Renderer* main_renderer;
 
+        Uint32 last_frametime;
+
 //        SDL_Surface* Source_Surface;
 //        SDL_Surface* Media_Surfaces[];
 
-        SDL_Texture* source_texture;
+        Texture* source_texture;
+
+        Texture* text_texture;
+
+        TTF_Font* main_font;
 
     public:
         CApp();
@@ -28,7 +37,7 @@ class CApp {
     public:
 
         bool OnInit();
-        bool ImportMedia();
+        bool ImportAssets();
 
         void OnEvent(SDL_Event& event);
 

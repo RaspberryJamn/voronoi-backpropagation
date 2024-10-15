@@ -1,4 +1,5 @@
 #include "CApp.h"
+#include <sstream>
 
 int g_jitter_offset = 20;
 
@@ -18,7 +19,15 @@ void CApp::OnRender() {
 
     SDL_RenderClear(this->main_renderer);
 
-    SDL_RenderCopy(this->main_renderer, this->source_texture, nullptr, &stretch_rect);
+    this->source_texture->Render(&stretch_rect);
+
+    SDL_Color text_color = {0,0,0,255};
+    std::stringstream time_text("");
+    time_text << "Last frametime: " << this->last_frametime << "ms";
+//    std::cout << time_text.str();
+    this->text_texture->LoadInRenderedText(time_text.str().c_str(), text_color);
+    this->text_texture->Render(0,0);
+
 
     SDL_RenderPresent(this->main_renderer);
 

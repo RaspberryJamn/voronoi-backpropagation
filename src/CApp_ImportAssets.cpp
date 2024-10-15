@@ -22,37 +22,24 @@ SDL_Surface* LoadSurface(std::string path, SDL_PixelFormat* format) {
     return optimized_surface;
 }
 
-SDL_Texture* LoadTexture(std::string path, SDL_Renderer* target_renderer) {
-
-    SDL_Texture* new_texture = nullptr;
-
-    SDL_Surface* loaded_surface = IMG_Load(path.c_str());
-    if(loaded_surface == nullptr) {
-        std::cout << "Source image at \"" << path.c_str() << "\" not loaded, SDL_image error: " << IMG_GetError() << std::endl;
-        return nullptr;
-    }
-
-    new_texture = SDL_CreateTextureFromSurface(target_renderer, loaded_surface);
-    if(new_texture == nullptr) {
-        std::cout << "Unable to create texture from \"" << path.c_str() << "\", SDL error: " << SDL_GetError() << std::endl;
-        return nullptr;
-    }
-
-    SDL_FreeSurface(loaded_surface);
-
-    return new_texture;
-}
-
-bool CApp::ImportMedia() {
+bool CApp::ImportAssets() {
 
 //    this->Source_Surface = loadSurface("assets/kannabmp.bmp", this->Display_Surface->format);
 //    if(this->Source_Surface == nullptr) {
 //        std::cout << "Source image not loaded, SDL error: " << SDL_GetError() << std::endl;
 //        return false;
 //    }
-    this->source_texture = LoadTexture("assets/kannapng.png", this->main_renderer);
-    if(this->source_texture == nullptr) {
-        std::cout << "Failed to load texture, SDL error: " << SDL_GetError() << std::endl;
+    this->source_texture = new Texture(this->main_renderer);
+    this->source_texture->LoadFromFile("assets/kannapng.png");
+    if(this->source_texture->WasSuccessful() == false) {
+        std::cout << "Failed to load texture" << std::endl;
+        return false;
+    }
+
+    this->main_font = TTF_OpenFont("assets/consola.ttf", 12);
+//    std::cout << "font pointer: " << this->main_font << std::endl;
+    if(this->main_font == nullptr) { // wasnt actually catching issues... "Opaque data!" is right
+        std::cout << "Failed to load font, SDL_ttf error: " << TTF_GetError() << std::endl;
         return false;
     }
 

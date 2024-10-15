@@ -1,5 +1,5 @@
 #include "CApp.h"
-#include <iostream>
+
 CApp::CApp() {
     this->running = true;
 }
@@ -11,12 +11,15 @@ int CApp::OnExecute() {
     }
 
     SDL_Event Event;
+    Timer frametime_timer;
     while(this->running) {
+        frametime_timer.Reset();
         while(SDL_PollEvent(&Event)) {
             OnEvent(Event);
         }
         OnLoop();
         OnRender();
+        this->last_frametime = frametime_timer.QueryTicks();
     }
 
     OnCleanup();

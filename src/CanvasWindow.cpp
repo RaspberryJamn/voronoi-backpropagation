@@ -14,6 +14,11 @@ CanvasWindow::CanvasWindow() {
 CanvasWindow::~CanvasWindow() {
     if(this->window != nullptr) {
 		SDL_DestroyWindow(this->window);
+		this->window = nullptr;
+	}
+    if(this->renderer != nullptr) {
+		SDL_DestroyRenderer(this->renderer);
+		this->renderer = nullptr;
 	}
     this->mouse_focus = false;
     this->keyboard_focus = false;
@@ -50,7 +55,6 @@ bool CanvasWindow::Init(const char* window_caption, int x, int y, int w, int h, 
 SDL_Renderer* CanvasWindow::CreateRenderer() {
     if (this->renderer == nullptr) {
        this->renderer = SDL_CreateRenderer(this->window, -1, SDL_RENDERER_ACCELERATED);// | SDL_RENDERER_PRESENTVSYNC);
-       SDL_SetRenderDrawColor(this->renderer, 0xFF, 0xFF, 0xFF, 0xFF);
     }
     return this->renderer;
 }
