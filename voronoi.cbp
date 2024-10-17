@@ -29,17 +29,21 @@
 			<Add directory="C:/sdl/SDL2_image-2.8.2/i686-w64-mingw32/lib" />
 			<Add directory="C:/sdl/SDL2_ttf-2.22.0/i686-w64-mingw32/lib" />
 		</Linker>
+		<Unit filename="include/AtlasNumberDrawer.h" />
 		<Unit filename="include/CApp.h" />
 		<Unit filename="include/CanvasWindow.h" />
+		<Unit filename="include/Texture.h" />
 		<Unit filename="include/Timer.h" />
+		<Unit filename="src/AtlasNumberDrawer.cpp" />
 		<Unit filename="src/CApp.cpp" />
-		<Unit filename="src/CApp_ImportMedia.cpp" />
+		<Unit filename="src/CApp_ImportAssets.cpp" />
 		<Unit filename="src/CApp_OnCleanup.cpp" />
 		<Unit filename="src/CApp_OnEvent.cpp" />
 		<Unit filename="src/CApp_OnInit.cpp" />
 		<Unit filename="src/CApp_OnLoop.cpp" />
 		<Unit filename="src/CApp_OnRender.cpp" />
 		<Unit filename="src/CanvasWindow.cpp" />
+		<Unit filename="src/Texture.cpp" />
 		<Unit filename="src/Timer.cpp" />
 		<Extensions>
 			<lib_finder disable_auto="1" />

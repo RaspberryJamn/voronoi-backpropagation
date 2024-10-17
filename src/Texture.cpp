@@ -9,6 +9,7 @@ Texture::Texture() {
     this->height = 0;
     this->was_successful = true;
 }
+
 Texture::Texture(SDL_Renderer* target_renderer) {
     this->texture = nullptr;
     this->renderer = target_renderer;
@@ -34,12 +35,27 @@ void Texture::FreeTexture() {
     this->was_successful = true;
 }
 
+SDL_Texture* Texture::OrphanTexture() {
+    SDL_Texture* result = this->texture;
+    this->texture = nullptr;
+    this->width = 0;
+    this->height = 0;
+    this->was_successful = true;
+    return result;
+}
+
 void Texture::SetRenderer(SDL_Renderer* target_renderer) {
     this->renderer = target_renderer;
     this->was_successful = true;
 }
 
 void Texture::SetFont(TTF_Font* font) {
+    this->font = font;
+    this->was_successful = true;
+}
+
+void Texture::SetRendererAndFont(SDL_Renderer* target_renderer, TTF_Font* font) {
+    this->renderer = target_renderer;
     this->font = font;
     this->was_successful = true;
 }
@@ -113,14 +129,44 @@ void Texture::LoadInRenderedText(std::string text, SDL_Color color) {
     this->was_successful = true;
 }
 
+void Texture::NewBlankFromDims(int x, int y) {
+    if (this->renderer == nullptr) {
+        std::cout << "Texture has no renderer, unable to create blank texture from dims \"" << x<<","<<y << std::endl;
+        this->was_successful = false;
+        return;
+    }
+    this->FreeTexture();
+    SDL_Texture* new_texture = SDL_CreateTexture(this->renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, x, y);
+    if(new_texture == nullptr) {
+        std::cout << "Unable to create blank texture from dims \"" << x<<","<<y << "\", SDL error: " << SDL_GetError() << std::endl;
+        this->was_successful = false;
+        return;
+    }
+    this->texture = new_texture;
+    this->width = x;
+    this->height = y;
+
+    this->was_successful = true;
+}
+
+void Texture::SetSelfAsRenderTarget() {
+    SDL_SetRenderTarget(this->renderer, this->texture);
+    this->was_successful = true;
+}
+
 void Texture::Render(int x, int y) {
     SDL_Rect render_quad = {x, y, this->width, this->height};
     SDL_RenderCopy(this->renderer, this->texture, nullptr, &render_quad);
     this->was_successful = true;
 }
 
-void Texture::Render(SDL_Rect* render_quad) {
-    SDL_RenderCopy(this->renderer, this->texture, nullptr, render_quad);
+void Texture::Render(SDL_Rect* paste) {
+    SDL_RenderCopy(this->renderer, this->texture, nullptr, paste);
+    this->was_successful = true;
+}
+
+void Texture::Render(SDL_Rect* cut, SDL_Rect* paste) {
+    SDL_RenderCopy(this->renderer, this->texture, cut, paste);
     this->was_successful = true;
 }
 
