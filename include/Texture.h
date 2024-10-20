@@ -9,6 +9,7 @@ class Texture {
     public:
         Texture();
         Texture(SDL_Renderer* target_renderer);
+        Texture(SDL_Renderer* target_renderer, TTF_Font* font);
         ~Texture();
 
         void FreeTexture();
@@ -39,6 +40,7 @@ class Texture {
         void Render(int x, int y);//, double angle = 0.0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE);
         void Render(SDL_Rect* paste);//, double angle = 0.0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE);
         void Render(SDL_Rect* cut, SDL_Rect* paste);//, double angle = 0.0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE);
+        void RenderRTL(SDL_Rect* inout_bounds);
 
         //Gets image dimensions
         int GetWidth();

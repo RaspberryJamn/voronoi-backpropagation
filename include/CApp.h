@@ -7,15 +7,13 @@
 #include "CanvasWindow.h"
 #include "Timer.h"
 #include "Texture.h"
+#include "AtlasNumberDrawer.h"
 
 class CApp {
     private:
         bool running;
 
         CanvasWindow* main_window;
-
-        SDL_Surface* display_surface;
-
         SDL_Renderer* main_renderer;
 
         Uint32 last_frametime;
@@ -26,6 +24,8 @@ class CApp {
         Texture* source_texture;
 
         Texture* text_texture;
+        Texture* text_textures[2];
+        AtlasNumberDrawer number_renderer;
 
         TTF_Font* main_font;
 

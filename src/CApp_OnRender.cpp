@@ -21,13 +21,21 @@ void CApp::OnRender() {
 
     this->source_texture->Render(&stretch_rect);
 
-    SDL_Color text_color = {0,0,0,255};
-    std::stringstream time_text("");
-    time_text << "Last frametime: " << this->last_frametime << "ms";
+//    SDL_Color text_color = {0,0,0,255};
+//    std::stringstream time_text("");
+//    time_text << "Last frametime: " << this->last_frametime << "ms";
 //    std::cout << time_text.str();
-    this->text_texture->LoadInRenderedText(time_text.str().c_str(), text_color);
-    this->text_texture->Render(0,0);
+//    this->text_texture->LoadInRenderedText(time_text.str().c_str(), text_color);
+//    this->text_texture->Render(0,0);
 
+//    std::stringstream time_text("");
+//    time_text << this->last_frametime;
+//    std::cout << "got here" << std::endl;
+    SDL_Rect string_bounds = {5,5,0,0};
+    this->text_textures[0]->RenderRTL(&string_bounds); // "Last frametime: "
+//    this->number_renderer.DrawRTL(this->main_renderer, time_text.str().c_str(), &string_bounds);
+//    this->text_textures[1]->RenderRTL(&string_bounds); // "ms"
+//    std::cout << "got heree" << std::endl;
 
     SDL_RenderPresent(this->main_renderer);
 

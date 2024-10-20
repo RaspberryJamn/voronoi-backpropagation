@@ -19,6 +19,15 @@ Texture::Texture(SDL_Renderer* target_renderer) {
     this->was_successful = true;
 }
 
+Texture::Texture(SDL_Renderer* target_renderer, TTF_Font* font) {
+    this->texture = nullptr;
+    this->renderer = target_renderer;
+    this->font = font;
+    this->width = 0;
+    this->height = 0;
+    this->was_successful = true;
+}
+
 Texture::~Texture() {
     this->FreeTexture();
     this->renderer = nullptr;
@@ -167,6 +176,14 @@ void Texture::Render(SDL_Rect* paste) {
 
 void Texture::Render(SDL_Rect* cut, SDL_Rect* paste) {
     SDL_RenderCopy(this->renderer, this->texture, cut, paste);
+    this->was_successful = true;
+}
+
+void Texture::RenderRTL(SDL_Rect* inout_bounds) {
+    SDL_Rect bounds = *inout_bounds;
+    SDL_Rect paste = {bounds.x+bounds.w,bounds.y,this->width,this->height};
+    SDL_RenderCopy(this->renderer, this->texture, nullptr, &paste);
+    inout_bounds->w = paste.x-bounds.x;
     this->was_successful = true;
 }
 

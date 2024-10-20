@@ -402,13 +402,14 @@
 1729024635 source:c:\users\james\documents\cpp\voronoi\src\capp.cpp
 	"CApp.h"
 
-1729023044 c:\users\james\documents\cpp\voronoi\include\capp.h
+1729463673 c:\users\james\documents\cpp\voronoi\include\capp.h
 	<SDL.h>
 	<SDL_image.h>
 	<SDL_ttf.h>
 	"CanvasWindow.h"
 	"Timer.h"
 	"Texture.h"
+	"AtlasNumberDrawer.h"
 
 1704148564 c:\sdl\sdl2_image-2.8.2\i686-w64-mingw32\include\sdl2\sdl_image.h
 	"SDL.h"
@@ -420,7 +421,7 @@
 	"CApp.h"
 	<iostream>
 
-1729027104 source:c:\users\james\documents\cpp\voronoi\src\capp_oncleanup.cpp
+1729462230 source:c:\users\james\documents\cpp\voronoi\src\capp_oncleanup.cpp
 	"CApp.h"
 
 1728799593 source:c:\users\james\documents\cpp\voronoi\src\capp_onevent.cpp
@@ -433,7 +434,7 @@
 1728096506 source:c:\users\james\documents\cpp\voronoi\src\capp_onloop.cpp
 	"CApp.h"
 
-1729033264 source:c:\users\james\documents\cpp\voronoi\src\capp_onrender.cpp
+1729463919 source:c:\users\james\documents\cpp\voronoi\src\capp_onrender.cpp
 	"CApp.h"
 	<sstream>
 
@@ -448,16 +449,16 @@
 1729015018 c:\users\james\documents\cpp\voronoi\include\timer.h
 	<SDL.h>
 
-1729122694 c:\users\james\documents\cpp\voronoi\include\texture.h
+1729463028 c:\users\james\documents\cpp\voronoi\include\texture.h
 	<SDL_image.h>
 	<SDL_ttf.h>
 	<iostream>
 
-1729033155 source:c:\users\james\documents\cpp\voronoi\src\texture.cpp
+1729463572 source:c:\users\james\documents\cpp\voronoi\src\texture.cpp
 	"Texture.h"
 	<iostream>
 
-1729033322 source:c:\users\james\documents\cpp\voronoi\src\capp_importassets.cpp
+1729463835 source:c:\users\james\documents\cpp\voronoi\src\capp_importassets.cpp
 	"CApp.h"
 	<iostream>
 
