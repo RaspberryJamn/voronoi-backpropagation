@@ -13,6 +13,7 @@ void AtlasNumberDrawer::BuildAtlas(SDL_Renderer* target_renderer, TTF_Font* font
     if (this->atlas != nullptr) {
         return;
     }
+//    this->renderer = target_renderer;
     int horizontal_position = 0;
     int max_vertical_position = 0;
     Texture number_texture;
@@ -38,9 +39,11 @@ void AtlasNumberDrawer::BuildAtlas(SDL_Renderer* target_renderer, TTF_Font* font
         SDL_DestroyTexture(texture_queue[i]);
     }
     SDL_SetRenderTarget(target_renderer, nullptr);
+
+//    std::cout << max_vertical_position << std::endl;
 }
 
-void AtlasNumberDrawer::DrawRTL(SDL_Renderer* target_renderer, std::string text, SDL_Rect* inout_bounds) {
+void AtlasNumberDrawer::DrawRTL(std::string text, SDL_Rect* inout_bounds) {
     int i = 0;
     SDL_Rect foot = *inout_bounds;
     SDL_Rect paste = {foot.x+foot.w,foot.y,0,0};

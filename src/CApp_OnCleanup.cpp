@@ -6,9 +6,6 @@ void CApp::OnCleanup() {
     delete this->source_texture;
     this->source_texture = nullptr;
 
-    delete this->text_texture;
-    this->text_texture = nullptr;
-
     // try to destroy the window as the last thing you do
     delete this->main_window;
     this->main_window = nullptr;

@@ -23,7 +23,6 @@ class CApp {
 
         Texture* source_texture;
 
-        Texture* text_texture;
         Texture* text_textures[2];
         AtlasNumberDrawer number_renderer;
 

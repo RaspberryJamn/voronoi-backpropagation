@@ -47,7 +47,6 @@ bool CApp::OnInit() {
         std::cout << "Failed to load assets" << std::endl;
         return false;
     }
-    this->text_texture->SetRendererAndFont(this->main_renderer, this->main_font);
 
     return true;
 }

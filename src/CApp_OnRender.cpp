@@ -32,8 +32,8 @@ void CApp::OnRender() {
 //    time_text << this->last_frametime;
 //    std::cout << "got here" << std::endl;
     SDL_Rect string_bounds = {5,5,0,0};
-    this->text_textures[0]->RenderRTL(&string_bounds); // "Last frametime: "
-//    this->number_renderer.DrawRTL(this->main_renderer, time_text.str().c_str(), &string_bounds);
+//    this->text_textures[0]->RenderRTL(&string_bounds); // "Last frametime: "
+    this->number_renderer.DrawRTL("0123456789", &string_bounds); // time_text.str().c_str()
 //    this->text_textures[1]->RenderRTL(&string_bounds); // "ms"
 //    std::cout << "got heree" << std::endl;
 
