@@ -183,7 +183,7 @@ void Texture::RenderRTL(SDL_Rect* inout_bounds) {
     SDL_Rect bounds = *inout_bounds;
     SDL_Rect paste = {bounds.x+bounds.w,bounds.y,this->width,this->height};
     SDL_RenderCopy(this->renderer, this->texture, nullptr, &paste);
-    inout_bounds->w = paste.x-bounds.x;
+    inout_bounds->w = bounds.w+this->width;
     this->was_successful = true;
 }
 
