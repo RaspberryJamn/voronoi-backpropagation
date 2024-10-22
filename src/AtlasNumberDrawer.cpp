@@ -1,6 +1,7 @@
 #include "AtlasNumberDrawer.h"
 
 AtlasNumberDrawer::AtlasNumberDrawer() {
+    this->atlas = nullptr; // lack of this line was causing the inconsistent behavior?
 }
 
 AtlasNumberDrawer::~AtlasNumberDrawer() {
@@ -34,6 +35,9 @@ void AtlasNumberDrawer::BuildAtlas(SDL_Renderer* target_renderer, TTF_Font* font
     this->atlas = new Texture(target_renderer);
     this->atlas->NewBlankFromDims(horizontal_position, max_vertical_position);
     this->atlas->SetSelfAsRenderTarget();
+
+    SDL_RenderClear(target_renderer);
+
     for (int i = 0; i <= 9; i++) {
         SDL_RenderCopy(target_renderer, texture_queue[i], nullptr, &this->number_locations[i]);
         SDL_DestroyTexture(texture_queue[i]);

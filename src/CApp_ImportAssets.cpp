@@ -51,8 +51,8 @@ bool CApp::ImportAssets() {
     this->text_textures[1]->LoadInRenderedText("ms", {0,0,0,255});
     if (!this->text_textures[0]->WasSuccessful()) { std::cout << "Failed to create text texture" << std::endl; return false; }
 
-//    SDL_Color number_color = {255,0,0,255};
-//    this->number_renderer.BuildAtlas(this->main_renderer, this->main_font, number_color);
+    SDL_Color number_color = {0,0,0,255};
+    this->number_renderer.BuildAtlas(this->main_renderer, this->main_font, number_color);
 
     return true;
 }

@@ -24,7 +24,7 @@ class CApp {
         Texture* source_texture;
 
         Texture* text_textures[2];
-//        AtlasNumberDrawer number_renderer;
+        AtlasNumberDrawer number_renderer;
 
         TTF_Font* main_font;
 
