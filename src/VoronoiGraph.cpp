@@ -1,6 +1,6 @@
 #include "VoronoiGraph.h"
 
-VoronoiGraph::VoronoiGraph(int x, int y, int w, int h, int dont_split_if_less_than_dim, int do_split_if_above_count, VoronoiGraph* parent) {
+VoronoiGraph::VoronoiGraph(int x, int y, int w, int h, int dont_split_if_less_than_dim, int do_split_if_above_count) {
     this->x = x;
     this->y = y;
     this->w = w;
@@ -13,8 +13,6 @@ VoronoiGraph::VoronoiGraph(int x, int y, int w, int h, int dont_split_if_less_th
 
     this->node_children = nullptr;
     this->total_children = 0;
-
-    this->parent_tree = parent;
 
     this->tree_children[0] = nullptr;
     this->tree_children[1] = nullptr;
@@ -36,7 +34,6 @@ VoronoiGraph::~VoronoiGraph() {
         this->tree_children[3] = nullptr;
         this->total_children = 0;
     }
-    this->parent_tree = nullptr;
     this->x = 0;
     this->y = 0;
     this->w = 0;
@@ -64,17 +61,17 @@ void VoronoiGraph::AddNode(VoronoiNode* node) {
         NodeLinkedList* new_first = new NodeLinkedList();
         new_first->next = this->node_children;
         new_first->node = node;
-        new_first->node->SetParent(this, this->x, this->x+this->w, this->y, this->y+this->h);
+        new_first->node->SetBounds(this->x, this->x+this->w, this->y, this->y+this->h);
 
         this->node_children = new_first;
         this->total_children++;
 
         if (this->w >= this->min_dim) {
             if (this->total_children > this->max_count) {
-                this->tree_children[0] = new VoronoiGraph(this->x     , this->y     , this->half_x-this->x          , this->half_y-this->y          , this->min_dim, this->max_count, this);
-                this->tree_children[1] = new VoronoiGraph(this->half_x, this->y     , this->w-(this->half_x-this->x), this->half_y-this->y          , this->min_dim, this->max_count, this);
-                this->tree_children[2] = new VoronoiGraph(this->x     , this->half_y, this->half_x-this->x          , this->h-(this->half_y-this->y), this->min_dim, this->max_count, this);
-                this->tree_children[3] = new VoronoiGraph(this->half_x, this->half_y, this->w-(this->half_x-this->x), this->h-(this->half_y-this->y), this->min_dim, this->max_count, this);
+                this->tree_children[0] = new VoronoiGraph(this->x     , this->y     , this->half_x-this->x          , this->half_y-this->y          , this->min_dim, this->max_count);
+                this->tree_children[1] = new VoronoiGraph(this->half_x, this->y     , this->w-(this->half_x-this->x), this->half_y-this->y          , this->min_dim, this->max_count);
+                this->tree_children[2] = new VoronoiGraph(this->x     , this->half_y, this->half_x-this->x          , this->h-(this->half_y-this->y), this->min_dim, this->max_count);
+                this->tree_children[3] = new VoronoiGraph(this->half_x, this->half_y, this->w-(this->half_x-this->x), this->h-(this->half_y-this->y), this->min_dim, this->max_count);
 
                 NodeLinkedList* current_list_entry = this->node_children;
                 while (current_list_entry != nullptr) {
@@ -107,36 +104,45 @@ void VoronoiGraph::InsertToChildren(VoronoiNode* node) {
     }
 }
 
-void VoronoiGraph::RemoveNode(VoronoiNode* node) {
-    VoronoiGraph* current_container = node->GetParent();
-    if (current_container == nullptr) { // does not have a parent
-        return;
-    }
-    NodeLinkedList* current_list_entry = current_container->GetChildren();
-    while (current_list_entry != nullptr) {
-        if (current_list_entry->node == node) { // scanned onto the node in question
-            NodeLinkedList* first_slot = current_container->GetChildren(); // get reference to list[0]
-            current_list_entry->node = first_slot->node; // data of list[0] overwrites the current slot, list[0].node has one reference of redundancy
-            current_container->DropFirstListNode(); // list[0] becomes otherwise unreferenced, list[0].node is back to only one valid reference
-            delete first_slot;
-            break;
+bool VoronoiGraph::RemoveNode(VoronoiNode* node) {
+    if (this->total_children > this->max_count) { // is branch
+        bool contains_node;
+        if (node->GetSortingPosY() < this->half_y) {
+            if (node->GetSortingPosX() < this->half_x) {
+                contains_node = this->tree_children[0]->RemoveNode(node);
+            } else {
+                contains_node = this->tree_children[1]->RemoveNode(node);
+            }
+        } else {
+            if (node->GetSortingPosX() < this->half_x) {
+                contains_node = this->tree_children[2]->RemoveNode(node);
+            } else {
+                contains_node = this->tree_children[3]->RemoveNode(node);
+            }
         }
-        current_list_entry = current_list_entry->next;
-    }
-    if (current_list_entry == nullptr) { // node not contained within its parent branch??
-        return;
-    }
+        if (contains_node) {
+            this->total_children--;
+            if (this->total_children <= this->max_count) { // (any child has critical mass) -> (parent has critical mass), therefore (parent does not have critical mass) -> (no child has critical mass)
+                this->ConsolidateChildLists();
+            }
+        }
+        return contains_node;
+    } else { // is leaf
 
-    current_container = current_container->GetParent();
-    while (current_container != nullptr) { // go up until you find the root tree
-        current_container->DecrementChildCount();
-        // (any child has critical mass) -> (parent has critical mass), therefore (parent does not have critical mass) -> (no child has critical mass)
-        if (current_container->GetChildCount() <= current_container->GetChildSplitThreshold()) {
-            current_container->ConsolidateChildLists();
+        NodeLinkedList* current_slot = this->node_children;
+        while (current_slot != nullptr) {
+            if (current_slot->node == node) { // scanned onto the node in question
+                NodeLinkedList* first_slot = this->node_children; // get reference to list[0]
+                current_slot->node = first_slot->node; // data of list[0] overwrites the current slot, list[0].node has one reference of redundancy
+                this->node_children = this->node_children->next; // list[0] becomes otherwise unreferenced, list[0].node is back to only one valid reference
+                delete first_slot;
+                this->total_children--;
+                return true; // we found it, all good
+            }
+            current_slot = current_slot->next;
         }
-        current_container = current_container->GetParent();
+        return false; // node not contained within the leaf node it's allegedly located in
     }
-    return;
 }
 void VoronoiGraph::ConsolidateChildLists() {
     NodeLinkedList* growing_start = this->tree_children[0]->OrphanChildList();
@@ -162,25 +168,6 @@ void VoronoiGraph::ConsolidateChildLists() {
 
     this->node_children = growing_start;
 }
-void VoronoiGraph::DropFirstListNode() {
-    this->node_children = this->node_children->next;
-    this->total_children--;
-}
-void VoronoiGraph::DecrementChildCount() {
-    this->total_children--;
-}
-int VoronoiGraph::GetChildCount() {
-    return this->total_children;
-}
-int VoronoiGraph::GetChildSplitThreshold() {
-    return this->max_count;
-}
-NodeLinkedList* VoronoiGraph::GetChildren() {
-    return this->node_children;
-}
-VoronoiGraph* VoronoiGraph::GetParent() {
-    return this->parent_tree;
-}
 NodeLinkedList* VoronoiGraph::OrphanChildList() {
     NodeLinkedList* children = this->node_children;
     this->node_children = nullptr;
@@ -189,5 +176,6 @@ NodeLinkedList* VoronoiGraph::OrphanChildList() {
 
 void VoronoiGraph::RelocateNode(VoronoiNode* node) {
     this->RemoveNode(node);
+    node->UpdateSortingPos();
     this->AddNode(node);
 }

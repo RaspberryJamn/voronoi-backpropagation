@@ -9,7 +9,6 @@ VoronoiNode::VoronoiNode(double x, double y) {
     this->sorting_x_max = 0;
     this->sorting_y_min = 0;
     this->sorting_y_max = 0;
-    this->parent = nullptr;
 }
 
 VoronoiNode::~VoronoiNode() {
@@ -19,16 +18,11 @@ VoronoiNode::~VoronoiNode() {
     this->sorting_y = 0;
 }
 
-void VoronoiNode::SetParent(VoronoiGraph* parent, int min_x, int max_x, int min_y, int max_y) {
-    this->parent = parent;
+void VoronoiNode::SetBounds(int min_x, int max_x, int min_y, int max_y) {
     this->sorting_x_min = min_x;
     this->sorting_x_max = max_x;
     this->sorting_y_min = min_y;
     this->sorting_y_max = max_y;
-}
-
-VoronoiGraph* VoronoiNode::GetParent() {
-    return this->parent;
 }
 
 double VoronoiNode::GetX() {
@@ -37,6 +31,11 @@ double VoronoiNode::GetX() {
 
 double VoronoiNode::GetY() {
     return this->y;
+}
+
+void VoronoiNode::UpdateSortingPos() {
+    this->sorting_x = (int)x;
+    this->sorting_y = (int)y;
 }
 
 int VoronoiNode::GetSortingPosX() {

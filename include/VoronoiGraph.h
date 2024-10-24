@@ -15,28 +15,20 @@ struct NodeLinkedList { // unordered
 
 class VoronoiGraph {
     public:
-        VoronoiGraph(int x, int y, int w, int h, int dont_split_if_less_than_dim, int do_split_if_above_count, VoronoiGraph* parent);
+        VoronoiGraph(int x, int y, int w, int h, int dont_split_if_less_than_dim, int do_split_if_above_count);
         ~VoronoiGraph();
 
         void AddNode(VoronoiNode* node);
-        void RemoveNode(VoronoiNode* node); // not specifically bound to this tree object
+        bool RemoveNode(VoronoiNode* node); // returns false and does nothing if node is not in expected location
         void RelocateNode(VoronoiNode* node);
 
         NodeLinkedList* GetNearby(int x, int y, double band_width, VoronoiNode* seed);
 
-        int GetChildCount(); // only for internal use {
-        int GetChildSplitThreshold();
-        NodeLinkedList* GetChildren();
-        VoronoiGraph* GetParent();
-        void DropFirstListNode();
-        void DecrementChildCount();
-        void ConsolidateChildLists();
-        NodeLinkedList* OrphanChildList(); // }
+        NodeLinkedList* OrphanChildList(); // only for internal use
     private:
         NodeLinkedList* node_children;
         int total_children;
         VoronoiGraph* tree_children[4];
-        VoronoiGraph* parent_tree;
 
         int x;
         int y;
@@ -50,6 +42,7 @@ class VoronoiGraph {
 
         void DeleteAllNodes();
         void InsertToChildren(VoronoiNode* node);
+        void ConsolidateChildLists();
 };
 
 
