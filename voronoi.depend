@@ -434,7 +434,7 @@
 1728096506 source:c:\users\james\documents\cpp\voronoi\src\capp_onloop.cpp
 	"CApp.h"
 
-1729625046 source:c:\users\james\documents\cpp\voronoi\src\capp_onrender.cpp
+1729643456 source:c:\users\james\documents\cpp\voronoi\src\capp_onrender.cpp
 	"CApp.h"
 	<sstream>
 
@@ -468,4 +468,16 @@
 1729468868 c:\users\james\documents\cpp\voronoi\include\atlasnumberdrawer.h
 	"Texture.h"
 	"SDL.h"
+
+1729643821 source:c:\users\james\documents\cpp\voronoi\src\voronoinode.cpp
+	"VoronoiNode.h"
+
+1729723098 c:\users\james\documents\cpp\voronoi\include\voronoinode.h
+
+1729722929 source:c:\users\james\documents\cpp\voronoi\src\voronoigraph.cpp
+	"VoronoiGraph.h"
+
+1729722905 c:\users\james\documents\cpp\voronoi\include\voronoigraph.h
+	<iostream>
+	<VoronoiNode.h>
 
