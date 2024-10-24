@@ -114,7 +114,7 @@ void VoronoiGraph::RemoveNode(VoronoiNode* node) {
     }
     NodeLinkedList* current_list_entry = current_container->GetChildren();
     while (current_list_entry != nullptr) {
-        if (current_list_entry->node = node) { // scanned onto the node in question
+        if (current_list_entry->node == node) { // scanned onto the node in question
             NodeLinkedList* first_slot = current_container->GetChildren(); // get reference to list[0]
             current_list_entry->node = first_slot->node; // data of list[0] overwrites the current slot, list[0].node has one reference of redundancy
             current_container->DropFirstListNode(); // list[0] becomes otherwise unreferenced, list[0].node is back to only one valid reference

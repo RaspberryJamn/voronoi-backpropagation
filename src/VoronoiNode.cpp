@@ -39,10 +39,10 @@ double VoronoiNode::GetY() {
     return this->y;
 }
 
-double VoronoiNode::GetSortingPosX() {
+int VoronoiNode::GetSortingPosX() {
     return this->sorting_x;
 }
 
-double VoronoiNode::GetSortingPosY() {
+int VoronoiNode::GetSortingPosY() {
     return this->sorting_y;
 }

@@ -4,11 +4,14 @@
 #include <iostream>
 #include <VoronoiNode.h>
 
-typedef struct NodeLinkedList { // unordered
+class VoronoiNode;
+
+struct NodeLinkedList { // unordered
     //NodeLinkedList* prev;
     NodeLinkedList* next;
     VoronoiNode* node;
 }; //NodeLinkedList;
+
 
 class VoronoiGraph {
     public:

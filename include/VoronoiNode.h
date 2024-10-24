@@ -3,6 +3,8 @@
 
 #include "VoronoiGraph.h"
 
+class VoronoiGraph;
+
 class VoronoiNode
 {
     public:
