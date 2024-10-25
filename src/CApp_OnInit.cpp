@@ -37,7 +37,7 @@ bool CApp::OnInit() {
         return false;
     }
     SDL_SetRenderDrawColor(this->main_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-
+    SDL_RenderClear(this->main_renderer);
 //    SDL_RendererInfo info;
 //    SDL_GetRendererInfo(this->main_renderer, &info);
 //    std::cout << "renderer info: " << info.flags << std::endl;

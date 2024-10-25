@@ -8,6 +8,7 @@
 #include "Timer.h"
 #include "Texture.h"
 #include "AtlasNumberDrawer.h"
+#include "LapCounter.h"
 
 class CApp {
     private:
@@ -17,13 +18,14 @@ class CApp {
         SDL_Renderer* main_renderer;
 
         Uint32 last_frametime;
+        double average_framerate;
 
 //        SDL_Surface* Source_Surface;
 //        SDL_Surface* Media_Surfaces[];
 
         Texture* source_texture;
 
-        Texture* text_textures[2];
+        Texture* text_textures[4];
         AtlasNumberDrawer number_renderer;
 
         TTF_Font* main_font;

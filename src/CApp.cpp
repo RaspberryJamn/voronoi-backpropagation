@@ -12,6 +12,8 @@ int CApp::OnExecute() {
 
     SDL_Event Event;
     Timer frametime_timer;
+    LapCounter lap_counter;
+    lap_counter.Reset();
     while(this->running) {
         frametime_timer.Reset();
         while(SDL_PollEvent(&Event)) {
@@ -20,6 +22,8 @@ int CApp::OnExecute() {
         OnLoop();
         OnRender();
         this->last_frametime = frametime_timer.QueryTicks();
+        lap_counter.AddLaps(1);
+        this->average_framerate = lap_counter.GetAverageLapTime();
     }
 
     OnCleanup();

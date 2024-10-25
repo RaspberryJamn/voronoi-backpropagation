@@ -49,7 +49,15 @@ bool CApp::ImportAssets() {
 
     this->text_textures[1] = new Texture(this->main_renderer, this->main_font);
     this->text_textures[1]->LoadInRenderedText("ms", {0,0,0,255});
-    if (!this->text_textures[0]->WasSuccessful()) { std::cout << "Failed to create text texture" << std::endl; return false; }
+    if (!this->text_textures[1]->WasSuccessful()) { std::cout << "Failed to create text texture" << std::endl; return false; }
+
+    this->text_textures[2] = new Texture(this->main_renderer, this->main_font);
+    this->text_textures[2]->LoadInRenderedText("Average fps: ", {0,0,0,255});
+    if (!this->text_textures[2]->WasSuccessful()) { std::cout << "Failed to create text texture" << std::endl; return false; }
+
+    this->text_textures[3] = new Texture(this->main_renderer, this->main_font);
+    this->text_textures[3]->LoadInRenderedText("fps", {0,0,0,255});
+    if (!this->text_textures[3]->WasSuccessful()) { std::cout << "Failed to create text texture" << std::endl; return false; }
 
     SDL_Color number_color = {0,0,0,255};
     this->number_renderer.BuildAtlas(this->main_renderer, this->main_font, number_color);
