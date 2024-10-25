@@ -5,15 +5,18 @@
 
 class LapCounter {
     public:
-        LapCounter();
+        LapCounter(size_t history_length);
         ~LapCounter();
 
         void Reset();
-        void Stop();
-        void AddLaps(int laps); // marks lap, doesnt stop timer
-        double GetAverageLapTime(); // no sliding window this time, we're keeping it simple
+        void StartLap();
+        void CallLap();
+        double GetAverageLapTime(); // YES sliding window this time, we're keeping it INTERESTING
     private:
-        int laps;
+        int total_laps;
+        int* lap_times;
+        size_t history_length;
+
         Timer timer;
 };
 

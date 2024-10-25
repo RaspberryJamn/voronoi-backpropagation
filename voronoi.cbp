@@ -32,6 +32,7 @@
 		<Unit filename="include/AtlasNumberDrawer.h" />
 		<Unit filename="include/CApp.h" />
 		<Unit filename="include/CanvasWindow.h" />
+		<Unit filename="include/LapCounter.h" />
 		<Unit filename="include/Texture.h" />
 		<Unit filename="include/Timer.h" />
 		<Unit filename="include/VoronoiGraph.h" />
@@ -45,6 +46,7 @@
 		<Unit filename="src/CApp_OnLoop.cpp" />
 		<Unit filename="src/CApp_OnRender.cpp" />
 		<Unit filename="src/CanvasWindow.cpp" />
+		<Unit filename="src/LapCounter.cpp" />
 		<Unit filename="src/Texture.cpp" />
 		<Unit filename="src/Timer.cpp" />
 		<Unit filename="src/VoronoiGraph.cpp" />
