@@ -1,4 +1,5 @@
 #include "VoronoiGraph.h"
+#include <cmath>
 
 VoronoiGraph::VoronoiGraph(int x, int y, int w, int h, int dont_split_if_less_than_dim, int do_split_if_above_count) {
     this->x = x;
@@ -178,4 +179,148 @@ void VoronoiGraph::RelocateNode(VoronoiNode* node) {
     this->RemoveNode(node);
     node->UpdateSortingPos();
     this->AddNode(node);
+}
+
+NodeLinkedList* VoronoiGraph::GetNearby(double x, double y, double band_width, VoronoiNode* seed) {
+    int sort_center_x = (int)x;
+    int sort_center_y = (int)y;
+    int sort_band_width = (int)(std::ceil(band_width));
+
+    double bounding_mag = 999999999.0;// whatever
+    int bounding_box_radius = 999999999 + sort_band_width;
+
+    if (seed != nullptr) {
+        seed->UpdateDist(x, y);
+        seed->UpdateSortingDist();
+        bounding_mag = seed->GetDist();
+        bounding_box_radius = seed->GetSortingDist() + sort_band_width;
+    }
+
+    NodeLinkedList* head = nullptr;
+
+    this->BuildNearbyList(x, y, sort_center_x, sort_center_y, band_width, sort_band_width, &bounding_mag, &bounding_box_radius, &head);
+
+    NodeLinkedList* result_list = nullptr;
+
+    while (head != nullptr) { // consume the head, commandeer everything that passes the most recent standards into result_list
+        NodeLinkedList* next_entry = head->next;
+        if (head->node->GetDist() < bounding_mag) { // passes the check
+            head->next = result_list;
+            result_list = head;
+        } else { // fails the check
+            delete head;
+        }
+        head = next_entry;
+    }
+
+    return result_list;
+}
+
+void VoronoiGraph::BuildNearbyList(double x, double y, int sort_x, int sort_y, double band_width, int sort_band_width, double* bounding_mag, int* bounding_box_radius, NodeLinkedList** headptr) {
+    if (this->total_children <= this->max_count) {
+
+        double max_dist = *bounding_mag;
+        VoronoiNode* new_nearest = nullptr;
+
+        NodeLinkedList* current_list_entry = this->node_children;
+        while (current_list_entry != nullptr) {
+            VoronoiNode* current_node = current_list_entry->node;
+            current_node->UpdateDist(x, y);
+            double relative_dist = current_node->GetDist()-max_dist;
+            if (relative_dist > 0) { // beats the outer circle
+                NodeLinkedList* new_entry = new NodeLinkedList();
+                new_entry->node = current_node;
+                new_entry->next = *headptr;
+                *headptr = new_entry;
+                if (relative_dist > band_width) { // beats the middle circle
+                    max_dist = relative_dist+max_dist-band_width;
+                    new_nearest = current_node;
+                }
+            }
+            current_list_entry = current_list_entry->next;
+        }
+        if (new_nearest != nullptr) {
+            *bounding_mag = max_dist;
+            new_nearest->UpdateSortingDist();
+            *bounding_box_radius = new_nearest->GetSortingDist() + sort_band_width;
+        }
+
+    } else {
+        size_t search_1;
+        size_t search_2;
+        size_t search_3;
+        size_t search_4;
+        bool search_x_then_y;
+        int dx = sort_x-this->half_x; // from vertically dividing line to sample
+        int dy = sort_y-this->half_y; // from horizontally dividing line to sample
+        if (dx < 0) {
+            if (dy < 0) {
+                search_1 = 0;
+                search_4 = 3;
+            } else {
+                search_1 = 2;
+                search_4 = 1;
+            }
+        } else {
+            if (dy < 0) {
+                search_1 = 1;
+                search_4 = 2;
+            } else {
+                search_1 = 3;
+                search_4 = 0;
+            }
+        }
+        if ((search_1 == 0) || (search_1 == 3)) {
+            if ( dy < dx ) {
+                search_2 = 1;
+                search_3 = 2;
+                search_x_then_y = true;
+            } else {
+                search_2 = 2;
+                search_3 = 1;
+                search_x_then_y = false;
+            }
+        } else {
+            if ( dy < -dx ) {
+                search_2 = 0;
+                search_3 = 3;
+                search_x_then_y = false;
+            } else {
+                search_2 = 3;
+                search_3 = 0;
+                search_x_then_y = true;
+            }
+        }
+
+        this->tree_children[search_1]->BuildNearbyList(x, y, sort_x, sort_y, band_width, sort_band_width, bounding_mag, bounding_box_radius, headptr);
+
+        int box_radius = *bounding_box_radius;
+        if (search_x_then_y) { // search x first
+            if ((box_radius < dx) || (box_radius < -dx)) { // center line further than bounding box
+                return;
+            }
+        } else { // search y first
+            if ((box_radius < dy) || (box_radius < -dy)) { // horizon line further than bounding box
+                return;
+            }
+        }
+        this->tree_children[search_2]->BuildNearbyList(x, y, sort_x, sort_y, band_width, sort_band_width, bounding_mag, bounding_box_radius, headptr);
+
+        box_radius = *bounding_box_radius;
+        if (search_x_then_y) { // search y second
+            if ((box_radius < dy) || (box_radius < -dy)) { // horizon line further than bounding box
+                return;
+            }
+        } else { // search x second
+            if ((box_radius < dx) || (box_radius < -dx)) { // center line further than bounding box
+                return;
+            }
+        }
+        this->tree_children[search_3]->BuildNearbyList(x, y, sort_x, sort_y, band_width, sort_band_width, bounding_mag, bounding_box_radius, headptr);
+
+        if ((dx*dx+dy*dy) > -*bounding_mag) { // center point further than bounding circle
+            return;
+        }
+        this->tree_children[search_4]->BuildNearbyList(x, y, sort_x, sort_y, band_width, sort_band_width, bounding_mag, bounding_box_radius, headptr);
+    }
 }

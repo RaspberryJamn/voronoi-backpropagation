@@ -1,8 +1,11 @@
 #include "VoronoiNode.h"
+#include <cmath>
 
 VoronoiNode::VoronoiNode(double x, double y) {
     this->x = x;
     this->y = y;
+    this->neg_sq_dist = 0;
+    this->sorting_dist = 0;
     this->sorting_x = (int)x;
     this->sorting_y = (int)y;
     this->sorting_x_min = 0;
@@ -31,6 +34,24 @@ double VoronoiNode::GetX() {
 
 double VoronoiNode::GetY() {
     return this->y;
+}
+
+void VoronoiNode::UpdateDist(double from_x, double from_y) {
+    double dx = this->x-from_x;
+    double dy = this->y-from_y;
+    this->neg_sq_dist = -(dx*dx+dy*dy);
+}
+
+void VoronoiNode::UpdateSortingDist() {
+    this->sorting_dist = (int)(std::ceil(std::sqrt(-this->neg_sq_dist)));
+}
+
+double VoronoiNode::GetDist() {
+    return this->neg_sq_dist;
+}
+
+int VoronoiNode::GetSortingDist() {
+    return this->sorting_dist;
 }
 
 void VoronoiNode::UpdateSortingPos() {

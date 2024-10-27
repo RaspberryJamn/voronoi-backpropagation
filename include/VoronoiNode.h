@@ -13,6 +13,12 @@ class VoronoiNode
 
         double GetX();
         double GetY();
+
+        void UpdateDist(double from_x, double from_y);
+        double GetDist();
+        void UpdateSortingDist();
+        int GetSortingDist();
+
         void UpdateSortingPos();
         int GetSortingPosX();
         int GetSortingPosY();
@@ -20,8 +26,10 @@ class VoronoiNode
     private:
         double x;
         double y;
+        double neg_sq_dist;
         int sorting_x;
         int sorting_y;
+        int sorting_dist;
         int sorting_x_min;
         int sorting_x_max;
         int sorting_y_min;

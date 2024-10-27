@@ -22,9 +22,10 @@ class VoronoiGraph {
         bool RemoveNode(VoronoiNode* node); // returns false and does nothing if node is not in expected location
         void RelocateNode(VoronoiNode* node);
 
-        NodeLinkedList* GetNearby(int x, int y, double band_width, VoronoiNode* seed);
+        NodeLinkedList* GetNearby(double x, double y, double band_width, VoronoiNode* seed);
 
         NodeLinkedList* OrphanChildList(); // only for internal use
+        void BuildNearbyList(double x, double y, int sort_x, int sort_y, double band_width, int sort_band_width, double* bounding_mag, int* bounding_box_radius, NodeLinkedList** headptr); // only for internal use
     private:
         NodeLinkedList* node_children;
         int total_children;

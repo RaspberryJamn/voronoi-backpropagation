@@ -1,23 +1,23 @@
 #include "CApp.h"
 #include <sstream>
 
-int g_jitter_offset = 20;
+//int g_jitter_offset = 20;
 
 void CApp::OnRender() {
 
-    g_jitter_offset += 1;
-    if (g_jitter_offset > 400) {
-        g_jitter_offset = 0;
-    }
-
-    SDL_Rect stretch_rect;
-    stretch_rect.x = g_jitter_offset;
-    stretch_rect.y = g_jitter_offset;
-    stretch_rect.w = 400;
-    stretch_rect.h = 400;
-//    SDL_RenderClear(this->main_renderer);
-
-    this->source_texture->Render(&stretch_rect);
+//    g_jitter_offset += 1;
+//    if (g_jitter_offset > 400) {
+//        g_jitter_offset = 0;
+//    }
+//
+//    SDL_Rect stretch_rect;
+//    stretch_rect.x = g_jitter_offset;
+//    stretch_rect.y = g_jitter_offset;
+//    stretch_rect.w = 400;
+//    stretch_rect.h = 400;
+////    SDL_RenderClear(this->main_renderer);
+//
+//    this->source_texture->Render(&stretch_rect);
 
     SDL_SetRenderDrawColor(this->main_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
     SDL_Rect string_bounds = {5,5,0,0};
