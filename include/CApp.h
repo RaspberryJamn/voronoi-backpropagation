@@ -18,7 +18,7 @@ class CApp {
         SDL_Renderer* main_renderer;
 
         Uint32 last_frametime;
-        double average_framerate;
+        double average_frametime;
 
 //        SDL_Surface* Source_Surface;
 //        SDL_Surface* Media_Surfaces[];

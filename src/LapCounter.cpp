@@ -1,49 +1,46 @@
 #include "LapCounter.h"
 
-LapCounter::LapCounter(size_t history_length) {
+LapCounter::LapCounter() {
     this->timer.Stop();
-    this->lap_times = new int[history_length];
-    this->history_length = history_length;
-    this->total_laps = 0;
-//    for (size_t i = 0; i < this->history_length; i++) {
-//        this->lap_times[i] = 0; // whatevs
-//    }
 }
 
 LapCounter::~LapCounter() {
-    delete[] this->lap_times;
-    this->history_length = 0;
-    this->total_laps = 0;
+
 }
 
 void LapCounter::Reset() {
-    this->timer.Stop();
-    this->total_laps = 0;
-    for (size_t i = 0; i < this->history_length; i++) {
-        this->lap_times[i] = 0; // whatevs
-    }
-}
-
-void LapCounter::StartLap() {
     this->timer.Reset();
 }
 
 void LapCounter::CallLap() {
-    this->timer.Stop();
-    this->lap_times[this->total_laps%this->history_length] = this->timer.QueryTicks();
-    this->total_laps++;
+    this->running_laps++;
+    this->running_ms = this->timer.QueryTicks();
+    if (this->running_ms < 20) {
+        return;
+    }
+    if (this->running_laps < 3) {
+        return;
+    }
+    this->timer.Reset();
+    this->ms_numerators[write_head] = this->running_ms;
+    this->running_ms = 0;
+    this->lap_denominators[write_head] = this->running_laps;
+    this->running_laps = 0;
+    write_head++;
+    if (write_head >= 10) {
+        write_head = 0;
+    }
 }
 
 double LapCounter::GetAverageLapTime() {
-    if (this->total_laps == 0) {
+    int cumm_ms = this->running_ms;
+    int cumm_laps = this->running_laps;
+    for (size_t i = 0; i < 10; i++) {
+        cumm_ms += this->ms_numerators[i];
+        cumm_laps += this->lap_denominators[i];
+    }
+    if (cumm_laps == 0) {
         return 0.0;
     }
-    int samples = this->total_laps;
-    if ((size_t)this->total_laps > this->history_length) {samples = this->history_length;}
-
-    int cumm = 0;
-    for (size_t i = 0; i < (size_t)samples; i++) {
-        cumm += this->lap_times[i];
-    }
-    return ((double)cumm)/samples;
+    return ((double)cumm_ms)/cumm_laps;
 }

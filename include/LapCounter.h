@@ -3,19 +3,24 @@
 
 #include "Timer.h"
 
+
+
 class LapCounter {
     public:
-        LapCounter(size_t history_length);
+        LapCounter();
         ~LapCounter();
 
         void Reset();
-        void StartLap();
         void CallLap();
+
         double GetAverageLapTime(); // YES sliding window this time, we're keeping it INTERESTING
     private:
-        int total_laps;
-        int* lap_times;
-        size_t history_length;
+
+        int ms_numerators[10];
+        int lap_denominators[10];
+        int running_ms;
+        int running_laps;
+        size_t write_head;
 
         Timer timer;
 };
