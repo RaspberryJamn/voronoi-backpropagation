@@ -474,11 +474,13 @@
 	"VoronoiNode.h"
 	<cmath>
 
-1730004617 c:\users\james\documents\cpp\voronoi\include\voronoinode.h
+1730407975 c:\users\james\documents\cpp\voronoi\include\voronoinode.h
 	"VoronoiGraph.h"
+	"SDL.h"
 
-1729812299 source:c:\users\james\documents\cpp\voronoi\src\voronoigraph.cpp
+1730009592 source:c:\users\james\documents\cpp\voronoi\src\voronoigraph.cpp
 	"VoronoiGraph.h"
+	<cmath>
 
 1730001329 c:\users\james\documents\cpp\voronoi\include\voronoigraph.h
 	<iostream>

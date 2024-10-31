@@ -2,8 +2,23 @@
 #include <cmath>
 
 VoronoiNode::VoronoiNode(double x, double y) {
+    this->Init(x, y, 128+120*std::cos(x/100), 128+120*std::cos(x/70+10), 128+120*std::cos((x+y)/180));
+}
+VoronoiNode::VoronoiNode(double x, double y, double r, double g, double b) {
+    this->Init(x, y, r, g, b);
+}
+void VoronoiNode::Init(double x, double y, double r, double g, double b) {
     this->x = x;
     this->y = y;
+    this->color[0] = r;
+    this->color[1] = g;
+    this->color[2] = b;
+    this->x_grad = 0;
+    this->y_grad = 0;
+    this->color_grad[0] = 0;
+    this->color_grad[1] = 0;
+    this->color_grad[2] = 0;
+
     this->neg_sq_dist = 0;
     this->sorting_dist = 0;
     this->sorting_x = (int)x;
@@ -13,6 +28,7 @@ VoronoiNode::VoronoiNode(double x, double y) {
     this->sorting_y_min = 0;
     this->sorting_y_max = 0;
 }
+
 
 VoronoiNode::~VoronoiNode() {
     this->x = 0;
@@ -34,6 +50,11 @@ double VoronoiNode::GetX() {
 
 double VoronoiNode::GetY() {
     return this->y;
+}
+
+SDL_Color VoronoiNode::SampleColor(double sample_x, double sample_y) {
+    // eg Generate(sample_x-this->x, sample_x-this->y)
+    return (SDL_Color){(Uint8)this->color[0],(Uint8)this->color[1],(Uint8)this->color[2],255};
 }
 
 void VoronoiNode::UpdateDist(double from_x, double from_y) {

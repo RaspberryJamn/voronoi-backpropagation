@@ -2,17 +2,23 @@
 #define VORONOINODE_H
 
 #include "VoronoiGraph.h"
+#include "SDL.h"
 
 class VoronoiNode
 {
     public:
         VoronoiNode(double x, double y);
+        VoronoiNode(double x, double y, double r, double g, double b);
         ~VoronoiNode();
 
         void SetBounds(int min_x, int max_x, int min_y, int max_y);
 
         double GetX();
         double GetY();
+
+        SDL_Color SampleColor(double sample_x, double sample_y);
+        void ForwardPass(double sample_x, double sample_y);
+        void BackwardPass(double sample_x, double sample_y, double m, double dldm, double dldr, double dldg, double dldb);
 
         void UpdateDist(double from_x, double from_y);
         double GetDist();
@@ -24,9 +30,17 @@ class VoronoiNode
         int GetSortingPosY();
 
     private:
+        void Init(double x, double y, double r, double g, double b);
+
         double x;
         double y;
         double neg_sq_dist;
+        double color[3];
+
+        double x_grad;
+        double y_grad;
+        double color_grad[3];
+
         int sorting_x;
         int sorting_y;
         int sorting_dist;

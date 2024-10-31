@@ -186,7 +186,7 @@ NodeLinkedList* VoronoiGraph::GetNearby(double x, double y, double band_width, V
     int sort_center_y = (int)y;
     int sort_band_width = (int)(std::ceil(band_width));
 
-    double bounding_mag = 999999999.0;// whatever
+    double bounding_mag = -999999999.0; // whatever // also NEGATIVE pls ty
     int bounding_box_radius = 999999999 + sort_band_width;
 
     if (seed != nullptr) {
