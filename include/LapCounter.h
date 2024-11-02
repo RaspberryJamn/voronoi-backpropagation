@@ -16,8 +16,8 @@ class LapCounter {
         double GetAverageLapTime(); // YES sliding window this time, we're keeping it INTERESTING
     private:
 
-        int ms_numerators[10];
-        int lap_denominators[10];
+        int ms_numerators[5];
+        int lap_denominators[5];
         int running_ms;
         int running_laps;
         size_t write_head;

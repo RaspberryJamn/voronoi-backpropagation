@@ -52,9 +52,16 @@ double VoronoiNode::GetY() {
     return this->y;
 }
 
-SDL_Color VoronoiNode::SampleColor(double sample_x, double sample_y) {
+RGBColor VoronoiNode::SampleColor(double sample_x, double sample_y) {
     // eg Generate(sample_x-this->x, sample_x-this->y)
-    return (SDL_Color){(Uint8)this->color[0],(Uint8)this->color[1],(Uint8)this->color[2],255};
+    return (RGBColor){this->color[0],this->color[1],this->color[2]};
+}
+void VoronoiNode::UpdateExp(double gain, double offset) {
+    this->exp = std::exp((this->neg_sq_dist + offset)*gain);
+}
+
+double VoronoiNode::GetExp() {
+    return this->exp;
 }
 
 void VoronoiNode::UpdateDist(double from_x, double from_y) {

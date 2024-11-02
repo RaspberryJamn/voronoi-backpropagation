@@ -9,6 +9,8 @@
 #include "Texture.h"
 #include "AtlasNumberDrawer.h"
 #include "LapCounter.h"
+#include "VoronoiGraph.h"
+#include "VoronoiNode.h"
 
 class CApp {
     private:
@@ -24,6 +26,9 @@ class CApp {
 //        SDL_Surface* Media_Surfaces[];
 
         Texture* source_texture;
+
+        Texture* media_texture;
+        VoronoiGraph* voronoi_graph;
 
         Texture* text_textures[4];
         AtlasNumberDrawer number_renderer;

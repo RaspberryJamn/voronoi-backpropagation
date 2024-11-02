@@ -15,7 +15,7 @@ void LapCounter::Reset() {
 void LapCounter::CallLap() {
     this->running_laps++;
     this->running_ms = this->timer.QueryTicks();
-    if (this->running_ms < 20) {
+    if (this->running_ms < 10) {
         return;
     }
     if (this->running_laps < 3) {
@@ -27,7 +27,7 @@ void LapCounter::CallLap() {
     this->lap_denominators[write_head] = this->running_laps;
     this->running_laps = 0;
     write_head++;
-    if (write_head >= 10) {
+    if (write_head >= 5) {
         write_head = 0;
     }
 }
@@ -35,7 +35,7 @@ void LapCounter::CallLap() {
 double LapCounter::GetAverageLapTime() {
     int cumm_ms = this->running_ms;
     int cumm_laps = this->running_laps;
-    for (size_t i = 0; i < 10; i++) {
+    for (size_t i = 0; i < 5; i++) {
         cumm_ms += this->ms_numerators[i];
         cumm_laps += this->lap_denominators[i];
     }

@@ -1,6 +1,21 @@
 #include "VoronoiGraph.h"
 #include <cmath>
 
+void PrintLinkedList(std::string header, NodeLinkedList* lis) {
+    std::cout << header;
+    if (lis == nullptr) {
+        std::cout << "empty list" << std::endl;
+        return;
+    }
+    std::cout << "{";
+    NodeLinkedList* current_list_entry = lis;
+    while (current_list_entry != nullptr) {
+        std::cout << std::endl << "  " << current_list_entry << ":{next:" << current_list_entry->next << ", node:" << current_list_entry->node << ", node_dist:" << current_list_entry->node->GetDist() << "}";
+        current_list_entry = current_list_entry->next;
+    }
+    std::cout << std::endl << "}" << std::endl;
+}
+
 VoronoiGraph::VoronoiGraph(int x, int y, int w, int h, int dont_split_if_less_than_dim, int do_split_if_above_count) {
     this->x = x;
     this->y = y;
@@ -200,19 +215,42 @@ NodeLinkedList* VoronoiGraph::GetNearby(double x, double y, double band_width, V
 
     this->BuildNearbyList(x, y, sort_center_x, sort_center_y, band_width, sort_band_width, &bounding_mag, &bounding_box_radius, &head);
 
+    PrintLinkedList("Immediate result: ", head);
+
     NodeLinkedList* result_list = nullptr;
+
+    NodeLinkedList* nearest_slot = nullptr;
+    double nearest_dist = head->node->GetDist();
 
     while (head != nullptr) { // consume the head, commandeer everything that passes the most recent standards into result_list
         NodeLinkedList* next_entry = head->next;
-        if (head->node->GetDist() < bounding_mag) { // passes the check
+        if (head->node->GetDist() >= bounding_mag) { // passes the check, may have significant m value
             head->next = result_list;
             result_list = head;
-        } else { // fails the check
+            if (head->node->GetDist() < nearest_dist) {
+                nearest_slot = head;
+            }
+        } else { // fails the check, will not have significant m value
             delete head;
         }
         head = next_entry;
     }
 
+    if (nearest_slot != nullptr) { // puts the nearest node at the top
+        VoronoiNode* copy_node = result_list->node;
+        result_list->node = nearest_slot->node;
+        nearest_slot->node = copy_node;
+    }
+
+    PrintLinkedList("Sorted result: ", result_list);
+
+    std::cout << "x:" << x <<
+                " y:" << y <<
+                " seed:" << seed <<
+                " result:" << result_list;
+
+    std::cout << " result_node:" << result_list->node << std::endl;
+    std::cout << "---" << std::endl;
     return result_list;
 }
 

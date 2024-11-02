@@ -4,6 +4,12 @@
 #include "VoronoiGraph.h"
 #include "SDL.h"
 
+struct RGBColor {
+    double r;
+    double g;
+    double b;
+};
+
 class VoronoiNode
 {
     public:
@@ -16,9 +22,11 @@ class VoronoiNode
         double GetX();
         double GetY();
 
-        SDL_Color SampleColor(double sample_x, double sample_y);
+        RGBColor SampleColor(double sample_x, double sample_y);
         void ForwardPass(double sample_x, double sample_y);
         void BackwardPass(double sample_x, double sample_y, double m, double dldm, double dldr, double dldg, double dldb);
+        void UpdateExp(double gain, double offset);
+        double GetExp();
 
         void UpdateDist(double from_x, double from_y);
         double GetDist();
@@ -35,6 +43,7 @@ class VoronoiNode
         double x;
         double y;
         double neg_sq_dist;
+        double exp;
         double color[3];
 
         double x_grad;

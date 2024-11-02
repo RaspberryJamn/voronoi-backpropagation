@@ -18,6 +18,10 @@ void CApp::OnRender() {
 ////    SDL_RenderClear(this->main_renderer);
 //
 //    this->source_texture->Render(&stretch_rect);
+    SDL_SetRenderDrawColor(this->main_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+    SDL_RenderClear(this->main_renderer);
+
+    this->media_texture->Render(0,0);
 
     SDL_SetRenderDrawColor(this->main_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
     SDL_Rect string_bounds = {5,5,0,0};

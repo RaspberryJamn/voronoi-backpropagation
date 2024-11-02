@@ -402,7 +402,7 @@
 1729993572 source:c:\users\james\documents\cpp\voronoi\src\capp.cpp
 	"CApp.h"
 
-1729993057 c:\users\james\documents\cpp\voronoi\include\capp.h
+1730500513 c:\users\james\documents\cpp\voronoi\include\capp.h
 	<SDL.h>
 	<SDL_image.h>
 	<SDL_ttf.h>
@@ -411,6 +411,8 @@
 	"Texture.h"
 	"AtlasNumberDrawer.h"
 	"LapCounter.h"
+	"VoronoiGraph.h"
+	"VoronoiNode.h"
 
 1704148564 c:\sdl\sdl2_image-2.8.2\i686-w64-mingw32\include\sdl2\sdl_image.h
 	"SDL.h"
@@ -422,20 +424,22 @@
 	"CApp.h"
 	<iostream>
 
-1729624816 source:c:\users\james\documents\cpp\voronoi\src\capp_oncleanup.cpp
+1730498982 source:c:\users\james\documents\cpp\voronoi\src\capp_oncleanup.cpp
 	"CApp.h"
 
 1728799593 source:c:\users\james\documents\cpp\voronoi\src\capp_onevent.cpp
 	"CApp.h"
 
-1729820369 source:c:\users\james\documents\cpp\voronoi\src\capp_oninit.cpp
+1730500460 source:c:\users\james\documents\cpp\voronoi\src\capp_oninit.cpp
 	"CApp.h"
 	<iostream>
 
-1729996085 source:c:\users\james\documents\cpp\voronoi\src\capp_onloop.cpp
+1730503807 source:c:\users\james\documents\cpp\voronoi\src\capp_onloop.cpp
 	"CApp.h"
+	"VoronoiGraph.h"
+	"VoronoiNode.h"
 
-1729995934 source:c:\users\james\documents\cpp\voronoi\src\capp_onrender.cpp
+1730499743 source:c:\users\james\documents\cpp\voronoi\src\capp_onrender.cpp
 	"CApp.h"
 	<sstream>
 
@@ -470,25 +474,25 @@
 	"Texture.h"
 	"SDL.h"
 
-1730004635 source:c:\users\james\documents\cpp\voronoi\src\voronoinode.cpp
+1730502599 source:c:\users\james\documents\cpp\voronoi\src\voronoinode.cpp
 	"VoronoiNode.h"
 	<cmath>
 
-1730407975 c:\users\james\documents\cpp\voronoi\include\voronoinode.h
+1730502506 c:\users\james\documents\cpp\voronoi\include\voronoinode.h
 	"VoronoiGraph.h"
 	"SDL.h"
 
-1730009592 source:c:\users\james\documents\cpp\voronoi\src\voronoigraph.cpp
+1730496924 source:c:\users\james\documents\cpp\voronoi\src\voronoigraph.cpp
 	"VoronoiGraph.h"
 	<cmath>
 
-1730001329 c:\users\james\documents\cpp\voronoi\include\voronoigraph.h
+1730502926 c:\users\james\documents\cpp\voronoi\include\voronoigraph.h
 	<iostream>
 	<VoronoiNode.h>
 
-1729993527 c:\users\james\documents\cpp\voronoi\include\lapcounter.h
+1730499495 c:\users\james\documents\cpp\voronoi\include\lapcounter.h
 	"Timer.h"
 
-1729993516 source:c:\users\james\documents\cpp\voronoi\src\lapcounter.cpp
+1730499505 source:c:\users\james\documents\cpp\voronoi\src\lapcounter.cpp
 	"LapCounter.h"
 

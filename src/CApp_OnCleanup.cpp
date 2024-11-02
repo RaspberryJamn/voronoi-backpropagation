@@ -6,7 +6,10 @@ void CApp::OnCleanup() {
     delete this->source_texture;
     this->source_texture = nullptr;
 
-    for (int i = 0; i < 2; i++) { // hardcoded but whatever man
+    delete this->media_texture;
+    this->media_texture = nullptr;
+
+    for (int i = 0; i < 4; i++) { // hardcoded but whatever man
         delete this->text_textures[i];
         this->text_textures[i] = nullptr;
     }
