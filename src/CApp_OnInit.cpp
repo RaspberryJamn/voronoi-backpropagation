@@ -51,15 +51,15 @@ bool CApp::OnInit() {
     this->media_texture = new Texture(this->main_renderer);
     this->media_texture->NewBlankFromDims(this->source_texture->GetWidth(), this->source_texture->GetHeight());
 
-    this->voronoi_graph = new VoronoiGraph(0, 0, this->media_texture->GetWidth(), this->media_texture->GetWidth(), 40, 5);
-    this->voronoi_graph->AddNode(new VoronoiNode(180,120,0  ,0  ,0  ));
-    this->voronoi_graph->AddNode(new VoronoiNode(230,540,255,0  ,0  ));
+    this->voronoi_graph = new VoronoiQuadtree(0, 0, this->media_texture->GetWidth(), this->media_texture->GetWidth(), 40, 5);
+    this->voronoi_graph->AddNode(new VoronoiNode(300,540,100,100,100));
+    this->voronoi_graph->AddNode(new VoronoiNode(270,540,255,0  ,0  ));
     this->voronoi_graph->AddNode(new VoronoiNode(370,160,0  ,255,0  ));
     this->voronoi_graph->AddNode(new VoronoiNode(420,580,255,255,0  ));
     this->voronoi_graph->AddNode(new VoronoiNode(060,110,0  ,0  ,255));
     this->voronoi_graph->AddNode(new VoronoiNode(110,520,255,0  ,255));
-    this->voronoi_graph->AddNode(new VoronoiNode(250,130,0  ,255,255));
-    this->voronoi_graph->AddNode(new VoronoiNode(300,540,255,255,255));
+    this->voronoi_graph->AddNode(new VoronoiNode(200,180,0  ,255,255));
+    this->voronoi_graph->AddNode(new VoronoiNode(180,120,255,255,255));
 
     return true;
 }

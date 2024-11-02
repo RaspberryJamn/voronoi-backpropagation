@@ -1,7 +1,7 @@
 #ifndef VORONOINODE_H
 #define VORONOINODE_H
 
-#include "VoronoiGraph.h"
+#include "VoronoiQuadtree.h"
 #include "SDL.h"
 
 struct RGBColor {
@@ -28,7 +28,7 @@ class VoronoiNode
         void UpdateExp(double gain, double offset);
         double GetExp();
 
-        void UpdateDist(double from_x, double from_y);
+        void UpdateDist(double from_x, double from_y, double gain);
         double GetDist();
         void UpdateSortingDist();
         int GetSortingDist();

@@ -9,7 +9,7 @@
 #include "Texture.h"
 #include "AtlasNumberDrawer.h"
 #include "LapCounter.h"
-#include "VoronoiGraph.h"
+#include "VoronoiQuadtree.h"
 #include "VoronoiNode.h"
 
 class CApp {
@@ -28,7 +28,7 @@ class CApp {
         Texture* source_texture;
 
         Texture* media_texture;
-        VoronoiGraph* voronoi_graph;
+        VoronoiQuadtree* voronoi_graph;
 
         Texture* text_textures[4];
         AtlasNumberDrawer number_renderer;

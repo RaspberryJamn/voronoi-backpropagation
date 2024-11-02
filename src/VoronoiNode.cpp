@@ -64,10 +64,10 @@ double VoronoiNode::GetExp() {
     return this->exp;
 }
 
-void VoronoiNode::UpdateDist(double from_x, double from_y) {
+void VoronoiNode::UpdateDist(double from_x, double from_y, double gain) {
     double dx = this->x-from_x;
     double dy = this->y-from_y;
-    this->neg_sq_dist = -(dx*dx+dy*dy);
+    this->neg_sq_dist = -(dx*dx+dy*dy)*gain;
 }
 
 void VoronoiNode::UpdateSortingDist() {

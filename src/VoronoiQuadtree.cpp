@@ -1,4 +1,4 @@
-#include "VoronoiGraph.h"
+#include "VoronoiQuadtree.h"
 #include <cmath>
 
 void PrintLinkedList(std::string header, NodeLinkedList* lis) {
@@ -16,7 +16,7 @@ void PrintLinkedList(std::string header, NodeLinkedList* lis) {
     std::cout << std::endl << "}" << std::endl;
 }
 
-VoronoiGraph::VoronoiGraph(int x, int y, int w, int h, int dont_split_if_less_than_dim, int do_split_if_above_count) {
+VoronoiQuadtree::VoronoiQuadtree(int x, int y, int w, int h, int dont_split_if_less_than_dim, int do_split_if_above_count) {
     this->x = x;
     this->y = y;
     this->w = w;
@@ -36,7 +36,7 @@ VoronoiGraph::VoronoiGraph(int x, int y, int w, int h, int dont_split_if_less_th
     this->tree_children[3] = nullptr;
 }
 
-VoronoiGraph::~VoronoiGraph() {
+VoronoiQuadtree::~VoronoiQuadtree() {
     if (this->total_children <= this->max_count) {
         this->DeleteAllNodes();
     } else {
@@ -60,7 +60,7 @@ VoronoiGraph::~VoronoiGraph() {
     this->half_y = 0;
 
 }
-void VoronoiGraph::DeleteAllNodes() {
+void VoronoiQuadtree::DeleteAllNodes() {
     NodeLinkedList* current_list_entry = this->node_children;
     while (current_list_entry != nullptr) {
         NodeLinkedList* next_list_entry = current_list_entry->next;
@@ -72,7 +72,7 @@ void VoronoiGraph::DeleteAllNodes() {
     this->total_children = 0;
 }
 
-void VoronoiGraph::AddNode(VoronoiNode* node) {
+void VoronoiQuadtree::AddNode(VoronoiNode* node) {
     if (this->total_children <= this->max_count) {
         NodeLinkedList* new_first = new NodeLinkedList();
         new_first->next = this->node_children;
@@ -84,10 +84,10 @@ void VoronoiGraph::AddNode(VoronoiNode* node) {
 
         if (this->w >= this->min_dim) {
             if (this->total_children > this->max_count) {
-                this->tree_children[0] = new VoronoiGraph(this->x     , this->y     , this->half_x-this->x          , this->half_y-this->y          , this->min_dim, this->max_count);
-                this->tree_children[1] = new VoronoiGraph(this->half_x, this->y     , this->w-(this->half_x-this->x), this->half_y-this->y          , this->min_dim, this->max_count);
-                this->tree_children[2] = new VoronoiGraph(this->x     , this->half_y, this->half_x-this->x          , this->h-(this->half_y-this->y), this->min_dim, this->max_count);
-                this->tree_children[3] = new VoronoiGraph(this->half_x, this->half_y, this->w-(this->half_x-this->x), this->h-(this->half_y-this->y), this->min_dim, this->max_count);
+                this->tree_children[0] = new VoronoiQuadtree(this->x     , this->y     , this->half_x-this->x          , this->half_y-this->y          , this->min_dim, this->max_count);
+                this->tree_children[1] = new VoronoiQuadtree(this->half_x, this->y     , this->w-(this->half_x-this->x), this->half_y-this->y          , this->min_dim, this->max_count);
+                this->tree_children[2] = new VoronoiQuadtree(this->x     , this->half_y, this->half_x-this->x          , this->h-(this->half_y-this->y), this->min_dim, this->max_count);
+                this->tree_children[3] = new VoronoiQuadtree(this->half_x, this->half_y, this->w-(this->half_x-this->x), this->h-(this->half_y-this->y), this->min_dim, this->max_count);
 
                 NodeLinkedList* current_list_entry = this->node_children;
                 while (current_list_entry != nullptr) {
@@ -104,7 +104,7 @@ void VoronoiGraph::AddNode(VoronoiNode* node) {
         this->total_children++;
     }
 }
-void VoronoiGraph::InsertToChildren(VoronoiNode* node) {
+void VoronoiQuadtree::InsertToChildren(VoronoiNode* node) {
     if (node->GetSortingPosY() < this->half_y) {
         if (node->GetSortingPosX() < this->half_x) {
             this->tree_children[0]->AddNode(node);
@@ -120,7 +120,7 @@ void VoronoiGraph::InsertToChildren(VoronoiNode* node) {
     }
 }
 
-bool VoronoiGraph::RemoveNode(VoronoiNode* node) {
+bool VoronoiQuadtree::RemoveNode(VoronoiNode* node) {
     if (this->total_children > this->max_count) { // is branch
         bool contains_node;
         if (node->GetSortingPosY() < this->half_y) {
@@ -160,7 +160,7 @@ bool VoronoiGraph::RemoveNode(VoronoiNode* node) {
         return false; // node not contained within the leaf node it's allegedly located in
     }
 }
-void VoronoiGraph::ConsolidateChildLists() {
+void VoronoiQuadtree::ConsolidateChildLists() {
     NodeLinkedList* growing_start = this->tree_children[0]->OrphanChildList();
     delete this->tree_children[0];
     this->tree_children[0] = nullptr;
@@ -184,19 +184,19 @@ void VoronoiGraph::ConsolidateChildLists() {
 
     this->node_children = growing_start;
 }
-NodeLinkedList* VoronoiGraph::OrphanChildList() {
+NodeLinkedList* VoronoiQuadtree::OrphanChildList() {
     NodeLinkedList* children = this->node_children;
     this->node_children = nullptr;
     return children;
 }
 
-void VoronoiGraph::RelocateNode(VoronoiNode* node) {
+void VoronoiQuadtree::RelocateNode(VoronoiNode* node) {
     this->RemoveNode(node);
     node->UpdateSortingPos();
     this->AddNode(node);
 }
 
-NodeLinkedList* VoronoiGraph::GetNearby(double x, double y, double band_width, VoronoiNode* seed) {
+NodeLinkedList* VoronoiQuadtree::GetNearby(double x, double y, double band_width, double gain, VoronoiNode* seed) {
     int sort_center_x = (int)x;
     int sort_center_y = (int)y;
     int sort_band_width = (int)(std::ceil(band_width));
@@ -205,28 +205,34 @@ NodeLinkedList* VoronoiGraph::GetNearby(double x, double y, double band_width, V
     int bounding_box_radius = 999999999 + sort_band_width;
 
     if (seed != nullptr) {
-        seed->UpdateDist(x, y);
+        seed->UpdateDist(x, y, gain);
         seed->UpdateSortingDist();
-        bounding_mag = seed->GetDist();
-        bounding_box_radius = seed->GetSortingDist() + sort_band_width;
+        bounding_mag = seed->GetDist() - band_width - 1;
+        bounding_box_radius = seed->GetSortingDist() + sort_band_width + 1;
     }
 
     NodeLinkedList* head = nullptr;
 
-    this->BuildNearbyList(x, y, sort_center_x, sort_center_y, band_width, sort_band_width, &bounding_mag, &bounding_box_radius, &head);
-
-    PrintLinkedList("Immediate result: ", head);
+    this->BuildNearbyList(x, y, sort_center_x, sort_center_y, band_width, gain, sort_band_width, &bounding_mag, &bounding_box_radius, &head);
+//    PrintLinkedList("Immediate result: ", head);
+    if (head == nullptr) {
+//        std::cout << "erm" << std::endl;
+        return new NodeLinkedList();
+    }
 
     NodeLinkedList* result_list = nullptr;
 
     NodeLinkedList* nearest_slot = nullptr;
     double nearest_dist = head->node->GetDist();
 
+//    std::cout << "bounding mag:" << bounding_mag << std::endl;
     while (head != nullptr) { // consume the head, commandeer everything that passes the most recent standards into result_list
         NodeLinkedList* next_entry = head->next;
+//        std::cout << "head:" << head << ", next:" << next_entry << std::endl;
         if (head->node->GetDist() >= bounding_mag) { // passes the check, may have significant m value
             head->next = result_list;
             result_list = head;
+//            std::cout << "head:" << head << ", next:" << next_entry << std::endl;
             if (head->node->GetDist() < nearest_dist) {
                 nearest_slot = head;
             }
@@ -235,6 +241,7 @@ NodeLinkedList* VoronoiGraph::GetNearby(double x, double y, double band_width, V
         }
         head = next_entry;
     }
+//    PrintLinkedList("Transfered list: ", result_list);
 
     if (nearest_slot != nullptr) { // puts the nearest node at the top
         VoronoiNode* copy_node = result_list->node;
@@ -242,19 +249,20 @@ NodeLinkedList* VoronoiGraph::GetNearby(double x, double y, double band_width, V
         nearest_slot->node = copy_node;
     }
 
-    PrintLinkedList("Sorted result: ", result_list);
 
-    std::cout << "x:" << x <<
-                " y:" << y <<
-                " seed:" << seed <<
-                " result:" << result_list;
+//    PrintLinkedList("Sorted result: ", result_list);
 
-    std::cout << " result_node:" << result_list->node << std::endl;
-    std::cout << "---" << std::endl;
+//    std::cout << "x:" << x <<
+//                " y:" << y <<
+//                " seed:" << seed <<
+//                " result:" << result_list;
+//
+//    std::cout << " result_node:" << result_list->node << std::endl;
+//    std::cout << "---" << std::endl;
     return result_list;
 }
 
-void VoronoiGraph::BuildNearbyList(double x, double y, int sort_x, int sort_y, double band_width, int sort_band_width, double* bounding_mag, int* bounding_box_radius, NodeLinkedList** headptr) {
+void VoronoiQuadtree::BuildNearbyList(double x, double y, int sort_x, int sort_y, double band_width, double gain, int sort_band_width, double* bounding_mag, int* bounding_box_radius, NodeLinkedList** headptr) {
     if (this->total_children <= this->max_count) {
 
         double max_dist = *bounding_mag;
@@ -263,15 +271,15 @@ void VoronoiGraph::BuildNearbyList(double x, double y, int sort_x, int sort_y, d
         NodeLinkedList* current_list_entry = this->node_children;
         while (current_list_entry != nullptr) {
             VoronoiNode* current_node = current_list_entry->node;
-            current_node->UpdateDist(x, y);
+            current_node->UpdateDist(x, y, gain);
             double relative_dist = current_node->GetDist()-max_dist;
             if (relative_dist > 0) { // beats the outer circle
                 NodeLinkedList* new_entry = new NodeLinkedList();
                 new_entry->node = current_node;
                 new_entry->next = *headptr;
                 *headptr = new_entry;
-                if (relative_dist > band_width) { // beats the middle circle
-                    max_dist = relative_dist+max_dist-band_width;
+                if (relative_dist >= band_width) { // beats the middle circle
+                    max_dist = relative_dist+max_dist-band_width; // now the outer circle is this dist minus out by band width
                     new_nearest = current_node;
                 }
             }
@@ -330,7 +338,7 @@ void VoronoiGraph::BuildNearbyList(double x, double y, int sort_x, int sort_y, d
             }
         }
 
-        this->tree_children[search_1]->BuildNearbyList(x, y, sort_x, sort_y, band_width, sort_band_width, bounding_mag, bounding_box_radius, headptr);
+        this->tree_children[search_1]->BuildNearbyList(x, y, sort_x, sort_y, band_width, gain, sort_band_width, bounding_mag, bounding_box_radius, headptr);
 
         int box_radius = *bounding_box_radius;
         if (search_x_then_y) { // search x first
@@ -342,7 +350,7 @@ void VoronoiGraph::BuildNearbyList(double x, double y, int sort_x, int sort_y, d
                 return;
             }
         }
-        this->tree_children[search_2]->BuildNearbyList(x, y, sort_x, sort_y, band_width, sort_band_width, bounding_mag, bounding_box_radius, headptr);
+        this->tree_children[search_2]->BuildNearbyList(x, y, sort_x, sort_y, band_width, gain, sort_band_width, bounding_mag, bounding_box_radius, headptr);
 
         box_radius = *bounding_box_radius;
         if (search_x_then_y) { // search y second
@@ -354,11 +362,11 @@ void VoronoiGraph::BuildNearbyList(double x, double y, int sort_x, int sort_y, d
                 return;
             }
         }
-        this->tree_children[search_3]->BuildNearbyList(x, y, sort_x, sort_y, band_width, sort_band_width, bounding_mag, bounding_box_radius, headptr);
+        this->tree_children[search_3]->BuildNearbyList(x, y, sort_x, sort_y, band_width, gain, sort_band_width, bounding_mag, bounding_box_radius, headptr);
 
         if ((dx*dx+dy*dy) > -*bounding_mag) { // center point further than bounding circle
             return;
         }
-        this->tree_children[search_4]->BuildNearbyList(x, y, sort_x, sort_y, band_width, sort_band_width, bounding_mag, bounding_box_radius, headptr);
+        this->tree_children[search_4]->BuildNearbyList(x, y, sort_x, sort_y, band_width, gain, sort_band_width, bounding_mag, bounding_box_radius, headptr);
     }
 }
