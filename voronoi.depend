@@ -1,11 +1,11 @@
 # depslib dependency file v1.0
-1729016399 source:c:\users\james\documents\cpp\voronoi\src\canvaswindow.cpp
+1729012799 source:c:\users\james\documents\cpp\voronoi\src\canvaswindow.cpp
 	"CanvasWindow.h"
 
-1729011883 c:\users\james\documents\cpp\voronoi\include\canvaswindow.h
+1729008283 c:\users\james\documents\cpp\voronoi\include\canvaswindow.h
 	<SDL.h>
 
-1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl.h
+1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl.h
 	"SDL_main.h"
 	"SDL_stdinc.h"
 	"SDL_assert.h"
@@ -43,12 +43,12 @@
 	"begin_code.h"
 	"close_code.h"
 
-1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_main.h
+1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_main.h
 	"SDL_stdinc.h"
 	"begin_code.h"
 	"close_code.h"
 
-1721653370 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_stdinc.h
+1721649770 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_stdinc.h
 	"SDL_config.h"
 	<sys/types.h>
 	<stdio.h>
@@ -80,12 +80,12 @@
 	<stdio.h>
 	"close_code.h"
 
-1728076649 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_config.h
+1728073049 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_config.h
 	"SDL_platform.h"
 	<winsdkver.h>
 	<sdkddkver.h>
 
-1716845962 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_platform.h
+1716842362 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_platform.h
 	<AvailabilityMacros.h>
 	<TargetConditionals.h>
 	<TargetConditionals.h>
@@ -93,17 +93,17 @@
 	"begin_code.h"
 	"close_code.h"
 
-1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\begin_code.h
+1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\begin_code.h
 
-1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\close_code.h
+1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\close_code.h
 
-1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_assert.h
+1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_assert.h
 	"SDL_stdinc.h"
 	"begin_code.h"
 	<signal.h>
 	"close_code.h"
 
-1704477690 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_atomic.h
+1704474090 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_atomic.h
 	"SDL_stdinc.h"
 	"SDL_platform.h"
 	"begin_code.h"
@@ -111,7 +111,7 @@
 	<mbarrier.h>
 	"close_code.h"
 
-1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_audio.h
+1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_audio.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_endian.h"
@@ -121,12 +121,12 @@
 	"begin_code.h"
 	"close_code.h"
 
-1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_error.h
+1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_error.h
 	"SDL_stdinc.h"
 	"begin_code.h"
 	"close_code.h"
 
-1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_endian.h
+1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_endian.h
 	"SDL_stdinc.h"
 	<intrin.h>
 	<endian.h>
@@ -135,13 +135,13 @@
 	"begin_code.h"
 	"close_code.h"
 
-1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_mutex.h
+1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_mutex.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"begin_code.h"
 	"close_code.h"
 
-1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_thread.h
+1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_thread.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_atomic.h"
@@ -152,18 +152,18 @@
 	"begin_code.h"
 	"close_code.h"
 
-1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_rwops.h
+1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_rwops.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"begin_code.h"
 	"close_code.h"
 
-1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_clipboard.h
+1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_clipboard.h
 	"SDL_stdinc.h"
 	"begin_code.h"
 	"close_code.h"
 
-1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_cpuinfo.h
+1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_cpuinfo.h
 	"SDL_stdinc.h"
 	<intrin.h>
 	<intrin.h>
@@ -185,7 +185,7 @@
 	"begin_code.h"
 	"close_code.h"
 
-1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_events.h
+1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_events.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_video.h"
@@ -199,7 +199,7 @@
 	"begin_code.h"
 	"close_code.h"
 
-1705440236 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_video.h
+1705436636 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_video.h
 	"SDL_stdinc.h"
 	"SDL_pixels.h"
 	"SDL_rect.h"
@@ -207,13 +207,13 @@
 	"begin_code.h"
 	"close_code.h"
 
-1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_pixels.h
+1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_pixels.h
 	"SDL_stdinc.h"
 	"SDL_endian.h"
 	"begin_code.h"
 	"close_code.h"
 
-1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_rect.h
+1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_rect.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_pixels.h"
@@ -221,7 +221,7 @@
 	"begin_code.h"
 	"close_code.h"
 
-1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_surface.h
+1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_surface.h
 	"SDL_stdinc.h"
 	"SDL_pixels.h"
 	"SDL_rect.h"
@@ -230,11 +230,11 @@
 	"begin_code.h"
 	"close_code.h"
 
-1706226595 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_blendmode.h
+1706222995 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_blendmode.h
 	"begin_code.h"
 	"close_code.h"
 
-1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_keyboard.h
+1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_keyboard.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_keycode.h"
@@ -242,21 +242,21 @@
 	"begin_code.h"
 	"close_code.h"
 
-1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_keycode.h
+1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_keycode.h
 	"SDL_stdinc.h"
 	"SDL_scancode.h"
 
-1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_scancode.h
+1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_scancode.h
 	"SDL_stdinc.h"
 
-1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_mouse.h
+1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_mouse.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_video.h"
 	"begin_code.h"
 	"close_code.h"
 
-1720038259 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_joystick.h
+1720034659 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_joystick.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_guid.h"
@@ -264,13 +264,13 @@
 	"begin_code.h"
 	"close_code.h"
 
-1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_guid.h
+1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_guid.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"begin_code.h"
 	"close_code.h"
 
-1704744595 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_gamecontroller.h
+1704740995 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_gamecontroller.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_rwops.h"
@@ -279,17 +279,17 @@
 	"begin_code.h"
 	"close_code.h"
 
-1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_sensor.h
+1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_sensor.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"begin_code.h"
 	"close_code.h"
 
-1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_quit.h
+1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_quit.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 
-1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_gesture.h
+1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_gesture.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_video.h"
@@ -297,70 +297,70 @@
 	"begin_code.h"
 	"close_code.h"
 
-1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_touch.h
+1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_touch.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_video.h"
 	"begin_code.h"
 	"close_code.h"
 
-1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_filesystem.h
+1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_filesystem.h
 	"SDL_stdinc.h"
 	"begin_code.h"
 	"close_code.h"
 
-1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_haptic.h
+1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_haptic.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_joystick.h"
 	"begin_code.h"
 	"close_code.h"
 
-1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_hidapi.h
+1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_hidapi.h
 	"SDL_stdinc.h"
 	"begin_code.h"
 	"close_code.h"
 
-1725805822 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_hints.h
+1725802222 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_hints.h
 	"SDL_stdinc.h"
 	"begin_code.h"
 	"close_code.h"
 
-1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_loadso.h
+1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_loadso.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"begin_code.h"
 	"close_code.h"
 
-1706417218 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_log.h
+1706413618 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_log.h
 	"SDL_stdinc.h"
 	"begin_code.h"
 	"close_code.h"
 
-1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_messagebox.h
+1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_messagebox.h
 	"SDL_stdinc.h"
 	"SDL_video.h"
 	"begin_code.h"
 	"close_code.h"
 
-1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_metal.h
+1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_metal.h
 	"SDL_video.h"
 	"begin_code.h"
 	"close_code.h"
 
-1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_power.h
+1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_power.h
 	"SDL_stdinc.h"
 	"begin_code.h"
 	"close_code.h"
 
-1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_render.h
+1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_render.h
 	"SDL_stdinc.h"
 	"SDL_rect.h"
 	"SDL_video.h"
 	"begin_code.h"
 	"close_code.h"
 
-1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_shape.h
+1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_shape.h
 	"SDL_stdinc.h"
 	"SDL_pixels.h"
 	"SDL_rect.h"
@@ -369,7 +369,7 @@
 	"begin_code.h"
 	"close_code.h"
 
-1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_system.h
+1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_system.h
 	"SDL_stdinc.h"
 	"SDL_keyboard.h"
 	"SDL_render.h"
@@ -377,32 +377,32 @@
 	"begin_code.h"
 	"close_code.h"
 
-1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_timer.h
+1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_timer.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"begin_code.h"
 	"close_code.h"
 
-1727799957 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_version.h
+1727796357 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_version.h
 	"SDL_stdinc.h"
 	"begin_code.h"
 	"close_code.h"
 
-1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_locale.h
+1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_locale.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"begin_code.h"
 	"close_code.h"
 
-1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_misc.h
+1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_misc.h
 	"SDL_stdinc.h"
 	"begin_code.h"
 	"close_code.h"
 
-1729993572 source:c:\users\james\documents\cpp\voronoi\src\capp.cpp
+1729989972 source:c:\users\james\documents\cpp\voronoi\src\capp.cpp
 	"CApp.h"
 
-1730590527 c:\users\james\documents\cpp\voronoi\include\capp.h
+1730586927 c:\users\james\documents\cpp\voronoi\include\capp.h
 	<SDL.h>
 	<SDL_image.h>
 	<SDL_ttf.h>
@@ -414,7 +414,7 @@
 	"VoronoiQuadtree.h"
 	"VoronoiNode.h"
 
-1704148564 c:\sdl\sdl2_image-2.8.2\i686-w64-mingw32\include\sdl2\sdl_image.h
+1704144964 c:\sdl\sdl2_image-2.8.2\i686-w64-mingw32\include\sdl2\sdl_image.h
 	"SDL.h"
 	"SDL_version.h"
 	"begin_code.h"
@@ -424,79 +424,85 @@
 	"CApp.h"
 	<iostream>
 
-1730498982 source:c:\users\james\documents\cpp\voronoi\src\capp_oncleanup.cpp
+1730495382 source:c:\users\james\documents\cpp\voronoi\src\capp_oncleanup.cpp
 	"CApp.h"
 
-1728799593 source:c:\users\james\documents\cpp\voronoi\src\capp_onevent.cpp
+1728795993 source:c:\users\james\documents\cpp\voronoi\src\capp_onevent.cpp
 	"CApp.h"
 
-1730589700 source:c:\users\james\documents\cpp\voronoi\src\capp_oninit.cpp
+1730586927 source:c:\users\james\documents\cpp\voronoi\src\capp_oninit.cpp
 	"CApp.h"
 	<iostream>
 
-1730589580 source:c:\users\james\documents\cpp\voronoi\src\capp_onloop.cpp
+1730586927 source:c:\users\james\documents\cpp\voronoi\src\capp_onloop.cpp
 	"CApp.h"
-	"VoronoiGraph.h"
+	"VoronoiQuadtree.h"
 	"VoronoiNode.h"
 
-1730499743 source:c:\users\james\documents\cpp\voronoi\src\capp_onrender.cpp
+1730496143 source:c:\users\james\documents\cpp\voronoi\src\capp_onrender.cpp
 	"CApp.h"
 	<sstream>
 
-1705852415 c:\sdl\sdl2_ttf-2.22.0\i686-w64-mingw32\include\sdl2\sdl_ttf.h
+1705848815 c:\sdl\sdl2_ttf-2.22.0\i686-w64-mingw32\include\sdl2\sdl_ttf.h
 	"SDL.h"
 	"begin_code.h"
 	"close_code.h"
 
-1728865862 source:c:\users\james\documents\cpp\voronoi\src\timer.cpp
+1728862262 source:c:\users\james\documents\cpp\voronoi\src\timer.cpp
 	"Timer.h"
 
-1729015018 c:\users\james\documents\cpp\voronoi\include\timer.h
+1729011418 c:\users\james\documents\cpp\voronoi\include\timer.h
 	<SDL.h>
 
-1729463028 c:\users\james\documents\cpp\voronoi\include\texture.h
+1729459428 c:\users\james\documents\cpp\voronoi\include\texture.h
 	<SDL_image.h>
 	<SDL_ttf.h>
 	<iostream>
 
-1729624585 source:c:\users\james\documents\cpp\voronoi\src\texture.cpp
+1729620985 source:c:\users\james\documents\cpp\voronoi\src\texture.cpp
 	"Texture.h"
 	<iostream>
 
-1729822357 source:c:\users\james\documents\cpp\voronoi\src\capp_importassets.cpp
+1729818757 source:c:\users\james\documents\cpp\voronoi\src\capp_importassets.cpp
 	"CApp.h"
 	<iostream>
 
-1729625201 source:c:\users\james\documents\cpp\voronoi\src\atlasnumberdrawer.cpp
+1729621601 source:c:\users\james\documents\cpp\voronoi\src\atlasnumberdrawer.cpp
 	"AtlasNumberDrawer.h"
 
-1729468868 c:\users\james\documents\cpp\voronoi\include\atlasnumberdrawer.h
+1729465268 c:\users\james\documents\cpp\voronoi\include\atlasnumberdrawer.h
 	"Texture.h"
 	"SDL.h"
 
-1730522920 source:c:\users\james\documents\cpp\voronoi\src\voronoinode.cpp
+1730593474 source:c:\users\james\documents\cpp\voronoi\src\voronoinode.cpp
 	"VoronoiNode.h"
 	<cmath>
 
-1730590527 c:\users\james\documents\cpp\voronoi\include\voronoinode.h
+1730665089 c:\users\james\documents\cpp\voronoi\include\voronoinode.h
 	"VoronoiQuadtree.h"
 	"SDL.h"
+	"NodeLinkedList.h"
 
-1730587444 source:c:\users\james\documents\cpp\voronoi\src\voronoigraph.cpp
+1730660310 source:c:\users\james\documents\cpp\voronoi\src\voronoigraph.cpp
 	"VoronoiGraph.h"
-	<cmath>
 
-1730522975 c:\users\james\documents\cpp\voronoi\include\voronoigraph.h
-	<iostream>
-	<VoronoiNode.h>
+1730665181 c:\users\james\documents\cpp\voronoi\include\voronoigraph.h
+	"NodeLinkedList.h"
 
-1730499495 c:\users\james\documents\cpp\voronoi\include\lapcounter.h
+1730495895 c:\users\james\documents\cpp\voronoi\include\lapcounter.h
 	"Timer.h"
 
-1730499505 source:c:\users\james\documents\cpp\voronoi\src\lapcounter.cpp
+1730495905 source:c:\users\james\documents\cpp\voronoi\src\lapcounter.cpp
 	"LapCounter.h"
 
-1730590527 c:\users\james\documents\cpp\voronoi\include\voronoiquadtree.h
+1730665304 c:\users\james\documents\cpp\voronoi\include\voronoiquadtree.h
 	<iostream>
 	<VoronoiNode.h>
+	"NodeLinkedList.h"
+
+1730586927 source:c:\users\james\documents\cpp\voronoi\src\voronoiquadtree.cpp
+	"VoronoiQuadtree.h"
+	<cmath>
+
+1730665464 c:\users\james\documents\cpp\voronoi\include\nodelinkedlist.h
 

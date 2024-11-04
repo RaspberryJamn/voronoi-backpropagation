@@ -19,7 +19,7 @@ void VoronoiNode::Init(double x, double y, double r, double g, double b) {
     this->color_grad[1] = 0;
     this->color_grad[2] = 0;
 
-    this->neg_sq_dist = 0;
+    this->mag = 0;
     this->sorting_dist = 0;
     this->sorting_x = (int)x;
     this->sorting_y = (int)y;
@@ -57,7 +57,7 @@ RGBColor VoronoiNode::SampleColor(double sample_x, double sample_y) {
     return (RGBColor){this->color[0],this->color[1],this->color[2]};
 }
 void VoronoiNode::UpdateExp(double gain, double offset) {
-    this->exp = std::exp((this->neg_sq_dist + offset)*gain);
+    this->exp = std::exp((-this->mag + offset)*gain);
 }
 
 double VoronoiNode::GetExp() {
@@ -67,15 +67,15 @@ double VoronoiNode::GetExp() {
 void VoronoiNode::UpdateDist(double from_x, double from_y, double gain) {
     double dx = this->x-from_x;
     double dy = this->y-from_y;
-    this->neg_sq_dist = -(dx*dx+dy*dy)*gain;
+    this->mag = (dx*dx+dy*dy)*gain;
 }
 
 void VoronoiNode::UpdateSortingDist() {
-    this->sorting_dist = (int)(std::ceil(std::sqrt(-this->neg_sq_dist)));
+    this->sorting_dist = (int)(std::ceil(std::sqrt(this->mag)));
 }
 
 double VoronoiNode::GetDist() {
-    return this->neg_sq_dist;
+    return this->mag;
 }
 
 int VoronoiNode::GetSortingDist() {

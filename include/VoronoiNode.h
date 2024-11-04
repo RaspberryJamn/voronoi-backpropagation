@@ -3,6 +3,7 @@
 
 #include "VoronoiQuadtree.h"
 #include "SDL.h"
+#include "NodeLinkedList.h"
 
 struct RGBColor {
     double r;
@@ -10,8 +11,7 @@ struct RGBColor {
     double b;
 };
 
-class VoronoiNode
-{
+class VoronoiNode {
     public:
         VoronoiNode(double x, double y);
         VoronoiNode(double x, double y, double r, double g, double b);
@@ -40,9 +40,11 @@ class VoronoiNode
     private:
         void Init(double x, double y, double r, double g, double b);
 
+        NodeLinkedList* residential_slot;
+
         double x;
         double y;
-        double neg_sq_dist;
+        double mag;
         double exp;
         double color[3];
 

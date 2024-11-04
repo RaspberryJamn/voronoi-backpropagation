@@ -33,10 +33,12 @@
 		<Unit filename="include/CApp.h" />
 		<Unit filename="include/CanvasWindow.h" />
 		<Unit filename="include/LapCounter.h" />
+		<Unit filename="include/NodeLinkedList.h" />
 		<Unit filename="include/Texture.h" />
 		<Unit filename="include/Timer.h" />
 		<Unit filename="include/VoronoiGraph.h" />
 		<Unit filename="include/VoronoiNode.h" />
+		<Unit filename="include/VoronoiQuadtree.h" />
 		<Unit filename="src/AtlasNumberDrawer.cpp" />
 		<Unit filename="src/CApp.cpp" />
 		<Unit filename="src/CApp_ImportAssets.cpp" />
@@ -47,10 +49,14 @@
 		<Unit filename="src/CApp_OnRender.cpp" />
 		<Unit filename="src/CanvasWindow.cpp" />
 		<Unit filename="src/LapCounter.cpp" />
+		<Unit filename="src/NodeLinkedList.cpp">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
 		<Unit filename="src/Texture.cpp" />
 		<Unit filename="src/Timer.cpp" />
 		<Unit filename="src/VoronoiGraph.cpp" />
 		<Unit filename="src/VoronoiNode.cpp" />
+		<Unit filename="src/VoronoiQuadtree.cpp" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>

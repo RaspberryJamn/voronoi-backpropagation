@@ -3,13 +3,14 @@
 
 #include <iostream>
 #include <VoronoiNode.h>
+#include "NodeLinkedList.h"
 
 class VoronoiNode;
 
-struct NodeLinkedList { // unordered
-    NodeLinkedList* next;
-    VoronoiNode* node;
-};
+//struct NodeLinkedList { // unordered
+//    NodeLinkedList* next;
+//    VoronoiNode* node;
+//};
 
 
 class VoronoiQuadtree {
