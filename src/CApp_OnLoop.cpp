@@ -1,6 +1,4 @@
 #include "CApp.h"
-#include "VoronoiQuadtree.h"
-#include "VoronoiNode.h"
 
 int g_offset = 0;
 int g_sample_x = 0;
@@ -40,47 +38,47 @@ void CApp::OnLoop() {
 //        if (nearby->node == nullptr) {
 //            std::cout << "erm" << std::endl;
 //        }
-        if (nearby->node != nullptr) {
-            g_historic_nearest_node = nearby->node;
-            RGBColor c = nearby->node->SampleColor(x,y);
-            r += c.r;
-            g += c.g;
-            b += c.b;
-//            double z = 0;
-//            double exp_offset = -nearby->node->GetDist(); // for numerical precision
-//            NodeLinkedList* current_list_entry = nearby;
-//            while (current_list_entry != nullptr) {
-//                NodeLinkedList* next_list_entry = current_list_entry->next;
-//                VoronoiNode* node = current_list_entry->node;
-//
-//                node->UpdateExp(gain, exp_offset);
-//                z += node->GetExp();
-//
-//                current_list_entry = next_list_entry;
-//            }
-//            current_list_entry = nearby;
-//            while (current_list_entry != nullptr) {
-//                NodeLinkedList* next_list_entry = current_list_entry->next;
-//                VoronoiNode* node = current_list_entry->node;
-//
-//                double m = node->GetExp()/z;
-//                RGBColor c = node->SampleColor(x,y);
-//                r += m*c.r;
-//                g += m*c.g;
-//                b += m*c.b;
-//
-//                current_list_entry = next_list_entry;
-//            }
-//            current_list_entry = nearby;
-//            while (current_list_entry != nullptr) {
-//                NodeLinkedList* next_list_entry = current_list_entry->next;
-//                delete current_list_entry;
-//                current_list_entry = next_list_entry;
-//            }
-//            nearby = nullptr;
-        } else {
-//            std::cout << "eefefrm" << std::endl;
-        }
+//        if (nearby->node != nullptr) {
+//            g_historic_nearest_node = nearby->node;
+//            RGBColor c = nearby->node->SampleColor(x,y);
+//            r += c.r;
+//            g += c.g;
+//            b += c.b;
+////            double z = 0;
+////            double exp_offset = -nearby->node->GetDist(); // for numerical precision
+////            NodeLinkedList* current_list_entry = nearby;
+////            while (current_list_entry != nullptr) {
+////                NodeLinkedList* next_list_entry = current_list_entry->next;
+////                VoronoiNode* node = current_list_entry->node;
+////
+////                node->UpdateExp(gain, exp_offset);
+////                z += node->GetExp();
+////
+////                current_list_entry = next_list_entry;
+////            }
+////            current_list_entry = nearby;
+////            while (current_list_entry != nullptr) {
+////                NodeLinkedList* next_list_entry = current_list_entry->next;
+////                VoronoiNode* node = current_list_entry->node;
+////
+////                double m = node->GetExp()/z;
+////                RGBColor c = node->SampleColor(x,y);
+////                r += m*c.r;
+////                g += m*c.g;
+////                b += m*c.b;
+////
+////                current_list_entry = next_list_entry;
+////            }
+////            current_list_entry = nearby;
+////            while (current_list_entry != nullptr) {
+////                NodeLinkedList* next_list_entry = current_list_entry->next;
+////                delete current_list_entry;
+////                current_list_entry = next_list_entry;
+////            }
+////            nearby = nullptr;
+//        } else {
+////            std::cout << "eefefrm" << std::endl;
+//        }
 //        std::cout << "2 " << nearby << std::endl;
         SDL_SetRenderDrawColor(this->main_renderer, (Uint8)r, (Uint8)g, (Uint8)b, 0xFF);
         SDL_RenderDrawPoint(this->main_renderer, x, y);

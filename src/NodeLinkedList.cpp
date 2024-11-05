@@ -1,6 +1,7 @@
 #include "NodeLinkedList.h"
+#include <iostream>
 
-void NodeLinkedListNSP::Print(std::string header, NodeLinkedList* list) {
+void NodeLinkedList::Print(std::string header, NodeLinkedList* list) {
     std::cout << header;
     if (list == nullptr) {
         std::cout << "empty list" << std::endl;
@@ -15,7 +16,7 @@ void NodeLinkedListNSP::Print(std::string header, NodeLinkedList* list) {
     std::cout << std::endl << "}" << std::endl;
 }
 
-void NodeLinkedListNSP::DeleteList(NodeLinkedList* list) {
+void NodeLinkedList::DeleteList(NodeLinkedList* list) {
     NodeLinkedList* current_slot = list;
     while (current_slot != nullptr) {
         NodeLinkedList* next_slot = current_slot->next;
@@ -24,7 +25,7 @@ void NodeLinkedListNSP::DeleteList(NodeLinkedList* list) {
     }
 }
 
-void NodeLinkedListNSP::DeleteNodes(NodeLinkedList* list) {
+void NodeLinkedList::DeleteNodes(NodeLinkedList* list) {
     NodeLinkedList* current_slot = list;
     while (current_slot != nullptr) {
         NodeLinkedList* next_slot = current_slot->next;
@@ -34,9 +35,17 @@ void NodeLinkedListNSP::DeleteNodes(NodeLinkedList* list) {
     }
 }
 
-void NodeLinkedListNSP::Append(VoronoiNode* node, NodeLinkedList** list_ref) {
+void NodeLinkedList::Append(VoronoiNode* node, NodeLinkedList** list_ref) {
     NodeLinkedList* new_first = new NodeLinkedList();
     new_first->next = *list_ref;
     new_first->node = node;
     *list_ref = new_first;
+}
+
+void NodeLinkedList::Remove(VoronoiNode* node, NodeLinkedList** list_ref) { // dude just trust me
+    node->GetResidence()->node = (*list_ref)->node;
+    NodeLinkedList* slot_one = (*list_ref)->next;
+    delete *list_ref;
+    *list_ref = slot_one;
+    node->SetResidence(nullptr);
 }

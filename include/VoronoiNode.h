@@ -1,9 +1,8 @@
 #ifndef VORONOINODE_H
 #define VORONOINODE_H
 
-#include "VoronoiQuadtree.h"
 #include "SDL.h"
-#include "NodeLinkedList.h"
+struct NodeLinkedList;
 
 struct RGBColor {
     double r;
@@ -17,7 +16,12 @@ class VoronoiNode {
         VoronoiNode(double x, double y, double r, double g, double b);
         ~VoronoiNode();
 
+        void SetResidence(NodeLinkedList* home);
+        NodeLinkedList* GetResidence();
+
+        void SetPosition(double x, double y);
         void SetBounds(int min_x, int max_x, int min_y, int max_y);
+        bool IsBounded();
 
         double GetX();
         double GetY();
@@ -25,15 +29,15 @@ class VoronoiNode {
         RGBColor SampleColor(double sample_x, double sample_y);
         void ForwardPass(double sample_x, double sample_y);
         void BackwardPass(double sample_x, double sample_y, double m, double dldm, double dldr, double dldg, double dldb);
-        void UpdateExp(double gain, double offset);
+        void CalculateExp(double gain, double offset);
         double GetExp();
 
-        void UpdateDist(double from_x, double from_y, double gain);
+        void CalculateDist(double from_x, double from_y, double gain);
         double GetDist();
-        void UpdateSortingDist();
+        void CalculateSortingDist();
         int GetSortingDist();
 
-        void UpdateSortingPos();
+        void CalculateSortingPos();
         int GetSortingPosX();
         int GetSortingPosY();
 
