@@ -12,7 +12,9 @@ struct NodeLinkedList {
     static void DeleteList(NodeLinkedList* list);
     static void DeleteNodes(NodeLinkedList* list);
     static void Append(VoronoiNode* node, NodeLinkedList** list_ref);
-    static void Remove(VoronoiNode* node, NodeLinkedList** list_ref); // dude just trust me
+    static void RemoveResidence(VoronoiNode* node, NodeLinkedList** list_ref);
+    static void RemoveTreeLocation(VoronoiNode* node, NodeLinkedList** list_ref);
+    static int Length(NodeLinkedList* list);
 };
 
 #endif

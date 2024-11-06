@@ -23,7 +23,7 @@ class VoronoiGraph {
         VoronoiGraph();
         ~VoronoiGraph();
 
-        void RespecTree(int x, int y, int w, int h, int minimum_dimension, int critical_mass);
+        void RespecTree(int x, int y, int w, int h, int max_depth, int critical_mass);
 
         void AddNode(VoronoiNode* node);
         void RemoveNode(VoronoiNode* node);
@@ -67,6 +67,8 @@ class VoronoiGraph {
         void BuildNearbyList(VQuadTree* branch);
 
         void DeleteTree(VQuadTree* branch);
+
+        bool IsSplit(VQuadTree* branch);
 };
 
 #endif // VORONOIGRAPH_H

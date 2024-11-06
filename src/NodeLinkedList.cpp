@@ -42,10 +42,35 @@ void NodeLinkedList::Append(VoronoiNode* node, NodeLinkedList** list_ref) {
     *list_ref = new_first;
 }
 
-void NodeLinkedList::Remove(VoronoiNode* node, NodeLinkedList** list_ref) { // dude just trust me
-    node->GetResidence()->node = (*list_ref)->node;
-    NodeLinkedList* slot_one = (*list_ref)->next;
-    delete *list_ref;
-    *list_ref = slot_one;
-    node->SetResidence(nullptr);
+void NodeLinkedList::RemoveResidence(VoronoiNode* node, NodeLinkedList** list_ref) {
+    NodeLinkedList* head_ptr_copy = (*list_ref);
+    NodeLinkedList* residency_ptr = node->GetResidence();
+    residency_ptr->node = head_ptr_copy->node; // residency slot previously occupied by this node now has the first node moved in
+    residency_ptr->node->SetResidence(residency_ptr); // upon moving in, it gets the deed
+//    head_ptr_copy->node = node; // (conceptually its a swap)
+    node->SetResidence(nullptr); // and the old node gets its deed revoked
+
+    *list_ref = head_ptr_copy->next; // the official home listing lets go of the first entry, which should now be vacant
+    delete head_ptr_copy; // no more vacant entry
+}
+
+void NodeLinkedList::RemoveTreeLocation(VoronoiNode* node, NodeLinkedList** list_ref) {
+    NodeLinkedList* head_ptr_copy = (*list_ref);
+    NodeLinkedList* tree_ptr = node->GetResidence();
+    tree_ptr->node = head_ptr_copy->node; // tree slot previously referencing this node now points to the first node
+    tree_ptr->node->SetTreeSlot(tree_ptr); // the newly referenced node now updates its contacts
+    node->SetTreeSlot(nullptr); // the old node clears its contacts
+
+    *list_ref = tree_ptr->next; // the tree listing contains an out of date slot at its head, which it drops
+    delete head_ptr_copy; // and that slot is erased
+}
+
+int NodeLinkedList::Length(NodeLinkedList* list) {
+    int result = 0;
+    NodeLinkedList* current_slot = list;
+    while (current_slot != nullptr) {
+        result++;
+        current_slot = current_slot->next;
+    }
+    return result;
 }

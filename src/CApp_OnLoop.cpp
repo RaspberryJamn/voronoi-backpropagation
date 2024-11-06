@@ -1,4 +1,5 @@
 #include "CApp.h"
+#include <cmath>
 
 int g_offset = 0;
 int g_sample_x = 0;
@@ -27,59 +28,58 @@ void CApp::OnLoop() {
         int x = g_sample_x;
         int y = g_sample_y;
 
-        double band_width = 10.0;
-        double gain = 0.1;
+        double band_width = 6.0;
+        double gain = 0.0005;
 //        std::cout << g_historic_nearest_node << " ";
-        NodeLinkedList* nearby = this->voronoi_graph->GetNearby((double)x, (double)y, band_width, gain, g_historic_nearest_node);
+        NodeLinkedList* nearby = this->voronoi_graph->GetNearby((double)x, (double)y, band_width, gain, nullptr);//g_historic_nearest_node);
 //        std::cout << nearby->node << std::endl;
         double r = 0;
         double g = 0;
         double b = 0;
-//        if (nearby->node == nullptr) {
-//            std::cout << "erm" << std::endl;
-//        }
+        int len = NodeLinkedList::Length(nearby);
+        r = 255*(1-1/((double)len+1));
+        g = r;
+        b = r;
+
 //        if (nearby->node != nullptr) {
-//            g_historic_nearest_node = nearby->node;
 //            RGBColor c = nearby->node->SampleColor(x,y);
 //            r += c.r;
 //            g += c.g;
 //            b += c.b;
-////            double z = 0;
-////            double exp_offset = -nearby->node->GetDist(); // for numerical precision
-////            NodeLinkedList* current_list_entry = nearby;
-////            while (current_list_entry != nullptr) {
-////                NodeLinkedList* next_list_entry = current_list_entry->next;
-////                VoronoiNode* node = current_list_entry->node;
-////
-////                node->UpdateExp(gain, exp_offset);
-////                z += node->GetExp();
-////
-////                current_list_entry = next_list_entry;
-////            }
-////            current_list_entry = nearby;
-////            while (current_list_entry != nullptr) {
-////                NodeLinkedList* next_list_entry = current_list_entry->next;
-////                VoronoiNode* node = current_list_entry->node;
-////
-////                double m = node->GetExp()/z;
-////                RGBColor c = node->SampleColor(x,y);
-////                r += m*c.r;
-////                g += m*c.g;
-////                b += m*c.b;
-////
-////                current_list_entry = next_list_entry;
-////            }
-////            current_list_entry = nearby;
-////            while (current_list_entry != nullptr) {
-////                NodeLinkedList* next_list_entry = current_list_entry->next;
-////                delete current_list_entry;
-////                current_list_entry = next_list_entry;
-////            }
-////            nearby = nullptr;
-//        } else {
-////            std::cout << "eefefrm" << std::endl;
 //        }
-//        std::cout << "2 " << nearby << std::endl;
+
+//        g_historic_nearest_node = nearby->node;
+//        double z = 0;
+//        double exp_offset = 0;//-nearby->node->GetDist(); // for numerical precision // apparently not?
+//        NodeLinkedList* current_slot = nearby;
+//        while (current_slot != nullptr) {
+//            NodeLinkedList* next_slot = current_slot->next;
+//            VoronoiNode* node = current_slot->node;
+//
+//            node->CalculateExp(exp_offset);
+//            z += node->GetExp();
+//
+//            current_slot = next_slot;
+//        }
+//        current_slot = nearby;
+//        while (current_slot != nullptr) {
+//            NodeLinkedList* next_slot = current_slot->next;
+//            VoronoiNode* node = current_slot->node;
+//
+//            double m = node->GetExp()/z;
+//            RGBColor c = node->SampleColor(x,y);
+//            r += m*c.r*c.r;
+//            g += m*c.g*c.g;
+//            b += m*c.b*c.b;
+//
+//            current_slot = next_slot;
+//        }
+//        NodeLinkedList::DeleteList(nearby);
+//        nearby = nullptr;
+//        r = std::sqrt(r);
+//        g = std::sqrt(g);
+//        b = std::sqrt(b);
+
         SDL_SetRenderDrawColor(this->main_renderer, (Uint8)r, (Uint8)g, (Uint8)b, 0xFF);
         SDL_RenderDrawPoint(this->main_renderer, x, y);
 

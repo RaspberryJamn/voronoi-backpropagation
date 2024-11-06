@@ -52,7 +52,7 @@ bool CApp::OnInit() {
     this->media_texture->NewBlankFromDims(this->source_texture->GetWidth(), this->source_texture->GetHeight());
 
     this->voronoi_graph = new VoronoiGraph();
-    this->voronoi_graph->RespecTree(0, 0, this->media_texture->GetWidth(), this->media_texture->GetWidth(), 4, 5);
+    this->voronoi_graph->RespecTree(0, 0, this->media_texture->GetWidth(), this->media_texture->GetWidth(), 4, 50);
     this->voronoi_graph->AddNode(new VoronoiNode(300,540,100,100,100));
     this->voronoi_graph->AddNode(new VoronoiNode(270,540,255,0  ,0  ));
     this->voronoi_graph->AddNode(new VoronoiNode(370,160,0  ,255,0  ));

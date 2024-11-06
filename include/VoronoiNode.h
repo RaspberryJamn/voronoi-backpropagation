@@ -18,6 +18,8 @@ class VoronoiNode {
 
         void SetResidence(NodeLinkedList* home);
         NodeLinkedList* GetResidence();
+        void SetTreeSlot(NodeLinkedList* location);
+        NodeLinkedList* GetTreeSlot();
 
         void SetPosition(double x, double y);
         void SetBounds(int min_x, int max_x, int min_y, int max_y);
@@ -29,7 +31,7 @@ class VoronoiNode {
         RGBColor SampleColor(double sample_x, double sample_y);
         void ForwardPass(double sample_x, double sample_y);
         void BackwardPass(double sample_x, double sample_y, double m, double dldm, double dldr, double dldg, double dldb);
-        void CalculateExp(double gain, double offset);
+        void CalculateExp(double offset);
         double GetExp();
 
         void CalculateDist(double from_x, double from_y, double gain);
@@ -45,6 +47,7 @@ class VoronoiNode {
         void Init(double x, double y, double r, double g, double b);
 
         NodeLinkedList* residential_slot;
+        NodeLinkedList* tree_slot;
 
         double x;
         double y;

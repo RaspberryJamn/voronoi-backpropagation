@@ -19,6 +19,9 @@ void VoronoiNode::Init(double x, double y, double r, double g, double b) {
     this->color_grad[1] = 0;
     this->color_grad[2] = 0;
 
+    this->residential_slot = nullptr;
+    this->tree_slot = nullptr;
+
     this->mag = 0;
     this->sorting_dist = 0;
     this->sorting_x = (int)x;
@@ -41,6 +44,13 @@ void VoronoiNode::SetResidence(NodeLinkedList* home) {
 }
 NodeLinkedList* VoronoiNode::GetResidence() {
     return this->residential_slot;
+}
+
+void VoronoiNode::SetTreeSlot(NodeLinkedList* location) {
+    this->tree_slot = location;
+}
+NodeLinkedList* VoronoiNode::GetTreeSlot() {
+    return this->tree_slot;
 }
 
 void VoronoiNode::SetPosition(double x, double y) {
@@ -74,8 +84,8 @@ RGBColor VoronoiNode::SampleColor(double sample_x, double sample_y) {
     // eg Generate(sample_x-this->x, sample_x-this->y)
     return (RGBColor){this->color[0],this->color[1],this->color[2]};
 }
-void VoronoiNode::CalculateExp(double gain, double offset) {
-    this->exp = std::exp((-this->mag + offset)*gain);
+void VoronoiNode::CalculateExp(double offset) {
+    this->exp = std::exp(-this->mag + offset);
 }
 
 double VoronoiNode::GetExp() {
@@ -88,12 +98,12 @@ void VoronoiNode::CalculateDist(double from_x, double from_y, double gain) {
     this->mag = (dx*dx+dy*dy)*gain;
 }
 
-void VoronoiNode::CalculateSortingDist() {
-    this->sorting_dist = (int)(std::ceil(std::sqrt(this->mag)));
-}
-
 double VoronoiNode::GetDist() {
     return this->mag;
+}
+
+void VoronoiNode::CalculateSortingDist() {
+    this->sorting_dist = (int)(std::ceil(std::sqrt(this->mag)));
 }
 
 int VoronoiNode::GetSortingDist() {
