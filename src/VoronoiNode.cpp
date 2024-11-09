@@ -27,8 +27,8 @@ void VoronoiNode::Init(double x, double y, double r, double g, double b) {
     this->sorting_x = (int)x;
     this->sorting_y = (int)y;
     this->sorting_x_min = 0;
-    this->sorting_x_max = 0;
     this->sorting_y_min = 0;
+    this->sorting_x_max = 0;
     this->sorting_y_max = 0;
 }
 
@@ -57,10 +57,10 @@ void VoronoiNode::SetPosition(double x, double y) {
     this->x = x;
     this->y = y;
 }
-void VoronoiNode::SetBounds(int min_x, int max_x, int min_y, int max_y) {
+void VoronoiNode::SetBounds(int min_x, int min_y, int max_x, int max_y) {
     this->sorting_x_min = min_x;
-    this->sorting_x_max = max_x;
     this->sorting_y_min = min_y;
+    this->sorting_x_max = max_x;
     this->sorting_y_max = max_y;
 }
 bool VoronoiNode::IsBounded() {
@@ -102,8 +102,8 @@ double VoronoiNode::GetDist() {
     return this->mag;
 }
 
-void VoronoiNode::CalculateSortingDist() {
-    this->sorting_dist = (int)(std::ceil(std::sqrt(this->mag)));
+void VoronoiNode::CalculateSortingDist(double gain) {
+    this->sorting_dist = (int)(std::ceil(std::sqrt(this->mag/gain)));
 }
 
 int VoronoiNode::GetSortingDist() {

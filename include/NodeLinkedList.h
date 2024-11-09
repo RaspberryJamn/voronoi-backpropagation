@@ -8,7 +8,7 @@ struct NodeLinkedList {
     NodeLinkedList* next;
     VoronoiNode* node;
 
-    static void Print(std::string header, NodeLinkedList* list);
+    static void Print(std::string header, NodeLinkedList* list, int indent);
     static void DeleteList(NodeLinkedList* list);
     static void DeleteNodes(NodeLinkedList* list);
     static void Append(VoronoiNode* node, NodeLinkedList** list_ref);

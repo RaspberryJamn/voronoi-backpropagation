@@ -1,19 +1,21 @@
 #include "NodeLinkedList.h"
 #include <iostream>
 
-void NodeLinkedList::Print(std::string header, NodeLinkedList* list) {
+void PrintIndents(int indent);
+
+void NodeLinkedList::Print(std::string header, NodeLinkedList* list, int indent) {
     std::cout << header;
     if (list == nullptr) {
-        std::cout << "empty list" << std::endl;
+        std::cout << "[]" << std::endl;
         return;
     }
-    std::cout << "{";
+    std::cout << "{" << std::endl;
     NodeLinkedList* current_slot = list;
     while (current_slot != nullptr) {
-        std::cout << std::endl << "  " << current_slot << ":{next:" << current_slot->next << ", node:" << current_slot->node << ", node_dist:" << current_slot->node->GetDist() << "}";
+        PrintIndents(indent+1); std::cout << current_slot << ":{next:" << current_slot->next << ", node:" << current_slot->node << ", node_dist:" << current_slot->node->GetDist() << "}" << std::endl;
         current_slot = current_slot->next;
     }
-    std::cout << std::endl << "}" << std::endl;
+    PrintIndents(indent); std::cout << "}" << std::endl;
 }
 
 void NodeLinkedList::DeleteList(NodeLinkedList* list) {

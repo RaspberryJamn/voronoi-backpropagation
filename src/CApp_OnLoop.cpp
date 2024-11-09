@@ -30,55 +30,48 @@ void CApp::OnLoop() {
 
         double band_width = 6.0;
         double gain = 0.0005;
-//        std::cout << g_historic_nearest_node << " ";
-        NodeLinkedList* nearby = this->voronoi_graph->GetNearby((double)x, (double)y, band_width, gain, nullptr);//g_historic_nearest_node);
-//        std::cout << nearby->node << std::endl;
+        NodeLinkedList* nearby = this->voronoi_graph->GetNearby((double)x, (double)y, band_width, gain, g_historic_nearest_node);//nullptr);//
         double r = 0;
         double g = 0;
         double b = 0;
+
         int len = NodeLinkedList::Length(nearby);
         r = 255*(1-1/((double)len+1));
         g = r;
         b = r;
 
-//        if (nearby->node != nullptr) {
-//            RGBColor c = nearby->node->SampleColor(x,y);
-//            r += c.r;
-//            g += c.g;
-//            b += c.b;
-//        }
+        g_historic_nearest_node = nearby->node;
 
-//        g_historic_nearest_node = nearby->node;
-//        double z = 0;
-//        double exp_offset = 0;//-nearby->node->GetDist(); // for numerical precision // apparently not?
-//        NodeLinkedList* current_slot = nearby;
-//        while (current_slot != nullptr) {
-//            NodeLinkedList* next_slot = current_slot->next;
-//            VoronoiNode* node = current_slot->node;
-//
-//            node->CalculateExp(exp_offset);
-//            z += node->GetExp();
-//
-//            current_slot = next_slot;
-//        }
-//        current_slot = nearby;
-//        while (current_slot != nullptr) {
-//            NodeLinkedList* next_slot = current_slot->next;
-//            VoronoiNode* node = current_slot->node;
-//
-//            double m = node->GetExp()/z;
-//            RGBColor c = node->SampleColor(x,y);
-//            r += m*c.r*c.r;
-//            g += m*c.g*c.g;
-//            b += m*c.b*c.b;
-//
-//            current_slot = next_slot;
-//        }
-//        NodeLinkedList::DeleteList(nearby);
-//        nearby = nullptr;
-//        r = std::sqrt(r);
-//        g = std::sqrt(g);
-//        b = std::sqrt(b);
+        double z = 0;
+        double exp_offset = 0;//-nearby->node->GetDist(); // for numerical precision // apparently not?
+        NodeLinkedList* current_slot = nearby;
+        while (current_slot != nullptr) {
+            NodeLinkedList* next_slot = current_slot->next;
+            VoronoiNode* node = current_slot->node;
+
+            node->CalculateExp(exp_offset);
+            z += node->GetExp();
+
+            current_slot = next_slot;
+        }
+        current_slot = nearby;
+        while (current_slot != nullptr) {
+            NodeLinkedList* next_slot = current_slot->next;
+            VoronoiNode* node = current_slot->node;
+
+            double m = node->GetExp()/z;
+            RGBColor c = node->SampleColor(x,y);
+            r += m*c.r*c.r;
+            g += m*c.g*c.g;
+            b += m*c.b*c.b;
+
+            current_slot = next_slot;
+        }
+        NodeLinkedList::DeleteList(nearby);
+        nearby = nullptr;
+        r = std::sqrt(r);
+        g = std::sqrt(g);
+        b = std::sqrt(b);
 
         SDL_SetRenderDrawColor(this->main_renderer, (Uint8)r, (Uint8)g, (Uint8)b, 0xFF);
         SDL_RenderDrawPoint(this->main_renderer, x, y);

@@ -22,7 +22,7 @@ class VoronoiNode {
         NodeLinkedList* GetTreeSlot();
 
         void SetPosition(double x, double y);
-        void SetBounds(int min_x, int max_x, int min_y, int max_y);
+        void SetBounds(int min_x, int min_y, int max_x, int max_y);
         bool IsBounded();
 
         double GetX();
@@ -36,7 +36,7 @@ class VoronoiNode {
 
         void CalculateDist(double from_x, double from_y, double gain);
         double GetDist();
-        void CalculateSortingDist();
+        void CalculateSortingDist(double gain);
         int GetSortingDist();
 
         void CalculateSortingPos();
@@ -63,8 +63,8 @@ class VoronoiNode {
         int sorting_y;
         int sorting_dist;
         int sorting_x_min;
-        int sorting_x_max;
         int sorting_y_min;
+        int sorting_x_max;
         int sorting_y_max;
 };
 

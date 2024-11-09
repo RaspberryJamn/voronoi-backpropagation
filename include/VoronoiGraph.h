@@ -16,6 +16,8 @@ struct VQuadTree {
         this->tree_children[2] = nullptr;
         this->tree_children[3] = nullptr;
     }
+
+    static void Print(VQuadTree* tree, int indent);
 };
 
 class VoronoiGraph {
@@ -24,6 +26,7 @@ class VoronoiGraph {
         ~VoronoiGraph();
 
         void RespecTree(int x, int y, int w, int h, int max_depth, int critical_mass);
+        void PrintTree();
 
         void AddNode(VoronoiNode* node);
         void RemoveNode(VoronoiNode* node);
@@ -68,7 +71,7 @@ class VoronoiGraph {
 
         void DeleteTree(VQuadTree* branch);
 
-        bool IsSplit(VQuadTree* branch);
+        bool SplitValid(VQuadTree* branch);
 };
 
 #endif // VORONOIGRAPH_H
