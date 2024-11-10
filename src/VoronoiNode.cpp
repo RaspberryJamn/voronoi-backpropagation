@@ -102,8 +102,10 @@ double VoronoiNode::GetDist() {
     return this->mag;
 }
 
-void VoronoiNode::CalculateSortingDist(double gain) {
-    this->sorting_dist = (int)(std::ceil(std::sqrt(this->mag/gain)));
+void VoronoiNode::CalculateSortingDist(double from_x, double from_y) {
+    double dx = this->x-from_x;
+    double dy = this->y-from_y;
+    this->sorting_dist = (int)(std::ceil(std::sqrt(dx*dx+dy*dy)));
 }
 
 int VoronoiNode::GetSortingDist() {

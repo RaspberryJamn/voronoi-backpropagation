@@ -276,18 +276,18 @@ NodeLinkedList* VoronoiGraph::GetNearby(double x, double y, double band_width, d
     this->recent_sort_x = (int)this->recent_x;
     this->recent_sort_y = (int)this->recent_y;
     this->band_width = band_width;
-    this->sort_band_width = (int)(std::ceil(this->band_width));
     this->gain = gain;
+    this->sort_band_width = (int)(std::ceil(this->band_width/this->gain));
 
     if (seed != nullptr) {
         seed->CalculateDist(this->recent_x, this->recent_y, this->gain); // work done here
-        seed->CalculateSortingDist(this->gain); // work done here
+        seed->CalculateSortingDist(this->recent_x, this->recent_y); // work done here
         this->current_bounding_mag = seed->GetDist() + this->band_width;
         this->current_box_radius = seed->GetSortingDist() + this->sort_band_width;
     } else {
         VoronoiNode* arbitrary_seed = this->all_child_nodes->node;
         arbitrary_seed->CalculateDist(this->recent_x, this->recent_y, this->gain); // work done here
-        arbitrary_seed->CalculateSortingDist(this->gain); // work done here
+        arbitrary_seed->CalculateSortingDist(this->recent_x, this->recent_y); // work done here
         this->current_bounding_mag = arbitrary_seed->GetDist() + band_width;
         this->current_box_radius = arbitrary_seed->GetSortingDist() + sort_band_width;
     }
@@ -305,42 +305,42 @@ NodeLinkedList* VoronoiGraph::GetNearby(double x, double y, double band_width, d
         return nullptr;
     }
 
-//    return this->nearby_candidates;
+    return this->nearby_candidates;
 
-    NodeLinkedList* scanning_candidate = this->nearby_candidates;
-    NodeLinkedList* result_list = nullptr; // start with an empty output list
-
-    NodeLinkedList* nearest_slot = nullptr; // we're gonna be searching for the nearest node to swap to the front
-    double nearest_dist = this->nearby_candidates->node->GetDist();
-
-    while (scanning_candidate != nullptr) {
-
-        NodeLinkedList* next_entry = scanning_candidate->next;
-        double scanned_distance = scanning_candidate->node->GetDist();
-
-        if (scanned_distance <= this->current_bounding_mag) { // scanned node passes the check, may have significant m value
-
-            scanning_candidate->next = result_list; // this candidate slot gets prepened onto result_list
-            result_list = scanning_candidate;
-
-            if (scanned_distance < nearest_dist) {
-                nearest_slot = scanning_candidate;
-                nearest_dist = scanned_distance;
-            }
-
-        } else { // node fails the check, will definitely not have significant m value
-            delete scanning_candidate;
-        }
-
-        scanning_candidate = next_entry;
-    }
-
-    if (nearest_slot != nullptr) { // puts the nearest node at the top
-        VoronoiNode* first_node = result_list->node;
-        result_list->node = nearest_slot->node; // list[0] gets the nearest node
-        nearest_slot->node = first_node; // list[nearest] gets the first node
-    }
-    return result_list;
+//    NodeLinkedList* scanning_candidate = this->nearby_candidates;
+//    NodeLinkedList* result_list = nullptr; // start with an empty output list
+//
+//    NodeLinkedList* nearest_slot = nullptr; // we're gonna be searching for the nearest node to swap to the front
+//    double nearest_dist = this->nearby_candidates->node->GetDist();
+//
+//    while (scanning_candidate != nullptr) {
+//
+//        NodeLinkedList* next_entry = scanning_candidate->next;
+//        double scanned_distance = scanning_candidate->node->GetDist();
+//
+//        if (scanned_distance <= this->current_bounding_mag) { // scanned node passes the check, may have significant m value
+//
+//            scanning_candidate->next = result_list; // this candidate slot gets prepened onto result_list
+//            result_list = scanning_candidate;
+//
+//            if (scanned_distance < nearest_dist) {
+//                nearest_slot = scanning_candidate;
+//                nearest_dist = scanned_distance;
+//            }
+//
+//        } else { // node fails the check, will definitely not have significant m value
+//            delete scanning_candidate;
+//        }
+//
+//        scanning_candidate = next_entry;
+//    }
+//
+//    if (nearest_slot != nullptr) { // puts the nearest node at the top
+//        VoronoiNode* first_node = result_list->node;
+//        result_list->node = nearest_slot->node; // list[0] gets the nearest node
+//        nearest_slot->node = first_node; // list[nearest] gets the first node
+//    }
+//    return result_list;
 }
 void VoronoiGraph::BuildNearbyList(VQuadTree* branch) { // takes the running info on the best distance upper bound and adds the nodes descendant to this branch to the list of potential candidates
     if (!this->SplitValid(branch)) { // not split, this is a leaf node
@@ -365,7 +365,7 @@ void VoronoiGraph::BuildNearbyList(VQuadTree* branch) { // takes the running inf
             current_list_entry = current_list_entry->next;
         }
         if (new_nearest != nullptr) { // if a candidate in this branch beat the standing record
-            new_nearest->CalculateSortingDist(this->gain); // do the work to find the box radius
+            new_nearest->CalculateSortingDist(this->recent_x, this->recent_y); // do the work to find the box radius
             this->current_box_radius = new_nearest->GetSortingDist() + this->sort_band_width; // update the search
 
             this->current_bounding_mag = new_nearest->GetDist()+this->band_width;
@@ -443,20 +443,20 @@ void VoronoiGraph::BuildNearbyList(VQuadTree* branch) { // takes the running inf
         }
         this->BuildNearbyList(branch->tree_children[search_2]);
 
-//        if (search_x_then_y) { // search y second
-//            if ((dy > this->current_box_radius) || (dy < -this->current_box_radius)) {
-//                return;
-//            }
-//        } else { // search x second
-//            if ((dx > this->current_box_radius) || (dx < -this->current_box_radius)) {
-//                return;
-//            }
-//        }
+        if (search_x_then_y) { // search y second
+            if ((dy > this->current_box_radius) || (dy < -this->current_box_radius)) {
+                return;
+            }
+        } else { // search x second
+            if ((dx > this->current_box_radius) || (dx < -this->current_box_radius)) {
+                return;
+            }
+        }
         this->BuildNearbyList(branch->tree_children[search_3]);
 
-//        if ((dx*dx+dy*dy) > this->current_bounding_mag) { // center point mag further out than the bounding outer circle mag
-//            return;
-//        }
+        if ((dx*dx+dy*dy)*this->gain > this->current_bounding_mag) { // center point mag further out than the bounding outer circle mag (bounding mag has gain in it)
+            return;
+        }
         this->BuildNearbyList(branch->tree_children[search_4]);
     }
 }

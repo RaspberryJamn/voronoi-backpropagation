@@ -36,7 +36,7 @@ class VoronoiNode {
 
         void CalculateDist(double from_x, double from_y, double gain);
         double GetDist();
-        void CalculateSortingDist(double gain);
+        void CalculateSortingDist(double from_x, double from_y);
         int GetSortingDist();
 
         void CalculateSortingPos();
