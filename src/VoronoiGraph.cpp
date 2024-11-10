@@ -292,9 +292,6 @@ NodeLinkedList* VoronoiGraph::GetNearby(double x, double y, double band_width, d
         this->current_box_radius = arbitrary_seed->GetSortingDist() + sort_band_width;
     }
 
-    this->current_bounding_mag = 1000000000000;
-    this->current_box_radius = 1000000000;
-
     NodeLinkedList::DeleteList(this->nearby_candidates);
     this->nearby_candidates = nullptr;
 
@@ -305,42 +302,40 @@ NodeLinkedList* VoronoiGraph::GetNearby(double x, double y, double band_width, d
         return nullptr;
     }
 
-    return this->nearby_candidates;
+    NodeLinkedList* scanning_candidate = this->nearby_candidates;
+    NodeLinkedList* result_list = nullptr; // start with an empty output list
 
-//    NodeLinkedList* scanning_candidate = this->nearby_candidates;
-//    NodeLinkedList* result_list = nullptr; // start with an empty output list
-//
-//    NodeLinkedList* nearest_slot = nullptr; // we're gonna be searching for the nearest node to swap to the front
-//    double nearest_dist = this->nearby_candidates->node->GetDist();
-//
-//    while (scanning_candidate != nullptr) {
-//
-//        NodeLinkedList* next_entry = scanning_candidate->next;
-//        double scanned_distance = scanning_candidate->node->GetDist();
-//
-//        if (scanned_distance <= this->current_bounding_mag) { // scanned node passes the check, may have significant m value
-//
-//            scanning_candidate->next = result_list; // this candidate slot gets prepened onto result_list
-//            result_list = scanning_candidate;
-//
-//            if (scanned_distance < nearest_dist) {
-//                nearest_slot = scanning_candidate;
-//                nearest_dist = scanned_distance;
-//            }
-//
-//        } else { // node fails the check, will definitely not have significant m value
-//            delete scanning_candidate;
-//        }
-//
-//        scanning_candidate = next_entry;
-//    }
-//
-//    if (nearest_slot != nullptr) { // puts the nearest node at the top
-//        VoronoiNode* first_node = result_list->node;
-//        result_list->node = nearest_slot->node; // list[0] gets the nearest node
-//        nearest_slot->node = first_node; // list[nearest] gets the first node
-//    }
-//    return result_list;
+    NodeLinkedList* nearest_slot = nullptr; // we're gonna be searching for the nearest node to swap to the front
+    double nearest_dist = this->nearby_candidates->node->GetDist();
+
+    while (scanning_candidate != nullptr) {
+
+        NodeLinkedList* next_entry = scanning_candidate->next;
+        double scanned_distance = scanning_candidate->node->GetDist();
+
+        if (scanned_distance <= this->current_bounding_mag) { // scanned node passes the check, may have significant m value
+
+            scanning_candidate->next = result_list; // this candidate slot gets prepened onto result_list
+            result_list = scanning_candidate;
+
+            if (scanned_distance < nearest_dist) {
+                nearest_slot = scanning_candidate;
+                nearest_dist = scanned_distance;
+            }
+
+        } else { // node fails the check, will definitely not have significant m value
+            delete scanning_candidate;
+        }
+
+        scanning_candidate = next_entry;
+    }
+
+    if (nearest_slot != nullptr) { // puts the nearest node at the top
+        VoronoiNode* first_node = result_list->node;
+        result_list->node = nearest_slot->node; // list[0] gets the nearest node
+        nearest_slot->node = first_node; // list[nearest] gets the first node
+    }
+    return result_list;
 }
 void VoronoiGraph::BuildNearbyList(VQuadTree* branch) { // takes the running info on the best distance upper bound and adds the nodes descendant to this branch to the list of potential candidates
     if (!this->SplitValid(branch)) { // not split, this is a leaf node

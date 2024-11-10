@@ -61,6 +61,8 @@ bool CApp::OnInit() {
     this->voronoi_graph->AddNode(new VoronoiNode(110,520,255,0  ,255));
     this->voronoi_graph->AddNode(new VoronoiNode(200,180,0  ,255,255));
     this->voronoi_graph->AddNode(new VoronoiNode(180,120,255,255,255));
+    this->refresh_period = 100;
+    this->refresh_counter = 0;
 //    this->voronoi_graph->PrintTree();
     return true;
 }

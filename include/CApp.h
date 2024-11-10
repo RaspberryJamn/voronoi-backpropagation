@@ -50,6 +50,9 @@ class CApp {
         void OnLoop();
 
         void OnRender();
+        void RenderFullFrameVoronoi();
+        int refresh_period; // 0 means redraw graph every frame, 1 every other, etc.
+        int refresh_counter;
 
         void OnCleanup();
 };

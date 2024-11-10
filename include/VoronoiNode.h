@@ -8,6 +8,7 @@ struct RGBColor {
     double r;
     double g;
     double b;
+    RGBColor(double r, double g, double b) : r(r), g(g), b(b) {}
 };
 
 class VoronoiNode {
