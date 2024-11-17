@@ -18,7 +18,7 @@ void CApp::RenderFullFrameVoronoi() {
         double gain = 0.0005;
         NodeLinkedList* nearby = this->voronoi_graph->GetNearby((double)x, (double)y, band_width, gain, g_running_seed);
 
-        RGBColor c = VoronoiGraph::CreateRGBSoftmaxFromNearby(nearby, x, y);
+        RGBColor c = VoronoiGraph::ForwardPassFromNearby(nearby, x, y);
 
         SDL_SetRenderDrawColor(this->main_renderer, (Uint8)c.r, (Uint8)c.g, (Uint8)c.b, 0xFF);
         SDL_RenderDrawPoint(this->main_renderer, x, y);
@@ -81,13 +81,18 @@ void CApp::OnRender() {
 
     SDL_SetRenderDrawColor(this->main_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
     SDL_Rect string_bounds = {5,5,0,0};
+    Uint32 disp = this->last_frametime;
+    if (disp > 9999) {disp = 9999;}
     this->text_textures[0]->RenderRTL(&string_bounds); // "Last frametime: "
-    this->number_renderer.DrawRTL(std::to_string(this->last_frametime), &string_bounds);
+    this->number_renderer.DrawRTL(std::to_string(disp), &string_bounds);
     this->text_textures[1]->RenderRTL(&string_bounds); // "ms"
 
     string_bounds = {5,20,0,0};
+    disp = this->average_frametime;
+    if (disp < 0.1) {disp = 0.1;}
+    disp = 1000.0/disp;
     this->text_textures[2]->RenderRTL(&string_bounds); // "Last frametime: "
-    this->number_renderer.DrawRTL(std::to_string((int)(1000.0/this->average_frametime)), &string_bounds);
+    this->number_renderer.DrawRTL(std::to_string((int)(disp)), &string_bounds);
     this->text_textures[3]->RenderRTL(&string_bounds); // "ms"
 
     SDL_RenderPresent(this->main_renderer);

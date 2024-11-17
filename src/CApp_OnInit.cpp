@@ -1,5 +1,6 @@
 #include "CApp.h"
 #include <iostream>
+#include <cstdlib>
 
 bool CApp::OnInit() {
 
@@ -24,7 +25,7 @@ bool CApp::OnInit() {
                             SDL_WINDOWPOS_UNDEFINED,
                             SDL_WINDOWPOS_UNDEFINED,
                             800,
-                            600,
+                            800,
                             SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
     if (this->main_window == nullptr) {
         std::cout << "Window not created, SDL error: " << SDL_GetError() << std::endl;
@@ -63,6 +64,7 @@ bool CApp::OnInit() {
     this->voronoi_graph->AddNode(new VoronoiNode(180,120,255,255,255));
     this->refresh_period = 100;
     this->refresh_counter = 0;
+
 //    this->voronoi_graph->PrintTree();
     return true;
 }

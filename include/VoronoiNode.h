@@ -8,7 +8,32 @@ struct RGBColor {
     double r;
     double g;
     double b;
+    RGBColor() : r(0), g(0), b(0) {}
     RGBColor(double r, double g, double b) : r(r), g(g), b(b) {}
+    RGBColor operator+(RGBColor const& rhs) {
+        return RGBColor(r+rhs.r,g+rhs.g,b+rhs.b);
+    }
+    void operator+=(RGBColor const& rhs) {
+        r += rhs.r; g += rhs.g; b += rhs.b;
+    }
+    RGBColor operator-(RGBColor const& rhs) {
+        return RGBColor(r-rhs.r,g-rhs.g,b-rhs.b);
+    }
+    void operator-=(RGBColor const& rhs) {
+        r -= rhs.r; g -= rhs.g; b -= rhs.b;
+    }
+    RGBColor operator*(RGBColor const& rhs) {
+        return RGBColor(r*rhs.r,g*rhs.g,b*rhs.b);
+    }
+    RGBColor operator/(RGBColor const& rhs) {
+        return RGBColor(r/rhs.r,g/rhs.g,b/rhs.b);
+    }
+    RGBColor operator*(double const& rhs) {
+        return RGBColor(r*rhs,g*rhs,b*rhs);
+    }
+    static double Trace(RGBColor const& col) {
+        return col.r+col.g+col.b;
+    }
 };
 
 // node1.mag = (node1.x*node1.x+node1.y*node1.y)
@@ -93,12 +118,14 @@ class VoronoiNode {
         double GetX();
         double GetY();
 
-        RGBColor SampleColor(double sample_x, double sample_y);
-        void ForwardPass(double sample_x, double sample_y);
-        void BackwardPass(double sample_x, double sample_y, double m, RGBColor rgb, RGBColor dldrgb);
+//        RGBColor SampleColor(double sample_x, double sample_y);
+        RGBColor ForwardPass(double sample_x, double sample_y);
+        void BackwardPass(double sample_x, double sample_y, RGBColor rgb, RGBColor dldrgb);
         void ApplyGradients(double learning_rate);
         void CalculateExp(double offset);
         double GetExp();
+        void SetM(double m);
+        double GetM();
 
         void CalculateDist(double from_x, double from_y, double gain);
         double GetDist();
@@ -119,11 +146,12 @@ class VoronoiNode {
         double y;
         double mag;
         double exp;
-        double color[3];
+        double m_value;
+        RGBColor color;
 
         double x_grad;
         double y_grad;
-        double color_grad[3];
+        RGBColor color_grad;
 
         int sorting_x;
         int sorting_y;

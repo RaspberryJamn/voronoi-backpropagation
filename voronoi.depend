@@ -424,21 +424,23 @@
 	"CApp.h"
 	<iostream>
 
-1730495382 source:c:\users\james\documents\cpp\voronoi\src\capp_oncleanup.cpp
+1731876856 source:c:\users\james\documents\cpp\voronoi\src\capp_oncleanup.cpp
 	"CApp.h"
 
 1728795993 source:c:\users\james\documents\cpp\voronoi\src\capp_onevent.cpp
 	"CApp.h"
 
-1731278993 source:c:\users\james\documents\cpp\voronoi\src\capp_oninit.cpp
+1731877987 source:c:\users\james\documents\cpp\voronoi\src\capp_oninit.cpp
 	"CApp.h"
 	<iostream>
+	<cstdlib>
 
-1731833959 source:c:\users\james\documents\cpp\voronoi\src\capp_onloop.cpp
+1731878759 source:c:\users\james\documents\cpp\voronoi\src\capp_onloop.cpp
 	"CApp.h"
 	<cmath>
+	<iostream>
 
-1731828712 source:c:\users\james\documents\cpp\voronoi\src\capp_onrender.cpp
+1731878177 source:c:\users\james\documents\cpp\voronoi\src\capp_onrender.cpp
 	"CApp.h"
 	<sstream>
 	<cmath>
@@ -454,12 +456,12 @@
 1729011418 c:\users\james\documents\cpp\voronoi\include\timer.h
 	<SDL.h>
 
-1731833247 c:\users\james\documents\cpp\voronoi\include\texture.h
+1731877508 c:\users\james\documents\cpp\voronoi\include\texture.h
 	<SDL_image.h>
 	<SDL_ttf.h>
 	<iostream>
 
-1731833240 source:c:\users\james\documents\cpp\voronoi\src\texture.cpp
+1731877522 source:c:\users\james\documents\cpp\voronoi\src\texture.cpp
 	"Texture.h"
 	<iostream>
 
@@ -474,21 +476,21 @@
 	"Texture.h"
 	"SDL.h"
 
-1731833879 source:c:\users\james\documents\cpp\voronoi\src\voronoinode.cpp
+1731879039 source:c:\users\james\documents\cpp\voronoi\src\voronoinode.cpp
 	"VoronoiNode.h"
 	<cmath>
 	<iostream>
 
-1731833528 c:\users\james\documents\cpp\voronoi\include\voronoinode.h
+1731876188 c:\users\james\documents\cpp\voronoi\include\voronoinode.h
 	"SDL.h"
 
-1731833538 source:c:\users\james\documents\cpp\voronoi\src\voronoigraph.cpp
+1731875893 source:c:\users\james\documents\cpp\voronoi\src\voronoigraph.cpp
 	"VoronoiGraph.h"
 	"CApp.h"
 	<cmath>
 	<iostream>
 
-1731833392 c:\users\james\documents\cpp\voronoi\include\voronoigraph.h
+1731876119 c:\users\james\documents\cpp\voronoi\include\voronoigraph.h
 	"NodeLinkedList.h"
 	"VoronoiNode.h"
 

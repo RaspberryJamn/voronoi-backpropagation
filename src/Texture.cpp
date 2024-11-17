@@ -2,28 +2,16 @@
 #include <iostream>
 
 Texture::Texture() {
-    this->surface = nullptr;
-//    this->pixels = nullptr;
-    this->texture = nullptr;
-    this->renderer = nullptr;
-    this->font = nullptr;
-    this->width = 0;
-    this->height = 0;
-    this->was_successful = true;
+    this->Init(nullptr, nullptr);
 }
 Texture::Texture(SDL_Renderer* target_renderer) {
-    this->surface = nullptr;
-//    this->pixels = nullptr;
-    this->texture = nullptr;
-    this->renderer = target_renderer;
-    this->font = nullptr;
-    this->width = 0;
-    this->height = 0;
-    this->was_successful = true;
+    this->Init(target_renderer, nullptr);
 }
 Texture::Texture(SDL_Renderer* target_renderer, TTF_Font* font) {
+    this->Init(target_renderer, font);
+}
+void Texture::Init(SDL_Renderer* target_renderer, TTF_Font* font) {
     this->surface = nullptr;
-//    this->pixels = nullptr;
     this->texture = nullptr;
     this->renderer = target_renderer;
     this->font = font;
