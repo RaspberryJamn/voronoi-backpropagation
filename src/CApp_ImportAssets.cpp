@@ -35,6 +35,7 @@ bool CApp::ImportAssets() {
         std::cout << "Failed to load texture" << std::endl;
         return false;
     }
+    this->source_pixels = this->source_texture->GetPixels();
 
     this->main_font = TTF_OpenFont("assets/consola.ttf", 12);
 //    std::cout << "font pointer: " << this->main_font << std::endl;

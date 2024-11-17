@@ -11,6 +11,70 @@ struct RGBColor {
     RGBColor(double r, double g, double b) : r(r), g(g), b(b) {}
 };
 
+// node1.mag = (node1.x*node1.x+node1.y*node1.y)
+// e1 = exp(node1.mag)
+// z = e1+e2+e3
+// m1 = e1/z
+// final_color = m1*node1.color+m2*node2.color+m3*node3.color
+// loss = (final_color-desired_color)^2
+
+// dnode1.mag/dnode1.x = node1.x
+// dm1/dnode1.mag = m1*(1-m1)
+// dfinal_color/dm1 = node1.color
+// dnode1.color/dnode1.x = something
+// dfinal_color/dnode1.color = m1
+// dloss/dfinal_color = 2(final_color-desired_color)
+
+// nope. too complicated. I may revisit you later but for now Im doing it simpler
+//struct SerialVoronoiNode {
+//    int id; // maybe a pointer?
+//    double x;
+//    double y;
+//
+//    double mag;
+//    double exp;
+//    double m; // sort of like a final layer input
+//
+//    double x_grad; // += dloss/dfinal_color * output_color * m*(1-m) * x
+//    double y_grad; // += dloss/dfinal_color * m1 * dnode1.color/dnode1.y
+//
+//    struct VoronoiNodeForward forward;
+//
+//    struct VoronoiNodeBackward backward;
+//};
+//
+//struct VoronoiNodeForward { // data needed to derive pixel color from sample xy (technically the node's own xy is part of this but thats special)
+//    struct inputs { // more like intermediate values
+//        double x; // set
+//        double y; // set
+//        double sample_x; // set
+//        double sample_y; // set
+//        double local_x;
+//        double local_y;
+//
+//        RGBColor output_color;
+//    };
+//    struct weights {
+//        RGBColor color; // just the one, effectively the bias for a 0x3 linear layer
+//    };
+//};
+//
+//struct VoronoiNodeBackward {
+//    struct outputs { // more like intermediate gradients
+//        double x_grad; // this'll get yoinked
+//        double y_grad; // this too
+//        double sample_x_grad;
+//        double sample_y_grad;
+//        double local_x_grad;
+//        double local_y_grad;
+//
+//        RGBColor color_grad; // del loss del rgb, with m factored in
+//    };
+//    struct gradients { // every weight has a corresponding gradient. accumulates
+//        RGBColor color_grad;
+//    };
+//};
+
 class VoronoiNode {
     public:
         VoronoiNode(double x, double y);
@@ -31,7 +95,8 @@ class VoronoiNode {
 
         RGBColor SampleColor(double sample_x, double sample_y);
         void ForwardPass(double sample_x, double sample_y);
-        void BackwardPass(double sample_x, double sample_y, double m, double dldm, double dldr, double dldg, double dldb);
+        void BackwardPass(double sample_x, double sample_y, double m, RGBColor rgb, RGBColor dldrgb);
+        void ApplyGradients(double learning_rate);
         void CalculateExp(double offset);
         double GetExp();
 

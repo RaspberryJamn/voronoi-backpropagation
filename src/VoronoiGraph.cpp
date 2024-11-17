@@ -1,4 +1,5 @@
 #include "VoronoiGraph.h"
+#include "CApp.h"
 #include <cmath>
 #include <iostream>
 
@@ -456,3 +457,96 @@ void VoronoiGraph::BuildNearbyList(VQuadTree* branch) { // takes the running inf
     }
 }
 
+RGBColor VoronoiGraph::CreateRGBSoftmaxFromNearby(NodeLinkedList* nearby, double x, double y) { // nearby nodes already have their distances calculated, aka gain and bandwidth are baked in
+    double z = 0;
+    double exp_offset = -nearby->node->GetDist(); // for numerical precision. softmax doesnt care about offsets so long as theyre applied to all applicants
+    NodeLinkedList* current_slot = nearby;
+    while (current_slot != nullptr) { // calculate exp of all nodes and accumulate their sum for z
+        VoronoiNode* node = current_slot->node;
+
+        node->CalculateExp(exp_offset); // work done here
+        z += node->GetExp();
+
+        current_slot = current_slot->next;
+    }
+
+    double r = 0;
+    double g = 0;
+    double b = 0;
+    current_slot = nearby;
+    while (current_slot != nullptr) {
+        VoronoiNode* node = current_slot->node;
+
+        double m = node->GetExp()/z;
+        RGBColor c = node->SampleColor(x, y); // heres the only place x and y are used
+        r += m*c.r*c.r;
+        g += m*c.g*c.g;
+        b += m*c.b*c.b;
+
+        current_slot = current_slot->next;
+    }
+
+    r = std::sqrt(r);
+    g = std::sqrt(g);
+    b = std::sqrt(b);
+
+    return RGBColor(r,g,b);
+}
+void VoronoiGraph::DoBackwardsPassFromNearby(NodeLinkedList* nearby, double x, double y, RGBColor image_sample) {
+    double z = 0;
+    double exp_offset = -nearby->node->GetDist(); // for numerical precision. softmax doesnt care about offsets so long as theyre applied to all applicants
+    NodeLinkedList* current_slot = nearby;
+    while (current_slot != nullptr) { // calculate exp of all nodes and accumulate their sum for z
+        VoronoiNode* node = current_slot->node;
+
+        node->CalculateExp(exp_offset); // work done here
+        z += node->GetExp();
+
+        current_slot = current_slot->next;
+    }
+
+    double r = 0;
+    double g = 0;
+    double b = 0;
+    current_slot = nearby;
+    while (current_slot != nullptr) {
+        VoronoiNode* node = current_slot->node;
+
+        double m = node->GetExp()/z;
+        RGBColor c = node->SampleColor(x, y); // heres the only place x and y are used
+        r += m*c.r*c.r;
+        g += m*c.g*c.g;
+        b += m*c.b*c.b;
+
+        current_slot = current_slot->next;
+    }
+
+    r = std::sqrt(r);
+    g = std::sqrt(g);
+    b = std::sqrt(b);
+
+    //return RGBColor(r,g,b);
+    //RGBColor image_sample = CApp::SampleSourceImage(x,y);
+
+    current_slot = nearby;
+    while (current_slot != nullptr) {
+        VoronoiNode* node = current_slot->node;
+
+        double m = node->GetExp()/z;
+        node->BackwardPass(x, y, m, RGBColor(r,g,b), RGBColor(2*(r-image_sample.r),2*(g-image_sample.g),2*(b-image_sample.b)));
+
+        current_slot = current_slot->next;
+    }
+}
+
+void VoronoiGraph::UpdateAllGradients(double learning_rate) {
+    NodeLinkedList* current_slot = this->all_child_nodes;
+    while (current_slot != nullptr) {
+        VoronoiNode* node = current_slot->node;
+
+        node->ApplyGradients(learning_rate);
+
+        current_slot = current_slot->next;
+    }
+    this->UpdateNodePositions();
+}

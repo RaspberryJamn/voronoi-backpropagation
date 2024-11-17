@@ -34,6 +34,9 @@ class VoronoiGraph {
 
         NodeLinkedList* GetNearby(double x, double y, double band_width, double gain, VoronoiNode* seed); // closest node on top, the mag of everything else is at most the nearest dist plus the band width
 
+        static RGBColor CreateRGBSoftmaxFromNearby(NodeLinkedList* nearby, double x, double y);
+        static void DoBackwardsPassFromNearby(NodeLinkedList* nearby, double x, double y, RGBColor image_sample);
+        void UpdateAllGradients(double learning_rate);
 //        NodeLinkedList* OrphanChildList(); // only for internal use
     private:
         VQuadTree* root;

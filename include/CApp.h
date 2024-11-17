@@ -26,6 +26,7 @@ class CApp {
 //        SDL_Surface* Media_Surfaces[];
 
         Texture* source_texture;
+        Uint8* source_pixels;
 
         Texture* media_texture;
         VoronoiGraph* voronoi_graph;
@@ -37,6 +38,7 @@ class CApp {
 
     public:
         CApp();
+        RGBColor SampleSourceImage(int x, int y);
 
         int OnExecute();
 

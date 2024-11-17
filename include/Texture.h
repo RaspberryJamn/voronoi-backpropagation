@@ -13,6 +13,7 @@ class Texture {
         ~Texture();
 
         void FreeTexture();
+        void FreeSurface();
         SDL_Texture* OrphanTexture();
 
         void SetRenderer(SDL_Renderer* target_renderer);
@@ -42,12 +43,16 @@ class Texture {
         void Render(SDL_Rect* cut, SDL_Rect* paste);//, double angle = 0.0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE);
         void RenderRTL(SDL_Rect* inout_bounds);
 
+        Uint8* GetPixels();
+
         //Gets image dimensions
         int GetWidth();
         int GetHeight();
         bool WasSuccessful();
 
     private:
+        SDL_Surface* surface;
+//        Uint32* pixels;
         SDL_Texture* texture;
         SDL_Renderer* renderer;
         TTF_Font* font;

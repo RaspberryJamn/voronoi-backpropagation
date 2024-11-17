@@ -402,7 +402,7 @@
 1729989972 source:c:\users\james\documents\cpp\voronoi\src\capp.cpp
 	"CApp.h"
 
-1731274137 c:\users\james\documents\cpp\voronoi\include\capp.h
+1731833273 c:\users\james\documents\cpp\voronoi\include\capp.h
 	<SDL.h>
 	<SDL_image.h>
 	<SDL_ttf.h>
@@ -430,17 +430,18 @@
 1728795993 source:c:\users\james\documents\cpp\voronoi\src\capp_onevent.cpp
 	"CApp.h"
 
-1731274147 source:c:\users\james\documents\cpp\voronoi\src\capp_oninit.cpp
+1731278993 source:c:\users\james\documents\cpp\voronoi\src\capp_oninit.cpp
 	"CApp.h"
 	<iostream>
 
-1731273645 source:c:\users\james\documents\cpp\voronoi\src\capp_onloop.cpp
+1731833959 source:c:\users\james\documents\cpp\voronoi\src\capp_onloop.cpp
 	"CApp.h"
 	<cmath>
 
-1730496143 source:c:\users\james\documents\cpp\voronoi\src\capp_onrender.cpp
+1731828712 source:c:\users\james\documents\cpp\voronoi\src\capp_onrender.cpp
 	"CApp.h"
 	<sstream>
+	<cmath>
 
 1705848815 c:\sdl\sdl2_ttf-2.22.0\i686-w64-mingw32\include\sdl2\sdl_ttf.h
 	"SDL.h"
@@ -453,16 +454,16 @@
 1729011418 c:\users\james\documents\cpp\voronoi\include\timer.h
 	<SDL.h>
 
-1729459428 c:\users\james\documents\cpp\voronoi\include\texture.h
+1731833247 c:\users\james\documents\cpp\voronoi\include\texture.h
 	<SDL_image.h>
 	<SDL_ttf.h>
 	<iostream>
 
-1729620985 source:c:\users\james\documents\cpp\voronoi\src\texture.cpp
+1731833240 source:c:\users\james\documents\cpp\voronoi\src\texture.cpp
 	"Texture.h"
 	<iostream>
 
-1729818757 source:c:\users\james\documents\cpp\voronoi\src\capp_importassets.cpp
+1731832246 source:c:\users\james\documents\cpp\voronoi\src\capp_importassets.cpp
 	"CApp.h"
 	<iostream>
 
@@ -473,19 +474,21 @@
 	"Texture.h"
 	"SDL.h"
 
-1731205552 source:c:\users\james\documents\cpp\voronoi\src\voronoinode.cpp
+1731833879 source:c:\users\james\documents\cpp\voronoi\src\voronoinode.cpp
 	"VoronoiNode.h"
-	<cmath>
-
-1731273385 c:\users\james\documents\cpp\voronoi\include\voronoinode.h
-	"SDL.h"
-
-1731206496 source:c:\users\james\documents\cpp\voronoi\src\voronoigraph.cpp
-	"VoronoiGraph.h"
 	<cmath>
 	<iostream>
 
-1731116317 c:\users\james\documents\cpp\voronoi\include\voronoigraph.h
+1731833528 c:\users\james\documents\cpp\voronoi\include\voronoinode.h
+	"SDL.h"
+
+1731833538 source:c:\users\james\documents\cpp\voronoi\src\voronoigraph.cpp
+	"VoronoiGraph.h"
+	"CApp.h"
+	<cmath>
+	<iostream>
+
+1731833392 c:\users\james\documents\cpp\voronoi\include\voronoigraph.h
 	"NodeLinkedList.h"
 	"VoronoiNode.h"
 

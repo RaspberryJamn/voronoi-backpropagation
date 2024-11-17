@@ -2,6 +2,8 @@
 #include <iostream>
 
 Texture::Texture() {
+    this->surface = nullptr;
+//    this->pixels = nullptr;
     this->texture = nullptr;
     this->renderer = nullptr;
     this->font = nullptr;
@@ -9,8 +11,9 @@ Texture::Texture() {
     this->height = 0;
     this->was_successful = true;
 }
-
 Texture::Texture(SDL_Renderer* target_renderer) {
+    this->surface = nullptr;
+//    this->pixels = nullptr;
     this->texture = nullptr;
     this->renderer = target_renderer;
     this->font = nullptr;
@@ -18,8 +21,9 @@ Texture::Texture(SDL_Renderer* target_renderer) {
     this->height = 0;
     this->was_successful = true;
 }
-
 Texture::Texture(SDL_Renderer* target_renderer, TTF_Font* font) {
+    this->surface = nullptr;
+//    this->pixels = nullptr;
     this->texture = nullptr;
     this->renderer = target_renderer;
     this->font = font;
@@ -29,6 +33,7 @@ Texture::Texture(SDL_Renderer* target_renderer, TTF_Font* font) {
 }
 
 Texture::~Texture() {
+    this->FreeSurface();
     this->FreeTexture();
     this->renderer = nullptr;
     this->font = nullptr;
@@ -40,6 +45,14 @@ void Texture::FreeTexture() {
         this->texture = nullptr;
         this->width = 0;
         this->height = 0;
+    }
+    this->was_successful = true;
+}
+void Texture::FreeSurface() {
+    if (this->surface != nullptr) {
+        SDL_FreeSurface(this->surface);
+        this->surface = nullptr;
+//        this->pixels = nullptr;
     }
     this->was_successful = true;
 }
@@ -57,12 +70,10 @@ void Texture::SetRenderer(SDL_Renderer* target_renderer) {
     this->renderer = target_renderer;
     this->was_successful = true;
 }
-
 void Texture::SetFont(TTF_Font* font) {
     this->font = font;
     this->was_successful = true;
 }
-
 void Texture::SetRendererAndFont(SDL_Renderer* target_renderer, TTF_Font* font) {
     this->renderer = target_renderer;
     this->font = font;
@@ -75,6 +86,7 @@ void Texture::LoadFromFile(std::string path) {
         this->was_successful = false;
         return;
     }
+    this->FreeSurface();
     this->FreeTexture();
     SDL_Texture* new_texture = nullptr;
     SDL_Surface* loaded_surface = IMG_Load(path.c_str());
@@ -90,14 +102,14 @@ void Texture::LoadFromFile(std::string path) {
         this->was_successful = false;
         return;
     }
+    SDL_ConvertSurfaceFormat(loaded_surface, SDL_PIXELFORMAT_RGBA8888, 0);
+    this->surface = loaded_surface;
     this->texture = new_texture;
     this->width = loaded_surface->w;
     this->height = loaded_surface->h;
-    SDL_FreeSurface(loaded_surface);
 
     this->was_successful = true;
 }
-
 void Texture::LoadInRenderedText(std::string text, SDL_Color color) {
     if (this->renderer == nullptr) {
         std::cout << "Text \"" << text.c_str() << "\" not converted to texture, texture has no associated renderer" << std::endl;
@@ -109,14 +121,10 @@ void Texture::LoadInRenderedText(std::string text, SDL_Color color) {
         this->was_successful = false;
         return;
     }
+    this->FreeSurface();
     this->FreeTexture();
-//    std::cout << "Got to here now" << std::endl;
-//    std::cout << text << std::endl;
-//    std::cout << (int)color.r<<","<<(int)color.g<<","<<(int)color.b<<","<<(int)color.a << std::endl;
-//    std::cout << this->font << std::endl;
 
     SDL_Surface* text_surface = TTF_RenderText_Solid(this->font, text.c_str(), color);
-//    std::cout << "and here" << std::endl;
     if(text_surface == nullptr) {
         std::cout << "Unable to create surface from text \"" << text.c_str() << "\", SDL_ttf error: " << TTF_GetError() << std::endl;
         this->was_successful = false;
@@ -130,20 +138,21 @@ void Texture::LoadInRenderedText(std::string text, SDL_Color color) {
         this->was_successful = false;
         return;
     }
+    SDL_ConvertSurfaceFormat(text_surface, SDL_PIXELFORMAT_RGBA8888, 0);
+    this->surface = text_surface;
     this->texture = new_texture;
     this->width = text_surface->w;
     this->height = text_surface->h;
-    SDL_FreeSurface(text_surface);
 
     this->was_successful = true;
 }
-
 void Texture::NewBlankFromDims(int x, int y) {
     if (this->renderer == nullptr) {
         std::cout << "Texture has no renderer, unable to create blank texture from dims \"" << x<<","<<y << std::endl;
         this->was_successful = false;
         return;
     }
+    this->FreeSurface();
     this->FreeTexture();
     SDL_Texture* new_texture = SDL_CreateTexture(this->renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, x, y);
     if(new_texture == nullptr) {
@@ -151,6 +160,7 @@ void Texture::NewBlankFromDims(int x, int y) {
         this->was_successful = false;
         return;
     }
+    this->surface = nullptr;
     this->texture = new_texture;
     this->width = x;
     this->height = y;
@@ -168,17 +178,14 @@ void Texture::Render(int x, int y) {
     SDL_RenderCopy(this->renderer, this->texture, nullptr, &render_quad);
     this->was_successful = true;
 }
-
 void Texture::Render(SDL_Rect* paste) {
     SDL_RenderCopy(this->renderer, this->texture, nullptr, paste);
     this->was_successful = true;
 }
-
 void Texture::Render(SDL_Rect* cut, SDL_Rect* paste) {
     SDL_RenderCopy(this->renderer, this->texture, cut, paste);
     this->was_successful = true;
 }
-
 void Texture::RenderRTL(SDL_Rect* inout_bounds) {
     SDL_Rect bounds = *inout_bounds;
     SDL_Rect paste = {bounds.x+bounds.w,bounds.y,this->width,this->height};
@@ -187,10 +194,18 @@ void Texture::RenderRTL(SDL_Rect* inout_bounds) {
     this->was_successful = true;
 }
 
+Uint8* Texture::GetPixels() {
+    if(this->surface != nullptr) {
+        this->was_successful = true;
+        return (Uint8*)(this->surface->pixels);
+    }
+    this->was_successful = false;
+    return nullptr;
+}
+
 int Texture::GetWidth() {
     return this->width;
 }
-
 int Texture::GetHeight() {
     return this->height;
 }

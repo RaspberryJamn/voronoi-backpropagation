@@ -1,5 +1,6 @@
 #include "VoronoiNode.h"
 #include <cmath>
+#include <iostream>
 
 VoronoiNode::VoronoiNode(double x, double y) {
     this->Init(x, y, 128+120*std::cos(x/100), 128+120*std::cos(x/70+10), 128+120*std::cos((x+y)/180));
@@ -84,6 +85,47 @@ RGBColor VoronoiNode::SampleColor(double sample_x, double sample_y) {
     // eg Generate(sample_x-this->x, sample_x-this->y)
     return (RGBColor){this->color[0],this->color[1],this->color[2]};
 }
+// dnode1.mag/dnode1.x = node1.x
+// dm1/dnode1.mag = m1*(1-m1)
+// dfinal_color/dm1 = node1.color
+  // dfinal_color/dm1 = .5*(node1.color^2)/final_color
+// dnode1.color/dnode1.x = something
+// dfinal_color/dnode1.color = m1
+  // dfinal_color/dnode1.color = m1/final_color*(node1.color)
+// dloss/dfinal_color = 2(final_color-desired_color)
+
+  //x_grad += dloss/dfinal_color * .5*(node1.color^2)/final_color * m*(1-m) * x
+void VoronoiNode::BackwardPass(double sample_x, double sample_y, double m, RGBColor rgb, RGBColor dldfinalcol) {
+    RGBColor dfinalcoldm = RGBColor(.5*(this->color[0]*this->color[0])/rgb.r,
+                                    .5*(this->color[1]*this->color[1])/rgb.g,
+                                    .5*(this->color[2]*this->color[2])/rgb.b);
+    double dldmag = -(dldfinalcol.r*dfinalcoldm.r+
+                      dldfinalcol.g*dfinalcoldm.g+
+                      dldfinalcol.b*dfinalcoldm.b) * m*(1.0-m);
+    this->x_grad += dldmag * this->x;
+    this->y_grad += dldmag * this->y;
+    if (rgb.r < 1) {rgb.r = 1;}
+    if (rgb.g < 1) {rgb.g = 1;}
+    if (rgb.b < 1) {rgb.b = 1;}
+    this->color_grad[0] += dldfinalcol.r*m/rgb.r*this->color[0];
+    this->color_grad[1] += dldfinalcol.g*m/rgb.g*this->color[1];
+    this->color_grad[2] += dldfinalcol.b*m/rgb.b*this->color[2];
+}
+
+void VoronoiNode::ApplyGradients(double learning_rate) {
+//    std::cout << this->x_grad << std::endl;
+    this->x -= this->x_grad*learning_rate;
+    this->y -= this->y_grad*learning_rate;
+    this->color[0] -= this->color_grad[0]*learning_rate;
+    this->color[1] -= this->color_grad[1]*learning_rate;
+    this->color[2] -= this->color_grad[2]*learning_rate;
+    this->x_grad = 0;
+    this->y_grad = 0;
+    this->color_grad[0] = 0;
+    this->color_grad[1] = 0;
+    this->color_grad[2] = 0;
+}
+
 void VoronoiNode::CalculateExp(double offset) {
     this->exp = std::exp(-this->mag + offset);
 }
