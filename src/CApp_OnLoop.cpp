@@ -2,17 +2,17 @@
 #include <cmath>
 #include <iostream>
 
-RGBColor CApp::SampleSourceImage(int x, int y) {
-    if (x < 0) { x = 0; }
-    if (x >= this->source_texture->GetWidth()) { x = this->source_texture->GetWidth()-1; }
-    if (y < 0) { y = 0; }
-    if (y >= this->source_texture->GetHeight()) { y = this->source_texture->GetHeight()-1; }
-    size_t i = (y*this->source_texture->GetWidth()+x)*4;
-    return RGBColor(this->source_pixels[i],
-                    this->source_pixels[i+1],
-                    this->source_pixels[i+2]);
-
-}
+//RGBColor CApp::SampleSourceImage(int x, int y) {
+//    if (x < 0) { x = 0; }
+//    if (x >= this->source_texture->GetWidth()) { x = this->source_texture->GetWidth()-1; }
+//    if (y < 0) { y = 0; }
+//    if (y >= this->source_texture->GetHeight()) { y = this->source_texture->GetHeight()-1; }
+//    size_t i = (y*this->source_texture->GetWidth()+x)*4;
+//    return RGBColor(this->source_pixels[i],
+//                    this->source_pixels[i+1],
+//                    this->source_pixels[i+2]);
+//
+//}
 
 // node1.mag = (node1.x*node1.x+node1.y*node1.y)
 // e1 = exp(node1.mag)

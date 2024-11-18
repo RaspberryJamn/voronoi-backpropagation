@@ -37,6 +37,9 @@ bool CApp::ImportAssets() {
     }
     this->source_pixels = this->source_texture->GetPixels();
 
+    this->media_texture = new Texture(this->main_renderer);
+    this->media_texture->NewBlankFromDims(this->source_texture->GetWidth(), this->source_texture->GetHeight());
+
     this->main_font = TTF_OpenFont("assets/consola.ttf", 12);
 //    std::cout << "font pointer: " << this->main_font << std::endl;
     if(this->main_font == nullptr) { // wasnt actually catching issues... "Opaque data!" is right

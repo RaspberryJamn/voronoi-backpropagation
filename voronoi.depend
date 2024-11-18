@@ -399,10 +399,10 @@
 	"begin_code.h"
 	"close_code.h"
 
-1729989972 source:c:\users\james\documents\cpp\voronoi\src\capp.cpp
+1731894043 source:c:\users\james\documents\cpp\voronoi\src\capp.cpp
 	"CApp.h"
 
-1731833273 c:\users\james\documents\cpp\voronoi\include\capp.h
+1731894556 c:\users\james\documents\cpp\voronoi\include\capp.h
 	<SDL.h>
 	<SDL_image.h>
 	<SDL_ttf.h>
@@ -424,23 +424,23 @@
 	"CApp.h"
 	<iostream>
 
-1731876856 source:c:\users\james\documents\cpp\voronoi\src\capp_oncleanup.cpp
+1731893486 source:c:\users\james\documents\cpp\voronoi\src\capp_oncleanup.cpp
 	"CApp.h"
 
 1728795993 source:c:\users\james\documents\cpp\voronoi\src\capp_onevent.cpp
 	"CApp.h"
 
-1731877987 source:c:\users\james\documents\cpp\voronoi\src\capp_oninit.cpp
+1731894460 source:c:\users\james\documents\cpp\voronoi\src\capp_oninit.cpp
 	"CApp.h"
 	<iostream>
 	<cstdlib>
 
-1731878759 source:c:\users\james\documents\cpp\voronoi\src\capp_onloop.cpp
+1731893755 source:c:\users\james\documents\cpp\voronoi\src\capp_onloop.cpp
 	"CApp.h"
 	<cmath>
 	<iostream>
 
-1731878177 source:c:\users\james\documents\cpp\voronoi\src\capp_onrender.cpp
+1731894613 source:c:\users\james\documents\cpp\voronoi\src\capp_onrender.cpp
 	"CApp.h"
 	<sstream>
 	<cmath>
@@ -461,11 +461,11 @@
 	<SDL_ttf.h>
 	<iostream>
 
-1731877522 source:c:\users\james\documents\cpp\voronoi\src\texture.cpp
+1731894350 source:c:\users\james\documents\cpp\voronoi\src\texture.cpp
 	"Texture.h"
 	<iostream>
 
-1731832246 source:c:\users\james\documents\cpp\voronoi\src\capp_importassets.cpp
+1731894548 source:c:\users\james\documents\cpp\voronoi\src\capp_importassets.cpp
 	"CApp.h"
 	<iostream>
 
@@ -490,14 +490,14 @@
 	<cmath>
 	<iostream>
 
-1731876119 c:\users\james\documents\cpp\voronoi\include\voronoigraph.h
+1731886021 c:\users\james\documents\cpp\voronoi\include\voronoigraph.h
 	"NodeLinkedList.h"
 	"VoronoiNode.h"
 
 1730495895 c:\users\james\documents\cpp\voronoi\include\lapcounter.h
 	"Timer.h"
 
-1730495905 source:c:\users\james\documents\cpp\voronoi\src\lapcounter.cpp
+1731893925 source:c:\users\james\documents\cpp\voronoi\src\lapcounter.cpp
 	"LapCounter.h"
 
 1730761031 c:\users\james\documents\cpp\voronoi\include\voronoiquadtree.h

@@ -39,6 +39,19 @@ class VoronoiGraph {
         void UpdateAllGradients(double learning_rate);
 //        NodeLinkedList* OrphanChildList(); // only for internal use
     private:
+        void AddToChildren(VoronoiNode* node, VQuadTree* branch, int min_x, int min_y, int max_x, int max_y);
+        void AddToChildrenSplit(VoronoiNode* node, VQuadTree* branch, int min_x, int min_y, int max_x, int max_y);
+
+        void RemoveFromChildren(VoronoiNode* node, VQuadTree* branch);
+        void ConsolidateChildLists(VQuadTree* branch);
+
+        void BuildNearbyList(VQuadTree* branch);
+
+        void DeleteTree(VQuadTree* branch);
+
+        bool SplitValid(VQuadTree* branch);
+
+
         VQuadTree* root;
         int x;
         int y;
@@ -63,18 +76,6 @@ class VoronoiGraph {
         double current_bounding_mag;
         int current_box_radius;
         // }
-
-        void AddToChildren(VoronoiNode* node, VQuadTree* branch, int min_x, int min_y, int max_x, int max_y);
-        void AddToChildrenSplit(VoronoiNode* node, VQuadTree* branch, int min_x, int min_y, int max_x, int max_y);
-
-        void RemoveFromChildren(VoronoiNode* node, VQuadTree* branch);
-        void ConsolidateChildLists(VQuadTree* branch);
-
-        void BuildNearbyList(VQuadTree* branch);
-
-        void DeleteTree(VQuadTree* branch);
-
-        bool SplitValid(VQuadTree* branch);
 };
 
 #endif // VORONOIGRAPH_H

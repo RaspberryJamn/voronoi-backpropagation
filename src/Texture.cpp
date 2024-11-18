@@ -40,7 +40,6 @@ void Texture::FreeSurface() {
     if (this->surface != nullptr) {
         SDL_FreeSurface(this->surface);
         this->surface = nullptr;
-//        this->pixels = nullptr;
     }
     this->was_successful = true;
 }

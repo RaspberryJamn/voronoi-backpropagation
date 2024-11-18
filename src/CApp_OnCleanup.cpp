@@ -2,7 +2,6 @@
 
 void CApp::OnCleanup() {
 
-
     delete this->source_texture;
     this->source_texture = nullptr;
     this->source_pixels = nullptr;

@@ -2,6 +2,25 @@
 
 CApp::CApp() {
     this->running = true;
+
+    this->main_window = nullptr;
+    this->main_renderer = nullptr;
+    this->last_frametime = 0;
+    this->average_frametime = 0;
+    this->source_texture = nullptr;
+    this->source_pixels = nullptr;
+
+    this->media_texture = nullptr;
+    this->voronoi_graph = nullptr;
+
+    this->text_textures[0] = nullptr;
+    this->text_textures[1] = nullptr;
+    this->text_textures[2] = nullptr;
+    this->text_textures[3] = nullptr;
+//    AtlasNumberDrawer this->number_renderer;
+    this->main_font = nullptr;
+    this->refresh_period = 0;
+    this->refresh_counter = 0;
 }
 
 int CApp::OnExecute() {

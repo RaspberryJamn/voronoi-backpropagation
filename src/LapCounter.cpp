@@ -1,11 +1,39 @@
 #include "LapCounter.h"
 
 LapCounter::LapCounter() {
+    this->ms_numerators[0] = 0;
+    this->ms_numerators[1] = 0;
+    this->ms_numerators[2] = 0;
+    this->ms_numerators[3] = 0;
+    this->ms_numerators[4] = 0;
+    this->lap_denominators[0] = 0;
+    this->lap_denominators[1] = 0;
+    this->lap_denominators[2] = 0;
+    this->lap_denominators[3] = 0;
+    this->lap_denominators[4] = 0;
+    this->running_ms = 0;
+    this->running_laps = 0;
+    this->write_head = 0;
+
     this->timer.Stop();
 }
 
 LapCounter::~LapCounter() {
+    this->ms_numerators[0] = 0;
+    this->ms_numerators[1] = 0;
+    this->ms_numerators[2] = 0;
+    this->ms_numerators[3] = 0;
+    this->ms_numerators[4] = 0;
+    this->lap_denominators[0] = 0;
+    this->lap_denominators[1] = 0;
+    this->lap_denominators[2] = 0;
+    this->lap_denominators[3] = 0;
+    this->lap_denominators[4] = 0;
+    this->running_ms = 0;
+    this->running_laps = 0;
+    this->write_head = 0;
 
+    this->timer.Stop();
 }
 
 void LapCounter::Reset() {

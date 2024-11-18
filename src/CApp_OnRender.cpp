@@ -75,7 +75,7 @@ void CApp::OnRender() {
 //        this->refresh_counter = 0;
 //        this->RenderFullFrameVoronoi();
 //    }
-    this->RenderFullFrameVoronoi(); // not so "full frame" anymore
+//    this->RenderFullFrameVoronoi(); // not so "full frame" anymore
 
     this->media_texture->Render(0,0);
 

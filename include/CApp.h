@@ -22,9 +22,6 @@ class CApp {
         Uint32 last_frametime;
         double average_frametime;
 
-//        SDL_Surface* Source_Surface;
-//        SDL_Surface* Media_Surfaces[];
-
         Texture* source_texture;
         Uint8* source_pixels;
 
@@ -38,7 +35,6 @@ class CApp {
 
     public:
         CApp();
-        RGBColor SampleSourceImage(int x, int y);
 
         int OnExecute();
 
@@ -53,6 +49,7 @@ class CApp {
 
         void OnRender();
         void RenderFullFrameVoronoi();
+//        RGBColor SampleSourceImage(int x, int y);
         int refresh_period; // 0 means redraw graph every frame, 1 every other, etc.
         int refresh_counter;
 
