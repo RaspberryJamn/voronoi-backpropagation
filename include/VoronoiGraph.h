@@ -32,11 +32,16 @@ class VoronoiGraph {
         void RemoveNode(VoronoiNode* node);
         void UpdateNodePositions();
 
-        NodeLinkedList* GetNearby(double x, double y, double band_width, double gain, VoronoiNode* seed); // closest node on top, the mag of everything else is at most the nearest dist plus the band width
+        NodeLinkedList* GetNearby(double x, double y, double band_width, double gain, VoronoiNode* seed);
+        NodeLinkedList* GetNearby(double x, double y, VoronoiNode* seed); // closest node on top, the mag of everything else is at most the nearest dist plus the band width
 
         static RGBColor ForwardPassFromNearby(NodeLinkedList* nearby, double x, double y);
         void DoBackwardsPassFromNearby(NodeLinkedList* nearby, double x, double y, RGBColor image_sample);
         void UpdateAllGradients(double learning_rate);
+        void SetGain(double gain);
+        void SetBandWidth(double band_width);
+        double GetGain();
+//        double GetBandWidth();
 //        NodeLinkedList* OrphanChildList(); // only for internal use
     private:
         void AddToChildren(VoronoiNode* node, VQuadTree* branch, int min_x, int min_y, int max_x, int max_y);
@@ -64,6 +69,7 @@ class VoronoiGraph {
 
         double gain;
         double band_width;
+        double gain_gradient;
 
         // GetNearby stuff {
         int sort_band_width;

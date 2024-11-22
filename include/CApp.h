@@ -49,7 +49,7 @@ class CApp {
 
         void OnRender();
         void RenderFullFrameVoronoi();
-//        RGBColor SampleSourceImage(int x, int y);
+        RGBColor SampleSourceImage(int x, int y);
         int refresh_period; // 0 means redraw graph every frame, 1 every other, etc.
         int refresh_counter;
 

@@ -14,9 +14,8 @@ void CApp::RenderFullFrameVoronoi() {
     for (int i = 0; i < (this->media_texture->GetWidth()*this->media_texture->GetHeight()/(1.0+this->refresh_period)); i++) {
         int x = g_sample_x;
         int y = g_sample_y;
-        double band_width = 6.0;
-        double gain = 0.0005;
-        NodeLinkedList* nearby = this->voronoi_graph->GetNearby((double)x, (double)y, band_width, gain, g_running_seed);
+
+        NodeLinkedList* nearby = this->voronoi_graph->GetNearby((double)x, (double)y, g_running_seed);
 
         RGBColor c = VoronoiGraph::ForwardPassFromNearby(nearby, x, y);
 
@@ -27,6 +26,7 @@ void CApp::RenderFullFrameVoronoi() {
 
         NodeLinkedList::DeleteList(nearby); // no longer needed
         nearby = nullptr;
+
         if (g_sample_x == 0) {
             g_past_nearest_0_y_seed = g_running_seed; // having hit the end of the line and slid back to the left, writing the value as step two
             if (g_sample_y == 0) {
@@ -75,22 +75,22 @@ void CApp::OnRender() {
 //        this->refresh_counter = 0;
 //        this->RenderFullFrameVoronoi();
 //    }
-//    this->RenderFullFrameVoronoi(); // not so "full frame" anymore
+    this->RenderFullFrameVoronoi(); // not so "full frame" anymore
 
     this->media_texture->Render(0,0);
 
     SDL_SetRenderDrawColor(this->main_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
     SDL_Rect string_bounds = {5,5,0,0};
-    Uint32 disp = this->last_frametime;
+    double disp = this->last_frametime;
     if (disp > 9999) {disp = 9999;}
     this->text_textures[0]->RenderRTL(&string_bounds); // "Last frametime: "
-    this->number_renderer.DrawRTL(std::to_string(disp), &string_bounds);
+    this->number_renderer.DrawRTL(std::to_string((int)disp), &string_bounds);
     this->text_textures[1]->RenderRTL(&string_bounds); // "ms"
 
     string_bounds = {5,20,0,0};
     disp = this->average_frametime;
-    if (disp < 0.1) {disp = 0.1;}
-    disp = 1000.0/disp;
+    if (disp < (1000.0/9999.0)) {disp = (1000.0/9999.0);}
+    disp = (1000.0/disp);
     this->text_textures[2]->RenderRTL(&string_bounds); // "Last frametime: "
     this->number_renderer.DrawRTL(std::to_string((int)(disp)), &string_bounds);
     this->text_textures[3]->RenderRTL(&string_bounds); // "ms"

@@ -15,6 +15,7 @@ struct NodeLinkedList {
     static void RemoveResidence(VoronoiNode* node, NodeLinkedList** list_ref);
     static void RemoveTreeLocation(VoronoiNode* node, NodeLinkedList** list_ref);
     static int Length(NodeLinkedList* list);
+    static bool Contains(NodeLinkedList* list, VoronoiNode* node);
 };
 
 #endif

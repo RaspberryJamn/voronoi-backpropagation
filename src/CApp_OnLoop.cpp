@@ -2,17 +2,16 @@
 #include <cmath>
 #include <iostream>
 
-//RGBColor CApp::SampleSourceImage(int x, int y) {
-//    if (x < 0) { x = 0; }
-//    if (x >= this->source_texture->GetWidth()) { x = this->source_texture->GetWidth()-1; }
-//    if (y < 0) { y = 0; }
-//    if (y >= this->source_texture->GetHeight()) { y = this->source_texture->GetHeight()-1; }
-//    size_t i = (y*this->source_texture->GetWidth()+x)*4;
-//    return RGBColor(this->source_pixels[i],
-//                    this->source_pixels[i+1],
-//                    this->source_pixels[i+2]);
-//
-//}
+RGBColor CApp::SampleSourceImage(int x, int y) {
+    if (x < 0) { x = 0; }
+    if (x >= this->source_texture->GetWidth()) { x = this->source_texture->GetWidth()-1; }
+    if (y < 0) { y = 0; }
+    if (y >= this->source_texture->GetHeight()) { y = this->source_texture->GetHeight()-1; }
+    size_t i = (y*this->source_texture->GetWidth()+x)*4;
+    return RGBColor(this->source_pixels[i],
+                    this->source_pixels[i+1],
+                    this->source_pixels[i+2]);
+}
 
 // node1.mag = (node1.x*node1.x+node1.y*node1.y)
 // e1 = exp(node1.mag)
@@ -43,47 +42,42 @@ VoronoiNode* g_train_running_seed = nullptr; // seed for the current sample, rea
 
 void CApp::OnLoop() {
 
-//    for (int i = 0; i < (this->media_texture->GetWidth()*this->media_texture->GetHeight()/(1.0+this->refresh_period)*0.25); i++) {
-//    int x = g_train_sample_x;
-//    int y = g_train_sample_y;
-//    double band_width = 6.0;
-//    double gain = 0.0005;
-//    NodeLinkedList* nearby = this->voronoi_graph->GetNearby((double)x, (double)y, band_width, gain, g_train_running_seed);
-//
-//    if (nearby == nullptr) {
-//        std::cout << "loop nearby broke, x: " << x << "y: " << y << std::endl;return;
-//    } else {
-//
-//        this->voronoi_graph->DoBackwardsPassFromNearby(nearby, x, y, this->SampleSourceImage(x,y));
-////
-//////        SDL_SetRenderDrawColor(this->main_renderer, (Uint8)c.r, (Uint8)c.g, (Uint8)c.b, 0xFF);
-//////        SDL_RenderDrawPoint(this->main_renderer, x, y);
-////
-//        g_train_running_seed = nearby->node; // new info
-//
-//        NodeLinkedList::DeleteList(nearby); // no longer needed
-//        nearby = nullptr;
-//        if (g_train_sample_x == 0) {
-//            g_train_past_nearest_0_y_seed = g_train_running_seed; // having hit the end of the line and slid back to the left, writing the value as step two
-//            if (g_train_sample_y == 0) {
-//                g_train_past_nearest_0_0_seed = g_train_running_seed; // having hit the bottom of the image and slid back to the top, writing the value as step two
-//            }
-//        }
-//
-//    }
-//    g_train_sample_x++;
-//    if (g_train_sample_x == this->source_texture->GetWidth()) {
-//        g_train_sample_x = 0;
-//        g_train_running_seed = g_train_past_nearest_0_y_seed; // hit the end of the line, slide back to the left, reading the value as step one
-//        g_train_sample_y++;
-//        if (g_train_sample_y == this->source_texture->GetHeight()) {
-//            g_train_sample_y = 0;
-//            g_train_running_seed = g_train_past_nearest_0_0_seed; // hit the bottom of the image, slide back to the top, reading the value as step one
-//
-////                g_offset++; // finished frame
-//        }
-//    }
-//    }
+    for (int i = 0; i < (this->media_texture->GetWidth()*this->media_texture->GetHeight()/(1.0+this->refresh_period)*1.0); i++) {
+        int x = g_train_sample_x;
+        int y = g_train_sample_y;
+        NodeLinkedList* nearby = this->voronoi_graph->GetNearby((double)x, (double)y, g_train_running_seed);
+
+        this->voronoi_graph->DoBackwardsPassFromNearby(nearby, x, y, this->SampleSourceImage(x,y));
+
+//        SDL_SetRenderDrawColor(this->main_renderer, (Uint8)c.r, (Uint8)c.g, (Uint8)c.b, 0xFF);
+//        SDL_RenderDrawPoint(this->main_renderer, x, y);
+
+        g_train_running_seed = nearby->node; // new info
+
+        NodeLinkedList::DeleteList(nearby); // no longer needed
+        nearby = nullptr;
+
+        if (g_train_sample_x == 0) {
+            g_train_past_nearest_0_y_seed = g_train_running_seed; // having hit the end of the line and slid back to the left, writing the value as step two
+            if (g_train_sample_y == 0) {
+                g_train_past_nearest_0_0_seed = g_train_running_seed; // having hit the bottom of the image and slid back to the top, writing the value as step two
+            }
+        }
+
+        g_train_sample_x++;
+        if (g_train_sample_x == this->source_texture->GetWidth()) {
+            g_train_sample_x = 0;
+            g_train_running_seed = g_train_past_nearest_0_y_seed; // hit the end of the line, slide back to the left, reading the value as step one
+            g_train_sample_y++;
+            if (g_train_sample_y == this->source_texture->GetHeight()) {
+                g_train_sample_y = 0;
+                g_train_running_seed = g_train_past_nearest_0_0_seed; // hit the bottom of the image, slide back to the top, reading the value as step one
+
+                this->voronoi_graph->UpdateAllGradients(0.00000000001);
+//                        g_offset++; // finished frame
+            }
+        }
+    }
 
 //    std::cout << "got here" << std::endl;
 

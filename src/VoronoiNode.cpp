@@ -107,24 +107,16 @@ void VoronoiNode::BackwardPass(double sample_x, double sample_y, RGBColor final_
 
 void VoronoiNode::ApplyGradients(double learning_rate) {
 //    std::cout << this->x_grad << std::endl;
-    if (!((this->x_grad<1)||(this->x_grad>-1))) {
-        std::cout << "x_grad broke" << std::endl;
-    }
-    if (!((this->y_grad<1)||(this->y_grad>-1))) {
-        std::cout << "y_grad broke" << std::endl;
-    }
-    if (!((this->color_grad.r<1)||(this->color_grad.r>-1))) {
-        std::cout << "color_grad.r broke" << std::endl;
-    }
-    if (!((this->color_grad.g<1)||(this->color_grad.g>-1))) {
-        std::cout << "color_grad.g broke" << std::endl;
-    }
-    if (!((this->color_grad.b<1)||(this->color_grad.b>-1))) {
-        std::cout << "color_grad.b broke" << std::endl;
-    }
-    this->x -= this->x_grad*learning_rate;
-    this->y -= this->y_grad*learning_rate;
-    this->color -= this->color_grad*learning_rate;
+    SDL_assert((this->x_grad<1)||(this->x_grad>-1));
+    SDL_assert((this->y_grad<1)||(this->y_grad>-1));
+    SDL_assert((this->color_grad.r<1)||(this->color_grad.r>-1));
+    SDL_assert((this->color_grad.g<1)||(this->color_grad.g>-1));
+    SDL_assert((this->color_grad.b<1)||(this->color_grad.b>-1));
+
+    this->x += 10;
+//    this->x -= this->x_grad*learning_rate;
+//    this->y -= this->y_grad*learning_rate;
+//    this->color -= this->color_grad*learning_rate*100.0;
     this->x_grad = 0;
     this->y_grad = 0;
     this->color_grad.r = 0;
@@ -169,8 +161,8 @@ int VoronoiNode::GetSortingDist() {
 }
 
 void VoronoiNode::CalculateSortingPos() {
-    this->sorting_x = (int)x;
-    this->sorting_y = (int)y;
+    this->sorting_x = (int)this->x;
+    this->sorting_y = (int)this->y;
 }
 
 int VoronoiNode::GetSortingPosX() {

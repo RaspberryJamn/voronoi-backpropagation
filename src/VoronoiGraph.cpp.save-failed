@@ -124,8 +124,7 @@ void VoronoiGraph::RespecTree(int x, int y, int w, int h, int max_depth, int cri
     NodeLinkedList* current_slot = this->all_child_nodes; // start with the first slot of all nodes
     while (current_slot != nullptr) { // and for each node's slot
         VoronoiNode* node = current_slot->node; // get the node
-        node->CalculateSortingPos();
-        this->recent_sort_x = node->GetSortingPosX();
+        this->recent_sort_x = node->GetSortingPosX(); // and its position
         this->recent_sort_y = node->GetSortingPosY();
         this->AddToChildren(node, this->root, this->x, this->y, this->x+this->w, this->y+this->h); // and place it into the new tree
         current_slot = current_slot->next;
@@ -156,7 +155,7 @@ void VoronoiGraph::AddToChildren(VoronoiNode* node, VQuadTree* branch, int min_x
 
         NodeLinkedList::Append(node, &branch->node_children); // node given a slot
         node->SetTreeSlot(branch->node_children); // node knows its reference
-        node->SetBounds(min_x, min_y, max_x, max_y); // node knows its shape // are we FOR SURE this is correct
+        node->SetBounds(min_x, min_y, max_x, max_y); // node knows its shape
 
         branch->total_children++;
 
@@ -208,11 +207,9 @@ void VoronoiGraph::RemoveNode(VoronoiNode* node) {
 }
 void VoronoiGraph::RemoveFromChildren(VoronoiNode* node, VQuadTree* branch) {
     if (!this->SplitValid(branch)) { // this branch is below critical mass or is above but was disallowed splitting
-
-        SDL_assert(NodeLinkedList::Contains(branch->node_children, node));
-
-        NodeLinkedList::RemoveTreeLocation(node, &branch->node_children);
+        NodeLinkedList::RemoveTreeLocation(node, &branch->node_children); // if I had a NLL::Contains() function I'd put an assert for that to be true because it REALLY shoudnt be false, but I dont soo
         branch->total_children--; // if below critical mass, will stay below critical mass. if above, well if it couldnt split before it wouldnt need to merge now
+         // me from the future: no yeah that assert would indeed have been very helpful
 
     } else { // above critical mass and was allowed to split, aka does have tree children and does not have node children
         if (this->recent_sort_y < branch->half_y) {
@@ -263,24 +260,15 @@ void VoronoiGraph::UpdateNodePositions() {
     NodeLinkedList* current_slot = this->all_child_nodes;
     while (current_slot != nullptr) {
         VoronoiNode* node = current_slot->node;
-        // try always removing and adding every node
+        this->recent_sort_x = node->GetSortingPosX(); // store a copy of the old sorting position
+        this->recent_sort_y = node->GetSortingPosY();
+        node->CalculateSortingPos();
+        if (!node->IsBounded()) {
+            std::cout << "relocating" << std::endl;
+            this->RemoveFromChildren(node, this->root);
+            this->AddToChildren(node, this->root, this->x, this->y, this->x+this->w, this->y+this->h);
+        }
         current_slot = current_slot->next;
-        this->RemoveNode(node); // fails on removal
-        this->AddNode(node);
-
-//        int x_copy = node->GetSortingPosX(); // store a copy of the old sorting position before the most recent move
-//        int y_copy = node->GetSortingPosY();
-//        node->CalculateSortingPos(); // you moved, therefore you should have an updated sorting position
-//        if (!node->IsBounded()) { // now, have you left the box you were in just a moment ago?
-//            std::cout << "relocating" << std::endl;
-//            this->recent_sort_x = x_copy;
-//            this->recent_sort_y = y_copy;
-//            this->RemoveFromChildren(node, this->root); // use the old for removing it
-//            this->recent_sort_x = node->GetSortingPosX();// and the new for adding it
-//            this->recent_sort_y = node->GetSortingPosY();
-//            this->AddToChildren(node, this->root, this->x, this->y, this->x+this->w, this->y+this->h);
-//        }
-//        current_slot = current_slot->next;
     }
 }
 
@@ -521,12 +509,13 @@ void VoronoiGraph::DoBackwardsPassFromNearby(NodeLinkedList* nearby, double x, d
 void VoronoiGraph::UpdateAllGradients(double learning_rate) {
     NodeLinkedList* current_slot = this->all_child_nodes;
     while (current_slot != nullptr) {
+        VoronoiNode* node = current_slot->node;
 
-        current_slot->node->ApplyGradients(learning_rate);
+        node->ApplyGradients(learning_rate);
 
         current_slot = current_slot->next;
     }
-    this->SetGain(this->gain-this->gain_gradient*learning_rate);
+    this->gain -= this->gain_gradient*learning_rate;
     this->UpdateNodePositions();
 }
 

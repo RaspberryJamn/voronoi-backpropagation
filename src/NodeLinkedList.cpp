@@ -58,7 +58,7 @@ void NodeLinkedList::RemoveResidence(VoronoiNode* node, NodeLinkedList** list_re
 
 void NodeLinkedList::RemoveTreeLocation(VoronoiNode* node, NodeLinkedList** list_ref) {
     NodeLinkedList* head_ptr_copy = (*list_ref);
-    NodeLinkedList* tree_ptr = node->GetResidence();
+    NodeLinkedList* tree_ptr = node->GetTreeSlot(); // tree slot, not residence
     tree_ptr->node = head_ptr_copy->node; // tree slot previously referencing this node now points to the first node
     tree_ptr->node->SetTreeSlot(tree_ptr); // the newly referenced node now updates its contacts
     node->SetTreeSlot(nullptr); // the old node clears its contacts
@@ -75,4 +75,15 @@ int NodeLinkedList::Length(NodeLinkedList* list) {
         current_slot = current_slot->next;
     }
     return result;
+}
+
+bool NodeLinkedList::Contains(NodeLinkedList* list, VoronoiNode* node) {
+    NodeLinkedList* current_slot = list;
+    while (current_slot != nullptr) {
+        if (current_slot->node == node) {
+            return true;
+        }
+        current_slot = current_slot->next;
+    }
+    return false;
 }
