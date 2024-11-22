@@ -79,6 +79,8 @@ void CApp::OnRender() {
 
     this->media_texture->Render(0,0);
 
+    this->voronoi_graph->RenderTree(this->main_renderer);
+
     SDL_SetRenderDrawColor(this->main_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
     SDL_Rect string_bounds = {5,5,0,0};
     double disp = this->last_frametime;

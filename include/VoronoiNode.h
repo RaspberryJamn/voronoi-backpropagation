@@ -118,6 +118,8 @@ class VoronoiNode {
         double GetX();
         double GetY();
 
+        void Render(SDL_Renderer* target_renderer);
+
 //        RGBColor SampleColor(double sample_x, double sample_y);
         RGBColor ForwardPass(double sample_x, double sample_y);
         void BackwardPass(double sample_x, double sample_y, RGBColor rgb, RGBColor dldrgb);

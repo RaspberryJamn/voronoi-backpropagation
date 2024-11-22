@@ -78,6 +78,19 @@ double VoronoiNode::GetY() {
     return this->y;
 }
 
+void VoronoiNode::Render(SDL_Renderer* target_renderer) {
+    SDL_Rect dest = {0,0,0,0};
+
+    SDL_SetRenderDrawColor(target_renderer, 0x00, 0x00, 0x00, 0xFF);
+    dest = {this->sorting_x-3, this->sorting_y-3, 7, 7}; SDL_RenderDrawRect(target_renderer, &dest);
+
+    SDL_SetRenderDrawColor(target_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+    dest = {this->sorting_x-2, this->sorting_y-2, 5, 5}; SDL_RenderDrawRect(target_renderer, &dest);
+
+    SDL_SetRenderDrawColor(target_renderer, (Uint8)this->color.r, (Uint8)this->color.g, (Uint8)this->color.b, 0xFF);
+    dest = {this->sorting_x-1, this->sorting_y-1, 3, 3}; SDL_RenderDrawRect(target_renderer, &dest);
+}
+
 //RGBColor VoronoiNode::SampleColor(double sample_x, double sample_y) {
 //    // eg Generate(sample_x-this->x, sample_x-this->y)
 //    return this->color;

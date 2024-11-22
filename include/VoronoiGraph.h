@@ -2,6 +2,7 @@
 #define VORONOIGRAPH_H
 #include "NodeLinkedList.h"
 #include "VoronoiNode.h"
+#include <SDL.h>
 
 struct VQuadTree {
     int total_children;
@@ -27,11 +28,11 @@ class VoronoiGraph {
 
         void RespecTree(int x, int y, int w, int h, int max_depth, int critical_mass);
         void PrintTree();
+        void RenderTree(SDL_Renderer* render_target);
 
         void AddNode(VoronoiNode* node);
         void RemoveNode(VoronoiNode* node);
         void UpdateNodePositions();
-
         NodeLinkedList* GetNearby(double x, double y, double band_width, double gain, VoronoiNode* seed);
         NodeLinkedList* GetNearby(double x, double y, VoronoiNode* seed); // closest node on top, the mag of everything else is at most the nearest dist plus the band width
 
@@ -55,6 +56,8 @@ class VoronoiGraph {
         void DeleteTree(VQuadTree* branch);
 
         bool SplitValid(VQuadTree* branch);
+
+        void RenderVQuadTree(VQuadTree* branch, SDL_Renderer* target_renderer);
 
 
         VQuadTree* root;

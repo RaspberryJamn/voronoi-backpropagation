@@ -1,6 +1,19 @@
 #include "NodeLinkedList.h"
 #include <iostream>
 
+
+/*
+#define NODELINKEDLIST_FOREACH(list, block) do {                             \ // outdated, lives in NodeLinkedList.h now
+    NodeLinkedList* macro_scanning_slot = list;                              \
+    while (macro_scanning_slot != nullptr) {                                 \
+        [[maybe_unused]] NodeLinkedList* current_slot = macro_scanning_slot; \
+        macro_scanning_slot = macro_scanning_slot->next;                     \
+        [[maybe_unused]] VoronoiNode* current_node = current_slot->node;     \
+        block                                                                \
+    }                                                                        \
+} while (0)
+*/
+
 void PrintIndents(int indent);
 
 void NodeLinkedList::Print(std::string header, NodeLinkedList* list, int indent) {
@@ -10,31 +23,41 @@ void NodeLinkedList::Print(std::string header, NodeLinkedList* list, int indent)
         return;
     }
     std::cout << "{" << std::endl;
-    NodeLinkedList* current_slot = list;
-    while (current_slot != nullptr) {
+//    NodeLinkedList* current_slot = list;
+//    while (current_slot != nullptr) {
+//        PrintIndents(indent+1); std::cout << current_slot << ":{next:" << current_slot->next << ", node:" << current_slot->node << ", node_dist:" << current_slot->node->GetDist() << "}" << std::endl;
+//        current_slot = current_slot->next;
+//    }
+    NODELINKEDLIST_FOREACH(list, {
         PrintIndents(indent+1); std::cout << current_slot << ":{next:" << current_slot->next << ", node:" << current_slot->node << ", node_dist:" << current_slot->node->GetDist() << "}" << std::endl;
-        current_slot = current_slot->next;
-    }
+    });
     PrintIndents(indent); std::cout << "}" << std::endl;
 }
 
 void NodeLinkedList::DeleteList(NodeLinkedList* list) {
-    NodeLinkedList* current_slot = list;
-    while (current_slot != nullptr) {
-        NodeLinkedList* next_slot = current_slot->next;
+//    NodeLinkedList* current_slot = list;
+//    while (current_slot != nullptr) {
+//        NodeLinkedList* next_slot = current_slot->next;
+//        delete current_slot;
+//        current_slot = next_slot;
+//    }
+    NODELINKEDLIST_FOREACH(list, {
         delete current_slot;
-        current_slot = next_slot;
-    }
+    });
 }
 
 void NodeLinkedList::DeleteNodes(NodeLinkedList* list) {
-    NodeLinkedList* current_slot = list;
-    while (current_slot != nullptr) {
-        NodeLinkedList* next_slot = current_slot->next;
-        delete current_slot->node;
+//    NodeLinkedList* current_slot = list;
+//    while (current_slot != nullptr) {
+//        NodeLinkedList* next_slot = current_slot->next;
+//        delete current_slot->node;
+//        delete current_slot;
+//        current_slot = next_slot;
+//    }
+    NODELINKEDLIST_FOREACH(list, {
+        delete current_node;
         delete current_slot;
-        current_slot = next_slot;
-    }
+    });
 }
 
 void NodeLinkedList::Append(VoronoiNode* node, NodeLinkedList** list_ref) {
@@ -69,21 +92,29 @@ void NodeLinkedList::RemoveTreeLocation(VoronoiNode* node, NodeLinkedList** list
 
 int NodeLinkedList::Length(NodeLinkedList* list) {
     int result = 0;
-    NodeLinkedList* current_slot = list;
-    while (current_slot != nullptr) {
+//    NodeLinkedList* current_slot = list;
+//    while (current_slot != nullptr) {
+//        result++;
+//        current_slot = current_slot->next;
+//    }
+    NODELINKEDLIST_FOREACH(list, {
         result++;
-        current_slot = current_slot->next;
-    }
+    });
     return result;
 }
 
 bool NodeLinkedList::Contains(NodeLinkedList* list, VoronoiNode* node) {
-    NodeLinkedList* current_slot = list;
-    while (current_slot != nullptr) {
-        if (current_slot->node == node) {
+//    NodeLinkedList* current_slot = list;
+//    while (current_slot != nullptr) {
+//        if (current_slot->node == node) {
+//            return true;
+//        }
+//        current_slot = current_slot->next;
+//    }
+    NODELINKEDLIST_FOREACH(list, {
+        if (current_node == node) {
             return true;
         }
-        current_slot = current_slot->next;
-    }
+    });
     return false;
 }
