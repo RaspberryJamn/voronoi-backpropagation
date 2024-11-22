@@ -163,18 +163,6 @@ void VoronoiGraph::RespecTree(int x, int y, int w, int h, int max_depth, int cri
     this->DeleteTree(this->root); // simply delete the entirety of the tree, no need to remove every node before readding it later
     this->root = new VQuadTree(this->x+this->w/2, this->y+this->h/2, 0);
 
-//    NodeLinkedList::DeleteList(this->nearby_candidates);
-//    this->nearby_candidates = nullptr;
-
-//    NodeLinkedList* current_slot = this->all_child_nodes; // start with the first slot of all nodes
-//    while (current_slot != nullptr) { // and for each node's slot
-//        VoronoiNode* node = current_slot->node; // get the node
-//        node->CalculateSortingPos();
-//        this->recent_sort_x = node->GetSortingPosX();
-//        this->recent_sort_y = node->GetSortingPosY();
-//        this->AddToChildren(node, this->root, this->x, this->y, this->x+this->w, this->y+this->h); // and place it into the new tree
-//        current_slot = current_slot->next;
-//    }
     NODELINKEDLIST_FOREACH(this->all_child_nodes, {
         current_node->CalculateSortingPos();
         this->recent_sort_x = current_node->GetSortingPosX();
@@ -220,16 +208,6 @@ void VoronoiGraph::AddToChildren(VoronoiNode* node, VQuadTree* branch, int min_x
 
             // this branch's half x and y could theoretically be undecided up until now (where it's children would be undecided too)
 
-//            NodeLinkedList* current_slot = branch->node_children; // start with the first tree child slot
-//            while (current_slot != nullptr) { // and go through all of them
-//                NodeLinkedList* next_slot = current_slot->next;
-//                VoronoiNode* repositioned_node = current_slot->node; // get the node
-//                this->recent_sort_x = repositioned_node->GetSortingPosX(); // and its position (NOT recalculated)
-//                this->recent_sort_y = repositioned_node->GetSortingPosY();
-//                this->AddToChildrenSplit(repositioned_node, branch, min_x, min_y, max_x, max_y); // the nodes in each slot find their new home
-//                delete current_slot; // and their old slot is deleted
-//                current_slot = next_slot;
-//            }
             NODELINKEDLIST_FOREACH(branch->node_children, {
                 VoronoiNode* repositioned_node = current_node; // get the node
                 this->recent_sort_x = repositioned_node->GetSortingPosX(); // and its position (NOT recalculated)
@@ -376,38 +354,11 @@ NodeLinkedList* VoronoiGraph::GetNearby(double x, double y, VoronoiNode* seed) {
         this->BuildNearbyList(this->root); // this is where the job is mostly done
 
     SDL_assert(this->nearby_candidates != nullptr);
-//    if (this->nearby_candidates == nullptr) { // something has gone horribly wrong
-//        std::cout << "erm" << std::endl;
-//        return nullptr;
-//    }
 
-//    NodeLinkedList* scanning_candidate = this->nearby_candidates;
     NodeLinkedList* result_list = nullptr; // start with an empty output list
 
     NodeLinkedList* nearest_slot = nullptr; // we're gonna be searching for the nearest node to swap to the front
     double nearest_dist = this->nearby_candidates->node->GetDist();
-
-//    while (scanning_candidate != nullptr) {
-//
-//        NodeLinkedList* next_entry = scanning_candidate->next;
-//        double scanned_distance = scanning_candidate->node->GetDist();
-//
-//        if (scanned_distance <= this->current_bounding_mag) { // scanned node passes the check, may have significant m value
-//
-//            scanning_candidate->next = result_list; // this candidate slot gets prepened onto result_list
-//            result_list = scanning_candidate;
-//
-//            if (scanned_distance < nearest_dist) {
-//                nearest_slot = scanning_candidate;
-//                nearest_dist = scanned_distance;
-//            }
-//
-//        } else { // node fails the check, will definitely not have significant m value
-//            delete scanning_candidate;
-//        }
-//
-//        scanning_candidate = next_entry;
-//    }
 
     NODELINKEDLIST_FOREACH(this->nearby_candidates, {
         double current_distance = current_node->GetDist();
@@ -437,24 +388,6 @@ void VoronoiGraph::BuildNearbyList(VQuadTree* branch) { // takes the running inf
     if (!this->SplitValid(branch)) { // not split, this is a leaf node
 
         VoronoiNode* new_nearest = nullptr;
-
-//        NodeLinkedList* current_list_entry = branch->node_children; // iterate over all node children with magnitude testing only
-//        while (current_list_entry != nullptr) {
-//            VoronoiNode* current_node = current_list_entry->node; // for every node a child of this branch
-//            current_node->CalculateDist(this->recent_x, this->recent_y, this->gain);
-//            double relative_dist = this->current_bounding_mag-current_node->GetDist(); // from this node to the outer circle
-//            if (relative_dist > 0) { // beats the outer circle
-//                NodeLinkedList* new_candidate_entry = new NodeLinkedList();
-//                new_candidate_entry->node = current_node;
-//                new_candidate_entry->next = this->nearby_candidates; // prepend the new candidate
-//                this->nearby_candidates = new_candidate_entry;
-//                if (relative_dist >= this->band_width) { // beats the middle circle
-//                    this->current_bounding_mag = current_node->GetDist()+this->band_width; // now the outer circle is this dist plus out by band width
-//                    new_nearest = current_node;
-//                }
-//            }
-//            current_list_entry = current_list_entry->next;
-//        }
 
         NODELINKEDLIST_FOREACH(branch->node_children, {
 
@@ -574,33 +507,13 @@ void VoronoiGraph::BuildNearbyList(VQuadTree* branch) { // takes the running inf
 RGBColor VoronoiGraph::ForwardPassFromNearby(NodeLinkedList* nearby, double x, double y) { // nearby nodes already have their distances calculated, aka gain and bandwidth are baked in
     double z = 0;
     double exp_offset = -nearby->node->GetDist(); // for numerical precision. softmax doesnt care about offsets so long as theyre applied to all applicants
-//    NodeLinkedList* current_slot = nearby;
-//    while (current_slot != nullptr) { // calculate exp of all nodes and accumulate their sum for z
-//        VoronoiNode* node = current_slot->node;
-//
-//        node->CalculateExp(exp_offset); // work done here
-//        z += node->GetExp();
-//
-//        current_slot = current_slot->next;
-//    }
+
+    RGBColor final_color = RGBColor(0,0,0);
 
     NODELINKEDLIST_FOREACH(nearby, {
         current_node->CalculateExp(exp_offset); // work done here
         z += current_node->GetExp();
     });
-
-    RGBColor final_color = RGBColor(0,0,0);
-//    current_slot = nearby;
-//    while (current_slot != nullptr) {
-//        VoronoiNode* node = current_slot->node;
-//
-//        double m = node->GetExp()/z;
-//        node->SetM(m);
-//        RGBColor c = node->ForwardPass(x, y);//node->SampleColor(x, y); // heres the only place x and y are used
-//        final_color += c*c*m;
-//
-//        current_slot = current_slot->next;
-//    }
 
     NODELINKEDLIST_FOREACH(nearby, {
         double m = current_node->GetExp()/z;
@@ -618,27 +531,12 @@ void VoronoiGraph::DoBackwardsPassFromNearby(NodeLinkedList* nearby, double x, d
 
     RGBColor final_color = this->ForwardPassFromNearby(nearby, x, y);
 
-//    NodeLinkedList* current_slot = nearby;
-//    while (current_slot != nullptr) {
-//        VoronoiNode* node = current_slot->node;
-//
-//        node->BackwardPass(x, y, final_color, (final_color-image_sample)*2);
-//
-//        current_slot = current_slot->next;
-//    }
     NODELINKEDLIST_FOREACH(nearby, {
         current_node->BackwardPass(x, y, final_color, (final_color-image_sample)*2);
     });
 }
 
 void VoronoiGraph::UpdateAllGradients(double learning_rate) {
-//    NodeLinkedList* current_slot = this->all_child_nodes;
-//    while (current_slot != nullptr) {
-//
-//        current_slot->node->ApplyGradients(learning_rate);
-//
-//        current_slot = current_slot->next;
-//    }
     NODELINKEDLIST_FOREACH(this->all_child_nodes, {
         current_node->ApplyGradients(learning_rate);
     });

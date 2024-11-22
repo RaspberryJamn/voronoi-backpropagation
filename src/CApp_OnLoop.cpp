@@ -73,7 +73,7 @@ void CApp::OnLoop() {
                 g_train_sample_y = 0;
                 g_train_running_seed = g_train_past_nearest_0_0_seed; // hit the bottom of the image, slide back to the top, reading the value as step one
 
-                SDL_assert(false); // cheaty breakpoint
+//                SDL_assert(false); // cheaty breakpoint
 
                 this->voronoi_graph->UpdateAllGradients(0.00000000001);
 //                        g_offset++; // finished frame
