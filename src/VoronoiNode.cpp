@@ -82,23 +82,34 @@ void VoronoiNode::Render(SDL_Renderer* target_renderer) {
     SDL_Rect dest = {0,0,0,0};
 
     SDL_SetRenderDrawColor(target_renderer, 0x00, 0x00, 0x00, 0xFF);
-    dest = {this->sorting_x-3, this->sorting_y-3, 7, 7}; SDL_RenderDrawRect(target_renderer, &dest);
+//    dest = {this->sorting_x-3, this->sorting_y-3, 7, 7}; SDL_RenderDrawRect(target_renderer, &dest);
+    dest = {this->sorting_x-2, this->sorting_y-3, 5, 7}; SDL_RenderDrawRect(target_renderer, &dest);
+    dest = {this->sorting_x-3, this->sorting_y-2, 7, 5}; SDL_RenderDrawRect(target_renderer, &dest);
 
     SDL_SetRenderDrawColor(target_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
     dest = {this->sorting_x-2, this->sorting_y-2, 5, 5}; SDL_RenderDrawRect(target_renderer, &dest);
 
     SDL_SetRenderDrawColor(target_renderer, (Uint8)this->color.r, (Uint8)this->color.g, (Uint8)this->color.b, 0xFF);
     dest = {this->sorting_x-1, this->sorting_y-1, 3, 3}; SDL_RenderDrawRect(target_renderer, &dest);
+//    SDL_RenderDrawPoint(target_renderer, this->sorting_x, this->sorting_y);
+    SDL_RenderDrawLine(target_renderer, this->sorting_x, this->sorting_y-2, this->sorting_x, sorting_y+2);
+    SDL_RenderDrawLine(target_renderer, this->sorting_x-2, this->sorting_y, this->sorting_x+2, sorting_y);
+}
+RGBColor VoronoiNode::GetColor() {
+    // eg Generate(sample_x-this->x, sample_x-this->y)
+    return this->color;
 }
 
 //RGBColor VoronoiNode::SampleColor(double sample_x, double sample_y) {
 //    // eg Generate(sample_x-this->x, sample_x-this->y)
 //    return this->color;
 //}
+
 RGBColor VoronoiNode::ForwardPass(double sample_x, double sample_y) {
     // eg Generate(sample_x-this->x, sample_x-this->y)
     return this->color;
 }
+
 // dnode1.mag/dnode1.x = node1.x
 // dm1/dnode1.mag = m1*(1-m1)
 // dfinal_color/dm1 = .5*(node1.color^2)/final_color
@@ -111,20 +122,20 @@ void VoronoiNode::BackwardPass(double sample_x, double sample_y, RGBColor final_
     if (final_color.r < 1) {final_color.r = 1;}
     if (final_color.g < 1) {final_color.g = 1;}
     if (final_color.b < 1) {final_color.b = 1;}
-    RGBColor dfinalcoldm = (this->color*this->color/final_color)*.5;
+    RGBColor dfinalcoldm = ((this->color*this->color)/final_color)*.5;
     double dldmag = RGBColor::Trace(dldfinal_col*dfinalcoldm) * -this->m_value*(1.0-this->m_value);
     this->x_grad += dldmag * this->x;
     this->y_grad += dldmag * this->y;
-    this->color_grad += dldfinal_col*this->color/final_color*this->m_value;
+    this->color_grad += ((dldfinal_col*this->color)/final_color)*this->m_value;
 }
 
 void VoronoiNode::ApplyGradients(double learning_rate) {
 //    std::cout << this->x_grad << std::endl;
-    SDL_assert((this->x_grad<1)||(this->x_grad>-1));
-    SDL_assert((this->y_grad<1)||(this->y_grad>-1));
-    SDL_assert((this->color_grad.r<1)||(this->color_grad.r>-1));
-    SDL_assert((this->color_grad.g<1)||(this->color_grad.g>-1));
-    SDL_assert((this->color_grad.b<1)||(this->color_grad.b>-1));
+    SDL_assert(!std::isnan(this->x_grad));
+    SDL_assert(!std::isnan(this->y_grad));
+    SDL_assert(!std::isnan(this->color_grad.r));
+    SDL_assert(!std::isnan(this->color_grad.g));
+    SDL_assert(!std::isnan(this->color_grad.b));
 
     this->x += 10;
 //    this->x -= this->x_grad*learning_rate;

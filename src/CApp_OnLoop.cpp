@@ -1,6 +1,7 @@
 #include "CApp.h"
 #include <cmath>
 #include <iostream>
+#include <sstream>
 
 RGBColor CApp::SampleSourceImage(int x, int y) {
     if (x < 0) { x = 0; }
@@ -40,12 +41,21 @@ VoronoiNode* g_train_past_nearest_0_0_seed = nullptr; // keeps tab on a good see
 VoronoiNode* g_train_past_nearest_0_y_seed = nullptr; // keeps tab on a good seed for the left hand spine of the current scan line
 VoronoiNode* g_train_running_seed = nullptr; // seed for the current sample, reads from and writes to the previous two
 
+//#ifndef LOGGING_GLOBALS
+//#define LOGGING_GLOBALS 0
+//bool g_start_logging_after_gradients_updated = false;
+//int g_stop_logging_after_100_logs = 0;
+//#endif // LOGGING_GLOBALS
+
 void CApp::OnLoop() {
 
     for (int i = 0; i < (this->media_texture->GetWidth()*this->media_texture->GetHeight()/(1.0+this->refresh_period)*1.0); i++) {
         int x = g_train_sample_x;
         int y = g_train_sample_y;
+
+//        this->error_logger->PotentialLog("before");//std::to_string(i), "before\n");
         NodeLinkedList* nearby = this->voronoi_graph->GetNearby((double)x, (double)y, g_train_running_seed);
+//        this->error_logger->PotentialLog(std::to_string(i), "after\n");
 
         this->voronoi_graph->DoBackwardsPassFromNearby(nearby, x, y, this->SampleSourceImage(x,y));
 
@@ -76,6 +86,9 @@ void CApp::OnLoop() {
 //                SDL_assert(false); // cheaty breakpoint
 
                 this->voronoi_graph->UpdateAllGradients(0.00000000001);
+                std::cout << "got here" << std::endl;
+//                this->error_logger->EnableLogging();
+
 //                        g_offset++; // finished frame
             }
         }

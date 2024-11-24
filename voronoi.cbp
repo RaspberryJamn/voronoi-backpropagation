@@ -32,6 +32,7 @@
 		<Unit filename="include/AtlasNumberDrawer.h" />
 		<Unit filename="include/CApp.h" />
 		<Unit filename="include/CanvasWindow.h" />
+		<Unit filename="include/ErrorLogger.h" />
 		<Unit filename="include/LapCounter.h" />
 		<Unit filename="include/NodeLinkedList.h" />
 		<Unit filename="include/Texture.h" />
@@ -47,6 +48,7 @@
 		<Unit filename="src/CApp_OnLoop.cpp" />
 		<Unit filename="src/CApp_OnRender.cpp" />
 		<Unit filename="src/CanvasWindow.cpp" />
+		<Unit filename="src/ErrorLogger.cpp" />
 		<Unit filename="src/LapCounter.cpp" />
 		<Unit filename="src/NodeLinkedList.cpp" />
 		<Unit filename="src/Texture.cpp" />

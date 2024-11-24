@@ -399,10 +399,10 @@
 	"begin_code.h"
 	"close_code.h"
 
-1731894043 source:c:\users\james\documents\cpp\voronoi\src\capp.cpp
+1732400065 source:c:\users\james\documents\cpp\voronoi\src\capp.cpp
 	"CApp.h"
 
-1732226162 c:\users\james\documents\cpp\voronoi\include\capp.h
+1732400012 c:\users\james\documents\cpp\voronoi\include\capp.h
 	<SDL.h>
 	<SDL_image.h>
 	<SDL_ttf.h>
@@ -430,15 +430,16 @@
 1728795993 source:c:\users\james\documents\cpp\voronoi\src\capp_onevent.cpp
 	"CApp.h"
 
-1732230099 source:c:\users\james\documents\cpp\voronoi\src\capp_oninit.cpp
+1732400212 source:c:\users\james\documents\cpp\voronoi\src\capp_oninit.cpp
 	"CApp.h"
 	<iostream>
 	<cstdlib>
 
-1732318838 source:c:\users\james\documents\cpp\voronoi\src\capp_onloop.cpp
+1732402559 source:c:\users\james\documents\cpp\voronoi\src\capp_onloop.cpp
 	"CApp.h"
 	<cmath>
 	<iostream>
+	<sstream>
 
 1732312820 source:c:\users\james\documents\cpp\voronoi\src\capp_onrender.cpp
 	"CApp.h"
@@ -476,23 +477,24 @@
 	"Texture.h"
 	"SDL.h"
 
-1732312603 source:c:\users\james\documents\cpp\voronoi\src\voronoinode.cpp
+1732406792 source:c:\users\james\documents\cpp\voronoi\src\voronoinode.cpp
 	"VoronoiNode.h"
 	<cmath>
 	<iostream>
 
-1732312047 c:\users\james\documents\cpp\voronoi\include\voronoinode.h
+1732404653 c:\users\james\documents\cpp\voronoi\include\voronoinode.h
 	"SDL.h"
 
-1732315621 source:c:\users\james\documents\cpp\voronoi\src\voronoigraph.cpp
+1732412059 source:c:\users\james\documents\cpp\voronoi\src\voronoigraph.cpp
 	"VoronoiGraph.h"
 	"CApp.h"
 	<cmath>
 	<iostream>
 
-1732312416 c:\users\james\documents\cpp\voronoi\include\voronoigraph.h
+1732411955 c:\users\james\documents\cpp\voronoi\include\voronoigraph.h
 	"NodeLinkedList.h"
 	"VoronoiNode.h"
+	"ErrorLogger.h"
 	<SDL.h>
 
 1732224301 c:\users\james\documents\cpp\voronoi\include\lapcounter.h
@@ -510,11 +512,17 @@
 	"VoronoiQuadtree.h"
 	<cmath>
 
-1732315695 c:\users\james\documents\cpp\voronoi\include\nodelinkedlist.h
+1732400393 c:\users\james\documents\cpp\voronoi\include\nodelinkedlist.h
 	"VoronoiNode.h"
 	<string>
 
-1732312755 source:c:\users\james\documents\cpp\voronoi\src\nodelinkedlist.cpp
+1732409039 source:c:\users\james\documents\cpp\voronoi\src\nodelinkedlist.cpp
 	"NodeLinkedList.h"
 	<iostream>
+
+1732400287 c:\users\james\documents\cpp\voronoi\include\errorlogger.h
+	<iostream>
+
+1732401287 source:c:\users\james\documents\cpp\voronoi\src\errorlogger.cpp
+	"ErrorLogger.h"
 

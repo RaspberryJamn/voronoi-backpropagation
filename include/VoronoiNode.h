@@ -10,25 +10,25 @@ struct RGBColor {
     double b;
     RGBColor() : r(0), g(0), b(0) {}
     RGBColor(double r, double g, double b) : r(r), g(g), b(b) {}
-    RGBColor operator+(RGBColor const& rhs) {
+    RGBColor operator+(RGBColor const& rhs) const {
         return RGBColor(r+rhs.r,g+rhs.g,b+rhs.b);
     }
     void operator+=(RGBColor const& rhs) {
         r += rhs.r; g += rhs.g; b += rhs.b;
     }
-    RGBColor operator-(RGBColor const& rhs) {
+    RGBColor operator-(RGBColor const& rhs) const {
         return RGBColor(r-rhs.r,g-rhs.g,b-rhs.b);
     }
     void operator-=(RGBColor const& rhs) {
         r -= rhs.r; g -= rhs.g; b -= rhs.b;
     }
-    RGBColor operator*(RGBColor const& rhs) {
+    RGBColor operator*(RGBColor const& rhs) const {
         return RGBColor(r*rhs.r,g*rhs.g,b*rhs.b);
     }
-    RGBColor operator/(RGBColor const& rhs) {
+    RGBColor operator/(RGBColor const& rhs) const {
         return RGBColor(r/rhs.r,g/rhs.g,b/rhs.b);
     }
-    RGBColor operator*(double const& rhs) {
+    RGBColor operator*(double const& rhs) const {
         return RGBColor(r*rhs,g*rhs,b*rhs);
     }
     static double Trace(RGBColor const& col) {
@@ -119,6 +119,7 @@ class VoronoiNode {
         double GetY();
 
         void Render(SDL_Renderer* target_renderer);
+        RGBColor GetColor();
 
 //        RGBColor SampleColor(double sample_x, double sample_y);
         RGBColor ForwardPass(double sample_x, double sample_y);

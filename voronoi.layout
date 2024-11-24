@@ -2,37 +2,19 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Debug" />
-	<File name="src\LapCounter.cpp" open="0" top="0" tabpos="13" split="0" active="1" splitpos="0" zoom_1="-1" zoom_2="0">
+	<File name="src\CApp_OnCleanup.cpp" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1243" topLine="17" />
+			<Cursor1 position="120" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\CApp_OnEvent.cpp" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="270" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="src\AtlasNumberDrawer.cpp" open="0" top="0" tabpos="12" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="1557" topLine="15" />
-		</Cursor>
-	</File>
-	<File name="include\Texture.h" open="0" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="147" topLine="1" />
-		</Cursor>
-	</File>
-	<File name="src\CApp.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="798" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="include\VoronoiNode.h" open="1" top="0" tabpos="12" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="3741" topLine="60" />
-		</Cursor>
-		<Folding>
-			<Collapse line="6" />
-		</Folding>
-	</File>
-	<File name="src\CApp_ImportAssets.cpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1817" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="include\CApp.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -45,9 +27,35 @@
 			<Cursor1 position="1966" topLine="12" />
 		</Cursor>
 	</File>
-	<File name="src\CApp_OnCleanup.cpp" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src\VoronoiGraph.cpp" open="1" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="120" topLine="0" />
+			<Cursor1 position="1778" topLine="0" />
+		</Cursor>
+		<Folding>
+			<Collapse line="5" />
+			<Collapse line="10" />
+			<Collapse line="74" />
+			<Collapse line="78" />
+			<Collapse line="105" />
+			<Collapse line="135" />
+			<Collapse line="149" />
+			<Collapse line="168" />
+			<Collapse line="172" />
+			<Collapse line="181" />
+			<Collapse line="217" />
+			<Collapse line="240" />
+			<Collapse line="268" />
+			<Collapse line="321" />
+		</Folding>
+	</File>
+	<File name="src\CApp_ImportAssets.cpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1817" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\CApp_OnLoop.cpp" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3600" topLine="40" />
 		</Cursor>
 	</File>
 	<File name="include\NodeLinkedList.h" open="1" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -55,9 +63,66 @@
 			<Cursor1 position="1098" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="src\CanvasWindow.cpp" open="0" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src\NodeLinkedList.cpp" open="1" top="0" tabpos="11" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="959" topLine="0" />
+			<Cursor1 position="2549" topLine="61" />
+		</Cursor>
+	</File>
+	<File name="src\CApp_OnRender.cpp" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3197" topLine="12" />
+		</Cursor>
+	</File>
+	<File name="include\Texture.h" open="0" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="147" topLine="1" />
+		</Cursor>
+	</File>
+	<File name="include\VoronoiNode.h" open="1" top="0" tabpos="12" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3741" topLine="95" />
+		</Cursor>
+		<Folding>
+			<Collapse line="6" />
+		</Folding>
+	</File>
+	<File name="src\CApp.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="798" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="include\LapCounter.h" open="0" top="0" tabpos="12" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="152" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="include\Timer.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="497" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\Timer.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1095" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\VoronoiNode.cpp" open="1" top="1" tabpos="13" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2822" topLine="42" />
+		</Cursor>
+		<Folding>
+			<Collapse line="4" />
+			<Collapse line="7" />
+			<Collapse line="32" />
+			<Collapse line="39" />
+			<Collapse line="42" />
+			<Collapse line="73" />
+			<Collapse line="76" />
+		</Folding>
+	</File>
+	<File name="include\CanvasWindow.h" open="0" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="376" topLine="6" />
 		</Cursor>
 	</File>
 	<File name="src\Texture.cpp" open="0" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -89,50 +154,9 @@
 			<Collapse line="199" />
 		</Folding>
 	</File>
-	<File name="src\VoronoiGraph.cpp" open="1" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="30123" topLine="478" />
-		</Cursor>
-		<Folding>
-			<Collapse line="5" />
-			<Collapse line="79" />
-			<Collapse line="83" />
-			<Collapse line="110" />
-			<Collapse line="140" />
-			<Collapse line="185" />
-			<Collapse line="198" />
-			<Collapse line="244" />
-			<Collapse line="348" />
-		</Folding>
-	</File>
-	<File name="src\CApp_OnRender.cpp" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="3197" topLine="60" />
-		</Cursor>
-	</File>
-	<File name="include\CanvasWindow.h" open="0" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="376" topLine="6" />
-		</Cursor>
-	</File>
-	<File name="include\Timer.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="497" topLine="0" />
-		</Cursor>
-	</File>
 	<File name="include\VoronoiGraph.h" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="426" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="src\NodeLinkedList.cpp" open="1" top="0" tabpos="11" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="2549" topLine="61" />
-		</Cursor>
-	</File>
-	<File name="src\CApp_OnLoop.cpp" open="1" top="1" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="2207" topLine="37" />
 		</Cursor>
 	</File>
 	<File name="include\AtlasNumberDrawer.h" open="0" top="0" tabpos="11" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -140,33 +164,14 @@
 			<Cursor1 position="108" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="src\CApp_OnEvent.cpp" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src\LapCounter.cpp" open="0" top="0" tabpos="13" split="0" active="1" splitpos="0" zoom_1="-1" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="270" topLine="0" />
+			<Cursor1 position="1243" topLine="17" />
 		</Cursor>
 	</File>
-	<File name="src\VoronoiNode.cpp" open="1" top="0" tabpos="13" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src\CanvasWindow.cpp" open="0" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="2188" topLine="12" />
-		</Cursor>
-		<Folding>
-			<Collapse line="4" />
-			<Collapse line="7" />
-			<Collapse line="32" />
-			<Collapse line="39" />
-			<Collapse line="42" />
-			<Collapse line="73" />
-			<Collapse line="76" />
-		</Folding>
-	</File>
-	<File name="include\LapCounter.h" open="0" top="0" tabpos="12" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="152" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="src\Timer.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1095" topLine="0" />
+			<Cursor1 position="959" topLine="0" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

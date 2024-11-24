@@ -12,6 +12,8 @@
 #include "VoronoiGraph.h"
 #include "VoronoiNode.h"
 
+//class VoronoiGraph; // fuckass
+
 class CApp {
     private:
         bool running;
@@ -33,12 +35,17 @@ class CApp {
 
         TTF_Font* main_font;
 
+        ErrorLogger* error_logger;
+
     public:
         CApp();
 
         int OnExecute();
 
     public:
+
+//        bool g_start_logging_after_gradients_updated;
+//        int g_stop_logging_after_100_logs;
 
         bool OnInit();
         bool ImportAssets();

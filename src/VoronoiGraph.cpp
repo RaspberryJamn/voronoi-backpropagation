@@ -18,7 +18,8 @@ void VQuadTree::Print(VQuadTree* tree, int indent) {
     PrintIndents(indent+1); std::cout << "depth: " << tree->depth << "," << std::endl;
     PrintIndents(indent+1); std::cout << "half_x: " << tree->half_x << "," << std::endl;
     PrintIndents(indent+1); std::cout << "half_y: " << tree->half_y << "," << std::endl;
-    PrintIndents(indent+1); NodeLinkedList::Print("node_children: ", tree->node_children, indent+1);
+//    PrintIndents(indent+1); NodeLinkedList::Print("node_children: ", tree->node_children, indent+1);
+    PrintIndents(indent+1); NodeLinkedList::PrintNodes("node_children: ", tree->node_children, indent+1);
     if (tree->tree_children[0] == nullptr) {
         PrintIndents(indent+1); std::cout << "tree_children: []" << std::endl;
     } else {
@@ -33,29 +34,25 @@ void VQuadTree::Print(VQuadTree* tree, int indent) {
 }
 void VoronoiGraph::RenderTree(SDL_Renderer* target_renderer) {
     this->RenderVQuadTree(this->root, target_renderer);
-    SDL_SetRenderDrawColor(target_renderer, 0x00, 0x00, 0x00, 0xFF);
-    SDL_RenderDrawLine(target_renderer, this->x        , this->y        , this->x+this->w, this->y        );
-    SDL_RenderDrawLine(target_renderer, this->x        , this->y        , this->x        , this->y+this->h);
-    SDL_RenderDrawLine(target_renderer, this->x+this->w, this->y+this->h, this->x+this->w, this->y        );
-    SDL_RenderDrawLine(target_renderer, this->x+this->w, this->y+this->h, this->x        , this->y+this->h);
-    SDL_SetRenderDrawColor(target_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-    SDL_RenderDrawLine(target_renderer, this->x+1        , this->y+1        , this->x+this->w-1, this->y+1        );
-    SDL_RenderDrawLine(target_renderer, this->x+1        , this->y+1        , this->x+1        , this->y+this->h-1);
-    SDL_RenderDrawLine(target_renderer, this->x+this->w-1, this->y+this->h-1, this->x+this->w-1, this->y+1        );
-    SDL_RenderDrawLine(target_renderer, this->x+this->w-1, this->y+this->h-1, this->x+1        , this->y+this->h-1);
+//    SDL_Rect dest = {0,0,0,0};
+//    SDL_SetRenderDrawColor(target_renderer, 0x00, 0x00, 0x00, 0xFF);
+//    dest = {this->x, this->y, this->w, this->h}; SDL_RenderDrawRect(target_renderer, &dest);
+//    SDL_SetRenderDrawColor(target_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+//    dest = {this->x+1, this->y+1, this->w-2, this->h-2}; SDL_RenderDrawRect(target_renderer, &dest);
     NODELINKEDLIST_FOREACH(this->all_child_nodes, {
         current_node->Render(target_renderer);
     });
 }
 void VoronoiGraph::RenderVQuadTree(VQuadTree* branch, SDL_Renderer* target_renderer) {
     if (branch == nullptr) {return;}
+    SDL_Rect dest = {0,0,0,0};
     if (branch->tree_children[0] != nullptr) {
+
         this->RenderVQuadTree(branch->tree_children[0], target_renderer);
         this->RenderVQuadTree(branch->tree_children[1], target_renderer);
         this->RenderVQuadTree(branch->tree_children[2], target_renderer);
         this->RenderVQuadTree(branch->tree_children[3], target_renderer);
 
-        SDL_Rect dest = {0,0,0,0};
         SDL_SetRenderDrawColor(target_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
         dest = {branch->half_x-1, branch->half_y-3, 3, 7}; SDL_RenderDrawRect(target_renderer, &dest);
         dest = {branch->half_x-3, branch->half_y-1, 7, 3}; SDL_RenderDrawRect(target_renderer, &dest);
@@ -70,6 +67,11 @@ void VoronoiGraph::RenderVQuadTree(VQuadTree* branch, SDL_Renderer* target_rende
         dest = {branch->half_x-0, branch->half_y-1, 1, 3}; SDL_RenderDrawRect(target_renderer, &dest);
         dest = {branch->half_x-1, branch->half_y-0, 3, 1}; SDL_RenderDrawRect(target_renderer, &dest);
     }
+    SDL_SetRenderDrawColor(target_renderer, 0x00, 0x00, 0x00, 0xFF);
+    dest = {branch->min_x, branch->min_y, branch->max_x-branch->min_x, branch->max_y-branch->min_y}; SDL_RenderDrawRect(target_renderer, &dest);
+    SDL_SetRenderDrawColor(target_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+    dest = {branch->min_x+1, branch->min_y+1, branch->max_x-branch->min_x-2, branch->max_y-branch->min_y-2}; SDL_RenderDrawRect(target_renderer, &dest);
+
 //    if (branch->node_children != nullptr) {
 //        NODELINKEDLIST_FOREACH(branch->node_children, {
 //            current_node->Render(target_renderer);
@@ -78,6 +80,7 @@ void VoronoiGraph::RenderVQuadTree(VQuadTree* branch, SDL_Renderer* target_rende
 }
 
 void VoronoiGraph::PrintTree() {
+    NodeLinkedList::PrintNodes("all_child_nodes: ", this->all_child_nodes, 0);
     VQuadTree::Print(this->root, 0);
 }
 
@@ -89,7 +92,7 @@ VoronoiGraph::VoronoiGraph() {
     this->max_depth = 0;
     this->critical_mass = 0;
 
-    this->root = new VQuadTree(this->x+this->w/2, this->y+this->h/2, 0);
+    this->root = new VQuadTree(this->x, this->y, this->x+this->w, this->y+this->h, 0);
 
     this->all_child_nodes = nullptr;
     this->total_child_count = 0;
@@ -161,13 +164,13 @@ void VoronoiGraph::RespecTree(int x, int y, int w, int h, int max_depth, int cri
     this->critical_mass = critical_mass;
 
     this->DeleteTree(this->root); // simply delete the entirety of the tree, no need to remove every node before readding it later
-    this->root = new VQuadTree(this->x+this->w/2, this->y+this->h/2, 0);
+    this->root = new VQuadTree(this->x, this->y, this->x+this->w, this->y+this->h, 0);
 
     NODELINKEDLIST_FOREACH(this->all_child_nodes, {
         current_node->CalculateSortingPos();
         this->recent_sort_x = current_node->GetSortingPosX();
         this->recent_sort_y = current_node->GetSortingPosY();
-        this->AddToChildren(current_node, this->root, this->x, this->y, this->x+this->w, this->y+this->h);
+        this->AddToChildren(current_node, this->root);
     });
 }
 
@@ -182,37 +185,37 @@ void VoronoiGraph::AddNode(VoronoiNode* node) {
     node->CalculateSortingPos(); // this is where the new node's sort position is actually ascertained
     this->recent_sort_x = node->GetSortingPosX();
     this->recent_sort_y = node->GetSortingPosY();
-    this->AddToChildren(node, this->root, this->x, this->y, this->x+this->w, this->y+this->h);
+    this->AddToChildren(node, this->root);
 }
-void VoronoiGraph::AddToChildren(VoronoiNode* node, VQuadTree* branch, int min_x, int min_y, int max_x, int max_y) {
+void VoronoiGraph::AddToChildren(VoronoiNode* node, VQuadTree* branch) {
 
     if (this->SplitValid(branch)) { // after the split would happen, and on that point it had been allowed to do so
 
-        this->AddToChildrenSplit(node, branch, min_x, min_y, max_x, max_y);
+        this->AddToChildrenSplit(node, branch);
         branch->total_children++;
 
     } else { // we're either below critical mass or above it and weren't allowed to split
 
         NodeLinkedList::Append(node, &branch->node_children); // node given a slot
         node->SetTreeSlot(branch->node_children); // node knows its reference
-        node->SetBounds(min_x, min_y, max_x, max_y); // node knows its shape // are we FOR SURE this is correct
+        node->SetBounds(branch->min_x, branch->min_y, branch->max_x, branch->max_y); // node knows its shape // are we FOR SURE this is correct
 
         branch->total_children++;
 
         if (this->SplitValid(branch)) { // or more specifically, does it _now_ qualify for splitting
 
-            branch->tree_children[0] = new VQuadTree((min_x+branch->half_x)/2, (min_y+branch->half_y)/2, branch->depth+1);
-            branch->tree_children[1] = new VQuadTree((max_x+branch->half_x)/2, (min_y+branch->half_y)/2, branch->depth+1);
-            branch->tree_children[2] = new VQuadTree((min_x+branch->half_x)/2, (max_y+branch->half_y)/2, branch->depth+1);
-            branch->tree_children[3] = new VQuadTree((max_x+branch->half_x)/2, (max_y+branch->half_y)/2, branch->depth+1);
+            VQuadTree::CalculateHalfXY(branch);
 
-            // this branch's half x and y could theoretically be undecided up until now (where it's children would be undecided too)
+            branch->tree_children[0] = new VQuadTree(branch->min_x , branch->min_y , branch->half_x, branch->half_y, branch->depth+1);
+            branch->tree_children[1] = new VQuadTree(branch->half_x, branch->min_y , branch->max_x , branch->half_y, branch->depth+1);
+            branch->tree_children[2] = new VQuadTree(branch->min_x , branch->half_y, branch->half_x, branch->max_y , branch->depth+1);
+            branch->tree_children[3] = new VQuadTree(branch->half_x, branch->half_y, branch->max_x , branch->max_y , branch->depth+1);
 
             NODELINKEDLIST_FOREACH(branch->node_children, {
                 VoronoiNode* repositioned_node = current_node; // get the node
                 this->recent_sort_x = repositioned_node->GetSortingPosX(); // and its position (NOT recalculated)
                 this->recent_sort_y = repositioned_node->GetSortingPosY();
-                this->AddToChildrenSplit(repositioned_node, branch, min_x, min_y, max_x, max_y); // the nodes in each slot find their new home
+                this->AddToChildrenSplit(repositioned_node, branch); // the nodes in each slot find their new home
                 delete current_slot; // and their old slot is deleted
             });
 
@@ -220,18 +223,18 @@ void VoronoiGraph::AddToChildren(VoronoiNode* node, VQuadTree* branch, int min_x
         }
     }
 }
-void VoronoiGraph::AddToChildrenSplit(VoronoiNode* node, VQuadTree* branch, int min_x, int min_y, int max_x, int max_y) {
+void VoronoiGraph::AddToChildrenSplit(VoronoiNode* node, VQuadTree* branch) {
     if (this->recent_sort_y < branch->half_y) {
         if (this->recent_sort_x < branch->half_x) {
-            this->AddToChildren(node, branch->tree_children[0], min_x, min_y, branch->half_x, branch->half_y);
+            this->AddToChildren(node, branch->tree_children[0]);
         } else {
-            this->AddToChildren(node, branch->tree_children[1], branch->half_x, min_y, max_x, branch->half_y);
+            this->AddToChildren(node, branch->tree_children[1]);
         }
     } else {
         if (this->recent_sort_x < branch->half_x) {
-            this->AddToChildren(node, branch->tree_children[2], min_x, branch->half_y, branch->half_x, max_y);
+            this->AddToChildren(node, branch->tree_children[2]);
         } else {
-            this->AddToChildren(node, branch->tree_children[3], branch->half_x, branch->half_y, max_x, max_y);
+            this->AddToChildren(node, branch->tree_children[3]);
         }
     }
 }
@@ -246,6 +249,9 @@ void VoronoiGraph::RemoveNode(VoronoiNode* node) {
 void VoronoiGraph::RemoveFromChildren(VoronoiNode* node, VQuadTree* branch) {
     if (!this->SplitValid(branch)) { // this branch is below critical mass or is above but was disallowed splitting
 
+        if (!NodeLinkedList::Contains(branch->node_children, node)) {
+            this->PrintTree();
+        }
         SDL_assert(NodeLinkedList::Contains(branch->node_children, node));
 
         NodeLinkedList::RemoveTreeLocation(node, &branch->node_children);
@@ -297,30 +303,39 @@ void VoronoiGraph::ConsolidateChildLists(VQuadTree* branch) {
 }
 
 void VoronoiGraph::UpdateNodePositions() {
-    NodeLinkedList* current_slot = this->all_child_nodes;
-    NodeLinkedList::Print("all nodes:", this->all_child_nodes, 0);
-    while (current_slot != nullptr) {
-        std::cout << "loop once" << std::endl;
-        VoronoiNode* node = current_slot->node;
-        // try always removing and adding every node
-        current_slot = current_slot->next;
-        this->RemoveNode(node); // fails on removal
-        this->AddNode(node);
+    NodeLinkedList::PrintNodes("all nodes:", this->all_child_nodes, 0);
 
-//        int x_copy = node->GetSortingPosX(); // store a copy of the old sorting position before the most recent move
-//        int y_copy = node->GetSortingPosY();
-//        node->CalculateSortingPos(); // you moved, therefore you should have an updated sorting position
-//        if (!node->IsBounded()) { // now, have you left the box you were in just a moment ago?
+    NodeLinkedList* nodes_to_update = nullptr;
+    NODELINKEDLIST_FOREACH(this->all_child_nodes, {
+        std::cout << "loop once, ";
+        std::cout << "node: " << current_node;
+        // try always removing and adding every node
+        std::cout << ", next: " << current_slot << std::endl;
+        this->RemoveNode(current_node); // fails on removal
+//        this->AddNode(current_node);
+        NodeLinkedList::Append(current_node, &nodes_to_update); // the node lives in this list now, nowhere else
+
+//        int x_copy = current_node->GetSortingPosX(); // store a copy of the old sorting position before the most recent move
+//        int y_copy = current_node->GetSortingPosY();
+//        current_node->CalculateSortingPos(); // you moved, therefore you should have an updated sorting position
+//        if (!current_node->IsBounded()) { // now, have you left the box you were in just a moment ago?
 //            std::cout << "relocating" << std::endl;
 //            this->recent_sort_x = x_copy;
 //            this->recent_sort_y = y_copy;
-//            this->RemoveFromChildren(node, this->root); // use the old for removing it
-//            this->recent_sort_x = node->GetSortingPosX();// and the new for adding it
-//            this->recent_sort_y = node->GetSortingPosY();
-//            this->AddToChildren(node, this->root, this->x, this->y, this->x+this->w, this->y+this->h);
+//            this->RemoveFromChildren(current_node, this->root); // use the old for removing it
+//            this->recent_sort_x = current_node->GetSortingPosX();// and the new for adding it
+//            this->recent_sort_y = current_node->GetSortingPosY();
+//            this->AddToChildren(current_node, this->root, this->x, this->y, this->x+this->w, this->y+this->h);
 //        }
-//        current_slot = current_slot->next;
-    }
+    });
+    NodeLinkedList::PrintNodes("updating nodes:", nodes_to_update, 0);
+    NODELINKEDLIST_FOREACH(nodes_to_update, {
+        std::cout << "loop twice, ";
+        std::cout << "node: " << current_node;
+        std::cout << ", next: " << current_slot << std::endl;
+        this->AddNode(current_node);
+    });
+    NodeLinkedList::DeleteList(nodes_to_update); // these nodes all have homes now
     std::cout << "finished loop" << std::endl;
 }
 
@@ -351,7 +366,9 @@ NodeLinkedList* VoronoiGraph::GetNearby(double x, double y, VoronoiNode* seed) {
     NodeLinkedList::DeleteList(this->nearby_candidates);
     this->nearby_candidates = nullptr;
 
+//    this->error_logger->PotentialLog("near before candidates");
         this->BuildNearbyList(this->root); // this is where the job is mostly done
+//    this->error_logger->PotentialLog("near after candidates");
 
     SDL_assert(this->nearby_candidates != nullptr);
 
@@ -360,6 +377,7 @@ NodeLinkedList* VoronoiGraph::GetNearby(double x, double y, VoronoiNode* seed) {
     NodeLinkedList* nearest_slot = nullptr; // we're gonna be searching for the nearest node to swap to the front
     double nearest_dist = this->nearby_candidates->node->GetDist();
 
+//    this->error_logger->PotentialLog("near before sort");
     NODELINKEDLIST_FOREACH(this->nearby_candidates, {
         double current_distance = current_node->GetDist();
         if (current_distance <= this->current_bounding_mag) { // scanned node passes the check, may have significant m value
@@ -376,6 +394,7 @@ NodeLinkedList* VoronoiGraph::GetNearby(double x, double y, VoronoiNode* seed) {
             delete current_slot;
         }
     });
+//    this->error_logger->PotentialLog("near after sort");
 
     if (nearest_slot != nullptr) { // puts the nearest node at the top
         VoronoiNode* first_node = result_list->node;
@@ -554,4 +573,8 @@ void VoronoiGraph::SetBandWidth(double band_width) {
 }
 double VoronoiGraph::GetGain() {
     return this->gain;
+}
+
+void VoronoiGraph::SetErrorLogger(ErrorLogger* error_logger) {
+    this->error_logger = error_logger;
 }

@@ -21,6 +21,11 @@ CApp::CApp() {
     this->main_font = nullptr;
     this->refresh_period = 0;
     this->refresh_counter = 0;
+    this->error_logger = new ErrorLogger();
+    this->error_logger->DisableLogging();
+
+//    this->g_start_logging_after_gradients_updated = false;
+//    this->g_stop_logging_after_100_logs = 0;
 }
 
 int CApp::OnExecute() {
