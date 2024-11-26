@@ -78,6 +78,19 @@ double VoronoiNode::GetY() {
     return this->y;
 }
 
+void PrintIndents(int indent);
+void VoronoiNode::Print(int indent) {
+    RGBColor c = this->color;
+    std::cout << this << ": {" << std::endl;
+    PrintIndents(indent+1); std::cout << "sort_(x,y): (" << this->sorting_x << "," << this->sorting_y << ")," << std::endl;
+    PrintIndents(indent+1); std::cout << "precise_(x,y): (" << this->x << "," << this->y << ")," << std::endl;
+    PrintIndents(indent+1); std::cout << "color: [" << c.r << "," << c.g << "," << c.b << "]," << std::endl;
+    PrintIndents(indent+1); std::cout << "dist:" << this->mag<< "," << std::endl;
+    PrintIndents(indent+1); std::cout << "residency:" << this->residential_slot << "," << std::endl;
+    PrintIndents(indent+1); std::cout << "reference:" << this->tree_slot << std::endl;
+    PrintIndents(indent); std::cout << "}";
+}
+
 void VoronoiNode::Render(SDL_Renderer* target_renderer) {
     SDL_Rect dest = {0,0,0,0};
 

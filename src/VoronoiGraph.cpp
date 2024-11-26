@@ -16,8 +16,9 @@ void VQuadTree::Print(VQuadTree* tree, int indent) {
     std::cout << "{" << std::endl;
     PrintIndents(indent+1); std::cout << "total_children: " << tree->total_children << "," << std::endl;
     PrintIndents(indent+1); std::cout << "depth: " << tree->depth << "," << std::endl;
-    PrintIndents(indent+1); std::cout << "half_x: " << tree->half_x << "," << std::endl;
-    PrintIndents(indent+1); std::cout << "half_y: " << tree->half_y << "," << std::endl;
+    PrintIndents(indent+1); std::cout << "min_(x,y): (" << tree->min_x << "," << tree->min_y << ")" << std::endl;
+    PrintIndents(indent+1); std::cout << "max_(x,y): (" << tree->max_x << "," << tree->max_y << ")" << std::endl;
+    PrintIndents(indent+1); std::cout << "half_(x,y): (" << tree->half_x << "," << tree->half_y << ")" << std::endl;
 //    PrintIndents(indent+1); NodeLinkedList::Print("node_children: ", tree->node_children, indent+1);
     PrintIndents(indent+1); NodeLinkedList::PrintNodes("node_children: ", tree->node_children, indent+1);
     if (tree->tree_children[0] == nullptr) {
@@ -179,8 +180,9 @@ bool VoronoiGraph::SplitValid(VQuadTree* branch) {
 }
 
 void VoronoiGraph::AddNode(VoronoiNode* node) {
-    NodeLinkedList::Append(node, &this->all_child_nodes);
-    node->SetResidence(this->all_child_nodes);
+//    NodeLinkedList::Append(node, &this->all_child_nodes);
+//    node->SetResidence(this->all_child_nodes);
+    NodeLinkedList::AddResidence(node, &this->all_child_nodes);
 
     node->CalculateSortingPos(); // this is where the new node's sort position is actually ascertained
     this->recent_sort_x = node->GetSortingPosX();
@@ -196,9 +198,10 @@ void VoronoiGraph::AddToChildren(VoronoiNode* node, VQuadTree* branch) {
 
     } else { // we're either below critical mass or above it and weren't allowed to split
 
-        NodeLinkedList::Append(node, &branch->node_children); // node given a slot
-        node->SetTreeSlot(branch->node_children); // node knows its reference
-        node->SetBounds(branch->min_x, branch->min_y, branch->max_x, branch->max_y); // node knows its shape // are we FOR SURE this is correct
+//        NodeLinkedList::Append(node, &branch->node_children); // node given a slot
+//        node->SetTreeSlot(branch->node_children); // node knows its reference
+        NodeLinkedList::AddTreeSlot(node, &branch->node_children);
+        node->SetBounds(branch->min_x, branch->min_y, branch->max_x, branch->max_y); // node knows its shape
 
         branch->total_children++;
 
@@ -250,6 +253,9 @@ void VoronoiGraph::RemoveFromChildren(VoronoiNode* node, VQuadTree* branch) {
     if (!this->SplitValid(branch)) { // this branch is below critical mass or is above but was disallowed splitting
 
         if (!NodeLinkedList::Contains(branch->node_children, node)) {
+            std::cout << "failed contains check in remove" << std::endl;
+            std::cout << "attempted removed node: "; node->Print(0); std::cout << std::endl;
+            std::cout << "erroring branch: "; VQuadTree::Print(branch, 0);
             this->PrintTree();
         }
         SDL_assert(NodeLinkedList::Contains(branch->node_children, node));
@@ -305,16 +311,16 @@ void VoronoiGraph::ConsolidateChildLists(VQuadTree* branch) {
 void VoronoiGraph::UpdateNodePositions() {
     NodeLinkedList::PrintNodes("all nodes:", this->all_child_nodes, 0);
 
-    NodeLinkedList* nodes_to_update = nullptr;
+//    NodeLinkedList* nodes_to_update = nullptr;
     NODELINKEDLIST_FOREACH(this->all_child_nodes, {
         std::cout << "loop once, ";
-        std::cout << "node: " << current_node;
         // try always removing and adding every node
-        std::cout << ", next: " << current_slot << std::endl;
-        this->RemoveNode(current_node); // fails on removal
-//        this->AddNode(current_node);
-        NodeLinkedList::Append(current_node, &nodes_to_update); // the node lives in this list now, nowhere else
-
+        std::cout << "[" << current_slot <<"]: " << current_node <<", next: " << current_slot->next << ", progress: 0";
+        this->RemoveNode(current_node);
+        std::cout << "1";
+        this->AddNode(current_node);
+        std::cout << "2" << std::endl;
+//        NodeLinkedList::Append(current_node, &nodes_to_update); // the node lives in this list now, nowhere else
 //        int x_copy = current_node->GetSortingPosX(); // store a copy of the old sorting position before the most recent move
 //        int y_copy = current_node->GetSortingPosY();
 //        current_node->CalculateSortingPos(); // you moved, therefore you should have an updated sorting position
@@ -328,14 +334,14 @@ void VoronoiGraph::UpdateNodePositions() {
 //            this->AddToChildren(current_node, this->root, this->x, this->y, this->x+this->w, this->y+this->h);
 //        }
     });
-    NodeLinkedList::PrintNodes("updating nodes:", nodes_to_update, 0);
-    NODELINKEDLIST_FOREACH(nodes_to_update, {
-        std::cout << "loop twice, ";
-        std::cout << "node: " << current_node;
-        std::cout << ", next: " << current_slot << std::endl;
-        this->AddNode(current_node);
-    });
-    NodeLinkedList::DeleteList(nodes_to_update); // these nodes all have homes now
+//    NodeLinkedList::PrintNodes("updating nodes:", nodes_to_update, 0);
+//    NODELINKEDLIST_FOREACH(nodes_to_update, {
+//        std::cout << "loop twice, ";
+//        std::cout << "node: " << current_node;
+//        std::cout << ", next: " << current_slot << std::endl;
+//        this->AddNode(current_node);
+//    });
+//    NodeLinkedList::DeleteList(nodes_to_update); // these nodes all have homes now
     std::cout << "finished loop" << std::endl;
 }
 
@@ -414,9 +420,11 @@ void VoronoiGraph::BuildNearbyList(VQuadTree* branch) { // takes the running inf
             double relative_dist = this->current_bounding_mag-current_node->GetDist(); // from this node to the outer circle
             if (relative_dist > 0) { // beats the outer circle
 
-                NodeLinkedList* new_candidate_entry = new NodeLinkedList(current_node);
-                new_candidate_entry->next = this->nearby_candidates; // prepend the new candidate
-                this->nearby_candidates = new_candidate_entry;
+//                NodeLinkedList* new_candidate_entry = new NodeLinkedList();
+//                new_candidate_entry->node = current_node;
+//                new_candidate_entry->next = this->nearby_candidates; // prepend the new candidate
+//                this->nearby_candidates = new_candidate_entry;
+                NodeLinkedList::Append(current_node, &this->nearby_candidates);
 
                 if (relative_dist >= this->band_width) { // beats the middle circle
                     this->current_bounding_mag = current_node->GetDist()+this->band_width; // now the outer circle is this dist plus out by band width

@@ -1,7 +1,8 @@
 #ifndef VORONOINODE_H
 #define VORONOINODE_H
-
 #include "SDL.h"
+#include <cmath>
+
 struct NodeLinkedList;
 
 struct RGBColor {
@@ -17,19 +18,22 @@ struct RGBColor {
         r += rhs.r; g += rhs.g; b += rhs.b;
     }
     RGBColor operator-(RGBColor const& rhs) const {
-        return RGBColor(r-rhs.r,g-rhs.g,b-rhs.b);
+        return RGBColor(r-rhs.r,g-rhs.g,b-rhs.b);//RGBColor result = RGBColor(r-rhs.r,g-rhs.g,b-rhs.b); return result; //
     }
     void operator-=(RGBColor const& rhs) {
         r -= rhs.r; g -= rhs.g; b -= rhs.b;
     }
     RGBColor operator*(RGBColor const& rhs) const {
-        return RGBColor(r*rhs.r,g*rhs.g,b*rhs.b);
+        return RGBColor(r*rhs.r,g*rhs.g,b*rhs.b);//RGBColor result = RGBColor(r*rhs.r,g*rhs.g,b*rhs.b); return result; //
     }
     RGBColor operator/(RGBColor const& rhs) const {
-        return RGBColor(r/rhs.r,g/rhs.g,b/rhs.b);
+        RGBColor result = RGBColor((std::abs(rhs.r)<0.0001) ? 0 : this->r/rhs.r,
+                                   (std::abs(rhs.r)<0.0001) ? 0 : this->r/rhs.r,
+                                   (std::abs(rhs.r)<0.0001) ? 0 : this->r/rhs.r);
+        return result; //return RGBColor(r/rhs.r,g/rhs.g,b/rhs.b);
     }
     RGBColor operator*(double const& rhs) const {
-        return RGBColor(r*rhs,g*rhs,b*rhs);
+        return RGBColor(r*rhs,g*rhs,b*rhs);//RGBColor result = RGBColor(r*rhs,g*rhs,b*rhs); return result; //
     }
     static double Trace(RGBColor const& col) {
         return col.r+col.g+col.b;
@@ -118,6 +122,7 @@ class VoronoiNode {
         double GetX();
         double GetY();
 
+        void Print(int indent);
         void Render(SDL_Renderer* target_renderer);
         RGBColor GetColor();
 

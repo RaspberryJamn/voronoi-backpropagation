@@ -10,8 +10,8 @@ class VoronoiNode;
     NodeLinkedList* macro_scanning_slot = list;                              \
     while (macro_scanning_slot != nullptr) {                                 \
         [[maybe_unused]] NodeLinkedList* current_slot = macro_scanning_slot; \
-        macro_scanning_slot = macro_scanning_slot->next;                     \
         [[maybe_unused]] VoronoiNode* current_node = current_slot->node;     \
+        macro_scanning_slot = macro_scanning_slot->next;                     \
         block                                                                \
     }                                                                        \
 } while (0)
@@ -20,14 +20,16 @@ struct NodeLinkedList {
     NodeLinkedList* next;
     VoronoiNode* node;
     NodeLinkedList() : next(nullptr), node(nullptr) {}
-    NodeLinkedList(VoronoiNode* node) : next(nullptr), node(node) {}
-    NodeLinkedList(VoronoiNode* node, NodeLinkedList* next) : next(next), node(node) {}
+//    NodeLinkedList(VoronoiNode* node) : next(nullptr), node(node) {}
+//    NodeLinkedList(VoronoiNode* node, NodeLinkedList* next) : next(next), node(node) {}
 
     static void Print(std::string header, NodeLinkedList* list, int indent);
     static void PrintNodes(std::string header, NodeLinkedList* list, int indent);
     static void DeleteList(NodeLinkedList* list);
     static void DeleteNodes(NodeLinkedList* list);
     static void Append(VoronoiNode* node, NodeLinkedList** list_ref);
+    static void AddResidence(VoronoiNode* node, NodeLinkedList** list_ref);
+    static void AddTreeSlot(VoronoiNode* node, NodeLinkedList** list_ref);
     static void RemoveResidence(VoronoiNode* node, NodeLinkedList** list_ref);
     static void RemoveTreeLocation(VoronoiNode* node, NodeLinkedList** list_ref);
     static int Length(NodeLinkedList* list);

@@ -37,13 +37,9 @@ void NodeLinkedList::PrintNodes(std::string header, NodeLinkedList* list, int in
     }
     std::cout << "{" << std::endl;
     NODELINKEDLIST_FOREACH(list, {
-        RGBColor c = current_node->GetColor();
-        PrintIndents(indent+1); std::cout << current_node << ":{" << std::endl;
-        PrintIndents(indent+2); std::cout << "sort_(x,y): (" << current_node->GetSortingPosX() << "," << current_node->GetSortingPosY() << ")," << std::endl;
-        PrintIndents(indent+2); std::cout << "precise_(x,y): (" << current_node->GetX() << "," << current_node->GetY() << ")," << std::endl;
-        PrintIndents(indent+2); std::cout << "color: [" << c.r << "," << c.g << "," << c.b << "]," << std::endl;
-        PrintIndents(indent+2); std::cout << "dist:" << current_node->GetDist() << std::endl;
-        PrintIndents(indent+1); std::cout << "}" << std::endl;
+        PrintIndents(indent+1); std::cout << "[" << current_slot << "]: ";
+        if (current_node != nullptr) {current_node->Print(indent+1);} else {std::cout << "null pointer";}
+        std::cout << " => " << current_slot->next << std::endl;
     });
     PrintIndents(indent); std::cout << "}" << std::endl;
 }
@@ -62,18 +58,29 @@ void NodeLinkedList::DeleteNodes(NodeLinkedList* list) {
 }
 
 void NodeLinkedList::Append(VoronoiNode* node, NodeLinkedList** list_ref) {
-    NodeLinkedList* new_first = new NodeLinkedList();//node);//
+    SDL_assert(node != nullptr);
+    NodeLinkedList* new_first = new NodeLinkedList();
     new_first->node = node;
     new_first->next = *list_ref;
     *list_ref = new_first;
 }
 
+void NodeLinkedList::AddResidence(VoronoiNode* node, NodeLinkedList** list_ref) {
+    NodeLinkedList::Append(node, list_ref);
+    node->SetResidence(*list_ref);
+}
+
+void NodeLinkedList::AddTreeSlot(VoronoiNode* node, NodeLinkedList** list_ref) {
+    NodeLinkedList::Append(node, list_ref);
+    node->SetTreeSlot(*list_ref);
+}
+
 void NodeLinkedList::RemoveResidence(VoronoiNode* node, NodeLinkedList** list_ref) {
+    SDL_assert(node != nullptr);
     NodeLinkedList* head_slot = (*list_ref);
     NodeLinkedList* residency_slot = node->GetResidence();
     residency_slot->node = head_slot->node; // residency slot previously occupied by this node now has the first node moved in
     residency_slot->node->SetResidence(residency_slot); // upon moving in, it gets the deed
-//    head_ptr_copy->node = node; // (conceptually its a swap)
     node->SetResidence(nullptr); // and the old node gets its deed revoked
 
     *list_ref = head_slot->next; // the official home listing lets go of the first entry, which should now be vacant
@@ -81,11 +88,12 @@ void NodeLinkedList::RemoveResidence(VoronoiNode* node, NodeLinkedList** list_re
 }
 
 void NodeLinkedList::RemoveTreeLocation(VoronoiNode* node, NodeLinkedList** list_ref) {
+    SDL_assert(node != nullptr);
     NodeLinkedList* head_slot = (*list_ref); // pointer to first slot
     NodeLinkedList* tree_slot = node->GetTreeSlot(); // the slot that references node
-    tree_slot->node = head_slot->node; // tree slot previously referencing this node now points to the first node
+    tree_slot->node = head_slot->node; // tree slot previously referencing this node now points to the first node, which the first slot is also doing
     tree_slot->node->SetTreeSlot(tree_slot); // the newly referenced node now updates its contacts
-    node->SetTreeSlot(nullptr); // the old node clears its contacts
+    node->SetTreeSlot(nullptr); // the old node clears its contacts (if there was an ovelap in head slot and tree slot, well this node's unreferenced anyways)
 
     *list_ref = head_slot->next; // the tree listing contains an out of date slot at its head, which it drops
     delete head_slot; // and that slot is erased
@@ -100,6 +108,7 @@ int NodeLinkedList::Length(NodeLinkedList* list) {
 }
 
 bool NodeLinkedList::Contains(NodeLinkedList* list, VoronoiNode* node) {
+//    SDL_assert(node != nullptr);
     NODELINKEDLIST_FOREACH(list, {
         if (current_node == node) {
             return true;
