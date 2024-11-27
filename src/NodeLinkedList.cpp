@@ -91,6 +91,7 @@ void NodeLinkedList::RemoveTreeLocation(VoronoiNode* node, NodeLinkedList** list
     SDL_assert(node != nullptr);
     NodeLinkedList* head_slot = (*list_ref); // pointer to first slot
     NodeLinkedList* tree_slot = node->GetTreeSlot(); // the slot that references node
+//    if (tree_slot == nullptr) {std::cout << "RemoveTreeLocation" << std::endl; return;}
     tree_slot->node = head_slot->node; // tree slot previously referencing this node now points to the first node, which the first slot is also doing
     tree_slot->node->SetTreeSlot(tree_slot); // the newly referenced node now updates its contacts
     node->SetTreeSlot(nullptr); // the old node clears its contacts (if there was an ovelap in head slot and tree slot, well this node's unreferenced anyways)

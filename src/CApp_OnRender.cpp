@@ -43,6 +43,7 @@ void CApp::RenderFullFrameVoronoi() {
                 g_running_seed = g_past_nearest_0_0_seed; // hit the bottom of the image, slide back to the top, reading the value as step one
 
 //                g_offset++; // finished frame
+                this->voronoi_graph->UpdateNodePositions();
             }
         }
     }
@@ -53,7 +54,7 @@ void CApp::RenderFullFrameVoronoi() {
 //int g_jitter_offset = 20;
 
 void CApp::OnRender() {
-
+    SDL_Rect dest = {0,0,0,0};
 //    g_jitter_offset += 1;
 //    if (g_jitter_offset > 400) {
 //        g_jitter_offset = 0;
@@ -78,6 +79,8 @@ void CApp::OnRender() {
     this->RenderFullFrameVoronoi(); // not so "full frame" anymore
 
     this->media_texture->Render(0,0);
+    SDL_SetRenderDrawColor(this->main_renderer, 0x00, 0x00, 0x00, 0xFF);
+    dest = {this->source_texture->GetWidth(), g_sample_y, 5, 5}; SDL_RenderFillRect(this->main_renderer, &dest);
 
     this->voronoi_graph->RenderTree(this->main_renderer);
 

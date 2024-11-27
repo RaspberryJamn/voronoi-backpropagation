@@ -218,8 +218,9 @@ void VoronoiGraph::AddToChildren(VoronoiNode* node, VQuadTree* branch) {
                 VoronoiNode* repositioned_node = current_node; // get the node
                 this->recent_sort_x = repositioned_node->GetSortingPosX(); // and its position (NOT recalculated)
                 this->recent_sort_y = repositioned_node->GetSortingPosY();
+//                repositioned_node->SetTreeSlot(nullptr); // testing adding this
+                delete current_slot; // and their old slot is deleted // and doing this a step earlier
                 this->AddToChildrenSplit(repositioned_node, branch); // the nodes in each slot find their new home
-                delete current_slot; // and their old slot is deleted
             });
 
             branch->node_children = nullptr; // at the end, everything in the list has been deleted, so the head of the list is cleared
@@ -309,17 +310,28 @@ void VoronoiGraph::ConsolidateChildLists(VQuadTree* branch) {
 }
 
 void VoronoiGraph::UpdateNodePositions() {
-    NodeLinkedList::PrintNodes("all nodes:", this->all_child_nodes, 0);
+//    NodeLinkedList::PrintNodes("all nodes:", this->all_child_nodes, 0);
 
 //    NodeLinkedList* nodes_to_update = nullptr;
     NODELINKEDLIST_FOREACH(this->all_child_nodes, {
         std::cout << "loop once, ";
         // try always removing and adding every node
         std::cout << "[" << current_slot <<"]: " << current_node <<", next: " << current_slot->next << ", progress: 0";
+
+        if (!current_node->IsBounded(current_node->GetSortingPosX(),
+                                     current_node->GetSortingPosY())
+            ) {
+            std::cout << std::endl << "node wasnt bounded after not moving: "; current_node->Print(0); std::cout << std::endl;
+            this->PrintTree();
+            SDL_assert(false); // node wasnt bounded
+        }
+
         this->RemoveNode(current_node);
         std::cout << "1";
         this->AddNode(current_node);
+//        std::cout << "2";
         std::cout << "2" << std::endl;
+
 //        NodeLinkedList::Append(current_node, &nodes_to_update); // the node lives in this list now, nowhere else
 //        int x_copy = current_node->GetSortingPosX(); // store a copy of the old sorting position before the most recent move
 //        int y_copy = current_node->GetSortingPosY();

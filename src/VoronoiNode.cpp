@@ -61,11 +61,20 @@ void VoronoiNode::SetBounds(int min_x, int min_y, int max_x, int max_y) {
     this->sorting_x_max = max_x;
     this->sorting_y_max = max_y;
 }
-bool VoronoiNode::IsBounded() {
-    if ((this->sorting_x < this->sorting_x_min) ||
-        (this->sorting_x > this->sorting_x_max) ||
-        (this->sorting_y < this->sorting_y_min) ||
-        (this->sorting_y > this->sorting_y_max)) {
+//bool VoronoiNode::IsBounded() {
+//    if ((this->sorting_x < this->sorting_x_min) ||
+//        (this->sorting_x > this->sorting_x_max) ||
+//        (this->sorting_y < this->sorting_y_min) ||
+//        (this->sorting_y > this->sorting_y_max)) {
+//        return false;
+//    }
+//    return true;
+//}
+bool VoronoiNode::IsBounded(int x, int y) {
+    if ((x < this->sorting_x_min) ||
+        (x >=this->sorting_x_max) ||
+        (y < this->sorting_y_min) ||
+        (y >=this->sorting_y_max)) {
         return false;
     }
     return true;
@@ -84,6 +93,8 @@ void VoronoiNode::Print(int indent) {
     std::cout << this << ": {" << std::endl;
     PrintIndents(indent+1); std::cout << "sort_(x,y): (" << this->sorting_x << "," << this->sorting_y << ")," << std::endl;
     PrintIndents(indent+1); std::cout << "precise_(x,y): (" << this->x << "," << this->y << ")," << std::endl;
+    PrintIndents(indent+1); std::cout << "min_corner_(x,y): (" << this->sorting_x_min << "," << this->sorting_y_min << ")," << std::endl;
+    PrintIndents(indent+1); std::cout << "max_corner_(x,y): (" << this->sorting_x_max << "," << this->sorting_y_max << ")," << std::endl;
     PrintIndents(indent+1); std::cout << "color: [" << c.r << "," << c.g << "," << c.b << "]," << std::endl;
     PrintIndents(indent+1); std::cout << "dist:" << this->mag<< "," << std::endl;
     PrintIndents(indent+1); std::cout << "residency:" << this->residential_slot << "," << std::endl;
