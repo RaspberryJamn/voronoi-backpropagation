@@ -94,11 +94,19 @@ void CApp::OnRender() {
 
     string_bounds = {5,20,0,0};
     disp = this->average_frametime;
-    if (disp < (1000.0/9999.0)) {disp = (1000.0/9999.0);}
-    disp = (1000.0/disp);
-    this->text_textures[2]->RenderRTL(&string_bounds); // "Last frametime: "
+//    if (disp < (1000.0/9999.0)) {disp = (1000.0/9999.0);}
+//    disp = (1000.0/disp);
+    this->text_textures[2]->RenderRTL(&string_bounds); // "Average frametime: "
     this->number_renderer.DrawRTL(std::to_string((int)(disp)), &string_bounds);
     this->text_textures[3]->RenderRTL(&string_bounds); // "ms"
+
+    string_bounds = {5,35,0,0};
+    disp = 1000.0/this->average_full_frametime;
+//    if (disp < (1000.0/9999.0)) {disp = (1000.0/9999.0);}
+//    disp = (1000.0/disp);
+    this->text_textures[4]->RenderRTL(&string_bounds); // "Average fps: "
+    this->number_renderer.DrawRTL(std::to_string((int)(disp)), &string_bounds);
+    this->text_textures[5]->RenderRTL(&string_bounds); // "fps"
 
     SDL_RenderPresent(this->main_renderer);
 

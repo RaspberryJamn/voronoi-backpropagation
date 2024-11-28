@@ -1,18 +1,13 @@
 #include "LapCounter.h"
 
 LapCounter::LapCounter() {
-    for (size_t i = 0; i < LAP_COUNTER_BUCKETS; i++) {
-        this->ms_numerators[i] = 0;
-        this->lap_denominators[i] = 0;
-    }
-    this->running_ms = 0;
-    this->running_laps = 0;
-    this->write_head = 0;
-
-    this->timer.Stop();
+    this->Clear();
 }
-
 LapCounter::~LapCounter() {
+    this->Clear();
+}
+void LapCounter::Clear() {
+
     for (size_t i = 0; i < LAP_COUNTER_BUCKETS; i++) {
         this->ms_numerators[i] = 0;
         this->lap_denominators[i] = 0;
@@ -25,7 +20,16 @@ LapCounter::~LapCounter() {
 }
 
 void LapCounter::Reset() {
+    this->Clear();
     this->timer.Reset();
+}
+
+void LapCounter::Pause() {
+    this->timer.Pause();
+}
+
+void LapCounter::Resume() {
+    this->timer.Unpause();
 }
 
 void LapCounter::CallLap() {

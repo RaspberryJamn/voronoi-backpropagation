@@ -399,10 +399,10 @@
 	"begin_code.h"
 	"close_code.h"
 
-1732400065 source:c:\users\james\documents\cpp\voronoi\src\capp.cpp
+1732754088 source:c:\users\james\documents\cpp\voronoi\src\capp.cpp
 	"CApp.h"
 
-1732400012 c:\users\james\documents\cpp\voronoi\include\capp.h
+1732753514 c:\users\james\documents\cpp\voronoi\include\capp.h
 	<SDL.h>
 	<SDL_image.h>
 	<SDL_ttf.h>
@@ -424,7 +424,7 @@
 	"CApp.h"
 	<iostream>
 
-1731893486 source:c:\users\james\documents\cpp\voronoi\src\capp_oncleanup.cpp
+1732753230 source:c:\users\james\documents\cpp\voronoi\src\capp_oncleanup.cpp
 	"CApp.h"
 
 1728795993 source:c:\users\james\documents\cpp\voronoi\src\capp_onevent.cpp
@@ -441,7 +441,7 @@
 	<iostream>
 	<sstream>
 
-1732741399 source:c:\users\james\documents\cpp\voronoi\src\capp_onrender.cpp
+1732754109 source:c:\users\james\documents\cpp\voronoi\src\capp_onrender.cpp
 	"CApp.h"
 	<sstream>
 	<cmath>
@@ -466,7 +466,7 @@
 	"Texture.h"
 	<iostream>
 
-1731894548 source:c:\users\james\documents\cpp\voronoi\src\capp_importassets.cpp
+1732753248 source:c:\users\james\documents\cpp\voronoi\src\capp_importassets.cpp
 	"CApp.h"
 	<iostream>
 
@@ -486,7 +486,7 @@
 	"SDL.h"
 	<cmath>
 
-1732744116 source:c:\users\james\documents\cpp\voronoi\src\voronoigraph.cpp
+1732752721 source:c:\users\james\documents\cpp\voronoi\src\voronoigraph.cpp
 	"VoronoiGraph.h"
 	"CApp.h"
 	<cmath>
@@ -498,10 +498,10 @@
 	"ErrorLogger.h"
 	<SDL.h>
 
-1732224301 c:\users\james\documents\cpp\voronoi\include\lapcounter.h
+1732749583 c:\users\james\documents\cpp\voronoi\include\lapcounter.h
 	"Timer.h"
 
-1732223752 source:c:\users\james\documents\cpp\voronoi\src\lapcounter.cpp
+1732749739 source:c:\users\james\documents\cpp\voronoi\src\lapcounter.cpp
 	"LapCounter.h"
 
 1730761031 c:\users\james\documents\cpp\voronoi\include\voronoiquadtree.h

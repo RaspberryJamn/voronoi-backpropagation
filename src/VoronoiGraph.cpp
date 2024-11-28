@@ -326,9 +326,9 @@ void VoronoiGraph::UpdateNodePositions() {
             SDL_assert(false); // node wasnt bounded
         }
 
-        this->RemoveNode(current_node);
-        std::cout << "1";
-        this->AddNode(current_node);
+//        this->RemoveNode(current_node);
+//        std::cout << "1";
+//        this->AddNode(current_node);
 //        std::cout << "2";
         std::cout << "2" << std::endl;
 

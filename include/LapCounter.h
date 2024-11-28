@@ -14,9 +14,12 @@ class LapCounter {
 
         void Reset();
         void CallLap();
+        void Pause();
+        void Resume();
 
         double GetAverageLapTime(); // YES sliding window this time, we're keeping it INTERESTING
     private:
+        void Clear();
 
         int ms_numerators[LAP_COUNTER_BUCKETS];
         int lap_denominators[LAP_COUNTER_BUCKETS];
