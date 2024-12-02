@@ -67,7 +67,9 @@ class VoronoiGraph {
         void AddToChildren(VoronoiNode* node, VQuadTree* branch);
         void AddToChildrenSplit(VoronoiNode* node, VQuadTree* branch);
 
-        void RemoveFromChildren(VoronoiNode* node, VQuadTree* branch);
+//        void RemoveFromChildren(VoronoiNode* node, VQuadTree* branch);
+//        void ConsolidateChildLists(VQuadTree* branch);
+        void RemoveFromBranch(VoronoiNode* node, VQuadTree* branch);
         void ConsolidateChildLists(VQuadTree* branch);
 
         void BuildNearbyList(VQuadTree* branch);

@@ -180,9 +180,10 @@ bool VoronoiGraph::SplitValid(VQuadTree* branch) {
 }
 
 void VoronoiGraph::AddNode(VoronoiNode* node) {
-//    NodeLinkedList::Append(node, &this->all_child_nodes);
+    NodeLinkedList::Append(node, &this->all_child_nodes);
 //    node->SetResidence(this->all_child_nodes);
-    NodeLinkedList::AddResidence(node, &this->all_child_nodes);
+//    NodeLinkedList::AddResidence(node, &this->all_child_nodes);
+    this->total_child_count++;
 
     node->CalculateSortingPos(); // this is where the new node's sort position is actually ascertained
     this->recent_sort_x = node->GetSortingPosX();
@@ -198,9 +199,9 @@ void VoronoiGraph::AddToChildren(VoronoiNode* node, VQuadTree* branch) {
 
     } else { // we're either below critical mass or above it and weren't allowed to split
 
-//        NodeLinkedList::Append(node, &branch->node_children); // node given a slot
+        NodeLinkedList::Append(node, &branch->node_children); // node given a slot
 //        node->SetTreeSlot(branch->node_children); // node knows its reference
-        NodeLinkedList::AddTreeSlot(node, &branch->node_children);
+//        NodeLinkedList::AddTreeSlot(node, &branch->node_children);
         node->SetBounds(branch->min_x, branch->min_y, branch->max_x, branch->max_y); // node knows its shape
 
         branch->total_children++;
@@ -243,6 +244,7 @@ void VoronoiGraph::AddToChildrenSplit(VoronoiNode* node, VQuadTree* branch) {
     }
 }
 
+/* QUARANTINE REMOVAL CODE
 void VoronoiGraph::RemoveNode(VoronoiNode* node) {
     NodeLinkedList::RemoveResidence(node, &this->all_child_nodes); // here is where the node is officially located, now gone
     // the node's sort position should not be recalculated now as that would mess with the function's ability to actually find the node
@@ -307,6 +309,54 @@ void VoronoiGraph::ConsolidateChildLists(VQuadTree* branch) {
     }
 
     branch->node_children = growing_start;
+}
+*/
+
+void VoronoiGraph::RemoveNode(VoronoiNode* node) {
+    NodeLinkedList::RemoveGeneric(node, &this->all_child_nodes);
+    this->total_child_count--;
+    this->recent_sort_x = node->GetSortingPosX();
+    this->recent_sort_y = node->GetSortingPosY();
+    this->RemoveFromBranch(node, this->root);
+}
+
+void VoronoiGraph::RemoveFromBranch(VoronoiNode* node, VQuadTree* branch) {
+    if (this->SplitValid(branch)) { // branched
+        if (this->recent_sort_y < branch->half_y) {
+            if (this->recent_sort_x < branch->half_x) {
+                this->RemoveFromBranch(node, branch->tree_children[0]);
+            } else {
+                this->RemoveFromBranch(node, branch->tree_children[1]);
+            }
+        } else {
+            if (this->recent_sort_x < branch->half_x) {
+                this->RemoveFromBranch(node, branch->tree_children[2]);
+            } else {
+                this->RemoveFromBranch(node, branch->tree_children[3]);
+            }
+        }
+        branch->total_children--;
+        if (!this->SplitValid(branch)) {// should the trees remerge?
+            this->ConsolidateChildLists(branch);
+        }
+        return;
+    } else { // leaf
+        NodeLinkedList::RemoveGeneric(node, &branch->node_children);
+        branch->total_children--;
+    }
+}
+
+void VoronoiGraph::ConsolidateChildLists(VQuadTree* branch) {
+    NodeLinkedList* concatenated = nullptr;
+    NodeLinkedList::LinkAOntoB(&concatenated, branch->tree_children[0]->node_children); // fancy way of saying concatenated = branch->tree_children[0]->node_children
+    NodeLinkedList::LinkAOntoB(&concatenated, branch->tree_children[1]->node_children);
+    NodeLinkedList::LinkAOntoB(&concatenated, branch->tree_children[2]->node_children);
+    NodeLinkedList::LinkAOntoB(&concatenated, branch->tree_children[3]->node_children);
+    branch->node_children = concatenated;
+    delete branch->tree_children[0]; branch->tree_children[0] = nullptr;
+    delete branch->tree_children[1]; branch->tree_children[1] = nullptr;
+    delete branch->tree_children[2]; branch->tree_children[2] = nullptr;
+    delete branch->tree_children[3]; branch->tree_children[3] = nullptr;
 }
 
 void VoronoiGraph::UpdateNodePositions() {

@@ -20,6 +20,7 @@ struct NodeLinkedList {
     NodeLinkedList* next;
     VoronoiNode* node;
     NodeLinkedList() : next(nullptr), node(nullptr) {}
+//    ~NodeLinkedList() : {} // maybe this helps?
 //    NodeLinkedList(VoronoiNode* node) : next(nullptr), node(node) {}
 //    NodeLinkedList(VoronoiNode* node, NodeLinkedList* next) : next(next), node(node) {}
 
@@ -28,10 +29,12 @@ struct NodeLinkedList {
     static void DeleteList(NodeLinkedList* list);
     static void DeleteNodes(NodeLinkedList* list);
     static void Append(VoronoiNode* node, NodeLinkedList** list_ref);
-    static void AddResidence(VoronoiNode* node, NodeLinkedList** list_ref);
-    static void AddTreeSlot(VoronoiNode* node, NodeLinkedList** list_ref);
-    static void RemoveResidence(VoronoiNode* node, NodeLinkedList** list_ref);
-    static void RemoveTreeLocation(VoronoiNode* node, NodeLinkedList** list_ref);
+    static void RemoveGeneric(VoronoiNode* node, NodeLinkedList** list_ref);
+    static void LinkAOntoB(NodeLinkedList** a, NodeLinkedList* b);
+//    static void AddResidence(VoronoiNode* node, NodeLinkedList** list_ref);
+//    static void AddTreeSlot(VoronoiNode* node, NodeLinkedList** list_ref);
+//    static void RemoveResidence(VoronoiNode* node, NodeLinkedList** list_ref);
+//    static void RemoveTreeLocation(VoronoiNode* node, NodeLinkedList** list_ref);
     static int Length(NodeLinkedList* list);
     static bool Contains(NodeLinkedList* list, VoronoiNode* node);
 };

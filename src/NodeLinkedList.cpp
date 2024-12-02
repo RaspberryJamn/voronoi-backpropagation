@@ -65,6 +65,39 @@ void NodeLinkedList::Append(VoronoiNode* node, NodeLinkedList** list_ref) {
     *list_ref = new_first;
 }
 
+void NodeLinkedList::RemoveGeneric(VoronoiNode* node, NodeLinkedList** list_ref) {
+    NodeLinkedList* prev_slot = nullptr;
+    NODELINKEDLIST_FOREACH((*list_ref), {
+        if (current_node == node) {
+
+            if (prev_slot == nullptr) { // unlink maintaining order
+                (*list_ref) = (*list_ref)->next;
+            } else {
+                prev_slot->next = current_slot->next;
+            }
+
+            delete current_slot;
+
+            return;
+        }
+        prev_slot = current_slot;
+    });
+    SDL_assert(false);
+}
+
+void NodeLinkedList::LinkAOntoB(NodeLinkedList** a, NodeLinkedList* b) {
+    NodeLinkedList* final_slot = nullptr;
+    NODELINKEDLIST_FOREACH((*a), {
+        final_slot = current_slot;
+    });
+    if (final_slot == nullptr) {
+        (*a) = b;
+    } else {
+        final_slot->next = b;
+    }
+}
+
+/* QUARANTINE REMOVAL CODE
 void NodeLinkedList::AddResidence(VoronoiNode* node, NodeLinkedList** list_ref) {
     NodeLinkedList::Append(node, list_ref);
     node->SetResidence(*list_ref);
@@ -77,6 +110,8 @@ void NodeLinkedList::AddTreeSlot(VoronoiNode* node, NodeLinkedList** list_ref) {
 
 void NodeLinkedList::RemoveResidence(VoronoiNode* node, NodeLinkedList** list_ref) {
     SDL_assert(node != nullptr);
+    SDL_assert(NodeLinkedList::Contains((*list_ref), node));
+
     NodeLinkedList* head_slot = (*list_ref);
     NodeLinkedList* residency_slot = node->GetResidence();
     residency_slot->node = head_slot->node; // residency slot previously occupied by this node now has the first node moved in
@@ -89,6 +124,8 @@ void NodeLinkedList::RemoveResidence(VoronoiNode* node, NodeLinkedList** list_re
 
 void NodeLinkedList::RemoveTreeLocation(VoronoiNode* node, NodeLinkedList** list_ref) {
     SDL_assert(node != nullptr);
+    SDL_assert(NodeLinkedList::Contains((*list_ref), node));
+
     NodeLinkedList* head_slot = (*list_ref); // pointer to first slot
     NodeLinkedList* tree_slot = node->GetTreeSlot(); // the slot that references node
 //    if (tree_slot == nullptr) {std::cout << "RemoveTreeLocation" << std::endl; return;}
@@ -99,6 +136,7 @@ void NodeLinkedList::RemoveTreeLocation(VoronoiNode* node, NodeLinkedList** list
     *list_ref = head_slot->next; // the tree listing contains an out of date slot at its head, which it drops
     delete head_slot; // and that slot is erased
 }
+*/
 
 int NodeLinkedList::Length(NodeLinkedList* list) {
     int result = 0;
