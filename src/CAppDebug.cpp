@@ -32,29 +32,71 @@ CApp::CApp() {
 int CApp::OnExecute() {
     std::cout << "this is the DEBUG VERSION, not the primary" << std::endl;
 
-    if(OnInit() == false) {
-        return -1;
-    }
+//    if(OnInit() == false) {
+//        return -1;
+//    }
 
-    SDL_Event Event;
-    Timer frametime_timer;
-    LapCounter frametime_counter;
-    frametime_counter.Reset();
-    while(this->running) {
-        frametime_timer.Reset();
+//    SDL_Event Event;
+//    Timer frametime_timer;
+//    LapCounter frametime_counter;
+//    frametime_counter.Reset();
+//    while(this->running) {
+//        frametime_timer.Reset();
+//
+//        while(SDL_PollEvent(&Event)) {
+//            OnEvent(Event);
+//        }
+//        OnLoop();
+//        OnRender();
+//
+//        this->last_frametime = frametime_timer.QueryTicks();
+//        frametime_counter.CallLap();
+//        this->average_frametime = frametime_counter.GetAverageLapTime();
+//    }
 
-        while(SDL_PollEvent(&Event)) {
-            OnEvent(Event);
+//    OnCleanup();
+
+    NodeLinkedList* list = nullptr;
+    int menu_option;
+    while (true) {
+        std::cout << "Please enter a choice (1-4)" << std::endl;
+        std::cout << "1:Append node pointers" << std::endl;
+        std::cout << "2:Remove given node" << std::endl;
+        std::cout << "3:Print list" << std::endl;
+        std::cout << "4:Exit" << std::endl;
+
+        std::cout << ">";
+        std::cin >> menu_option;
+
+        if(menu_option == 4) {
+            break;
         }
-        OnLoop();
-        OnRender();
 
-        this->last_frametime = frametime_timer.QueryTicks();
-        frametime_counter.CallLap();
-        this->average_frametime = frametime_counter.GetAverageLapTime();
+        std::cout << std::endl;
+        switch(menu_option) {
+            case 1:
+                std::cout << "Enqueue values, enter -1 to end" << std::endl;
+                std::cout << ">";
+                int value;
+                while (true) {
+                    std::cin >> value;
+                    if(value == -1) { break; }
+//                    queue.Insert(value);
+                }
+            break;
+            case 2:
+                std::cout << "Dequeued minimum value: ";// << queue.DeleteMin();
+            break;
+            case 3:
+                std::cout << "Queue array: ";// << queue;
+            break;
+            default:
+                std::cout << "Enter a valid choice" << std::endl;
+            break;
+        }
+        std::cout << std::endl << std::endl;
     }
 
-    OnCleanup();
     return 0;
 }
 

@@ -6,6 +6,16 @@
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
+			<Target title="Primary">
+				<Option output="bin/Primary/voronoi" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Primary" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+					<Add directory="include" />
+				</Compiler>
+			</Target>
 			<Target title="Debug">
 				<Option output="bin/Debug/voronoi" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
@@ -40,7 +50,12 @@
 		<Unit filename="include/VoronoiGraph.h" />
 		<Unit filename="include/VoronoiNode.h" />
 		<Unit filename="src/AtlasNumberDrawer.cpp" />
-		<Unit filename="src/CApp.cpp" />
+		<Unit filename="src/CApp.cpp">
+			<Option target="Primary" />
+		</Unit>
+		<Unit filename="src/CAppDebug.cpp">
+			<Option target="Debug" />
+		</Unit>
 		<Unit filename="src/CApp_ImportAssets.cpp" />
 		<Unit filename="src/CApp_OnCleanup.cpp" />
 		<Unit filename="src/CApp_OnEvent.cpp" />
