@@ -24,6 +24,8 @@ class CApp {
 
         Uint32 last_frametime;
         double average_frametime;
+        double target_frametime; // 1000ms/s / X fps; +-0.5ms
+        double average_full_frametime;
 
         Texture* source_texture;
         Uint8* source_pixels;
@@ -31,7 +33,7 @@ class CApp {
         Texture* media_texture;
         VoronoiGraph* voronoi_graph;
 
-        Texture* text_textures[4];
+        Texture* text_textures[6];
         AtlasNumberDrawer number_renderer;
 
         TTF_Font* main_font;

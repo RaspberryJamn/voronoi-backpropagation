@@ -8,9 +8,6 @@ int g_sample_y = 0;
 VoronoiNode* g_past_nearest_0_0_seed = nullptr; // keeps tab on a good seed for the top left corner
 VoronoiNode* g_past_nearest_0_y_seed = nullptr; // keeps tab on a good seed for the left hand spine of the current scan line
 VoronoiNode* g_running_seed = nullptr; // seed for the current sample, reads from and writes to the previous two
-
-VoronoiNode* g_add_and_remove_node = nullptr;
-
 void CApp::RenderFullFrameVoronoi() {
     this->media_texture->SetSelfAsRenderTarget();
 
@@ -46,14 +43,7 @@ void CApp::RenderFullFrameVoronoi() {
                 g_running_seed = g_past_nearest_0_0_seed; // hit the bottom of the image, slide back to the top, reading the value as step one
 
 //                g_offset++; // finished frame
-//                this->voronoi_graph->UpdateNodePositions();
-                if (g_add_and_remove_node == nullptr) {
-                    g_add_and_remove_node = new VoronoiNode(300, 190, 255, 170, 100);
-                    this->voronoi_graph->AddNode(g_add_and_remove_node);
-                } else {
-                    this->voronoi_graph->RemoveNode(g_add_and_remove_node);
-                    this->voronoi_graph->AddNode(g_add_and_remove_node);
-                }
+                this->voronoi_graph->UpdateNodePositions();
             }
         }
     }
@@ -109,6 +99,14 @@ void CApp::OnRender() {
     this->text_textures[2]->RenderRTL(&string_bounds); // "Average frametime: "
     this->number_renderer.DrawRTL(std::to_string((int)(disp)), &string_bounds);
     this->text_textures[3]->RenderRTL(&string_bounds); // "ms"
+
+    string_bounds = {5,35,0,0};
+    disp = 1000.0/this->average_full_frametime;
+//    if (disp < (1000.0/9999.0)) {disp = (1000.0/9999.0);}
+//    disp = (1000.0/disp);
+    this->text_textures[4]->RenderRTL(&string_bounds); // "Average fps: "
+    this->number_renderer.DrawRTL(std::to_string((int)(disp)), &string_bounds);
+    this->text_textures[5]->RenderRTL(&string_bounds); // "fps"
 
     SDL_RenderPresent(this->main_renderer);
 
