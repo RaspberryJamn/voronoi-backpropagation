@@ -41,12 +41,6 @@ VoronoiNode* g_train_past_nearest_0_0_seed = nullptr; // keeps tab on a good see
 VoronoiNode* g_train_past_nearest_0_y_seed = nullptr; // keeps tab on a good seed for the left hand spine of the current scan line
 VoronoiNode* g_train_running_seed = nullptr; // seed for the current sample, reads from and writes to the previous two
 
-//#ifndef LOGGING_GLOBALS
-//#define LOGGING_GLOBALS 0
-//bool g_start_logging_after_gradients_updated = false;
-//int g_stop_logging_after_100_logs = 0;
-//#endif // LOGGING_GLOBALS
-
 void CApp::OnLoop() {
 
 //    for (int i = 0; i < (this->media_texture->GetWidth()*this->media_texture->GetHeight()/(1.0+this->refresh_period)*1.0); i++) {

@@ -76,28 +76,84 @@ void NodeLinkedList::AddTreeSlot(VoronoiNode* node, NodeLinkedList** list_ref) {
 }
 
 void NodeLinkedList::RemoveResidence(VoronoiNode* node, NodeLinkedList** list_ref) {
-    SDL_assert(node != nullptr);
-    NodeLinkedList* head_slot = (*list_ref);
-    NodeLinkedList* residency_slot = node->GetResidence();
-    residency_slot->node = head_slot->node; // residency slot previously occupied by this node now has the first node moved in
-    residency_slot->node->SetResidence(residency_slot); // upon moving in, it gets the deed
-    node->SetResidence(nullptr); // and the old node gets its deed revoked
+//    SDL_assert(node != nullptr);
+//    NodeLinkedList* head_slot = (*list_ref);
+//    NodeLinkedList* residency_slot = node->GetResidence();
+//    residency_slot->node = head_slot->node; // residency slot previously occupied by this node now has the first node moved in
+//    residency_slot->node->SetResidence(residency_slot); // upon moving in, it gets the deed
+//    node->SetResidence(nullptr); // and the old node gets its deed revoked
+//
+//    *list_ref = head_slot->next; // the official home listing lets go of the first entry, which should now be vacant
+//    delete head_slot; // no more vacant entry
 
-    *list_ref = head_slot->next; // the official home listing lets go of the first entry, which should now be vacant
-    delete head_slot; // no more vacant entry
+    SDL_assert(node != nullptr);
+    NodeLinkedList* prev = nullptr;
+    NodeLinkedList* current = *list_ref;
+
+    while (current != nullptr) {
+        if (current->node == node) {
+            // Carefully unlink
+            if (prev == nullptr) {
+                *list_ref = current->next;
+            } else {
+                prev->next = current->next;
+            }
+
+            // Critically: clear all references
+            node->SetResidence(nullptr);
+
+            // Actually free the slot
+            delete current;
+            return;
+        }
+        prev = current;
+        current = current->next;
+    }
+
+    // If we get here, node wasn't found
+    SDL_assert(false); // Or handle more gracefully
+
 }
 
 void NodeLinkedList::RemoveTreeLocation(VoronoiNode* node, NodeLinkedList** list_ref) {
-    SDL_assert(node != nullptr);
-    NodeLinkedList* head_slot = (*list_ref); // pointer to first slot
-    NodeLinkedList* tree_slot = node->GetTreeSlot(); // the slot that references node
-//    if (tree_slot == nullptr) {std::cout << "RemoveTreeLocation" << std::endl; return;}
-    tree_slot->node = head_slot->node; // tree slot previously referencing this node now points to the first node, which the first slot is also doing
-    tree_slot->node->SetTreeSlot(tree_slot); // the newly referenced node now updates its contacts
-    node->SetTreeSlot(nullptr); // the old node clears its contacts (if there was an ovelap in head slot and tree slot, well this node's unreferenced anyways)
+//    SDL_assert(node != nullptr);
+//    NodeLinkedList* head_slot = (*list_ref); // pointer to first slot
+//    NodeLinkedList* tree_slot = node->GetTreeSlot(); // the slot that references node
+////    if (tree_slot == nullptr) {std::cout << "RemoveTreeLocation" << std::endl; return;}
+//    tree_slot->node = head_slot->node; // tree slot previously referencing this node now points to the first node, which the first slot is also doing
+//    tree_slot->node->SetTreeSlot(tree_slot); // the newly referenced node now updates its contacts
+//    node->SetTreeSlot(nullptr); // the old node clears its contacts (if there was an ovelap in head slot and tree slot, well this node's unreferenced anyways)
+//
+//    *list_ref = head_slot->next; // the tree listing contains an out of date slot at its head, which it drops
+//    delete head_slot; // and that slot is erased
 
-    *list_ref = head_slot->next; // the tree listing contains an out of date slot at its head, which it drops
-    delete head_slot; // and that slot is erased
+    SDL_assert(node != nullptr);
+    NodeLinkedList* prev = nullptr;
+    NodeLinkedList* current = *list_ref;
+
+    while (current != nullptr) {
+        if (current->node == node) {
+            // Carefully unlink
+            if (prev == nullptr) {
+                *list_ref = current->next;
+            } else {
+                prev->next = current->next;
+            }
+
+            // Critically: clear all references
+            node->SetTreeSlot(nullptr);
+
+            // Actually free the slot
+            delete current;
+            return;
+        }
+        prev = current;
+        current = current->next;
+    }
+
+    // If we get here, node wasn't found
+    SDL_assert(false); // Or handle more gracefully
+
 }
 
 int NodeLinkedList::Length(NodeLinkedList* list) {

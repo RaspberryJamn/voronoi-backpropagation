@@ -306,7 +306,10 @@ void VoronoiGraph::ConsolidateChildLists(VQuadTree* branch) {
         }
     }
 
-    branch->node_children = growing_start;
+    branch->node_children = growing_start; // smart to add this
+    NODELINKEDLIST_FOREACH(branch->node_children, {
+        current_node->SetBounds(branch->min_x, branch->min_y, branch->max_x, branch->max_y);
+    });
 }
 
 void VoronoiGraph::UpdateNodePositions() {
