@@ -24,8 +24,6 @@ class CApp {
 
         Uint32 last_frametime;
         double average_frametime;
-//        double target_frametime; // 1000ms/s / X fps; +-0.5ms
-//        double average_full_frametime;
 
         Texture* source_texture;
         Uint8* source_pixels;
@@ -46,9 +44,6 @@ class CApp {
         int OnExecute();
 
     public:
-
-//        bool g_start_logging_after_gradients_updated;
-//        int g_stop_logging_after_100_logs;
 
         bool OnInit();
         bool ImportAssets();

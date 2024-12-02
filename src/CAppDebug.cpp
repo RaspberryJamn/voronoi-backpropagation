@@ -1,4 +1,5 @@
 #include "CApp.h"
+#include <iostream>
 
 CApp::CApp() {
     this->running = true;
@@ -29,6 +30,7 @@ CApp::CApp() {
 }
 
 int CApp::OnExecute() {
+    std::cout << "this is the DEBUG VERSION, not the primary" << std::endl;
 
     if(OnInit() == false) {
         return -1;
