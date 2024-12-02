@@ -8,8 +8,8 @@ CApp::CApp() {
 
     this->last_frametime = 0;
     this->average_frametime = 0;
-    this->target_frametime = 1000.0/(60); // 60fps
-    this->average_full_frametime = 0;
+//    this->target_frametime = 1000.0/(60); // 60fps
+//    this->average_full_frametime = 0;
 
     this->source_texture = nullptr;
     this->source_pixels = nullptr;
@@ -41,10 +41,10 @@ int CApp::OnExecute() {
     SDL_Event Event;
     Timer frametime_timer;
     LapCounter frametime_counter;
-    LapCounter fps_counter;
-    int offset = 0;
+//    LapCounter fps_counter;
+//    int offset = 0;
     frametime_counter.Reset();
-    fps_counter.Reset();
+//    fps_counter.Reset();
     while(this->running) {
         frametime_timer.Reset();
 
@@ -58,29 +58,29 @@ int CApp::OnExecute() {
         frametime_counter.CallLap();
         this->average_frametime = frametime_counter.GetAverageLapTime();
 
-        fps_counter.CallLap();
-        this->average_full_frametime = fps_counter.GetAverageLapTime();
+//        fps_counter.CallLap();
+//        this->average_full_frametime = fps_counter.GetAverageLapTime();
 
-        frametime_counter.Pause();
-        if (this->last_frametime < this->target_frametime) {
-            double drift = this->average_full_frametime - this->target_frametime;
-            if (drift < -0.5) { // we're running fast
-                offset++;
-            }
-            if (drift > 0.5) { // we're running slow
-                offset--;
-            }
-            if (offset < -2) {
-                offset = -2;
-            }
-            if (offset > 2) {
-                offset = 2;
-            }
-            if (offset > 0) {
-                SDL_Delay((Uint32)(this->target_frametime-this->last_frametime + offset));
-            }
-        }
-        frametime_counter.Resume();
+//        frametime_counter.Pause();
+//        if (this->last_frametime < this->target_frametime) {
+//            double drift = this->average_full_frametime - this->target_frametime;
+//            if (drift < -0.5) { // we're running fast
+//                offset++;
+//            }
+//            if (drift > 0.5) { // we're running slow
+//                offset--;
+//            }
+//            if (offset < -2) {
+//                offset = -2;
+//            }
+//            if (offset > 2) {
+//                offset = 2;
+//            }
+//            if (offset > 0) {
+//                SDL_Delay((Uint32)(this->target_frametime-this->last_frametime + offset));
+//            }
+//        }
+//        frametime_counter.Resume();
     }
 
     OnCleanup();

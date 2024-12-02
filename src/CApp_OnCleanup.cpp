@@ -12,7 +12,7 @@ void CApp::OnCleanup() {
     delete this->voronoi_graph;
     this->voronoi_graph = nullptr;
 
-    for (int i = 0; i < 6; i++) { // hardcoded but whatever man
+    for (int i = 0; i < 4; i++) { // hardcoded but whatever man
         delete this->text_textures[i];
         this->text_textures[i] = nullptr;
     }
