@@ -1,5 +1,7 @@
 #include "CApp.h"
 #include <iostream>
+#include <cstdlib>
+#include <ctime>
 
 CApp::CApp() {
     this->running = true;
@@ -58,37 +60,49 @@ int CApp::OnExecute() {
 
     NodeLinkedList* list = nullptr;
     int menu_option;
+    int value;
     while (true) {
         std::cout << "Please enter a choice (1-4)" << std::endl;
         std::cout << "1:Append node pointers" << std::endl;
         std::cout << "2:Remove given node" << std::endl;
         std::cout << "3:Print list" << std::endl;
-        std::cout << "4:Exit" << std::endl;
+        std::cout << "4:Add and remove 1-9 randomly 100000 times" << std::endl;
+        std::cout << "5:Exit" << std::endl;
 
         std::cout << ">";
         std::cin >> menu_option;
 
-        if(menu_option == 4) {
+        if(menu_option == 5) {
             break;
         }
 
         std::cout << std::endl;
         switch(menu_option) {
             case 1:
-                std::cout << "Enqueue values, enter -1 to end" << std::endl;
+                std::cout << "Append node pointers, enter -1 to end" << std::endl;
                 std::cout << ">";
-                int value;
                 while (true) {
                     std::cin >> value;
                     if(value == -1) { break; }
-//                    queue.Insert(value);
+                    NodeLinkedList::Append((VoronoiNode*)(value), &list);
                 }
             break;
             case 2:
-                std::cout << "Dequeued minimum value: ";// << queue.DeleteMin();
+                std::cout << "Enter node to remove" << std::endl;
+                std::cout << ">";
+                std::cin >> value;
+                NodeLinkedList::RemoveGeneric((VoronoiNode*)(value), &list);
             break;
             case 3:
-                std::cout << "Queue array: ";// << queue;
+                NodeLinkedList::Print("List: ", list, 0);
+            break;
+            case 4:
+                std::srand(std::time(0));
+                for (int i = 0; i < 100000; i++) {
+                    int random = std::rand() % 9 + 1; // 1-9
+                    NodeLinkedList::RemoveGeneric((VoronoiNode*)(random), &list);
+                    NodeLinkedList::Append((VoronoiNode*)(random), &list);
+                }
             break;
             default:
                 std::cout << "Enter a valid choice" << std::endl;

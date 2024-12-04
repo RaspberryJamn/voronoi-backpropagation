@@ -24,7 +24,7 @@ void NodeLinkedList::Print(std::string header, NodeLinkedList* list, int indent)
     }
     std::cout << "{" << std::endl;
     NODELINKEDLIST_FOREACH(list, {
-        PrintIndents(indent+1); std::cout << current_slot << ":{next:" << current_slot->next << ", node:" << current_node << ", node_dist:" << current_node->GetDist() << "}" << std::endl;
+        PrintIndents(indent+1); std::cout << current_slot << ":{next:" << current_slot->next << ", node:" << current_node << "}" << std::endl;// << ", node_dist:" << current_node->GetDist() << "}" << std::endl;
     });
     PrintIndents(indent); std::cout << "}" << std::endl;
 }
@@ -82,7 +82,8 @@ void NodeLinkedList::RemoveGeneric(VoronoiNode* node, NodeLinkedList** list_ref)
         }
         prev_slot = current_slot;
     });
-    SDL_assert(false);
+    std::cout << "NODE NOT FOUND IN LIST!!!" << std::endl;
+//    SDL_assert(false);
 }
 
 void NodeLinkedList::LinkAOntoB(NodeLinkedList** a, NodeLinkedList* b) {

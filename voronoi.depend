@@ -517,7 +517,7 @@
 	"VoronoiNode.h"
 	<string>
 
-1733116056 source:c:\users\james\documents\cpp\voronoi\src\nodelinkedlist.cpp
+1733277160 source:c:\users\james\documents\cpp\voronoi\src\nodelinkedlist.cpp
 	"NodeLinkedList.h"
 	<iostream>
 
@@ -526,4 +526,8 @@
 
 1732401287 source:c:\users\james\documents\cpp\voronoi\src\errorlogger.cpp
 	"ErrorLogger.h"
+
+1733277106 source:c:\users\james\documents\cpp\voronoi\src\cappdebug.cpp
+	"CApp.h"
+	<iostream>
 
