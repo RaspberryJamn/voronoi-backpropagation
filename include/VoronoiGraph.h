@@ -22,12 +22,13 @@ struct VQuadTree {
 //        this->tree_children[2] = nullptr;
 //        this->tree_children[3] = nullptr;
 //    }
-    VQuadTree(int min_x, int min_y, int max_x, int max_y, int depth) : total_children(0), depth(depth), min_x(min_x), min_y(min_y), max_x(max_x), max_y(max_y), node_children(nullptr) {
+    VQuadTree(int min_x, int min_y, int max_x, int max_y, int depth) : total_children(0), depth(depth), min_x(min_x), min_y(min_y), max_x(max_x), max_y(max_y) {
         VQuadTree::CalculateHalfXY(this);
         this->tree_children[0] = nullptr;
         this->tree_children[1] = nullptr;
         this->tree_children[2] = nullptr;
         this->tree_children[3] = nullptr;
+        this->node_children = nullptr;
     }
     static void CalculateHalfXY(VQuadTree* branch) {
         branch->half_x = (branch->min_x + branch->max_x)/2;
@@ -63,6 +64,7 @@ class VoronoiGraph {
 
 //        double GetBandWidth();
 //        NodeLinkedList* OrphanChildList(); // only for internal use
+        void ConsolidateChildLists(VQuadTree* branch); // debug edit
     private:
         void AddToChildren(VoronoiNode* node, VQuadTree* branch);
         void AddToChildrenSplit(VoronoiNode* node, VQuadTree* branch);
@@ -70,7 +72,7 @@ class VoronoiGraph {
 //        void RemoveFromChildren(VoronoiNode* node, VQuadTree* branch);
 //        void ConsolidateChildLists(VQuadTree* branch);
         void RemoveFromBranch(VoronoiNode* node, VQuadTree* branch);
-        void ConsolidateChildLists(VQuadTree* branch);
+//        void ConsolidateChildLists(VQuadTree* branch); // debug edit
 
         void BuildNearbyList(VQuadTree* branch);
 
@@ -86,8 +88,8 @@ class VoronoiGraph {
         int y;
         int w;
         int h;
-        int max_depth;
-        int critical_mass;
+        int max_depth; // leaves have a depth of this or less
+        int critical_mass; // branches all have more children than this
         NodeLinkedList* all_child_nodes;
         int total_child_count;
 

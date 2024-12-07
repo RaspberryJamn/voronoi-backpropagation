@@ -20,7 +20,7 @@ void VQuadTree::Print(VQuadTree* tree, int indent) {
     PrintIndents(indent+1); std::cout << "max_(x,y): (" << tree->max_x << "," << tree->max_y << ")" << std::endl;
     PrintIndents(indent+1); std::cout << "half_(x,y): (" << tree->half_x << "," << tree->half_y << ")" << std::endl;
 //    PrintIndents(indent+1); NodeLinkedList::Print("node_children: ", tree->node_children, indent+1);
-    PrintIndents(indent+1); NodeLinkedList::PrintNodes("node_children: ", tree->node_children, indent+1);
+    PrintIndents(indent+1); NodeLinkedList::Print("node_children: ", tree->node_children, indent+1);//NodeLinkedList::PrintNodes("node_children: ", tree->node_children, indent+1); // debug edit
     if (tree->tree_children[0] == nullptr) {
         PrintIndents(indent+1); std::cout << "tree_children: []" << std::endl;
     } else {
@@ -181,8 +181,7 @@ bool VoronoiGraph::SplitValid(VQuadTree* branch) {
 
 void VoronoiGraph::AddNode(VoronoiNode* node) {
     NodeLinkedList::Append(node, &this->all_child_nodes);
-//    node->SetResidence(this->all_child_nodes);
-//    NodeLinkedList::AddResidence(node, &this->all_child_nodes);
+//    NodeLinkedList::AddResidenceSlot(node, &this->all_child_nodes);
     this->total_child_count++;
 
     node->CalculateSortingPos(); // this is where the new node's sort position is actually ascertained
@@ -200,11 +199,10 @@ void VoronoiGraph::AddToChildren(VoronoiNode* node, VQuadTree* branch) {
     } else { // we're either below critical mass or above it and weren't allowed to split
 
         NodeLinkedList::Append(node, &branch->node_children); // node given a slot
-//        node->SetTreeSlot(branch->node_children); // node knows its reference
+        branch->total_children++;
 //        NodeLinkedList::AddTreeSlot(node, &branch->node_children);
         node->SetBounds(branch->min_x, branch->min_y, branch->max_x, branch->max_y); // node knows its shape
 
-        branch->total_children++;
 
         if (this->SplitValid(branch)) { // or more specifically, does it _now_ qualify for splitting
 
@@ -349,9 +347,9 @@ void VoronoiGraph::RemoveFromBranch(VoronoiNode* node, VQuadTree* branch) {
 void VoronoiGraph::ConsolidateChildLists(VQuadTree* branch) {
     NodeLinkedList* concatenated = nullptr;
     NodeLinkedList::LinkAOntoB(&concatenated, branch->tree_children[0]->node_children); // fancy way of saying concatenated = branch->tree_children[0]->node_children
-    NodeLinkedList::LinkAOntoB(&concatenated, branch->tree_children[1]->node_children);
-    NodeLinkedList::LinkAOntoB(&concatenated, branch->tree_children[2]->node_children);
-    NodeLinkedList::LinkAOntoB(&concatenated, branch->tree_children[3]->node_children);
+    NodeLinkedList::LinkAOntoB(&concatenated, branch->tree_children[1]->node_children); // tree[0]nodes tail points into tree[1]nodes
+    NodeLinkedList::LinkAOntoB(&concatenated, branch->tree_children[2]->node_children); // tree[1]nodes tail points into tree[2]nodes
+    NodeLinkedList::LinkAOntoB(&concatenated, branch->tree_children[3]->node_children); // tree[2]nodes tail points into tree[3]nodes
     branch->node_children = concatenated;
     delete branch->tree_children[0]; branch->tree_children[0] = nullptr;
     delete branch->tree_children[1]; branch->tree_children[1] = nullptr;

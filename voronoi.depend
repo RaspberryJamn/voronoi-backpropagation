@@ -486,13 +486,13 @@
 	"SDL.h"
 	<cmath>
 
-1733116085 source:c:\users\james\documents\cpp\voronoi\src\voronoigraph.cpp
+1733543413 source:c:\users\james\documents\cpp\voronoi\src\voronoigraph.cpp
 	"VoronoiGraph.h"
 	"CApp.h"
 	<cmath>
 	<iostream>
 
-1733114841 c:\users\james\documents\cpp\voronoi\include\voronoigraph.h
+1733542489 c:\users\james\documents\cpp\voronoi\include\voronoigraph.h
 	"NodeLinkedList.h"
 	"VoronoiNode.h"
 	"ErrorLogger.h"
@@ -513,11 +513,11 @@
 	"VoronoiQuadtree.h"
 	<cmath>
 
-1733115990 c:\users\james\documents\cpp\voronoi\include\nodelinkedlist.h
+1733541490 c:\users\james\documents\cpp\voronoi\include\nodelinkedlist.h
 	"VoronoiNode.h"
 	<string>
 
-1733277160 source:c:\users\james\documents\cpp\voronoi\src\nodelinkedlist.cpp
+1733541493 source:c:\users\james\documents\cpp\voronoi\src\nodelinkedlist.cpp
 	"NodeLinkedList.h"
 	<iostream>
 
@@ -527,7 +527,9 @@
 1732401287 source:c:\users\james\documents\cpp\voronoi\src\errorlogger.cpp
 	"ErrorLogger.h"
 
-1733277106 source:c:\users\james\documents\cpp\voronoi\src\cappdebug.cpp
+1733544938 source:c:\users\james\documents\cpp\voronoi\src\cappdebug.cpp
 	"CApp.h"
 	<iostream>
+	<cstdlib>
+	<ctime>
 

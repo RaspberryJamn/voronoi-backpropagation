@@ -99,7 +99,7 @@ void NodeLinkedList::LinkAOntoB(NodeLinkedList** a, NodeLinkedList* b) {
 }
 
 /* QUARANTINE REMOVAL CODE
-void NodeLinkedList::AddResidence(VoronoiNode* node, NodeLinkedList** list_ref) {
+void NodeLinkedList::AddResidenceSlot(VoronoiNode* node, NodeLinkedList** list_ref) {
     NodeLinkedList::Append(node, list_ref);
     node->SetResidence(*list_ref);
 }
