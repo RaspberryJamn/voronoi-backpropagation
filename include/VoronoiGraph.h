@@ -36,6 +36,7 @@ struct VQuadTree {
     }
 
     static void Print(VQuadTree* tree, int indent);
+    static bool Contains(VQuadTree* tree, VoronoiNode* node);
 };
 
 class VoronoiGraph {
@@ -62,6 +63,8 @@ class VoronoiGraph {
 
         void SetErrorLogger(ErrorLogger* error_logger);
 
+        void EnsureCompleteContainment();
+
 //        double GetBandWidth();
 //        NodeLinkedList* OrphanChildList(); // only for internal use
         void ConsolidateChildLists(VQuadTree* branch); // debug edit
@@ -81,7 +84,6 @@ class VoronoiGraph {
         bool SplitValid(VQuadTree* branch);
 
         void RenderVQuadTree(VQuadTree* branch, SDL_Renderer* target_renderer);
-
 
         VQuadTree* root;
         int x;

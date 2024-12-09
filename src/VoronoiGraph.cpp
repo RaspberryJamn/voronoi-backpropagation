@@ -33,6 +33,32 @@ void VQuadTree::Print(VQuadTree* tree, int indent) {
     }
     PrintIndents(indent); std::cout<< "}" << std::endl;
 }
+bool VQuadTree::Contains(VQuadTree* tree, VoronoiNode* node) {
+    if (tree->node_children != nullptr) {
+        return NodeLinkedList::Contains(tree->node_children, node);
+    } else {
+        if (VQuadTree::Contains(tree->tree_children[0], node)) {
+            return true;
+        }
+        if (VQuadTree::Contains(tree->tree_children[1], node)) {
+            return true;
+        }
+        if (VQuadTree::Contains(tree->tree_children[2], node)) {
+            return true;
+        }
+        if (VQuadTree::Contains(tree->tree_children[3], node)) {
+            return true;
+        }
+        return false;
+    }
+}
+void VoronoiGraph::EnsureCompleteContainment() {
+    SDL_assert(NodeLinkedList::Length(this->all_child_nodes) == this->total_child_count);
+    NODELINKEDLIST_FOREACH(this->all_child_nodes, {
+        SDL_assert(NodeLinkedList::Contains(this->all_child_nodes, current_node)); // a bit redundant
+        SDL_assert(VQuadTree::Contains(this->root, current_node)); // a bit redundant
+    });
+}
 void VoronoiGraph::RenderTree(SDL_Renderer* target_renderer) {
     this->RenderVQuadTree(this->root, target_renderer);
 //    SDL_Rect dest = {0,0,0,0};
@@ -311,6 +337,7 @@ void VoronoiGraph::ConsolidateChildLists(VQuadTree* branch) {
 */
 
 void VoronoiGraph::RemoveNode(VoronoiNode* node) {
+    SDL_assert(NodeLinkedList::Contains(this->all_child_nodes, node));
     NodeLinkedList::RemoveGeneric(node, &this->all_child_nodes);
     this->total_child_count--;
     this->recent_sort_x = node->GetSortingPosX();
@@ -361,23 +388,24 @@ void VoronoiGraph::UpdateNodePositions() {
 //    NodeLinkedList::PrintNodes("all nodes:", this->all_child_nodes, 0);
 
 //    NodeLinkedList* nodes_to_update = nullptr;
-    NODELINKEDLIST_FOREACH(this->all_child_nodes, {
+    NodeLinkedList* list_copy = NodeLinkedList::Copy(this->all_child_nodes);
+
+    NODELINKEDLIST_FOREACH(list_copy, {
         std::cout << "loop once, ";
         // try always removing and adding every node
         std::cout << "[" << current_slot <<"]: " << current_node <<", next: " << current_slot->next << ", progress: 0";
 
-        if (!current_node->IsBounded(current_node->GetSortingPosX(),
-                                     current_node->GetSortingPosY())
-            ) {
-            std::cout << std::endl << "node wasnt bounded after not moving: "; current_node->Print(0); std::cout << std::endl;
-            this->PrintTree();
-            SDL_assert(false); // node wasnt bounded
-        }
+//        if (!current_node->IsBounded(current_node->GetSortingPosX(),
+//                                     current_node->GetSortingPosY())
+//            ) {
+//            std::cout << std::endl << "node wasnt bounded after not moving: "; current_node->Print(0); std::cout << std::endl;
+//            this->PrintTree();
+//            SDL_assert(false); // node wasnt bounded
+//        }
 
-//        this->RemoveNode(current_node);
-//        std::cout << "1";
-//        this->AddNode(current_node);
-//        std::cout << "2";
+        this->RemoveNode(current_node);
+        std::cout << "1";
+        this->AddNode(current_node);
         std::cout << "2" << std::endl;
 
 //        NodeLinkedList::Append(current_node, &nodes_to_update); // the node lives in this list now, nowhere else

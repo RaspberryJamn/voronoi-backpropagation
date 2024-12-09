@@ -47,6 +47,7 @@ void CApp::RenderFullFrameVoronoi() {
 
 //                g_offset++; // finished frame
 //                this->voronoi_graph->UpdateNodePositions();
+                this->voronoi_graph->EnsureCompleteContainment();
                 if (g_add_remove_node == nullptr) {
                     g_add_remove_node = new VoronoiNode(300, 190, 255, 170, 100);
                     this->voronoi_graph->AddNode(g_add_remove_node);
@@ -54,6 +55,7 @@ void CApp::RenderFullFrameVoronoi() {
                     this->voronoi_graph->RemoveNode(g_add_remove_node);
                     this->voronoi_graph->AddNode(g_add_remove_node);
                 }
+                this->voronoi_graph->EnsureCompleteContainment();
             }
         }
     }

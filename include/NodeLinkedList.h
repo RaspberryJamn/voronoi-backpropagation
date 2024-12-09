@@ -31,6 +31,7 @@ struct NodeLinkedList {
     static void Append(VoronoiNode* node, NodeLinkedList** list_ref);
     static void RemoveGeneric(VoronoiNode* node, NodeLinkedList** list_ref);
     static void LinkAOntoB(NodeLinkedList** a, NodeLinkedList* b);
+    static NodeLinkedList* Copy(NodeLinkedList* list);
 //    static void AddResidenceSlot(VoronoiNode* node, NodeLinkedList** list_ref);
 //    static void AddTreeSlot(VoronoiNode* node, NodeLinkedList** list_ref);
 //    static void RemoveResidence(VoronoiNode* node, NodeLinkedList** list_ref);

@@ -98,6 +98,17 @@ void NodeLinkedList::LinkAOntoB(NodeLinkedList** a, NodeLinkedList* b) {
     }
 }
 
+NodeLinkedList* NodeLinkedList::Copy(NodeLinkedList* list) { // recursive implementation
+    NodeLinkedList* tail;
+    if (list->next == nullptr) {
+        tail = nullptr;
+    } else {
+        tail = NodeLinkedList::Copy(list->next);
+    }
+    NodeLinkedList::Append(list->node, &tail);
+    return tail;
+}
+
 /* QUARANTINE REMOVAL CODE
 void NodeLinkedList::AddResidenceSlot(VoronoiNode* node, NodeLinkedList** list_ref) {
     NodeLinkedList::Append(node, list_ref);

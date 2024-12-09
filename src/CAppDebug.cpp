@@ -62,7 +62,7 @@ int CApp::OnExecute() {
 
     VoronoiNode* real_list[10] = {};
     VoronoiGraph graph = VoronoiGraph();
-    graph.RespecTree(0, 0, 100, 100, 9, 0);
+    graph.RespecTree(0, 0, 100, 100, 4, 0);
 
     int menu_option;
     int value;
@@ -77,6 +77,7 @@ int CApp::OnExecute() {
         std::cout << "7:Create/regenerate 10 random nodes" << std::endl;
         std::cout << "8:Add all real nodes to graph" << std::endl;
         std::cout << "9:Add and remove random real node 100000 times" << std::endl;
+        std::cout << "10:Add and remove newcomer node 100000 times" << std::endl;
         std::cout << "0:Exit" << std::endl;
 
         std::cout << ">";
@@ -170,6 +171,16 @@ int CApp::OnExecute() {
                         graph.RemoveNode(real_list[random]);
                         graph.AddNode(real_list[random]);
                     }
+                }
+            break;
+            case 10:
+                {
+                    VoronoiNode* newcomer = new VoronoiNode(15, 15, 1, 2, 3);
+                    for (int i = 0; i < 100000; i++) {
+                        graph.AddNode(newcomer);
+                        graph.RemoveNode(newcomer);
+                    }
+                    delete newcomer;
                 }
             break;
             default:
