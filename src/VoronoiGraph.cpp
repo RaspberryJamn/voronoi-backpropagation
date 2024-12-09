@@ -34,6 +34,7 @@ void VQuadTree::Print(VQuadTree* tree, int indent) {
     PrintIndents(indent); std::cout<< "}" << std::endl;
 }
 bool VQuadTree::Contains(VQuadTree* tree, VoronoiNode* node) {
+    if (tree == nullptr) {return false;}
     if (tree->node_children != nullptr) {
         return NodeLinkedList::Contains(tree->node_children, node);
     } else {
@@ -385,52 +386,55 @@ void VoronoiGraph::ConsolidateChildLists(VQuadTree* branch) {
 }
 
 void VoronoiGraph::UpdateNodePositions() {
-//    NodeLinkedList::PrintNodes("all nodes:", this->all_child_nodes, 0);
-
-//    NodeLinkedList* nodes_to_update = nullptr;
-    NodeLinkedList* list_copy = NodeLinkedList::Copy(this->all_child_nodes);
-
-    NODELINKEDLIST_FOREACH(list_copy, {
-        std::cout << "loop once, ";
-        // try always removing and adding every node
-        std::cout << "[" << current_slot <<"]: " << current_node <<", next: " << current_slot->next << ", progress: 0";
-
-//        if (!current_node->IsBounded(current_node->GetSortingPosX(),
-//                                     current_node->GetSortingPosY())
-//            ) {
-//            std::cout << std::endl << "node wasnt bounded after not moving: "; current_node->Print(0); std::cout << std::endl;
-//            this->PrintTree();
-//            SDL_assert(false); // node wasnt bounded
-//        }
-
-        this->RemoveNode(current_node);
-        std::cout << "1";
-        this->AddNode(current_node);
-        std::cout << "2" << std::endl;
-
-//        NodeLinkedList::Append(current_node, &nodes_to_update); // the node lives in this list now, nowhere else
-//        int x_copy = current_node->GetSortingPosX(); // store a copy of the old sorting position before the most recent move
-//        int y_copy = current_node->GetSortingPosY();
-//        current_node->CalculateSortingPos(); // you moved, therefore you should have an updated sorting position
-//        if (!current_node->IsBounded()) { // now, have you left the box you were in just a moment ago?
-//            std::cout << "relocating" << std::endl;
-//            this->recent_sort_x = x_copy;
-//            this->recent_sort_y = y_copy;
-//            this->RemoveFromChildren(current_node, this->root); // use the old for removing it
-//            this->recent_sort_x = current_node->GetSortingPosX();// and the new for adding it
-//            this->recent_sort_y = current_node->GetSortingPosY();
-//            this->AddToChildren(current_node, this->root, this->x, this->y, this->x+this->w, this->y+this->h);
-//        }
-    });
-//    NodeLinkedList::PrintNodes("updating nodes:", nodes_to_update, 0);
-//    NODELINKEDLIST_FOREACH(nodes_to_update, {
-//        std::cout << "loop twice, ";
-//        std::cout << "node: " << current_node;
-//        std::cout << ", next: " << current_slot << std::endl;
+    this->EnsureCompleteContainment();
+    this->RespecTree(this->x, this->y, this->w, this->h, this->max_depth, this->critical_mass);
+    this->EnsureCompleteContainment();
+////    NodeLinkedList::PrintNodes("all nodes:", this->all_child_nodes, 0);
+//
+////    NodeLinkedList* nodes_to_update = nullptr;
+//    NodeLinkedList* list_copy = NodeLinkedList::Copy(this->all_child_nodes);
+//
+//    NODELINKEDLIST_FOREACH(list_copy, {
+//        std::cout << "loop once, ";
+//        // try always removing and adding every node
+//        std::cout << "[" << current_slot <<"]: " << current_node <<", next: " << current_slot->next << ", progress: 0";
+//
+////        if (!current_node->IsBounded(current_node->GetSortingPosX(),
+////                                     current_node->GetSortingPosY())
+////            ) {
+////            std::cout << std::endl << "node wasnt bounded after not moving: "; current_node->Print(0); std::cout << std::endl;
+////            this->PrintTree();
+////            SDL_assert(false); // node wasnt bounded
+////        }
+//
+//        this->RemoveNode(current_node);
+//        std::cout << "1";
 //        this->AddNode(current_node);
+//        std::cout << "2" << std::endl;
+//
+////        NodeLinkedList::Append(current_node, &nodes_to_update); // the node lives in this list now, nowhere else
+////        int x_copy = current_node->GetSortingPosX(); // store a copy of the old sorting position before the most recent move
+////        int y_copy = current_node->GetSortingPosY();
+////        current_node->CalculateSortingPos(); // you moved, therefore you should have an updated sorting position
+////        if (!current_node->IsBounded()) { // now, have you left the box you were in just a moment ago?
+////            std::cout << "relocating" << std::endl;
+////            this->recent_sort_x = x_copy;
+////            this->recent_sort_y = y_copy;
+////            this->RemoveFromChildren(current_node, this->root); // use the old for removing it
+////            this->recent_sort_x = current_node->GetSortingPosX();// and the new for adding it
+////            this->recent_sort_y = current_node->GetSortingPosY();
+////            this->AddToChildren(current_node, this->root, this->x, this->y, this->x+this->w, this->y+this->h);
+////        }
 //    });
-//    NodeLinkedList::DeleteList(nodes_to_update); // these nodes all have homes now
-    std::cout << "finished loop" << std::endl;
+////    NodeLinkedList::PrintNodes("updating nodes:", nodes_to_update, 0);
+////    NODELINKEDLIST_FOREACH(nodes_to_update, {
+////        std::cout << "loop twice, ";
+////        std::cout << "node: " << current_node;
+////        std::cout << ", next: " << current_slot << std::endl;
+////        this->AddNode(current_node);
+////    });
+////    NodeLinkedList::DeleteList(nodes_to_update); // these nodes all have homes now
+//    std::cout << "finished loop" << std::endl;
 }
 
 NodeLinkedList* VoronoiGraph::GetNearby(double x, double y, double band_width, double gain, VoronoiNode* seed) {
