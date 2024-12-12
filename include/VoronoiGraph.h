@@ -63,7 +63,7 @@ class VoronoiGraph {
 
         void SetErrorLogger(ErrorLogger* error_logger);
 
-        void EnsureCompleteContainment();
+        bool EnsureCompleteContainment();
 
 //        double GetBandWidth();
 //        NodeLinkedList* OrphanChildList(); // only for internal use

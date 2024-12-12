@@ -53,12 +53,13 @@ bool VQuadTree::Contains(VQuadTree* tree, VoronoiNode* node) {
         return false;
     }
 }
-void VoronoiGraph::EnsureCompleteContainment() {
-    SDL_assert(NodeLinkedList::Length(this->all_child_nodes) == this->total_child_count);
+bool VoronoiGraph::EnsureCompleteContainment() {
+    if (NodeLinkedList::Length(this->all_child_nodes) != this->total_child_count) {return false;}
     NODELINKEDLIST_FOREACH(this->all_child_nodes, {
-        SDL_assert(NodeLinkedList::Contains(this->all_child_nodes, current_node)); // a bit redundant
-        SDL_assert(VQuadTree::Contains(this->root, current_node)); // a bit redundant
+//        SDL_assert(NodeLinkedList::Contains(this->all_child_nodes, current_node)); // a bit redundant
+        if (!VQuadTree::Contains(this->root, current_node)) {return false;}
     });
+    return true;
 }
 void VoronoiGraph::RenderTree(SDL_Renderer* target_renderer) {
     this->RenderVQuadTree(this->root, target_renderer);
@@ -389,9 +390,9 @@ void VoronoiGraph::ConsolidateChildLists(VQuadTree* branch) {
 }
 
 void VoronoiGraph::UpdateNodePositions() {
-    this->EnsureCompleteContainment();
+    SDL_assert(this->EnsureCompleteContainment());
     this->RespecTree(this->x, this->y, this->w, this->h, this->max_depth, this->critical_mass);
-    this->EnsureCompleteContainment();
+    SDL_assert(this->EnsureCompleteContainment());
 ////    NodeLinkedList::PrintNodes("all nodes:", this->all_child_nodes, 0);
 //
 ////    NodeLinkedList* nodes_to_update = nullptr;
@@ -446,6 +447,7 @@ NodeLinkedList* VoronoiGraph::GetNearby(double x, double y, double band_width, d
     return this->GetNearby(x, y, seed);
 }
 NodeLinkedList* VoronoiGraph::GetNearby(double x, double y, VoronoiNode* seed) {
+    SDL_assert(this->EnsureCompleteContainment());
     this->recent_x = x;
     this->recent_y = y;
     this->recent_sort_x = (int)this->recent_x;
@@ -467,9 +469,9 @@ NodeLinkedList* VoronoiGraph::GetNearby(double x, double y, VoronoiNode* seed) {
     NodeLinkedList::DeleteList(this->nearby_candidates);
     this->nearby_candidates = nullptr;
 
-//    this->error_logger->PotentialLog("near before candidates");
+    SDL_assert(this->EnsureCompleteContainment());
         this->BuildNearbyList(this->root); // this is where the job is mostly done
-//    this->error_logger->PotentialLog("near after candidates");
+    SDL_assert(this->EnsureCompleteContainment());
 
     SDL_assert(this->nearby_candidates != nullptr);
 
@@ -478,7 +480,7 @@ NodeLinkedList* VoronoiGraph::GetNearby(double x, double y, VoronoiNode* seed) {
     NodeLinkedList* nearest_slot = nullptr; // we're gonna be searching for the nearest node to swap to the front
     double nearest_dist = this->nearby_candidates->node->GetDist();
 
-//    this->error_logger->PotentialLog("near before sort");
+    SDL_assert(this->EnsureCompleteContainment());
     NODELINKEDLIST_FOREACH(this->nearby_candidates, {
         double current_distance = current_node->GetDist();
         if (current_distance <= this->current_bounding_mag) { // scanned node passes the check, may have significant m value
@@ -495,13 +497,14 @@ NodeLinkedList* VoronoiGraph::GetNearby(double x, double y, VoronoiNode* seed) {
             delete current_slot;
         }
     });
-//    this->error_logger->PotentialLog("near after sort");
+    SDL_assert(this->EnsureCompleteContainment());
 
     if (nearest_slot != nullptr) { // puts the nearest node at the top
         VoronoiNode* first_node = result_list->node;
         result_list->node = nearest_slot->node; // list[0] gets the nearest node
         nearest_slot->node = first_node; // list[nearest] gets the first node
     }
+    SDL_assert(this->EnsureCompleteContainment());
     return result_list;
 }
 void VoronoiGraph::BuildNearbyList(VQuadTree* branch) { // takes the running info on the best distance upper bound and adds the nodes descendant to this branch to the list of potential candidates

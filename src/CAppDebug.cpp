@@ -80,6 +80,7 @@ int CApp::OnExecute() {
         std::cout << "9:Add and remove random real node 100000 times" << std::endl;
         std::cout << "10:Add and remove newcomer node 100000 times" << std::endl; VoronoiNode* newcomer = new VoronoiNode(15, 15, 1, 2, 3);
         std::cout << "11:Respec graph 100000 times" << std::endl;
+        std::cout << "12:UpdateNodePositions 10000 times" << std::endl;
         std::cout << "0:Exit" << std::endl;
 
         std::cout << ">";
@@ -190,6 +191,15 @@ int CApp::OnExecute() {
 
                     for (int i = 0; i < 100000; i++) {
                         graph.RespecTree(0, 0, 100, 100, 4, 0);
+                    }
+
+                }
+            break;
+            case 12:
+                {
+
+                    for (int i = 0; i < 10000; i++) {
+                        graph.UpdateNodePositions();
                     }
 
                 }
