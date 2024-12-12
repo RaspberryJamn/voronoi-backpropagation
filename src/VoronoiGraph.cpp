@@ -190,16 +190,19 @@ void VoronoiGraph::RespecTree(int x, int y, int w, int h, int max_depth, int cri
     this->h = h;
     this->max_depth = max_depth;
     this->critical_mass = critical_mass;
+    this->total_child_count = this->total_child_count;
 
     this->DeleteTree(this->root); // simply delete the entirety of the tree, no need to remove every node before readding it later
+    this->root = nullptr;
     this->root = new VQuadTree(this->x, this->y, this->x+this->w, this->y+this->h, 0);
-
-    NODELINKEDLIST_FOREACH(this->all_child_nodes, {
+//    NodeLinkedList* all_nodes_copy = NodeLinkedList::Copy(this->all_child_nodes);
+    NODELINKEDLIST_FOREACH(this->all_child_nodes, {//all_nodes_copy, {//
         current_node->CalculateSortingPos();
         this->recent_sort_x = current_node->GetSortingPosX();
         this->recent_sort_y = current_node->GetSortingPosY();
         this->AddToChildren(current_node, this->root);
     });
+//    NodeLinkedList::DeleteList(all_nodes_copy);
 }
 
 bool VoronoiGraph::SplitValid(VQuadTree* branch) {

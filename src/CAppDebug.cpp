@@ -60,7 +60,8 @@ int CApp::OnExecute() {
 
     NodeLinkedList* list = nullptr;
 
-    VoronoiNode* real_list[10] = {};
+    const int many_nodes = 100;
+    VoronoiNode* real_list[many_nodes] = {};
     VoronoiGraph graph = VoronoiGraph();
     graph.RespecTree(0, 0, 100, 100, 4, 0);
 
@@ -74,10 +75,11 @@ int CApp::OnExecute() {
         std::cout << "4:Add and remove 1-9 randomly 100000 times" << std::endl;
         std::cout << "5:Add to a branch then merge that 100000 times" << std::endl;
         std::cout << "6:Print graph" << std::endl;
-        std::cout << "7:Create/regenerate 10 random nodes" << std::endl;
+        std::cout << "7:Create/regenerate " << many_nodes << " random nodes" << std::endl;
         std::cout << "8:Add all real nodes to graph" << std::endl;
         std::cout << "9:Add and remove random real node 100000 times" << std::endl;
-        std::cout << "10:Add and remove newcomer node 100000 times" << std::endl;
+        std::cout << "10:Add and remove newcomer node 100000 times" << std::endl; VoronoiNode* newcomer = new VoronoiNode(15, 15, 1, 2, 3);
+        std::cout << "11:Respec graph 100000 times" << std::endl;
         std::cout << "0:Exit" << std::endl;
 
         std::cout << ">";
@@ -144,30 +146,30 @@ int CApp::OnExecute() {
                 graph.PrintTree();
             break;
             case 7:
-                for (int i = 0; i < 10; i++) {
+                for (int i = 0; i < many_nodes; i++) {
                     if (real_list[i] != nullptr) {
                         delete real_list[i];
                         real_list[i] = nullptr;
                     }
                 }
                 std::srand(std::time(0));
-                for (int i = 0; i < 10; i++) {
+                for (int i = 0; i < many_nodes; i++) {
                     real_list[i] = new VoronoiNode(std::rand()%100, std::rand()%100, i, i, i);
                 }
             break;
             case 8:
-                for (int i = 0; i < 10; i++) {
+                for (int i = 0; i < many_nodes; i++) {
                     graph.AddNode(real_list[i]);
                 }
             break;
             case 9:
                 {
                     std::srand(std::time(0));
-    //                for (int i = 0; i < 10; i++) {
+    //                for (int i = 0; i < many_nodes; i++) {
     //                    real_list[i] = new VoronoiNode(std::rand()%100, std::rand()%100, i, i, i);
     //                }
                     for (int i = 0; i < 100000; i++) {
-                        int random = std::rand() % 10;
+                        int random = std::rand() % many_nodes;
                         graph.RemoveNode(real_list[random]);
                         graph.AddNode(real_list[random]);
                     }
@@ -175,12 +177,21 @@ int CApp::OnExecute() {
             break;
             case 10:
                 {
-                    VoronoiNode* newcomer = new VoronoiNode(15, 15, 1, 2, 3);
+
                     for (int i = 0; i < 100000; i++) {
                         graph.AddNode(newcomer);
                         graph.RemoveNode(newcomer);
                     }
-                    delete newcomer;
+
+                }
+            break;
+            case 11:
+                {
+
+                    for (int i = 0; i < 100000; i++) {
+                        graph.RespecTree(0, 0, 100, 100, 4, 0);
+                    }
+
                 }
             break;
             default:

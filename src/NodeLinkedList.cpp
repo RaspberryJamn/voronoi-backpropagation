@@ -99,10 +99,11 @@ void NodeLinkedList::LinkAOntoB(NodeLinkedList** a, NodeLinkedList* b) {
 }
 
 NodeLinkedList* NodeLinkedList::Copy(NodeLinkedList* list) { // recursive implementation
-    NodeLinkedList* tail;
-    if (list->next == nullptr) {
-        tail = nullptr;
-    } else {
+    if (list == nullptr) {
+        return nullptr;
+    }
+    NodeLinkedList* tail = nullptr;
+    if (list->next != nullptr) {
         tail = NodeLinkedList::Copy(list->next);
     }
     NodeLinkedList::Append(list->node, &tail);
