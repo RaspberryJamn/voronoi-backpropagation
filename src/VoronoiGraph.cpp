@@ -20,7 +20,7 @@ void VQuadTree::Print(VQuadTree* tree, int indent) {
     PrintIndents(indent+1); std::cout << "max_(x,y): (" << tree->max_x << "," << tree->max_y << ")" << std::endl;
     PrintIndents(indent+1); std::cout << "half_(x,y): (" << tree->half_x << "," << tree->half_y << ")" << std::endl;
 //    PrintIndents(indent+1); NodeLinkedList::Print("node_children: ", tree->node_children, indent+1);
-    PrintIndents(indent+1); NodeLinkedList::Print("node_children: ", tree->node_children, indent+1);//NodeLinkedList::PrintNodes("node_children: ", tree->node_children, indent+1); // debug edit
+    PrintIndents(indent+1); NodeLinkedList::PrintNodes("node_children: ", tree->node_children, indent+1); // debug edit nevermind//NodeLinkedList::Print("node_children: ", tree->node_children, indent+1);//
     if (tree->tree_children[0] == nullptr) {
         PrintIndents(indent+1); std::cout << "tree_children: []" << std::endl;
     } else {
@@ -38,26 +38,49 @@ bool VQuadTree::Contains(VQuadTree* tree, VoronoiNode* node) {
     if (tree->node_children != nullptr) {
         return NodeLinkedList::Contains(tree->node_children, node);
     } else {
-        if (VQuadTree::Contains(tree->tree_children[0], node)) {
+        size_t search_first;
+        int dx = node->GetSortingPosX()-tree->half_x;
+        int dy = node->GetSortingPosX()-tree->half_y;
+        if (dx < 0) {
+            if (dy < 0) {
+                search_first = 0;
+            } else {
+                search_first = 2;
+            }
+        } else {
+            if (dy < 0) {
+                search_first = 1;
+            } else {
+                search_first = 3;
+            }
+        }
+        if (VQuadTree::Contains(tree->tree_children[search_first], node)) {
             return true;
         }
-        if (VQuadTree::Contains(tree->tree_children[1], node)) {
+        if (VQuadTree::Contains(tree->tree_children[(search_first+1)%4], node)) {
             return true;
         }
-        if (VQuadTree::Contains(tree->tree_children[2], node)) {
+        if (VQuadTree::Contains(tree->tree_children[(search_first+2)%4], node)) {
             return true;
         }
-        if (VQuadTree::Contains(tree->tree_children[3], node)) {
+        if (VQuadTree::Contains(tree->tree_children[(search_first+3)%4], node)) {
             return true;
         }
         return false;
     }
 }
 bool VoronoiGraph::EnsureCompleteContainment() {
-    if (NodeLinkedList::Length(this->all_child_nodes) != this->total_child_count) {return false;}
+    if (NodeLinkedList::Length(this->all_child_nodes) != this->total_child_count) {
+        std::cout << "all_child_nodes length fail" << std::endl;
+        return false;
+    }
     NODELINKEDLIST_FOREACH(this->all_child_nodes, {
 //        SDL_assert(NodeLinkedList::Contains(this->all_child_nodes, current_node)); // a bit redundant
-        if (!VQuadTree::Contains(this->root, current_node)) {return false;}
+        if (!VQuadTree::Contains(this->root, current_node)) {
+            std::cout << "tree containment fail, " << current_node << " not contained" << std::endl;
+            current_node->Print(0); std::cout << std::endl;
+            return false;
+        }
     });
     return true;
 }
@@ -462,8 +485,8 @@ NodeLinkedList* VoronoiGraph::GetNearby(double x, double y, VoronoiNode* seed) {
         VoronoiNode* arbitrary_seed = this->all_child_nodes->node;
         arbitrary_seed->CalculateDist(this->recent_x, this->recent_y, this->gain); // work done here
         arbitrary_seed->CalculateSortingDist(this->recent_x, this->recent_y); // work done here
-        this->current_bounding_mag = arbitrary_seed->GetDist() + band_width;
-        this->current_box_radius = arbitrary_seed->GetSortingDist() + sort_band_width;
+        this->current_bounding_mag = arbitrary_seed->GetDist() + this->band_width;
+        this->current_box_radius = arbitrary_seed->GetSortingDist() + this->sort_band_width;
     }
 
     NodeLinkedList::DeleteList(this->nearby_candidates);
@@ -510,6 +533,8 @@ NodeLinkedList* VoronoiGraph::GetNearby(double x, double y, VoronoiNode* seed) {
 void VoronoiGraph::BuildNearbyList(VQuadTree* branch) { // takes the running info on the best distance upper bound and adds the nodes descendant to this branch to the list of potential candidates
     if (!this->SplitValid(branch)) { // not split, this is a leaf node
 
+        SDL_assert(this->EnsureCompleteContainment());
+
         VoronoiNode* new_nearest = nullptr;
 
         NODELINKEDLIST_FOREACH(branch->node_children, {
@@ -531,13 +556,19 @@ void VoronoiGraph::BuildNearbyList(VQuadTree* branch) { // takes the running inf
             }
 
         });
-
+        if (!this->EnsureCompleteContainment()) {
+            std::cout << "containment fail after leaf incorporation, leaf: [" << branch << "]: ";
+            VQuadTree::Print(branch, 0);
+            SDL_assert(false);
+        }
         if (new_nearest != nullptr) { // if a candidate in this branch beat the standing record
             new_nearest->CalculateSortingDist(this->recent_x, this->recent_y); // do the work to find the box radius
             this->current_box_radius = new_nearest->GetSortingDist() + this->sort_band_width; // update the search
 
             this->current_bounding_mag = new_nearest->GetDist()+this->band_width;
         }
+
+        SDL_assert(this->EnsureCompleteContainment());
 
     } else { // split, doesnt itself have child nodes but it's boughs may
 /*
