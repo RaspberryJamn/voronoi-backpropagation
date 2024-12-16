@@ -17,9 +17,9 @@ class VoronoiNode;
 } while (0)
 
 struct NodeLinkedList {
-    NodeLinkedList* next;
     VoronoiNode* node;
-    NodeLinkedList() : next(nullptr), node(nullptr) {}
+    NodeLinkedList* next;
+    NodeLinkedList() : node(nullptr), next(nullptr) {}
 //    ~NodeLinkedList() : {} // maybe this helps?
 //    NodeLinkedList(VoronoiNode* node) : next(nullptr), node(node) {}
 //    NodeLinkedList(VoronoiNode* node, NodeLinkedList* next) : next(next), node(node) {}

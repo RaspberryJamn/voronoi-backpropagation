@@ -400,16 +400,40 @@ void VoronoiGraph::RemoveFromBranch(VoronoiNode* node, VQuadTree* branch) {
 }
 
 void VoronoiGraph::ConsolidateChildLists(VQuadTree* branch) {
+//    NodeLinkedList* concatenated = nullptr;
+//    NodeLinkedList::LinkAOntoB(&concatenated, branch->tree_children[0]->node_children); // fancy way of saying concatenated = branch->tree_children[0]->node_children
+//    NodeLinkedList::LinkAOntoB(&concatenated, branch->tree_children[1]->node_children); // tree[0]nodes tail points into tree[1]nodes
+//    NodeLinkedList::LinkAOntoB(&concatenated, branch->tree_children[2]->node_children); // tree[1]nodes tail points into tree[2]nodes
+//    NodeLinkedList::LinkAOntoB(&concatenated, branch->tree_children[3]->node_children); // tree[2]nodes tail points into tree[3]nodes
+//    branch->node_children = concatenated;
     NodeLinkedList* concatenated = nullptr;
-    NodeLinkedList::LinkAOntoB(&concatenated, branch->tree_children[0]->node_children); // fancy way of saying concatenated = branch->tree_children[0]->node_children
-    NodeLinkedList::LinkAOntoB(&concatenated, branch->tree_children[1]->node_children); // tree[0]nodes tail points into tree[1]nodes
-    NodeLinkedList::LinkAOntoB(&concatenated, branch->tree_children[2]->node_children); // tree[1]nodes tail points into tree[2]nodes
-    NodeLinkedList::LinkAOntoB(&concatenated, branch->tree_children[3]->node_children); // tree[2]nodes tail points into tree[3]nodes
-    branch->node_children = concatenated;
-    delete branch->tree_children[0]; branch->tree_children[0] = nullptr;
-    delete branch->tree_children[1]; branch->tree_children[1] = nullptr;
-    delete branch->tree_children[2]; branch->tree_children[2] = nullptr;
-    delete branch->tree_children[3]; branch->tree_children[3] = nullptr;
+    NODELINKEDLIST_FOREACH(branch->tree_children[0]->node_children, {
+        NodeLinkedList::Append(current_node, &concatenated);
+    });
+    NodeLinkedList::DeleteList(branch->tree_children[0]->node_children);
+    delete branch->tree_children[0];
+    branch->tree_children[0] = nullptr;
+
+    NODELINKEDLIST_FOREACH(branch->tree_children[1]->node_children, {
+        NodeLinkedList::Append(current_node, &concatenated);
+    });
+    NodeLinkedList::DeleteList(branch->tree_children[1]->node_children);
+    delete branch->tree_children[1];
+    branch->tree_children[1] = nullptr;
+
+    NODELINKEDLIST_FOREACH(branch->tree_children[2]->node_children, {
+        NodeLinkedList::Append(current_node, &concatenated);
+    });
+    NodeLinkedList::DeleteList(branch->tree_children[2]->node_children);
+    delete branch->tree_children[2];
+    branch->tree_children[2] = nullptr;
+
+    NODELINKEDLIST_FOREACH(branch->tree_children[3]->node_children, {
+        NodeLinkedList::Append(current_node, &concatenated);
+    });
+    NodeLinkedList::DeleteList(branch->tree_children[3]->node_children);
+    delete branch->tree_children[3];
+    branch->tree_children[3] = nullptr;
 }
 
 void VoronoiGraph::UpdateNodePositions() {
@@ -492,7 +516,7 @@ NodeLinkedList* VoronoiGraph::GetNearby(double x, double y, VoronoiNode* seed) {
     NodeLinkedList::DeleteList(this->nearby_candidates);
     this->nearby_candidates = nullptr;
 
-    SDL_assert(this->EnsureCompleteContainment());
+//    SDL_assert(this->EnsureCompleteContainment());
         this->BuildNearbyList(this->root); // this is where the job is mostly done
     SDL_assert(this->EnsureCompleteContainment());
 
@@ -520,7 +544,7 @@ NodeLinkedList* VoronoiGraph::GetNearby(double x, double y, VoronoiNode* seed) {
             delete current_slot;
         }
     });
-    SDL_assert(this->EnsureCompleteContainment());
+//    SDL_assert(this->EnsureCompleteContainment());
 
     if (nearest_slot != nullptr) { // puts the nearest node at the top
         VoronoiNode* first_node = result_list->node;
@@ -533,7 +557,7 @@ NodeLinkedList* VoronoiGraph::GetNearby(double x, double y, VoronoiNode* seed) {
 void VoronoiGraph::BuildNearbyList(VQuadTree* branch) { // takes the running info on the best distance upper bound and adds the nodes descendant to this branch to the list of potential candidates
     if (!this->SplitValid(branch)) { // not split, this is a leaf node
 
-        SDL_assert(this->EnsureCompleteContainment());
+//        SDL_assert(this->EnsureCompleteContainment());
 
         VoronoiNode* new_nearest = nullptr;
 
@@ -547,7 +571,14 @@ void VoronoiGraph::BuildNearbyList(VQuadTree* branch) { // takes the running inf
 //                new_candidate_entry->node = current_node;
 //                new_candidate_entry->next = this->nearby_candidates; // prepend the new candidate
 //                this->nearby_candidates = new_candidate_entry;
-                NodeLinkedList::Append(current_node, &this->nearby_candidates);
+                SDL_assert(this->EnsureCompleteContainment());
+                    NodeLinkedList::Append(current_node, &this->nearby_candidates); // someway, somehow, this sparks the issue
+                if (!this->EnsureCompleteContainment()) {
+                    std::cout << "containment fail after appending a node: [" << current_slot << "]: "; current_node->Print(0); std::cout << std::endl;
+                    std::cout << "full tree: ";
+                    VQuadTree::Print(this->root, 0);
+                    SDL_assert(false);
+                }
 
                 if (relative_dist >= this->band_width) { // beats the middle circle
                     this->current_bounding_mag = current_node->GetDist()+this->band_width; // now the outer circle is this dist plus out by band width
@@ -556,11 +587,11 @@ void VoronoiGraph::BuildNearbyList(VQuadTree* branch) { // takes the running inf
             }
 
         });
-        if (!this->EnsureCompleteContainment()) {
-            std::cout << "containment fail after leaf incorporation, leaf: [" << branch << "]: ";
-            VQuadTree::Print(branch, 0);
-            SDL_assert(false);
-        }
+//        if (!this->EnsureCompleteContainment()) {
+//            std::cout << "containment fail after leaf incorporation, leaf: [" << branch << "]: ";
+//            VQuadTree::Print(branch, 0);
+//            SDL_assert(false);
+//        }
         if (new_nearest != nullptr) { // if a candidate in this branch beat the standing record
             new_nearest->CalculateSortingDist(this->recent_x, this->recent_y); // do the work to find the box radius
             this->current_box_radius = new_nearest->GetSortingDist() + this->sort_band_width; // update the search
@@ -568,7 +599,7 @@ void VoronoiGraph::BuildNearbyList(VQuadTree* branch) { // takes the running inf
             this->current_bounding_mag = new_nearest->GetDist()+this->band_width;
         }
 
-        SDL_assert(this->EnsureCompleteContainment());
+//        SDL_assert(this->EnsureCompleteContainment());
 
     } else { // split, doesnt itself have child nodes but it's boughs may
 /*
