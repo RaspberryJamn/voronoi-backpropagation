@@ -169,3 +169,12 @@ bool NodeLinkedList::Contains(NodeLinkedList* list, VoronoiNode* node) {
     });
     return false;
 }
+
+bool NodeLinkedList::Contains(NodeLinkedList* list, NodeLinkedList* slot) { // this is so fucking stupid
+    NODELINKEDLIST_FOREACH(list, {
+        if (current_slot == slot) {
+            return true;
+        }
+    });
+    return false;
+}

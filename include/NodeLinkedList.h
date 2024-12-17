@@ -38,6 +38,8 @@ struct NodeLinkedList {
 //    static void RemoveTreeLocation(VoronoiNode* node, NodeLinkedList** list_ref);
     static int Length(NodeLinkedList* list);
     static bool Contains(NodeLinkedList* list, VoronoiNode* node);
+    static bool Contains(NodeLinkedList* list, NodeLinkedList* slot); // this is so fucking stupid
+    static NodeLinkedList* Find(NodeLinkedList* list, NodeLinkedList* slot); // this is so fucking stupid
 };
 
 

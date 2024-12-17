@@ -588,11 +588,19 @@ void VoronoiGraph::BuildNearbyList(VQuadTree* branch) { // takes the running inf
 //                new_candidate_entry->next = this->nearby_candidates; // prepend the new candidate
 //                this->nearby_candidates = new_candidate_entry;
 
-//                NodeLinkedList* new_first = new NodeLinkedList(current_node, this->nearby_candidates);
-////                new_first->node = current_node;
-////                new_first->next = this->nearby_candidates;
-//                this->nearby_candidates = new_first;
-                this->nearby_candidates = new NodeLinkedList(current_node, this->nearby_candidates);
+                NodeLinkedList* new_first = new NodeLinkedList();
+
+//                SDL_assert(NodeLinkedList::Contains(branch->node_children, new_first) == false); // this is SO fucking stupid
+                if (NodeLinkedList::Contains(branch->node_children, new_first) != false) {
+                    std::cout << "new_first: [" << (void*)new_first << "]: " << "{node: " << (void*)new_first->node << "} => " << (void*)new_first->next << std::endl;
+                    SDL_assert(false);
+                }
+
+                new_first->node = current_node;
+                new_first->next = this->nearby_candidates;
+                this->nearby_candidates = new_first;
+//                NodeLinkedList* before_error = this->nearby_candidates;
+//                this->nearby_candidates = new NodeLinkedList(current_node, this->nearby_candidates);
 //                new_first->node = current_node;
 //                new_first->next = this->nearby_candidates;
 
@@ -601,6 +609,7 @@ void VoronoiGraph::BuildNearbyList(VQuadTree* branch) { // takes the running inf
 //                SDL_assert(this->EnsureCompleteContainment());
 //                NodeLinkedList::Append(current_node, &this->nearby_candidates); // someway, somehow, this sparks the issue
                 if (!this->EnsureCompleteContainment()) {
+//                    std::cout << "before_error: " << before_error << std::endl;
                     std::cout << "containment fail after appending a node " << current_node << " into slot [" << this->nearby_candidates << "] in branch: "; VQuadTree::Print(branch, 0);
                     std::cout << "full tree: ";
                     VQuadTree::Print(this->root, 0);
