@@ -77,17 +77,9 @@ bool VQuadTree::Contains(VQuadTree* tree, VoronoiNode* node) {
 
 void VoronoiGraph::RenderTree(SDL_Renderer* target_renderer) {
     this->RenderVQuadTree(this->root, target_renderer);
-//    SDL_Rect dest = {0,0,0,0};
-//    SDL_SetRenderDrawColor(target_renderer, 0x00, 0x00, 0x00, 0xFF);
-//    dest = {this->x, this->y, this->w, this->h}; SDL_RenderDrawRect(target_renderer, &dest);
-//    SDL_SetRenderDrawColor(target_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-//    dest = {this->x+1, this->y+1, this->w-2, this->h-2}; SDL_RenderDrawRect(target_renderer, &dest);
     std::for_each(this->all_child_nodes.begin(), this->all_child_nodes.end(), [&](VoronoiNode* current_node) {
         current_node->Render(target_renderer);
     });
-//    NODELINKEDLIST_FOREACH(this->all_child_nodes, {
-//        current_node->Render(target_renderer);
-//    });
 }
 void VoronoiGraph::RenderVQuadTree(VQuadTree* branch, SDL_Renderer* target_renderer) {
     if (branch == nullptr) {return;}
@@ -117,15 +109,9 @@ void VoronoiGraph::RenderVQuadTree(VQuadTree* branch, SDL_Renderer* target_rende
     dest = {branch->min_x, branch->min_y, branch->max_x-branch->min_x, branch->max_y-branch->min_y}; SDL_RenderDrawRect(target_renderer, &dest);
     SDL_SetRenderDrawColor(target_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
     dest = {branch->min_x+1, branch->min_y+1, branch->max_x-branch->min_x-2, branch->max_y-branch->min_y-2}; SDL_RenderDrawRect(target_renderer, &dest);
-
-//    if (branch->node_children != nullptr) {
-//        NODELINKEDLIST_FOREACH(branch->node_children, {
-//            current_node->Render(target_renderer);
-//        });
-//    }
 }
 
-void println(std::string comment, const std::vector<VoronoiNode*>& c) {
+void PrintNodeVector(std::string comment, const std::vector<VoronoiNode*>& c) {
     std::cout << comment << '[';
     bool first{true};
     for (const auto& x : c)
@@ -133,9 +119,7 @@ void println(std::string comment, const std::vector<VoronoiNode*>& c) {
     std::cout << "]\n";
 }
 void VoronoiGraph::PrintTree() {
-//    std::cout << "all_child_nodes: " << this->all_child_nodes << std::endl;
-    println("all_child_nodes: ", this->all_child_nodes);
-//    NodeLinkedList::PrintNodes("all_child_nodes: ", this->all_child_nodes, 0);
+    PrintNodeVector("all_child_nodes: ", this->all_child_nodes);
     VQuadTree::Print(this->root, 0);
 }
 
@@ -177,14 +161,10 @@ VoronoiGraph::~VoronoiGraph() {
     this->DeleteTree(this->root);
     this->root = nullptr;
 
-//    delete this->all_child_nodes;
-//    NodeLinkedList::DeleteNodes(this->all_child_nodes);
-//    this->all_child_nodes = nullptr;
     this->total_child_count = 0;
 
     this->gain = 0;
 
-//    NodeLinkedList::DeleteList(this->nearby_candidates);
     this->nearby_candidates.clear();
 
     this->recent_x = 0;
@@ -206,7 +186,6 @@ void VoronoiGraph::DeleteTree(VQuadTree* branch) {
             this->DeleteTree(branch->tree_children[3]); branch->tree_children[3] = nullptr;
         }
     } else {
-//        NodeLinkedList::DeleteList(branch->node_children);
         branch->node_children.clear();
     }
     delete branch;
@@ -386,8 +365,6 @@ std::vector<VoronoiNode*> VoronoiGraph::GetNearby(double x, double y, VoronoiNod
 
     SDL_assert(!this->nearby_candidates.empty());
 
-    std::vector<VoronoiNode*> result_list = {}; // start with an empty output list
-
     size_t nearest_slot = 0; // we're gonna be searching for the nearest node to swap to the front
     size_t current_slot = 0;
     double nearest_dist = this->nearby_candidates.front()->GetDist();
@@ -414,6 +391,7 @@ std::vector<VoronoiNode*> VoronoiGraph::GetNearby(double x, double y, VoronoiNod
         this->nearby_candidates.front() = this->nearby_candidates.at(nearest_slot);
         this->nearby_candidates.at(nearest_slot) = temp_first;
     }
+    std::vector<VoronoiNode*> result_list = {};
     this->nearby_candidates.swap(result_list);
     return result_list;
 }

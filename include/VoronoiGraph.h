@@ -1,6 +1,5 @@
 #ifndef VORONOIGRAPH_H
 #define VORONOIGRAPH_H
-#include "NodeLinkedList.h"
 #include <vector>
 #include "VoronoiNode.h"
 #include "ErrorLogger.h"
