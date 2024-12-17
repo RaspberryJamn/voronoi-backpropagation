@@ -84,6 +84,7 @@ void NodeLinkedList::RemoveGeneric(VoronoiNode* node, NodeLinkedList** list_ref)
         prev_slot = current_slot;
     });
     std::cout << "NODE NOT FOUND IN LIST!!!" << std::endl;
+    NodeLinkedList::PrintNodes("list to removeing", *list_ref, 0);
 //    SDL_assert(false);
 }
 

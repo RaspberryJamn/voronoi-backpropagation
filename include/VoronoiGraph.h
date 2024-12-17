@@ -61,7 +61,7 @@ class VoronoiGraph {
         void SetBandWidth(double band_width);
         double GetGain();
 
-        void SetErrorLogger(ErrorLogger* error_logger);
+//        void SetErrorLogger(ErrorLogger* error_logger);
 
         bool EnsureCompleteContainment();
 
@@ -111,7 +111,7 @@ class VoronoiGraph {
         int current_box_radius;
         // }
 
-        ErrorLogger* error_logger;
+//        ErrorLogger* error_logger;
 };
 
 #endif // VORONOIGRAPH_H

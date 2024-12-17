@@ -205,13 +205,14 @@ VoronoiGraph::~VoronoiGraph() {
 void VoronoiGraph::DeleteTree(VQuadTree* branch) {
     if (branch->node_children == nullptr) {
         if (branch->tree_children[0] != nullptr) {
-            this->DeleteTree(branch->tree_children[0]);
-            this->DeleteTree(branch->tree_children[1]);
-            this->DeleteTree(branch->tree_children[2]);
-            this->DeleteTree(branch->tree_children[3]);
+            this->DeleteTree(branch->tree_children[0]); branch->tree_children[0] = nullptr;
+            this->DeleteTree(branch->tree_children[1]); branch->tree_children[1] = nullptr;
+            this->DeleteTree(branch->tree_children[2]); branch->tree_children[2] = nullptr;
+            this->DeleteTree(branch->tree_children[3]); branch->tree_children[3] = nullptr;
         }
     } else {
         NodeLinkedList::DeleteList(branch->node_children);
+        branch->node_children = nullptr;
     }
     delete branch;
 }
@@ -228,14 +229,28 @@ void VoronoiGraph::RespecTree(int x, int y, int w, int h, int max_depth, int cri
     this->DeleteTree(this->root); // simply delete the entirety of the tree, no need to remove every node before readding it later
     this->root = nullptr;
     this->root = new VQuadTree(this->x, this->y, this->x+this->w, this->y+this->h, 0);
+//    if (this->root == nullptr) {
+////        this->DeleteTree(this->root);
+//        this->root = new VQuadTree(this->x, this->y, this->x+this->w, this->y+this->h, 0);
+//    } else {
+//        std::cout << "removeing all nodes" << std::endl;
+//        NODELINKEDLIST_FOREACH(this->all_child_nodes, {
+//            current_node->CalculateSortingPos();
+//            this->recent_sort_x = current_node->GetSortingPosX();
+//            this->recent_sort_y = current_node->GetSortingPosY();
+//            this->RemoveFromBranch(current_node, this->root);
+//        });
+//    }
+//    std::cout << "removed all nodes" << std::endl;
 //    NodeLinkedList* all_nodes_copy = NodeLinkedList::Copy(this->all_child_nodes);
     NODELINKEDLIST_FOREACH(this->all_child_nodes, {//all_nodes_copy, {//
-        current_node->SetTreeSlot(nullptr);
+//        current_node->SetTreeSlot(nullptr);
         current_node->CalculateSortingPos();
         this->recent_sort_x = current_node->GetSortingPosX();
         this->recent_sort_y = current_node->GetSortingPosY();
         this->AddToChildren(current_node, this->root);
     });
+//    std::cout << "added all nodes" << std::endl;
 //    NodeLinkedList::DeleteList(all_nodes_copy);
 }
 
@@ -589,10 +604,12 @@ void VoronoiGraph::BuildNearbyList(VQuadTree* branch) { // takes the running inf
 //                this->nearby_candidates = new_candidate_entry;
 
                 NodeLinkedList* new_first = new NodeLinkedList();
+                VoronoiNode* uninit_node = new_first->node;
+                NodeLinkedList* uninit_next = new_first->next;
 
 //                SDL_assert(NodeLinkedList::Contains(branch->node_children, new_first) == false); // this is SO fucking stupid
                 if (NodeLinkedList::Contains(branch->node_children, new_first) != false) {
-                    std::cout << "new_first: [" << (void*)new_first << "]: " << "{node: " << (void*)new_first->node << "} => " << (void*)new_first->next << std::endl;
+                    std::cout << "new_first: [" << new_first << "]: " << "{node: " << uninit_node << "} => " << uninit_next << std::endl;
                     SDL_assert(false);
                 }
 
@@ -779,6 +796,6 @@ double VoronoiGraph::GetGain() {
     return this->gain;
 }
 
-void VoronoiGraph::SetErrorLogger(ErrorLogger* error_logger) {
-    this->error_logger = error_logger;
-}
+//void VoronoiGraph::SetErrorLogger(ErrorLogger* error_logger) {
+//    this->error_logger = error_logger;
+//}

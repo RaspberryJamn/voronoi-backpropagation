@@ -50,7 +50,7 @@ bool CApp::OnInit() {
     }
 
     this->voronoi_graph = new VoronoiGraph();
-    this->voronoi_graph->SetErrorLogger(this->error_logger);
+//    this->voronoi_graph->SetErrorLogger(this->error_logger);
     this->voronoi_graph->RespecTree(0, 0, this->media_texture->GetWidth(), this->media_texture->GetHeight(), 4, 1);
     this->voronoi_graph->AddNode(new VoronoiNode(300,540,100,100,100));
     this->voronoi_graph->AddNode(new VoronoiNode(270,540,255,0  ,0  ));

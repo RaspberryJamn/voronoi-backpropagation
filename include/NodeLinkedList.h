@@ -19,7 +19,7 @@ class VoronoiNode;
 struct NodeLinkedList {
     VoronoiNode* node;
     NodeLinkedList* next;
-    NodeLinkedList() : node(nullptr), next(nullptr) {}
+    NodeLinkedList() {};//NodeLinkedList() : node(nullptr), next(nullptr) {}
 //    ~NodeLinkedList() : {} // maybe this helps?
 //    NodeLinkedList(VoronoiNode* node) : next(nullptr), node(node) {}
     NodeLinkedList(VoronoiNode* node, NodeLinkedList* next) : node(node), next(next) {}
