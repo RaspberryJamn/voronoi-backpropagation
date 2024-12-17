@@ -75,7 +75,16 @@ bool VoronoiGraph::EnsureCompleteContainment() {
         return false;
     }
     NODELINKEDLIST_FOREACH(this->all_child_nodes, {
-//        SDL_assert(NodeLinkedList::Contains(this->all_child_nodes, current_node)); // a bit redundant
+        if (current_node->GetResidence()->node != current_node) { // a bit redundant
+            std::cout << "node residence does not contain node, node: ";
+            current_node->Print(0); std::cout << std::endl;
+            return false;
+        }
+        if (current_node->GetTreeSlot()->node != current_node) {
+            std::cout << "node tree reference does not contain node, node: ";
+            current_node->Print(0); std::cout << std::endl;
+            return false;
+        }
         if (!VQuadTree::Contains(this->root, current_node)) {
             std::cout << "tree containment fail, " << current_node << " not contained" << std::endl;
             current_node->Print(0); std::cout << std::endl;
@@ -235,6 +244,7 @@ bool VoronoiGraph::SplitValid(VQuadTree* branch) {
 
 void VoronoiGraph::AddNode(VoronoiNode* node) {
     NodeLinkedList::Append(node, &this->all_child_nodes);
+    node->SetResidence(this->all_child_nodes);
 //    NodeLinkedList::AddResidenceSlot(node, &this->all_child_nodes);
     this->total_child_count++;
 
@@ -253,6 +263,7 @@ void VoronoiGraph::AddToChildren(VoronoiNode* node, VQuadTree* branch) {
     } else { // we're either below critical mass or above it and weren't allowed to split
 
         NodeLinkedList::Append(node, &branch->node_children); // node given a slot
+        node->SetTreeSlot(branch->node_children);
         branch->total_children++;
 //        NodeLinkedList::AddTreeSlot(node, &branch->node_children);
         node->SetBounds(branch->min_x, branch->min_y, branch->max_x, branch->max_y); // node knows its shape
@@ -571,10 +582,14 @@ void VoronoiGraph::BuildNearbyList(VQuadTree* branch) { // takes the running inf
 //                new_candidate_entry->node = current_node;
 //                new_candidate_entry->next = this->nearby_candidates; // prepend the new candidate
 //                this->nearby_candidates = new_candidate_entry;
-                SDL_assert(this->EnsureCompleteContainment());
-                    NodeLinkedList::Append(current_node, &this->nearby_candidates); // someway, somehow, this sparks the issue
+                NodeLinkedList* new_first = new NodeLinkedList();
+                new_first->node = current_node;
+                new_first->next = this->nearby_candidates;
+                this->nearby_candidates = new_first;
+//                SDL_assert(this->EnsureCompleteContainment());
+//                NodeLinkedList::Append(current_node, &this->nearby_candidates); // someway, somehow, this sparks the issue
                 if (!this->EnsureCompleteContainment()) {
-                    std::cout << "containment fail after appending a node: [" << current_slot << "]: "; current_node->Print(0); std::cout << std::endl;
+                    std::cout << "containment fail after appending a node " << current_node << " into slot [" << new_first << "] in branch: "; VQuadTree::Print(branch, 0);
                     std::cout << "full tree: ";
                     VQuadTree::Print(this->root, 0);
                     SDL_assert(false);

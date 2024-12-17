@@ -110,10 +110,10 @@ class VoronoiNode {
         VoronoiNode(double x, double y, double r, double g, double b);
         ~VoronoiNode();
 
-//        void SetResidence(NodeLinkedList* home);
-//        NodeLinkedList* GetResidence();
-//        void SetTreeSlot(NodeLinkedList* location);
-//        NodeLinkedList* GetTreeSlot();
+        void SetResidence(NodeLinkedList* home);
+        NodeLinkedList* GetResidence();
+        void SetTreeSlot(NodeLinkedList* location);
+        NodeLinkedList* GetTreeSlot();
 
         void SetPosition(double x, double y);
         void SetBounds(int min_x, int min_y, int max_x, int max_y);
@@ -147,8 +147,8 @@ class VoronoiNode {
     private:
         void Init(double x, double y, double r, double g, double b);
 
-//        NodeLinkedList* residential_slot;
-//        NodeLinkedList* tree_slot;
+        NodeLinkedList* residential_slot;
+        NodeLinkedList* tree_slot;
 
         double x;
         double y;

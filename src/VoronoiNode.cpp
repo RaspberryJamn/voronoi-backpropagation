@@ -16,8 +16,8 @@ void VoronoiNode::Init(double x, double y, double r, double g, double b) {
     this->y_grad = 0;
     this->color_grad = RGBColor(0,0,0);
 
-//    this->residential_slot = nullptr;
-//    this->tree_slot = nullptr;
+    this->residential_slot = nullptr;
+    this->tree_slot = nullptr;
 
     this->mag = 0;
     this->m_value = 0;
@@ -37,19 +37,19 @@ VoronoiNode::~VoronoiNode() {
     this->sorting_y = 0;
 }
 
-//void VoronoiNode::SetResidence(NodeLinkedList* home) {
-//    this->residential_slot = home;
-//}
-//NodeLinkedList* VoronoiNode::GetResidence() {
-//    return this->residential_slot;
-//}
-//
-//void VoronoiNode::SetTreeSlot(NodeLinkedList* location) {
-//    this->tree_slot = location;
-//}
-//NodeLinkedList* VoronoiNode::GetTreeSlot() {
-//    return this->tree_slot;
-//}
+void VoronoiNode::SetResidence(NodeLinkedList* home) {
+    this->residential_slot = home;
+}
+NodeLinkedList* VoronoiNode::GetResidence() {
+    return this->residential_slot;
+}
+
+void VoronoiNode::SetTreeSlot(NodeLinkedList* location) {
+    this->tree_slot = location;
+}
+NodeLinkedList* VoronoiNode::GetTreeSlot() {
+    return this->tree_slot;
+}
 
 void VoronoiNode::SetPosition(double x, double y) {
     this->x = x;
@@ -97,8 +97,8 @@ void VoronoiNode::Print(int indent) {
     PrintIndents(indent+1); std::cout << "max_corner_(x,y): (" << this->sorting_x_max << "," << this->sorting_y_max << ")," << std::endl;
     PrintIndents(indent+1); std::cout << "color: [" << c.r << "," << c.g << "," << c.b << "]," << std::endl;
     PrintIndents(indent+1); std::cout << "dist:" << this->mag<< "," << std::endl;
-//    PrintIndents(indent+1); std::cout << "residency:" << this->residential_slot << "," << std::endl;
-//    PrintIndents(indent+1); std::cout << "reference:" << this->tree_slot << std::endl;
+    PrintIndents(indent+1); std::cout << "residency:" << this->residential_slot << "," << std::endl;
+    PrintIndents(indent+1); std::cout << "reference:" << this->tree_slot << std::endl;
     PrintIndents(indent); std::cout << "}";
 }
 
