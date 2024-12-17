@@ -22,7 +22,7 @@ struct NodeLinkedList {
     NodeLinkedList() : node(nullptr), next(nullptr) {}
 //    ~NodeLinkedList() : {} // maybe this helps?
 //    NodeLinkedList(VoronoiNode* node) : next(nullptr), node(node) {}
-//    NodeLinkedList(VoronoiNode* node, NodeLinkedList* next) : next(next), node(node) {}
+    NodeLinkedList(VoronoiNode* node, NodeLinkedList* next) : node(node), next(next) {}
 
     static void Print(std::string header, NodeLinkedList* list, int indent);
     static void PrintNodes(std::string header, NodeLinkedList* list, int indent);

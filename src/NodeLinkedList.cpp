@@ -59,10 +59,11 @@ void NodeLinkedList::DeleteNodes(NodeLinkedList* list) {
 
 void NodeLinkedList::Append(VoronoiNode* node, NodeLinkedList** list_ref) {
     SDL_assert(node != nullptr);
-    NodeLinkedList* new_first = new NodeLinkedList();
-    new_first->node = node;
-    new_first->next = *list_ref;
-    *list_ref = new_first;
+//    NodeLinkedList* new_first = new NodeLinkedList();
+//    new_first->node = node;
+//    new_first->next = *list_ref;
+//    *list_ref = new_first;
+    (*list_ref) = new NodeLinkedList(node, (*list_ref));
 }
 
 void NodeLinkedList::RemoveGeneric(VoronoiNode* node, NodeLinkedList** list_ref) {

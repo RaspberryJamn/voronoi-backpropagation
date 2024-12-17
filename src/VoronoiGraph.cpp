@@ -230,6 +230,7 @@ void VoronoiGraph::RespecTree(int x, int y, int w, int h, int max_depth, int cri
     this->root = new VQuadTree(this->x, this->y, this->x+this->w, this->y+this->h, 0);
 //    NodeLinkedList* all_nodes_copy = NodeLinkedList::Copy(this->all_child_nodes);
     NODELINKEDLIST_FOREACH(this->all_child_nodes, {//all_nodes_copy, {//
+        current_node->SetTreeSlot(nullptr);
         current_node->CalculateSortingPos();
         this->recent_sort_x = current_node->GetSortingPosX();
         this->recent_sort_y = current_node->GetSortingPosY();
@@ -420,6 +421,7 @@ void VoronoiGraph::ConsolidateChildLists(VQuadTree* branch) {
     NodeLinkedList* concatenated = nullptr;
     NODELINKEDLIST_FOREACH(branch->tree_children[0]->node_children, {
         NodeLinkedList::Append(current_node, &concatenated);
+        current_node->SetTreeSlot(concatenated);
     });
     NodeLinkedList::DeleteList(branch->tree_children[0]->node_children);
     delete branch->tree_children[0];
@@ -427,6 +429,7 @@ void VoronoiGraph::ConsolidateChildLists(VQuadTree* branch) {
 
     NODELINKEDLIST_FOREACH(branch->tree_children[1]->node_children, {
         NodeLinkedList::Append(current_node, &concatenated);
+        current_node->SetTreeSlot(concatenated);
     });
     NodeLinkedList::DeleteList(branch->tree_children[1]->node_children);
     delete branch->tree_children[1];
@@ -434,6 +437,7 @@ void VoronoiGraph::ConsolidateChildLists(VQuadTree* branch) {
 
     NODELINKEDLIST_FOREACH(branch->tree_children[2]->node_children, {
         NodeLinkedList::Append(current_node, &concatenated);
+        current_node->SetTreeSlot(concatenated);
     });
     NodeLinkedList::DeleteList(branch->tree_children[2]->node_children);
     delete branch->tree_children[2];
@@ -441,6 +445,7 @@ void VoronoiGraph::ConsolidateChildLists(VQuadTree* branch) {
 
     NODELINKEDLIST_FOREACH(branch->tree_children[3]->node_children, {
         NodeLinkedList::Append(current_node, &concatenated);
+        current_node->SetTreeSlot(concatenated);
     });
     NodeLinkedList::DeleteList(branch->tree_children[3]->node_children);
     delete branch->tree_children[3];
@@ -582,14 +587,21 @@ void VoronoiGraph::BuildNearbyList(VQuadTree* branch) { // takes the running inf
 //                new_candidate_entry->node = current_node;
 //                new_candidate_entry->next = this->nearby_candidates; // prepend the new candidate
 //                this->nearby_candidates = new_candidate_entry;
-                NodeLinkedList* new_first = new NodeLinkedList();
-                new_first->node = current_node;
-                new_first->next = this->nearby_candidates;
-                this->nearby_candidates = new_first;
+
+//                NodeLinkedList* new_first = new NodeLinkedList(current_node, this->nearby_candidates);
+////                new_first->node = current_node;
+////                new_first->next = this->nearby_candidates;
+//                this->nearby_candidates = new_first;
+                this->nearby_candidates = new NodeLinkedList(current_node, this->nearby_candidates);
+//                new_first->node = current_node;
+//                new_first->next = this->nearby_candidates;
+
+//                this->nearby_candidates = new NodeLinkedList(current_node, this->nearby_candidates);
+
 //                SDL_assert(this->EnsureCompleteContainment());
 //                NodeLinkedList::Append(current_node, &this->nearby_candidates); // someway, somehow, this sparks the issue
                 if (!this->EnsureCompleteContainment()) {
-                    std::cout << "containment fail after appending a node " << current_node << " into slot [" << new_first << "] in branch: "; VQuadTree::Print(branch, 0);
+                    std::cout << "containment fail after appending a node " << current_node << " into slot [" << this->nearby_candidates << "] in branch: "; VQuadTree::Print(branch, 0);
                     std::cout << "full tree: ";
                     VQuadTree::Print(this->root, 0);
                     SDL_assert(false);
