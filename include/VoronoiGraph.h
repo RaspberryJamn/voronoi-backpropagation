@@ -1,6 +1,7 @@
 #ifndef VORONOIGRAPH_H
 #define VORONOIGRAPH_H
 #include "NodeLinkedList.h"
+#include <vector>
 #include "VoronoiNode.h"
 #include "ErrorLogger.h"
 #include <SDL.h>
@@ -92,7 +93,8 @@ class VoronoiGraph {
         int h;
         int max_depth; // leaves have a depth of this or less
         int critical_mass; // branches all have more children than this
-        NodeLinkedList* all_child_nodes;
+//        NodeLinkedList* all_child_nodes;
+        std::vector<VoronoiNode*> all_child_nodes;
         int total_child_count;
 
         double gain;

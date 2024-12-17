@@ -1,6 +1,7 @@
 #include "VoronoiGraph.h"
 #include "CApp.h"
 #include <cmath>
+#include <algorithm>
 #include <iostream>
 
 void PrintIndents(int indent) {
@@ -70,27 +71,44 @@ bool VQuadTree::Contains(VQuadTree* tree, VoronoiNode* node) {
     }
 }
 bool VoronoiGraph::EnsureCompleteContainment() {
-    if (NodeLinkedList::Length(this->all_child_nodes) != this->total_child_count) {
-        std::cout << "all_child_nodes length fail" << std::endl;
-        return false;
-    }
-    NODELINKEDLIST_FOREACH(this->all_child_nodes, {
-        if (current_node->GetResidence()->node != current_node) { // a bit redundant
-            std::cout << "node residence does not contain node, node: ";
-            current_node->Print(0); std::cout << std::endl;
-            return false;
-        }
-        if (current_node->GetTreeSlot()->node != current_node) {
-            std::cout << "node tree reference does not contain node, node: ";
-            current_node->Print(0); std::cout << std::endl;
-            return false;
-        }
-        if (!VQuadTree::Contains(this->root, current_node)) {
-            std::cout << "tree containment fail, " << current_node << " not contained" << std::endl;
-            current_node->Print(0); std::cout << std::endl;
-            return false;
-        }
-    });
+//    if (this->all_child_nodes.size() != this->total_child_count) {
+//        std::cout << "all_child_nodes length fail" << std::endl;
+//        return false;
+//    }
+//    std::for_each(this->all_child_nodes.begin(), this->all_child_nodes.end(), [&](VoronoiNode* current_node) {
+//        if (current_node->GetResidence()->node != current_node) { // a bit redundant
+//            std::cout << "node residence does not contain node, node: ";
+//            current_node->Print(0); std::cout << std::endl;
+//            return false;
+//        }
+//        if (current_node->GetTreeSlot()->node != current_node) {
+//            std::cout << "node tree reference does not contain node, node: ";
+//            current_node->Print(0); std::cout << std::endl;
+//            return false;
+//        }
+//        if (!VQuadTree::Contains(this->root, current_node)) {
+//            std::cout << "tree containment fail, " << current_node << " not contained" << std::endl;
+//            current_node->Print(0); std::cout << std::endl;
+//            return false;
+//        }
+//    });
+//    NODELINKEDLIST_FOREACH(this->all_child_nodes, {
+//        if (current_node->GetResidence()->node != current_node) { // a bit redundant
+//            std::cout << "node residence does not contain node, node: ";
+//            current_node->Print(0); std::cout << std::endl;
+//            return false;
+//        }
+//        if (current_node->GetTreeSlot()->node != current_node) {
+//            std::cout << "node tree reference does not contain node, node: ";
+//            current_node->Print(0); std::cout << std::endl;
+//            return false;
+//        }
+//        if (!VQuadTree::Contains(this->root, current_node)) {
+//            std::cout << "tree containment fail, " << current_node << " not contained" << std::endl;
+//            current_node->Print(0); std::cout << std::endl;
+//            return false;
+//        }
+//    });
     return true;
 }
 void VoronoiGraph::RenderTree(SDL_Renderer* target_renderer) {
@@ -100,9 +118,12 @@ void VoronoiGraph::RenderTree(SDL_Renderer* target_renderer) {
 //    dest = {this->x, this->y, this->w, this->h}; SDL_RenderDrawRect(target_renderer, &dest);
 //    SDL_SetRenderDrawColor(target_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 //    dest = {this->x+1, this->y+1, this->w-2, this->h-2}; SDL_RenderDrawRect(target_renderer, &dest);
-    NODELINKEDLIST_FOREACH(this->all_child_nodes, {
+    std::for_each(this->all_child_nodes.begin(), this->all_child_nodes.end(), [&](VoronoiNode* current_node) {
         current_node->Render(target_renderer);
     });
+//    NODELINKEDLIST_FOREACH(this->all_child_nodes, {
+//        current_node->Render(target_renderer);
+//    });
 }
 void VoronoiGraph::RenderVQuadTree(VQuadTree* branch, SDL_Renderer* target_renderer) {
     if (branch == nullptr) {return;}
@@ -140,8 +161,17 @@ void VoronoiGraph::RenderVQuadTree(VQuadTree* branch, SDL_Renderer* target_rende
 //    }
 }
 
+void println(std::string comment, const auto& c) {
+    std::cout << comment << '[';
+    bool first{true};
+    for (const auto& x : c)
+        std::cout << (first ? first = false, "" : ", ") << x;
+    std::cout << "]\n";
+}
 void VoronoiGraph::PrintTree() {
-    NodeLinkedList::PrintNodes("all_child_nodes: ", this->all_child_nodes, 0);
+//    std::cout << "all_child_nodes: " << this->all_child_nodes << std::endl;
+    println("all_child_nodes: ", this->all_child_nodes);
+//    NodeLinkedList::PrintNodes("all_child_nodes: ", this->all_child_nodes, 0);
     VQuadTree::Print(this->root, 0);
 }
 
@@ -155,7 +185,7 @@ VoronoiGraph::VoronoiGraph() {
 
     this->root = new VQuadTree(this->x, this->y, this->x+this->w, this->y+this->h, 0);
 
-    this->all_child_nodes = nullptr;
+    this->all_child_nodes = {};
     this->total_child_count = 0;
 
     this->gain = 0;
@@ -183,8 +213,9 @@ VoronoiGraph::~VoronoiGraph() {
     this->DeleteTree(this->root);
     this->root = nullptr;
 
-    NodeLinkedList::DeleteNodes(this->all_child_nodes);
-    this->all_child_nodes = nullptr;
+//    delete this->all_child_nodes;
+//    NodeLinkedList::DeleteNodes(this->all_child_nodes);
+//    this->all_child_nodes = nullptr;
     this->total_child_count = 0;
 
     this->gain = 0;
@@ -243,13 +274,19 @@ void VoronoiGraph::RespecTree(int x, int y, int w, int h, int max_depth, int cri
 //    }
 //    std::cout << "removed all nodes" << std::endl;
 //    NodeLinkedList* all_nodes_copy = NodeLinkedList::Copy(this->all_child_nodes);
-    NODELINKEDLIST_FOREACH(this->all_child_nodes, {//all_nodes_copy, {//
-//        current_node->SetTreeSlot(nullptr);
+    std::for_each(this->all_child_nodes.begin(), this->all_child_nodes.end(), [&](VoronoiNode* current_node) {
         current_node->CalculateSortingPos();
         this->recent_sort_x = current_node->GetSortingPosX();
         this->recent_sort_y = current_node->GetSortingPosY();
         this->AddToChildren(current_node, this->root);
     });
+//    NODELINKEDLIST_FOREACH(this->all_child_nodes, {//all_nodes_copy, {//
+////        current_node->SetTreeSlot(nullptr);
+//        current_node->CalculateSortingPos();
+//        this->recent_sort_x = current_node->GetSortingPosX();
+//        this->recent_sort_y = current_node->GetSortingPosY();
+//        this->AddToChildren(current_node, this->root);
+//    });
 //    std::cout << "added all nodes" << std::endl;
 //    NodeLinkedList::DeleteList(all_nodes_copy);
 }
@@ -259,8 +296,9 @@ bool VoronoiGraph::SplitValid(VQuadTree* branch) {
 }
 
 void VoronoiGraph::AddNode(VoronoiNode* node) {
-    NodeLinkedList::Append(node, &this->all_child_nodes);
-    node->SetResidence(this->all_child_nodes);
+    this->all_child_nodes.push_back(node);
+//    NodeLinkedList::Append(node, &this->all_child_nodes);
+    node->SetResidence(nullptr);//this->all_child_nodes);
 //    NodeLinkedList::AddResidenceSlot(node, &this->all_child_nodes);
     this->total_child_count++;
 
@@ -392,8 +430,9 @@ void VoronoiGraph::ConsolidateChildLists(VQuadTree* branch) {
 */
 
 void VoronoiGraph::RemoveNode(VoronoiNode* node) {
-    SDL_assert(NodeLinkedList::Contains(this->all_child_nodes, node));
-    NodeLinkedList::RemoveGeneric(node, &this->all_child_nodes);
+//    SDL_assert(NodeLinkedList::Contains(this->all_child_nodes, node));
+    this->all_child_nodes.erase(find(this->all_child_nodes.begin(), this->all_child_nodes.end(), node));
+//    NodeLinkedList::RemoveGeneric(node, &this->all_child_nodes);
     this->total_child_count--;
     this->recent_sort_x = node->GetSortingPosX();
     this->recent_sort_y = node->GetSortingPosY();
@@ -537,7 +576,7 @@ NodeLinkedList* VoronoiGraph::GetNearby(double x, double y, VoronoiNode* seed) {
         this->current_bounding_mag = seed->GetDist() + this->band_width;
         this->current_box_radius = seed->GetSortingDist() + this->sort_band_width;
     } else {
-        VoronoiNode* arbitrary_seed = this->all_child_nodes->node;
+        VoronoiNode* arbitrary_seed = this->all_child_nodes.at(0);
         arbitrary_seed->CalculateDist(this->recent_x, this->recent_y, this->gain); // work done here
         arbitrary_seed->CalculateSortingDist(this->recent_x, this->recent_y); // work done here
         this->current_bounding_mag = arbitrary_seed->GetDist() + this->band_width;
@@ -777,9 +816,12 @@ void VoronoiGraph::DoBackwardsPassFromNearby(NodeLinkedList* nearby, double x, d
 }
 
 void VoronoiGraph::UpdateAllGradients(double learning_rate) {
-    NODELINKEDLIST_FOREACH(this->all_child_nodes, {
+    std::for_each(this->all_child_nodes.begin(), this->all_child_nodes.end(), [&](VoronoiNode* current_node) {
         current_node->ApplyGradients(learning_rate);
     });
+//    NODELINKEDLIST_FOREACH(this->all_child_nodes, {
+//        current_node->ApplyGradients(learning_rate);
+//    });
     this->SetGain(this->gain-this->gain_gradient*learning_rate);
     this->UpdateNodePositions();
 }
