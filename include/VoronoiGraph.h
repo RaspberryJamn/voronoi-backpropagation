@@ -30,7 +30,7 @@ struct VQuadTree {
         this->tree_children[1] = nullptr;
         this->tree_children[2] = nullptr;
         this->tree_children[3] = nullptr;
-        this->node_children = {};
+        this->node_children.clear();
     }
     static void CalculateHalfXY(VQuadTree* branch) {
         branch->half_x = (branch->min_x + branch->max_x)/2;
@@ -53,11 +53,11 @@ class VoronoiGraph {
         void AddNode(VoronoiNode* node);
         void RemoveNode(VoronoiNode* node);
         void UpdateNodePositions();
-        NodeLinkedList* GetNearby(double x, double y, double band_width, double gain, VoronoiNode* seed);
-        NodeLinkedList* GetNearby(double x, double y, VoronoiNode* seed); // closest node on top, the mag of everything else is at most the nearest dist plus the band width
+        std::vector<VoronoiNode*> GetNearby(double x, double y, double band_width, double gain, VoronoiNode* seed);
+        std::vector<VoronoiNode*> GetNearby(double x, double y, VoronoiNode* seed); // closest node on top, the mag of everything else is at most the nearest dist plus the band width
 
-        static RGBColor ForwardPassFromNearby(NodeLinkedList* nearby, double x, double y);
-        void DoBackwardsPassFromNearby(NodeLinkedList* nearby, double x, double y, RGBColor image_sample);
+        static RGBColor ForwardPassFromNearby(std::vector<VoronoiNode*> nearby, double x, double y);
+        void DoBackwardsPassFromNearby(std::vector<VoronoiNode*> nearby, double x, double y, RGBColor image_sample);
         void UpdateAllGradients(double learning_rate);
         void SetGain(double gain);
         void SetBandWidth(double band_width);
@@ -109,7 +109,8 @@ class VoronoiGraph {
         int recent_sort_x;
         int recent_sort_y;
 
-        NodeLinkedList* nearby_candidates;
+//        NodeLinkedList* nearby_candidates;
+        std::vector<VoronoiNode*> nearby_candidates;
         double current_bounding_mag;
         int current_box_radius;
         // }

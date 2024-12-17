@@ -441,7 +441,7 @@
 	<iostream>
 	<sstream>
 
-1733717983 source:c:\users\james\documents\cpp\voronoi\src\capp_onrender.cpp
+1734475031 source:c:\users\james\documents\cpp\voronoi\src\capp_onrender.cpp
 	"CApp.h"
 	<sstream>
 	<cmath>
@@ -486,13 +486,15 @@
 	"SDL.h"
 	<cmath>
 
-1734467465 source:c:\users\james\documents\cpp\voronoi\src\voronoigraph.cpp
+1734475002 source:c:\users\james\documents\cpp\voronoi\src\voronoigraph.cpp
 	"VoronoiGraph.h"
 	"CApp.h"
 	<cmath>
+	<algorithm>
+	<vector>
 	<iostream>
 
-1734472562 c:\users\james\documents\cpp\voronoi\include\voronoigraph.h
+1734474701 c:\users\james\documents\cpp\voronoi\include\voronoigraph.h
 	"NodeLinkedList.h"
 	<vector>
 	"VoronoiNode.h"
