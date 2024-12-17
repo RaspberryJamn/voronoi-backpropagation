@@ -15,7 +15,8 @@ struct VQuadTree {
     int min_y;
     int max_x;
     int max_y;
-    NodeLinkedList* node_children;
+//    NodeLinkedList* node_children;
+    std::vector<VoronoiNode*> node_children;
     VQuadTree* tree_children[4];
 //    VQuadTree(int half_x, int half_y, int depth) : total_children(0), depth(depth), half_x(half_x), half_y(half_y), node_children(nullptr) {//depth(depth), half_x(half_x), half_y(half_y), node_children(nullptr) {
 //        this->tree_children[0] = nullptr;
@@ -29,7 +30,7 @@ struct VQuadTree {
         this->tree_children[1] = nullptr;
         this->tree_children[2] = nullptr;
         this->tree_children[3] = nullptr;
-        this->node_children = nullptr;
+        this->node_children = {};
     }
     static void CalculateHalfXY(VQuadTree* branch) {
         branch->half_x = (branch->min_x + branch->max_x)/2;

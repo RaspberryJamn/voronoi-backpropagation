@@ -21,7 +21,7 @@ void VQuadTree::Print(VQuadTree* tree, int indent) {
     PrintIndents(indent+1); std::cout << "max_(x,y): (" << tree->max_x << "," << tree->max_y << ")" << std::endl;
     PrintIndents(indent+1); std::cout << "half_(x,y): (" << tree->half_x << "," << tree->half_y << ")" << std::endl;
 //    PrintIndents(indent+1); NodeLinkedList::Print("node_children: ", tree->node_children, indent+1);
-    PrintIndents(indent+1); NodeLinkedList::PrintNodes("node_children: ", tree->node_children, indent+1); // debug edit nevermind//NodeLinkedList::Print("node_children: ", tree->node_children, indent+1);//
+    PrintIndents(indent+1); //NodeLinkedList::PrintNodes("node_children: ", tree->node_children, indent+1); // debug edit nevermind//NodeLinkedList::Print("node_children: ", tree->node_children, indent+1);//
     if (tree->tree_children[0] == nullptr) {
         PrintIndents(indent+1); std::cout << "tree_children: []" << std::endl;
     } else {
@@ -36,8 +36,12 @@ void VQuadTree::Print(VQuadTree* tree, int indent) {
 }
 bool VQuadTree::Contains(VQuadTree* tree, VoronoiNode* node) {
     if (tree == nullptr) {return false;}
-    if (tree->node_children != nullptr) {
-        return NodeLinkedList::Contains(tree->node_children, node);
+    if (!tree->node_children.empty()) {
+//        return NodeLinkedList::Contains(tree->node_children, node);
+        if (find(tree->node_children.begin(), tree->node_children.end(), node) == tree->node_children.end()) {
+            return false;
+        }
+        return true;
     } else {
         size_t search_first;
         int dx = node->GetSortingPosX()-tree->half_x;
@@ -234,7 +238,7 @@ VoronoiGraph::~VoronoiGraph() {
 }
 
 void VoronoiGraph::DeleteTree(VQuadTree* branch) {
-    if (branch->node_children == nullptr) {
+    if (branch->node_children.empty()) {
         if (branch->tree_children[0] != nullptr) {
             this->DeleteTree(branch->tree_children[0]); branch->tree_children[0] = nullptr;
             this->DeleteTree(branch->tree_children[1]); branch->tree_children[1] = nullptr;
@@ -242,8 +246,8 @@ void VoronoiGraph::DeleteTree(VQuadTree* branch) {
             this->DeleteTree(branch->tree_children[3]); branch->tree_children[3] = nullptr;
         }
     } else {
-        NodeLinkedList::DeleteList(branch->node_children);
-        branch->node_children = nullptr;
+//        NodeLinkedList::DeleteList(branch->node_children);
+        branch->node_children = {};
     }
     delete branch;
 }
@@ -316,8 +320,9 @@ void VoronoiGraph::AddToChildren(VoronoiNode* node, VQuadTree* branch) {
 
     } else { // we're either below critical mass or above it and weren't allowed to split
 
-        NodeLinkedList::Append(node, &branch->node_children); // node given a slot
-        node->SetTreeSlot(branch->node_children);
+//        NodeLinkedList::Append(node, &branch->node_children); // node given a slot
+        branch->node_children.push_back(node);
+//        node->SetTreeSlot(branch->node_children);
         branch->total_children++;
 //        NodeLinkedList::AddTreeSlot(node, &branch->node_children);
         node->SetBounds(branch->min_x, branch->min_y, branch->max_x, branch->max_y); // node knows its shape
@@ -332,16 +337,19 @@ void VoronoiGraph::AddToChildren(VoronoiNode* node, VQuadTree* branch) {
             branch->tree_children[2] = new VQuadTree(branch->min_x , branch->half_y, branch->half_x, branch->max_y , branch->depth+1);
             branch->tree_children[3] = new VQuadTree(branch->half_x, branch->half_y, branch->max_x , branch->max_y , branch->depth+1);
 
-            NODELINKEDLIST_FOREACH(branch->node_children, {
+            std::for_each(branch->node_children.begin(), branch->node_children.end(), [&](VoronoiNode* current_node) {
+
+//            });
+//            NODELINKEDLIST_FOREACH(branch->node_children, {
                 VoronoiNode* repositioned_node = current_node; // get the node
                 this->recent_sort_x = repositioned_node->GetSortingPosX(); // and its position (NOT recalculated)
                 this->recent_sort_y = repositioned_node->GetSortingPosY();
 //                repositioned_node->SetTreeSlot(nullptr); // testing adding this
-                delete current_slot; // and their old slot is deleted // and doing this a step earlier
+//                delete current_slot; // and their old slot is deleted // and doing this a step earlier
                 this->AddToChildrenSplit(repositioned_node, branch); // the nodes in each slot find their new home
             });
 
-            branch->node_children = nullptr; // at the end, everything in the list has been deleted, so the head of the list is cleared
+            branch->node_children = {}; // at the end, everything in the list has been deleted, so the head of the list is cleared
         }
     }
 }
@@ -460,7 +468,8 @@ void VoronoiGraph::RemoveFromBranch(VoronoiNode* node, VQuadTree* branch) {
         }
         return;
     } else { // leaf
-        NodeLinkedList::RemoveGeneric(node, &branch->node_children);
+//        NodeLinkedList::RemoveGeneric(node, &branch->node_children);
+        branch->node_children.erase(find(branch->node_children.begin(), branch->node_children.end(), node));
         branch->total_children--;
     }
 }
@@ -472,38 +481,15 @@ void VoronoiGraph::ConsolidateChildLists(VQuadTree* branch) {
 //    NodeLinkedList::LinkAOntoB(&concatenated, branch->tree_children[2]->node_children); // tree[1]nodes tail points into tree[2]nodes
 //    NodeLinkedList::LinkAOntoB(&concatenated, branch->tree_children[3]->node_children); // tree[2]nodes tail points into tree[3]nodes
 //    branch->node_children = concatenated;
-    NodeLinkedList* concatenated = nullptr;
-    NODELINKEDLIST_FOREACH(branch->tree_children[0]->node_children, {
-        NodeLinkedList::Append(current_node, &concatenated);
-        current_node->SetTreeSlot(concatenated);
-    });
-    NodeLinkedList::DeleteList(branch->tree_children[0]->node_children);
-    delete branch->tree_children[0];
-    branch->tree_children[0] = nullptr;
-
-    NODELINKEDLIST_FOREACH(branch->tree_children[1]->node_children, {
-        NodeLinkedList::Append(current_node, &concatenated);
-        current_node->SetTreeSlot(concatenated);
-    });
-    NodeLinkedList::DeleteList(branch->tree_children[1]->node_children);
-    delete branch->tree_children[1];
-    branch->tree_children[1] = nullptr;
-
-    NODELINKEDLIST_FOREACH(branch->tree_children[2]->node_children, {
-        NodeLinkedList::Append(current_node, &concatenated);
-        current_node->SetTreeSlot(concatenated);
-    });
-    NodeLinkedList::DeleteList(branch->tree_children[2]->node_children);
-    delete branch->tree_children[2];
-    branch->tree_children[2] = nullptr;
-
-    NODELINKEDLIST_FOREACH(branch->tree_children[3]->node_children, {
-        NodeLinkedList::Append(current_node, &concatenated);
-        current_node->SetTreeSlot(concatenated);
-    });
-    NodeLinkedList::DeleteList(branch->tree_children[3]->node_children);
-    delete branch->tree_children[3];
-    branch->tree_children[3] = nullptr;
+//    NodeLinkedList* concatenated = nullptr;
+    std::vector<VoronoiNode*> concatenated = {};
+    for (int i = 0; i < 4; i++) {
+        std::for_each(branch->tree_children[i]->node_children.begin(), branch->tree_children[i]->node_children.end(), [&](VoronoiNode* current_node) {
+            concatenated.push_back(current_node);
+        });
+        delete branch->tree_children[i];
+        branch->tree_children[i] = nullptr;
+    }
 }
 
 void VoronoiGraph::UpdateNodePositions() {
@@ -630,8 +616,9 @@ void VoronoiGraph::BuildNearbyList(VQuadTree* branch) { // takes the running inf
 //        SDL_assert(this->EnsureCompleteContainment());
 
         VoronoiNode* new_nearest = nullptr;
+        std::for_each(branch->node_children.begin(), branch->node_children.end(), [&](VoronoiNode* current_node) {
 
-        NODELINKEDLIST_FOREACH(branch->node_children, {
+//        NODELINKEDLIST_FOREACH(branch->node_children, {
 
             current_node->CalculateDist(this->recent_x, this->recent_y, this->gain);
             double relative_dist = this->current_bounding_mag-current_node->GetDist(); // from this node to the outer circle
@@ -642,19 +629,19 @@ void VoronoiGraph::BuildNearbyList(VQuadTree* branch) { // takes the running inf
 //                new_candidate_entry->next = this->nearby_candidates; // prepend the new candidate
 //                this->nearby_candidates = new_candidate_entry;
 
-                NodeLinkedList* new_first = new NodeLinkedList();
-                VoronoiNode* uninit_node = new_first->node;
-                NodeLinkedList* uninit_next = new_first->next;
-
-//                SDL_assert(NodeLinkedList::Contains(branch->node_children, new_first) == false); // this is SO fucking stupid
-                if (NodeLinkedList::Contains(branch->node_children, new_first) != false) {
-                    std::cout << "new_first: [" << new_first << "]: " << "{node: " << uninit_node << "} => " << uninit_next << std::endl;
-                    SDL_assert(false);
-                }
-
-                new_first->node = current_node;
-                new_first->next = this->nearby_candidates;
-                this->nearby_candidates = new_first;
+//                NodeLinkedList* new_first = new NodeLinkedList();
+//                VoronoiNode* uninit_node = new_first->node;
+//                NodeLinkedList* uninit_next = new_first->next;
+//
+////                SDL_assert(NodeLinkedList::Contains(branch->node_children, new_first) == false); // this is SO fucking stupid
+//                if (NodeLinkedList::Contains(branch->node_children, new_first) != false) {
+//                    std::cout << "new_first: [" << new_first << "]: " << "{node: " << uninit_node << "} => " << uninit_next << std::endl;
+//                    SDL_assert(false);
+//                }
+//
+//                new_first->node = current_node;
+//                new_first->next = this->nearby_candidates;
+//                this->nearby_candidates = new_first;
 //                NodeLinkedList* before_error = this->nearby_candidates;
 //                this->nearby_candidates = new NodeLinkedList(current_node, this->nearby_candidates);
 //                new_first->node = current_node;
@@ -663,14 +650,14 @@ void VoronoiGraph::BuildNearbyList(VQuadTree* branch) { // takes the running inf
 //                this->nearby_candidates = new NodeLinkedList(current_node, this->nearby_candidates);
 
 //                SDL_assert(this->EnsureCompleteContainment());
-//                NodeLinkedList::Append(current_node, &this->nearby_candidates); // someway, somehow, this sparks the issue
-                if (!this->EnsureCompleteContainment()) {
-//                    std::cout << "before_error: " << before_error << std::endl;
-                    std::cout << "containment fail after appending a node " << current_node << " into slot [" << this->nearby_candidates << "] in branch: "; VQuadTree::Print(branch, 0);
-                    std::cout << "full tree: ";
-                    VQuadTree::Print(this->root, 0);
-                    SDL_assert(false);
-                }
+                NodeLinkedList::Append(current_node, &this->nearby_candidates); // someway, somehow, this sparks the issue
+//                if (!this->EnsureCompleteContainment()) {
+////                    std::cout << "before_error: " << before_error << std::endl;
+//                    std::cout << "containment fail after appending a node " << current_node << " into slot [" << this->nearby_candidates << "] in branch: "; VQuadTree::Print(branch, 0);
+//                    std::cout << "full tree: ";
+//                    VQuadTree::Print(this->root, 0);
+//                    SDL_assert(false);
+//                }
 
                 if (relative_dist >= this->band_width) { // beats the middle circle
                     this->current_bounding_mag = current_node->GetDist()+this->band_width; // now the outer circle is this dist plus out by band width
