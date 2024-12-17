@@ -15,15 +15,8 @@ struct VQuadTree {
     int min_y;
     int max_x;
     int max_y;
-//    NodeLinkedList* node_children;
     std::vector<VoronoiNode*> node_children;
     VQuadTree* tree_children[4];
-//    VQuadTree(int half_x, int half_y, int depth) : total_children(0), depth(depth), half_x(half_x), half_y(half_y), node_children(nullptr) {//depth(depth), half_x(half_x), half_y(half_y), node_children(nullptr) {
-//        this->tree_children[0] = nullptr;
-//        this->tree_children[1] = nullptr;
-//        this->tree_children[2] = nullptr;
-//        this->tree_children[3] = nullptr;
-//    }
     VQuadTree(int min_x, int min_y, int max_x, int max_y, int depth) : total_children(0), depth(depth), min_x(min_x), min_y(min_y), max_x(max_x), max_y(max_y) {
         VQuadTree::CalculateHalfXY(this);
         this->tree_children[0] = nullptr;
@@ -63,21 +56,12 @@ class VoronoiGraph {
         void SetBandWidth(double band_width);
         double GetGain();
 
-//        void SetErrorLogger(ErrorLogger* error_logger);
-
-        bool EnsureCompleteContainment();
-
-//        double GetBandWidth();
-//        NodeLinkedList* OrphanChildList(); // only for internal use
-        void ConsolidateChildLists(VQuadTree* branch); // debug edit
     private:
         void AddToChildren(VoronoiNode* node, VQuadTree* branch);
         void AddToChildrenSplit(VoronoiNode* node, VQuadTree* branch);
 
-//        void RemoveFromChildren(VoronoiNode* node, VQuadTree* branch);
-//        void ConsolidateChildLists(VQuadTree* branch);
         void RemoveFromBranch(VoronoiNode* node, VQuadTree* branch);
-//        void ConsolidateChildLists(VQuadTree* branch); // debug edit
+        void ConsolidateChildLists(VQuadTree* branch);
 
         void BuildNearbyList(VQuadTree* branch);
 
@@ -94,7 +78,6 @@ class VoronoiGraph {
         int h;
         int max_depth; // leaves have a depth of this or less
         int critical_mass; // branches all have more children than this
-//        NodeLinkedList* all_child_nodes;
         std::vector<VoronoiNode*> all_child_nodes;
         int total_child_count;
 
@@ -109,13 +92,10 @@ class VoronoiGraph {
         int recent_sort_x;
         int recent_sort_y;
 
-//        NodeLinkedList* nearby_candidates;
         std::vector<VoronoiNode*> nearby_candidates;
         double current_bounding_mag;
         int current_box_radius;
         // }
-
-//        ErrorLogger* error_logger;
 };
 
 #endif // VORONOIGRAPH_H
