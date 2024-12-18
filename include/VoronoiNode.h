@@ -28,8 +28,8 @@ struct RGBColor {
     }
     RGBColor operator/(RGBColor const& rhs) const {
         RGBColor result = RGBColor((std::abs(rhs.r)<0.0001) ? 0 : this->r/rhs.r,
-                                   (std::abs(rhs.r)<0.0001) ? 0 : this->r/rhs.r,
-                                   (std::abs(rhs.r)<0.0001) ? 0 : this->r/rhs.r);
+                                   (std::abs(rhs.g)<0.0001) ? 0 : this->g/rhs.g,
+                                   (std::abs(rhs.b)<0.0001) ? 0 : this->b/rhs.b);
         return result; //return RGBColor(r/rhs.r,g/rhs.g,b/rhs.b);
     }
     RGBColor operator*(double const& rhs) const {
@@ -37,6 +37,11 @@ struct RGBColor {
     }
     static double Trace(RGBColor const& col) {
         return col.r+col.g+col.b;
+    }
+    void Clamp() {
+        if (this->r < 0) { this->r = 0; } if (this->r > 255) { this->r = 255; }
+        if (this->g < 0) { this->g = 0; } if (this->g > 255) { this->g = 255; }
+        if (this->b < 0) { this->b = 0; } if (this->b > 255) { this->b = 255; }
     }
 };
 

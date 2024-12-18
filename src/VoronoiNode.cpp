@@ -133,7 +133,6 @@ RGBColor VoronoiNode::ForwardPass(double sample_x, double sample_y) {
     // eg Generate(sample_x-this->x, sample_x-this->y)
     return this->color;
 }
-
 // dnode1.mag/dnode1.x = node1.x
 // dm1/dnode1.mag = m1*(1-m1)
 // dfinal_color/dm1 = .5*(node1.color^2)/final_color
@@ -143,28 +142,26 @@ RGBColor VoronoiNode::ForwardPass(double sample_x, double sample_y) {
 
 //x_grad += dloss/dfinal_color * .5*(node1.color^2)/final_color * m*(1-m) * x
 void VoronoiNode::BackwardPass(double sample_x, double sample_y, RGBColor final_color, RGBColor dldfinal_col) {
-    if (final_color.r < 1) {final_color.r = 1;}
-    if (final_color.g < 1) {final_color.g = 1;}
-    if (final_color.b < 1) {final_color.b = 1;}
     RGBColor dfinalcoldm = ((this->color*this->color)/final_color)*.5;
     double dldmag = RGBColor::Trace(dldfinal_col*dfinalcoldm) * -this->m_value*(1.0-this->m_value);
-    this->x_grad += dldmag * this->x;
-    this->y_grad += dldmag * this->y;
+    this->x_grad += dldmag * (this->x-sample_x);
+    this->y_grad += dldmag * (this->y-sample_y);
     this->color_grad += ((dldfinal_col*this->color)/final_color)*this->m_value;
 }
 
 void VoronoiNode::ApplyGradients(double learning_rate) {
 //    std::cout << this->x_grad << std::endl;
-    SDL_assert(!std::isnan(this->x_grad));
-    SDL_assert(!std::isnan(this->y_grad));
-    SDL_assert(!std::isnan(this->color_grad.r));
-    SDL_assert(!std::isnan(this->color_grad.g));
-    SDL_assert(!std::isnan(this->color_grad.b));
+//    SDL_assert(!std::isnan(this->x_grad));
+//    SDL_assert(!std::isnan(this->y_grad));
+//    SDL_assert(!std::isnan(this->color_grad.r));
+//    SDL_assert(!std::isnan(this->color_grad.g));
+//    SDL_assert(!std::isnan(this->color_grad.b));
 
-    this->x += 10;
-//    this->x -= this->x_grad*learning_rate;
-//    this->y -= this->y_grad*learning_rate;
-//    this->color -= this->color_grad*learning_rate*100.0;
+//    this->x += 10;
+    this->x -= this->x_grad*learning_rate;
+    this->y -= this->y_grad*learning_rate;
+    this->color -= this->color_grad*learning_rate*500.0;
+    this->color.Clamp();
     this->x_grad = 0;
     this->y_grad = 0;
     this->color_grad.r = 0;

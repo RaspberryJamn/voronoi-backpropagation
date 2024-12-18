@@ -22,7 +22,7 @@ CApp::CApp() {
 //    AtlasNumberDrawer this->number_renderer;
     this->main_font = nullptr;
     this->refresh_period = 0;
-    this->refresh_counter = 0;
+    this->loop_advantage_factor = 0;
     this->error_logger = new ErrorLogger();
     this->error_logger->DisableLogging();
 

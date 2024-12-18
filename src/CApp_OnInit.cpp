@@ -51,22 +51,28 @@ bool CApp::OnInit() {
 
     this->voronoi_graph = new VoronoiGraph();
 //    this->voronoi_graph->SetErrorLogger(this->error_logger);
-    this->voronoi_graph->RespecTree(0, 0, this->media_texture->GetWidth(), this->media_texture->GetHeight(), 4, 1);
-    this->voronoi_graph->AddNode(new VoronoiNode(300,540,100,100,100));
-    this->voronoi_graph->AddNode(new VoronoiNode(270,540,255,0  ,0  ));
-    this->voronoi_graph->AddNode(new VoronoiNode(370,160,0  ,255,0  ));
-    this->voronoi_graph->AddNode(new VoronoiNode(420,580,255,255,0  ));
-    this->voronoi_graph->AddNode(new VoronoiNode(060,110,0  ,0  ,255));
-    this->voronoi_graph->AddNode(new VoronoiNode(110,520,255,0  ,255));
-    this->voronoi_graph->AddNode(new VoronoiNode(200,180,0  ,255,255));
-    this->voronoi_graph->AddNode(new VoronoiNode(180,120,255,255,255));
+    this->voronoi_graph->RespecTree(0, 0, this->media_texture->GetWidth(), this->media_texture->GetHeight(), 5, 3);
+    const int node_count = 200;
+    for (int i = 0; i < node_count; i++) {
+        this->voronoi_graph->AddNode(new VoronoiNode(std::fmod((i*1.618034),1.0)*this->media_texture->GetWidth(),
+                                                     ((double)i/node_count)*this->media_texture->GetHeight(),
+                                                     127+i%6,127+i%12,127+i%18));
+    }
+//    this->voronoi_graph->AddNode(new VoronoiNode(300,540,100,100,100));
+//    this->voronoi_graph->AddNode(new VoronoiNode(270,540,255,0  ,0  ));
+//    this->voronoi_graph->AddNode(new VoronoiNode(370,160,0  ,255,0  ));
+//    this->voronoi_graph->AddNode(new VoronoiNode(420,580,255,255,0  ));
+//    this->voronoi_graph->AddNode(new VoronoiNode(060,110,0  ,0  ,255));
+//    this->voronoi_graph->AddNode(new VoronoiNode(110,520,255,0  ,255));
+//    this->voronoi_graph->AddNode(new VoronoiNode(200,180,0  ,255,255));
+//    this->voronoi_graph->AddNode(new VoronoiNode(180,120,255,255,255));
     double band_width = 6.0;
-    double gain = 0.0005;
+    double gain = 0.0045;
     this->voronoi_graph->SetGain(gain);
     this->voronoi_graph->SetBandWidth(band_width);
 
     this->refresh_period = 100;
-    this->refresh_counter = 0;
+    this->loop_advantage_factor = 3.0;
 
 //    this->voronoi_graph->PrintTree();
     return true;

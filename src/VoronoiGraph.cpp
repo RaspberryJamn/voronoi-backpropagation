@@ -320,19 +320,20 @@ void VoronoiGraph::ConsolidateChildLists(VQuadTree* branch) {
 }
 
 void VoronoiGraph::UpdateNodePositions() {
-    std::for_each(this->all_child_nodes.begin(), this->all_child_nodes.end(), [&](VoronoiNode* current_node) {
-        int x_copy = current_node->GetSortingPosX(); // store a copy of the old sorting position before the most recent move
-        int y_copy = current_node->GetSortingPosY();
-        current_node->CalculateSortingPos(); // you moved, therefore you should have an updated sorting position
-        if (!current_node->IsBounded(current_node->GetSortingPosX(), current_node->GetSortingPosY())) { // now, have you left the box you were in just a moment ago?
-            this->recent_sort_x = x_copy;
-            this->recent_sort_y = y_copy;
-            this->RemoveFromBranch(current_node, this->root); // use the old for removing it
-            this->recent_sort_x = current_node->GetSortingPosX();// and the new for adding it
-            this->recent_sort_y = current_node->GetSortingPosY();
-            this->AddToChildren(current_node, this->root);
-        }
-    });
+    this->RespecTree(this->x, this->y, this->w, this->h, this->max_depth, this->critical_mass);
+//    std::for_each(this->all_child_nodes.begin(), this->all_child_nodes.end(), [&](VoronoiNode* current_node) {
+//        int x_copy = current_node->GetSortingPosX(); // store a copy of the old sorting position before the most recent move
+//        int y_copy = current_node->GetSortingPosY();
+//        current_node->CalculateSortingPos(); // you moved, therefore you should have an updated sorting position
+//        if (!current_node->IsBounded(current_node->GetSortingPosX(), current_node->GetSortingPosY())) { // now, have you left the box you were in just a moment ago?
+//            this->recent_sort_x = x_copy;
+//            this->recent_sort_y = y_copy;
+//            this->RemoveFromBranch(current_node, this->root); // use the old for removing it
+//            this->recent_sort_x = current_node->GetSortingPosX();// and the new for adding it
+//            this->recent_sort_y = current_node->GetSortingPosY();
+//            this->AddToChildren(current_node, this->root);
+//        }
+//    });
 }
 
 std::vector<VoronoiNode*> VoronoiGraph::GetNearby(double x, double y, double band_width, double gain, VoronoiNode* seed) {
@@ -530,6 +531,7 @@ RGBColor VoronoiGraph::ForwardPassFromNearby(std::vector<VoronoiNode*> nearby, d
     final_color = RGBColor(std::sqrt(final_color.r),
                            std::sqrt(final_color.g),
                            std::sqrt(final_color.b));
+    final_color.Clamp();
     return final_color;
 }
 void VoronoiGraph::DoBackwardsPassFromNearby(std::vector<VoronoiNode*> nearby, double x, double y, RGBColor image_sample) {
@@ -545,7 +547,7 @@ void VoronoiGraph::UpdateAllGradients(double learning_rate) {
     std::for_each(this->all_child_nodes.begin(), this->all_child_nodes.end(), [&](VoronoiNode* current_node) {
         current_node->ApplyGradients(learning_rate);
     });
-    this->SetGain(this->gain-this->gain_gradient*learning_rate);
+    this->SetGain(this->gain-this->gain_gradient*learning_rate*10);
     this->UpdateNodePositions();
 }
 
