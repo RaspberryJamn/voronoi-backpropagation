@@ -45,20 +45,6 @@ struct RGBColor {
     }
 };
 
-// node1.mag = (node1.x*node1.x+node1.y*node1.y)
-// e1 = exp(node1.mag)
-// z = e1+e2+e3
-// m1 = e1/z
-// final_color = m1*node1.color+m2*node2.color+m3*node3.color
-// loss = (final_color-desired_color)^2
-
-// dnode1.mag/dnode1.x = node1.x
-// dm1/dnode1.mag = m1*(1-m1)
-// dfinal_color/dm1 = node1.color
-// dnode1.color/dnode1.x = something
-// dfinal_color/dnode1.color = m1
-// dloss/dfinal_color = 2(final_color-desired_color)
-
 // nope. too complicated. I may revisit you later but for now Im doing it simpler
 //struct SerialVoronoiNode {
 //    int id; // maybe a pointer?
@@ -130,11 +116,10 @@ class VoronoiNode {
 
         void Print(int indent);
         void Render(SDL_Renderer* target_renderer);
-        RGBColor GetColor();
 
 //        RGBColor SampleColor(double sample_x, double sample_y);
         RGBColor ForwardPass(double sample_x, double sample_y);
-        void BackwardPass(double sample_x, double sample_y, double gain, RGBColor rgb, RGBColor dldrgb);
+        void BackwardPass(double sample_x, double sample_y, RGBColor finalcolor, RGBColor d_loss_d_finalcolor);
         void ApplyGradients(double learning_rate);
         void CalculateExp(double offset);
         double GetExp();
@@ -158,6 +143,7 @@ class VoronoiNode {
 
         double x;
         double y;
+        double gain;
         double mag;
         double exp;
         double m_value;

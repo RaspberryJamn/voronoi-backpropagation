@@ -14,38 +14,11 @@ RGBColor CApp::SampleSourceImage(int x, int y) {
                     this->source_pixels[i+2]);
 }
 
-// node1.mag = (node1.x*node1.x+node1.y*node1.y)
-// e1 = exp(node1.mag)
-// z = e1+e2+e3
-// m1 = e1/z
-// final_color = m1*node1.color+m2*node2.color+m3*node3.color
-  // final_color = (m1*node1.color^2+m2*node2.color^2+m3*node3.color^2)^.5
-// loss = (final_color-desired_color)^2
-
-// dnode1.mag/dnode1.x = node1.x
-// dm1/dnode1.mag = m1*(1-m1)
-// dfinal_color/dm1 = node1.color
-  // dfinal_color/dm1 = .5*(node1.color^2)/final_color
-// dnode1.color/dnode1.x = something
-// dfinal_color/dnode1.color = m1
-  // dfinal_color/dnode1.color = m1/final_color*(node1.color)
-// dloss/dfinal_color = 2(final_color-desired_color)
-
-// x_grad += dloss/dfinal_color * output_color * m*(1-m) * x
-  // x_grad += dloss/dfinal_color * .5*(node1.color^2)/final_color * m*(1-m) * x
-
-//int g_offset = 0;
 int g_train_sample_x = 0;
 int g_train_sample_y = 0;
 VoronoiNode* g_train_past_nearest_0_0_seed = nullptr; // keeps tab on a good seed for the top left corner
 VoronoiNode* g_train_past_nearest_0_y_seed = nullptr; // keeps tab on a good seed for the left hand spine of the current scan line
 VoronoiNode* g_train_running_seed = nullptr; // seed for the current sample, reads from and writes to the previous two
-
-//#ifndef LOGGING_GLOBALS
-//#define LOGGING_GLOBALS 0
-//bool g_start_logging_after_gradients_updated = false;
-//int g_stop_logging_after_100_logs = 0;
-//#endif // LOGGING_GLOBALS
 
 void CApp::OnLoop() {
 

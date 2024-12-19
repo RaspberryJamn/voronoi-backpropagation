@@ -2,7 +2,6 @@
 #include <sstream>
 #include <cmath>
 
-//int g_offset = 0;
 int g_sample_x = 0;
 int g_sample_y = 0;
 VoronoiNode* g_past_nearest_0_0_seed = nullptr; // keeps tab on a good seed for the top left corner
