@@ -123,6 +123,7 @@ class VoronoiNode {
         void SetPosition(double x, double y);
         void SetBounds(int min_x, int min_y, int max_x, int max_y);
         bool IsBounded(int x, int y);
+        void Clamp(int min_x, int min_y, int max_x, int max_y);
 
         double GetX();
         double GetY();

@@ -45,16 +45,6 @@ void CApp::RenderFullFrameVoronoi() {
                 g_running_seed = g_past_nearest_0_0_seed; // hit the bottom of the image, slide back to the top, reading the value as step one
 
 //                g_offset++; // finished frame
-//                this->voronoi_graph->UpdateNodePositions();
-//                this->voronoi_graph->EnsureCompleteContainment();
-//                if (g_add_remove_node == nullptr) {
-//                    g_add_remove_node = new VoronoiNode(300, 190, 255, 170, 100);
-//                    this->voronoi_graph->AddNode(g_add_remove_node);
-//                } else {
-//                    this->voronoi_graph->RemoveNode(g_add_remove_node);
-//                    this->voronoi_graph->AddNode(g_add_remove_node);
-//                }
-//                this->voronoi_graph->EnsureCompleteContainment();
             }
         }
     }
@@ -62,42 +52,27 @@ void CApp::RenderFullFrameVoronoi() {
     SDL_SetRenderTarget(this->main_renderer, nullptr);
 }
 
-//int g_jitter_offset = 20;
-
 void CApp::OnRender() {
     SDL_Rect dest = {0,0,0,0};
-//    g_jitter_offset += 1;
-//    if (g_jitter_offset > 400) {
-//        g_jitter_offset = 0;
-//    }
-//
-//    SDL_Rect stretch_rect;
-//    stretch_rect.x = g_jitter_offset;
-//    stretch_rect.y = g_jitter_offset;
-//    stretch_rect.w = 400;
-//    stretch_rect.h = 400;
-////    SDL_RenderClear(this->main_renderer);
-//
-//    this->source_texture->Render(&stretch_rect);
+
     SDL_SetRenderDrawColor(this->main_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
     SDL_RenderClear(this->main_renderer);
 
-//    this->refresh_counter++;
-//    if (this->refresh_counter > this->refresh_period) {
-//        this->refresh_counter = 0;
-//        this->RenderFullFrameVoronoi();
-//    }
     this->RenderFullFrameVoronoi(); // not so "full frame" anymore
 
     this->media_texture->Render(0,0);
     SDL_SetRenderDrawColor(this->main_renderer, 0x00, 0x00, 0x00, 0xFF);
     dest = {this->source_texture->GetWidth(), g_sample_y, 5, 5}; SDL_RenderFillRect(this->main_renderer, &dest);
 
-//    this->voronoi_graph->RenderTree(this->main_renderer);
+    if (this->mouse.pressed) {
+        this->voronoi_graph->RenderTree(this->main_renderer);
+    }
 
     SDL_SetRenderDrawColor(this->main_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+    double disp;
+
     SDL_Rect string_bounds = {5,this->media_texture->GetHeight()+5,0,0};
-    double disp = this->last_frametime;
+    disp = this->last_frametime;
     if (disp > 9999) {disp = 9999;}
     this->text_textures[0]->RenderRTL(&string_bounds); // "Last frametime: "
     this->number_renderer.DrawRTL(std::to_string((int)disp), &string_bounds);
@@ -105,8 +80,6 @@ void CApp::OnRender() {
 
     string_bounds = {5,this->media_texture->GetHeight()+20,0,0};
     disp = this->average_frametime;
-//    if (disp < (1000.0/9999.0)) {disp = (1000.0/9999.0);}
-//    disp = (1000.0/disp);
     this->text_textures[2]->RenderRTL(&string_bounds); // "Average frametime: "
     this->number_renderer.DrawRTL(std::to_string((int)(disp)), &string_bounds);
     this->text_textures[3]->RenderRTL(&string_bounds); // "ms"

@@ -52,7 +52,7 @@ bool CApp::OnInit() {
     this->voronoi_graph = new VoronoiGraph();
 //    this->voronoi_graph->SetErrorLogger(this->error_logger);
     this->voronoi_graph->RespecTree(0, 0, this->media_texture->GetWidth(), this->media_texture->GetHeight(), 5, 3);
-    const int node_count = 200;
+    const int node_count = 120;
     for (int i = 0; i < node_count; i++) {
         this->voronoi_graph->AddNode(new VoronoiNode(std::fmod((i*1.618034),1.0)*this->media_texture->GetWidth(),
                                                      ((double)i/node_count)*this->media_texture->GetHeight(),

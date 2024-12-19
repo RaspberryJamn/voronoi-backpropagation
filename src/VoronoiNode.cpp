@@ -80,6 +80,13 @@ bool VoronoiNode::IsBounded(int x, int y) {
     return true;
 }
 
+void VoronoiNode::Clamp(int min_x, int min_y, int max_x, int max_y) {
+    if (this->x <  min_x) { this->x = min_x;}
+    if (this->x >= max_x) { this->x = max_x-1;}
+    if (this->y <  min_y) { this->y = min_y;}
+    if (this->y >= max_y) { this->y = max_y-1;}
+}
+
 double VoronoiNode::GetX() {
     return this->x;
 }
@@ -160,7 +167,7 @@ void VoronoiNode::ApplyGradients(double learning_rate) {
 //    this->x += 10;
     this->x -= this->x_grad*learning_rate;
     this->y -= this->y_grad*learning_rate;
-    this->color -= this->color_grad*learning_rate*500.0;
+    this->color -= this->color_grad*learning_rate*3000.0;
     this->color.Clamp();
     this->x_grad = 0;
     this->y_grad = 0;

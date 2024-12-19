@@ -56,7 +56,6 @@ void CApp::OnLoop() {
         std::vector<VoronoiNode*> nearby = this->voronoi_graph->GetNearby((double)x, (double)y, g_train_running_seed);
 
         this->voronoi_graph->DoBackwardsPassFromNearby(nearby, x, y, this->SampleSourceImage(x,y));
-
         g_train_running_seed = nearby.front(); // new info
 
         nearby.clear();
@@ -77,7 +76,7 @@ void CApp::OnLoop() {
                 g_train_sample_y = 0;
                 g_train_running_seed = g_train_past_nearest_0_0_seed; // hit the bottom of the image, slide back to the top, reading the value as step one
 
-                this->voronoi_graph->UpdateAllGradients(0.00000003);
+                this->voronoi_graph->UpdateAllGradients(0.000000008);
             }
         }
     }

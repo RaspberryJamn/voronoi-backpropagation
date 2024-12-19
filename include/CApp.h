@@ -12,9 +12,28 @@
 #include "VoronoiGraph.h"
 #include "VoronoiNode.h"
 
-//class VoronoiGraph; // fuckass
+struct MouseInfo {
+    int x;
+    int y;
+    bool pressed;
+};
 
 class CApp {
+    public:
+        CApp();
+
+        int OnExecute();
+
+        bool OnInit();
+
+        void OnEvent(SDL_Event& event);
+
+        void OnLoop();
+
+        void OnRender();
+
+        void OnCleanup();
+
     private:
         bool running;
 
@@ -36,29 +55,22 @@ class CApp {
 
         TTF_Font* main_font;
 
-        ErrorLogger* error_logger;
+        MouseInfo mouse;
 
-    public:
-        CApp();
-
-        int OnExecute();
-
-    public:
-
-        bool OnInit();
+    private:
+        // OnInit
         bool ImportAssets();
 
-        void OnEvent(SDL_Event& event);
+        // OnEvent
+        void OnMouseDown();
+        void OnMouseUp();
+        void OnMouseMoved();
 
-        void OnLoop();
-
-        void OnRender();
+        // OnRender
         void RenderFullFrameVoronoi();
         RGBColor SampleSourceImage(int x, int y);
         int refresh_period; // 0 means redraw graph every frame, 1 every other, etc.
         double loop_advantage_factor;
-
-        void OnCleanup();
 };
 
 #endif
