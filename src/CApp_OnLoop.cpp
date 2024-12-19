@@ -49,6 +49,7 @@ VoronoiNode* g_train_running_seed = nullptr; // seed for the current sample, rea
 
 void CApp::OnLoop() {
 
+    int stride = 4;
     for (int i = 0; i < (this->media_texture->GetWidth()*this->media_texture->GetHeight()/(1.0+this->refresh_period)*loop_advantage_factor); i++) {
         int x = g_train_sample_x;
         int y = g_train_sample_y;
@@ -67,16 +68,16 @@ void CApp::OnLoop() {
             }
         }
 
-        g_train_sample_x+=2;
+        g_train_sample_x+=stride;
         if (g_train_sample_x >= this->source_texture->GetWidth()) {
             g_train_sample_x = 0;
             g_train_running_seed = g_train_past_nearest_0_y_seed; // hit the end of the line, slide back to the left, reading the value as step one
-            g_train_sample_y+=2;
+            g_train_sample_y+=stride;
             if (g_train_sample_y >= this->source_texture->GetHeight()) {
                 g_train_sample_y = 0;
                 g_train_running_seed = g_train_past_nearest_0_0_seed; // hit the bottom of the image, slide back to the top, reading the value as step one
 
-                this->voronoi_graph->UpdateAllGradients(0.000000008);
+                this->voronoi_graph->UpdateAllGradients(0.00000000006);
             }
         }
     }

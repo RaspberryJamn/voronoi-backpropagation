@@ -273,11 +273,11 @@ std::vector<VoronoiNode*> VoronoiGraph::GetNearby(double x, double y, VoronoiNod
         }
     }
 
-    if (nearest_slot != 0) { // puts the nearest node at the top
-        VoronoiNode* temp_first = this->nearby_candidates.front();
-        this->nearby_candidates.front() = this->nearby_candidates.at(nearest_slot);
-        this->nearby_candidates.at(nearest_slot) = temp_first;
-    }
+//    if (nearest_slot != 0) { // puts the nearest node at the top
+//        VoronoiNode* temp_first = this->nearby_candidates.front();
+//        this->nearby_candidates.front() = this->nearby_candidates.at(nearest_slot);
+//        this->nearby_candidates.at(nearest_slot) = temp_first;
+//    }
     std::vector<VoronoiNode*> result_list = {};
     this->nearby_candidates.swap(result_list);
     return result_list;
@@ -425,7 +425,7 @@ void VoronoiGraph::DoBackwardsPassFromNearby(std::vector<VoronoiNode*> nearby, d
     RGBColor final_color = this->ForwardPassFromNearby(nearby, x, y);
 
     std::for_each(nearby.begin(), nearby.end(), [&](VoronoiNode* current_node) {
-        current_node->BackwardPass(x, y, final_color, (final_color-image_sample)*2);
+        current_node->BackwardPass(x, y, this->gain, final_color, (final_color-image_sample)*2);
     });
 }
 

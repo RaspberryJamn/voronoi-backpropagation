@@ -134,7 +134,7 @@ class VoronoiNode {
 
 //        RGBColor SampleColor(double sample_x, double sample_y);
         RGBColor ForwardPass(double sample_x, double sample_y);
-        void BackwardPass(double sample_x, double sample_y, RGBColor rgb, RGBColor dldrgb);
+        void BackwardPass(double sample_x, double sample_y, double gain, RGBColor rgb, RGBColor dldrgb);
         void ApplyGradients(double learning_rate);
         void CalculateExp(double offset);
         double GetExp();

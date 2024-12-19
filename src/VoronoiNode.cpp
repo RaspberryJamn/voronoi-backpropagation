@@ -1,5 +1,6 @@
 #include "VoronoiNode.h"
 #include <cmath>
+#include <ctime>
 #include <iostream>
 
 VoronoiNode::VoronoiNode(double x, double y) {
@@ -148,12 +149,16 @@ RGBColor VoronoiNode::ForwardPass(double sample_x, double sample_y) {
 // dloss/dfinal_color = 2(final_color-desired_color)
 
 //x_grad += dloss/dfinal_color * .5*(node1.color^2)/final_color * m*(1-m) * x
-void VoronoiNode::BackwardPass(double sample_x, double sample_y, RGBColor final_color, RGBColor dldfinal_col) {
-    RGBColor dfinalcoldm = ((this->color*this->color)/final_color)*.5;
-    double dldmag = RGBColor::Trace(dldfinal_col*dfinalcoldm) * -this->m_value*(1.0-this->m_value);
-    this->x_grad += dldmag * (this->x-sample_x);
-    this->y_grad += dldmag * (this->y-sample_y);
-    this->color_grad += ((dldfinal_col*this->color)/final_color)*this->m_value;
+void VoronoiNode::BackwardPass(double sample_x, double sample_y, double gain, RGBColor final_color, RGBColor dldfinal_color) {
+    RGBColor dfinalcolordm = ((this->color*this->color)/final_color)*.5;
+    double dmdmag = this->m_value*(1.0-this->m_value);
+    double dldm = RGBColor::Trace(dldfinal_color*dfinalcolordm);
+    double dldmag = dldm * dmdmag;
+    double dmagdx = 2.0*(this->x-sample_x)*gain;
+    double dmagdy = 2.0*(this->y-sample_y)*gain;
+    this->x_grad += dldmag * dmagdx;
+    this->y_grad += dldmag * dmagdy;
+    this->color_grad += ((dldfinal_color*this->color)/final_color)*this->m_value;
 }
 
 void VoronoiNode::ApplyGradients(double learning_rate) {
@@ -165,9 +170,11 @@ void VoronoiNode::ApplyGradients(double learning_rate) {
 //    SDL_assert(!std::isnan(this->color_grad.b));
 
 //    this->x += 10;
-    this->x -= this->x_grad*learning_rate;
-    this->y -= this->y_grad*learning_rate;
-    this->color -= this->color_grad*learning_rate*3000.0;
+    std::srand(std::time(0)+this->color.r*this->x);
+
+    this->x -= this->x_grad*learning_rate*4 + ((std::rand()%100+std::rand()%100-100)*0.009);
+    this->y -= this->y_grad*learning_rate*4 + ((std::rand()%100+std::rand()%100-100)*0.009);
+    this->color -= this->color_grad*learning_rate*5000.0;
     this->color.Clamp();
     this->x_grad = 0;
     this->y_grad = 0;
@@ -177,7 +184,7 @@ void VoronoiNode::ApplyGradients(double learning_rate) {
 }
 
 void VoronoiNode::CalculateExp(double offset) {
-    this->exp = std::exp(-this->mag + offset);
+    this->exp = std::exp(-this->mag - offset);
 }
 
 double VoronoiNode::GetExp() {
