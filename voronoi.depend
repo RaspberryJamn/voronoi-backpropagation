@@ -436,13 +436,13 @@
 	<iostream>
 	<cstdlib>
 
-1735172300 source:c:\users\james\documents\cpp\voronoi\src\capp_onloop.cpp
+1735178519 source:c:\users\james\documents\cpp\voronoi\src\capp_onloop.cpp
 	"CApp.h"
 	<cmath>
 	<iostream>
 	<sstream>
 
-1735172357 source:c:\users\james\documents\cpp\voronoi\src\capp_onrender.cpp
+1735177923 source:c:\users\james\documents\cpp\voronoi\src\capp_onrender.cpp
 	"CApp.h"
 	<sstream>
 	<cmath>
@@ -488,7 +488,7 @@
 	"SDL.h"
 	<cmath>
 
-1735172955 source:c:\users\james\documents\cpp\voronoi\src\voronoigraph.cpp
+1735178685 source:c:\users\james\documents\cpp\voronoi\src\voronoigraph.cpp
 	"VoronoiGraph.h"
 	"CApp.h"
 	<cmath>
@@ -512,9 +512,9 @@
 	<vector>
 	"VoronoiNode.h"
 
-1730586927 source:c:\users\james\documents\cpp\voronoi\src\voronoiquadtree.cpp
-	"VoronoiQuadtree.h"
-	<cmath>
+1735171822 source:c:\users\james\documents\cpp\voronoi\src\voronoiquadtree.cpp
+	"VoronoiQuadTree.h"
+	<algorithm>
 
 1734466964 c:\users\james\documents\cpp\voronoi\include\nodelinkedlist.h
 	"VoronoiNode.h"

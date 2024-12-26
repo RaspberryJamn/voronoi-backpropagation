@@ -7,13 +7,15 @@
 
 VoronoiGraph::VoronoiGraph() {
 
-    this->band_width = 6.0;
+    this->band_width = 0;
     this->gain = 0;
-
+    this->quad_tree.SetGain(this->gain);
+    this->quad_tree.SetBandWidth(this->band_width);
 }
 
 VoronoiGraph::~VoronoiGraph() {
 
+    this->band_width = 0;
     this->gain = 0;
 
 }
@@ -69,7 +71,8 @@ void VoronoiGraph::Poke(double x, double y, RGBColor image_sample, VoronoiNode**
 }
 
 void VoronoiGraph::UpdateAllGradients(double learning_rate) {
-    std::for_each(this->quad_tree.GetAllNodes().begin(), this->quad_tree.GetAllNodes().end(), [&](VoronoiNode* current_node) {
+    std::vector<VoronoiNode*> nodes = this->quad_tree.GetAllNodes();
+    std::for_each(nodes.begin(), nodes.end(), [&](VoronoiNode* current_node) {
         current_node->ApplyGradients(learning_rate);
     });
 //    this->SetGain(this->gain-this->gain_gradient*learning_rate*10);
@@ -78,9 +81,11 @@ void VoronoiGraph::UpdateAllGradients(double learning_rate) {
 
 void VoronoiGraph::SetGain(double gain) {
     this->gain = gain;
+    this->quad_tree.SetGain(this->gain);
 }
 void VoronoiGraph::SetBandWidth(double band_width) {
     this->band_width = band_width;
+    this->quad_tree.SetBandWidth(this->band_width);
 }
 double VoronoiGraph::GetGain() {
     return this->gain;
