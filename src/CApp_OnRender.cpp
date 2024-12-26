@@ -17,16 +17,17 @@ void CApp::RenderFullFrameVoronoi() {
         int x = g_sample_x;
         int y = g_sample_y;
 
-        std::vector<VoronoiNode*> nearby = this->voronoi_graph->GetNearby((double)x, (double)y, g_running_seed);
+//        std::vector<VoronoiNode*> nearby = this->voronoi_graph->GetNearby((double)x, (double)y, g_running_seed);
+//
+//        RGBColor c = VoronoiGraph::ForwardPassFromNearby(nearby, x, y);
 
-        RGBColor c = VoronoiGraph::ForwardPassFromNearby(nearby, x, y);
-
+        RGBColor c = this->voronoi_graph->Sample((double)x, (double)y, &g_running_seed);
         SDL_SetRenderDrawColor(this->main_renderer, (Uint8)c.r, (Uint8)c.g, (Uint8)c.b, 0xFF);
         SDL_RenderDrawPoint(this->main_renderer, x, y);
-
-        g_running_seed = nearby.front(); // new info
-
-        nearby.clear();
+//
+//        g_running_seed = nearby.front(); // new info
+//
+//        nearby.clear();
 
         if (g_sample_x == 0) {
             g_past_nearest_0_y_seed = g_running_seed; // having hit the end of the line and slid back to the left, writing the value as step two

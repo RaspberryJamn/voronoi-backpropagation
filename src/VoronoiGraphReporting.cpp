@@ -76,13 +76,13 @@ void VQuadTree::Print(VQuadTree* tree, int indent) {
     PrintIndents(indent); std::cout<< "}" << std::endl;
 }
 
-void VoronoiGraph::RenderTree(SDL_Renderer* target_renderer) {
+void VoronoiQuadTree::RenderTree(SDL_Renderer* target_renderer) {
     this->RenderVQuadTree(this->root, target_renderer);
     std::for_each(this->all_child_nodes.begin(), this->all_child_nodes.end(), [&](VoronoiNode* current_node) {
         current_node->Render(target_renderer);
     });
 }
-void VoronoiGraph::RenderVQuadTree(VQuadTree* branch, SDL_Renderer* target_renderer) {
+void VoronoiQuadTree::RenderVQuadTree(VQuadTree* branch, SDL_Renderer* target_renderer) {
     if (branch == nullptr) {return;}
     SDL_Rect dest = {0,0,0,0};
     if (branch->tree_children[0] != nullptr) {
@@ -119,7 +119,7 @@ void PrintNodeVector(std::string comment, const std::vector<VoronoiNode*>& c) {
         std::cout << (first ? first = false, "" : ", ") << x;
     std::cout << "]\n";
 }
-void VoronoiGraph::PrintTree() {
+void VoronoiQuadTree::PrintTree() {
     PrintNodeVector("all_child_nodes: ", this->all_child_nodes);
     VQuadTree::Print(this->root, 0);
 }

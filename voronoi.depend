@@ -431,18 +431,18 @@
 	"CApp.h"
 	<iostream>
 
-1734574667 source:c:\users\james\documents\cpp\voronoi\src\capp_oninit.cpp
+1735172211 source:c:\users\james\documents\cpp\voronoi\src\capp_oninit.cpp
 	"CApp.h"
 	<iostream>
 	<cstdlib>
 
-1734574713 source:c:\users\james\documents\cpp\voronoi\src\capp_onloop.cpp
+1735172300 source:c:\users\james\documents\cpp\voronoi\src\capp_onloop.cpp
 	"CApp.h"
 	<cmath>
 	<iostream>
 	<sstream>
 
-1734568739 source:c:\users\james\documents\cpp\voronoi\src\capp_onrender.cpp
+1735172357 source:c:\users\james\documents\cpp\voronoi\src\capp_onrender.cpp
 	"CApp.h"
 	<sstream>
 	<cmath>
@@ -478,7 +478,7 @@
 	"Texture.h"
 	"SDL.h"
 
-1734575432 source:c:\users\james\documents\cpp\voronoi\src\voronoinode.cpp
+1734642314 source:c:\users\james\documents\cpp\voronoi\src\voronoinode.cpp
 	"VoronoiNode.h"
 	<cmath>
 	<ctime>
@@ -488,7 +488,7 @@
 	"SDL.h"
 	<cmath>
 
-1734575030 source:c:\users\james\documents\cpp\voronoi\src\voronoigraph.cpp
+1735172955 source:c:\users\james\documents\cpp\voronoi\src\voronoigraph.cpp
 	"VoronoiGraph.h"
 	"CApp.h"
 	<cmath>
@@ -496,10 +496,10 @@
 	<vector>
 	<iostream>
 
-1734476496 c:\users\james\documents\cpp\voronoi\include\voronoigraph.h
-	<vector>
+1735173366 c:\users\james\documents\cpp\voronoi\include\voronoigraph.h
+	"VoronoiQuadTree.h"
 	"VoronoiNode.h"
-	"ErrorLogger.h"
+	<vector>
 	<SDL.h>
 
 1732749583 c:\users\james\documents\cpp\voronoi\include\lapcounter.h
@@ -508,10 +508,9 @@
 1732749739 source:c:\users\james\documents\cpp\voronoi\src\lapcounter.cpp
 	"LapCounter.h"
 
-1730761031 c:\users\james\documents\cpp\voronoi\include\voronoiquadtree.h
-	<iostream>
-	<VoronoiNode.h>
-	"NodeLinkedList.h"
+1735174101 c:\users\james\documents\cpp\voronoi\include\voronoiquadtree.h
+	<vector>
+	"VoronoiNode.h"
 
 1730586927 source:c:\users\james\documents\cpp\voronoi\src\voronoiquadtree.cpp
 	"VoronoiQuadtree.h"
@@ -537,7 +536,7 @@
 	<cstdlib>
 	<ctime>
 
-1734564788 source:c:\users\james\documents\cpp\voronoi\src\voronoigraphreporting.cpp
+1735172926 source:c:\users\james\documents\cpp\voronoi\src\voronoigraphreporting.cpp
 	"VoronoiGraph.h"
 	"CApp.h"
 	<cmath>

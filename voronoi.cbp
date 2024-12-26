@@ -48,6 +48,7 @@
 		<Unit filename="include/Timer.h" />
 		<Unit filename="include/VoronoiGraph.h" />
 		<Unit filename="include/VoronoiNode.h" />
+		<Unit filename="include/VoronoiQuadTree.h" />
 		<Unit filename="src/AtlasNumberDrawer.cpp" />
 		<Unit filename="src/CApp.cpp">
 			<Option target="Primary" />
@@ -69,6 +70,7 @@
 		<Unit filename="src/VoronoiGraph.cpp" />
 		<Unit filename="src/VoronoiGraphReporting.cpp" />
 		<Unit filename="src/VoronoiNode.cpp" />
+		<Unit filename="src/VoronoiQuadTree.cpp" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>

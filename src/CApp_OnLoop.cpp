@@ -27,12 +27,13 @@ void CApp::OnLoop() {
         int x = g_train_sample_x;
         int y = g_train_sample_y;
 
-        std::vector<VoronoiNode*> nearby = this->voronoi_graph->GetNearby((double)x, (double)y, g_train_running_seed);
-
-        this->voronoi_graph->DoBackwardsPassFromNearby(nearby, x, y, this->SampleSourceImage(x,y));
-        g_train_running_seed = nearby.front(); // new info
-
-        nearby.clear();
+//        std::vector<VoronoiNode*> nearby = this->voronoi_graph->GetNearby((double)x, (double)y, g_train_running_seed);
+//
+//        this->voronoi_graph->DoBackwardsPassFromNearby(nearby, x, y, this->SampleSourceImage(x,y));
+//        g_train_running_seed = nearby.front(); // new info
+//
+//        nearby.clear();
+        this->voronoi_graph->Poke((double)x, (double)y, this->SampleSourceImage(x,y), &g_train_running_seed);
 
         if (g_train_sample_x <= 0) {
             g_train_past_nearest_0_y_seed = g_train_running_seed; // having hit the end of the line and slid back to the left, writing the value as step two
