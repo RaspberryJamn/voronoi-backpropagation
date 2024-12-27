@@ -25,6 +25,8 @@ class VoronoiGraph {
         void SetBandWidth(double band_width);
         double GetGain();
 
+        std::vector<VoronoiNode*> GetRecentNearby();
+
     private:
 
         VoronoiQuadTree quad_tree;

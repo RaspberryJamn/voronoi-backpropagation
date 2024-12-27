@@ -16,6 +16,9 @@ void VoronoiNode::Init(double x, double y, double r, double g, double b) {
     this->x_grad = 0;
     this->y_grad = 0;
     this->color_grad = RGBColor(0,0,0);
+    this->last_x_grad = 0;
+    this->last_y_grad = 0;
+    this->last_color_grad = RGBColor(0,0,0);
 
     this->residential_slot = nullptr;
     this->tree_slot = nullptr;
@@ -119,6 +122,20 @@ void VoronoiNode::Render(SDL_Renderer* target_renderer) {
     SDL_RenderDrawLine(target_renderer, this->sorting_x, this->sorting_y-2, this->sorting_x, sorting_y+2);
     SDL_RenderDrawLine(target_renderer, this->sorting_x-2, this->sorting_y, this->sorting_x+2, sorting_y);
 }
+void VoronoiNode::RenderLoggedGradient(SDL_Renderer* target_renderer) {
+    SDL_SetRenderDrawColor(target_renderer, 0x00, 0x00, 0x00, 0xFF);
+    double delta_x = this->last_x_grad;
+    double delta_y = this->last_y_grad;
+    double mag = std::sqrt(delta_x*delta_x+delta_y*delta_y);
+    if (mag != 0) {
+        delta_x /= mag;
+        delta_y /= mag;
+    }
+    double draw_length = 12;
+    delta_x *= draw_length;
+    delta_y *= draw_length;
+    SDL_RenderDrawLine(target_renderer, this->sorting_x, this->sorting_y, this->sorting_x+(int)delta_x, sorting_y+(int)delta_y);
+}
 
 RGBColor VoronoiNode::ForwardPass(double sample_x, double sample_y) {
     // eg Generate(sample_x-this->x, sample_x-this->y)
@@ -157,12 +174,22 @@ void VoronoiNode::BackwardPass(double sample_x, double sample_y, RGBColor finalc
 }
 
 void VoronoiNode::ApplyGradients(double learning_rate) {
+    this->LogGradients();
+
     std::srand(std::time(0)+this->color.r*this->x);
 
     this->x -= this->x_grad*learning_rate*4 + ((std::rand()%100+std::rand()%100-100)*0.009);
     this->y -= this->y_grad*learning_rate*4 + ((std::rand()%100+std::rand()%100-100)*0.009);
     this->color -= this->color_grad*learning_rate*5000.0;
     this->color.Clamp();
+    this->ClearGradients();
+}
+void VoronoiNode::LogGradients() {
+    this->last_x_grad = this->x_grad;
+    this->last_y_grad = this->y_grad;
+    this->last_color_grad = this->color_grad;
+}
+void VoronoiNode::ClearGradients() {
     this->x_grad = 0;
     this->y_grad = 0;
     this->color_grad.r = 0;
@@ -173,17 +200,20 @@ void VoronoiNode::ApplyGradients(double learning_rate) {
 void VoronoiNode::CalculateExp(double offset) {
     this->exp = std::exp(-this->mag - offset);
 }
-
 double VoronoiNode::GetExp() {
     return this->exp;
 }
-
 void VoronoiNode::SetM(double m) {
     this->m_value = m;
 }
-
 double VoronoiNode::GetM() {
     return this->m_value;
+}
+
+void VoronoiNode::GetLastGradients(double* x_grad, double* y_grad, RGBColor* color_grad) {
+    (*x_grad) = this->last_x_grad;
+    (*y_grad) = this->last_y_grad;
+    (*color_grad) = this->last_color_grad;
 }
 
 void VoronoiNode::CalculateDist(double from_x, double from_y, double gain) {

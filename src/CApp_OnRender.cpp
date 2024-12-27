@@ -1,6 +1,7 @@
 #include "CApp.h"
 #include <sstream>
 #include <cmath>
+#include <algorithm>
 
 int g_sample_x = 0;
 int g_sample_y = 0;
@@ -57,7 +58,28 @@ void CApp::OnRender() {
     dest = {this->source_texture->GetWidth(), g_sample_y, 5, 5}; SDL_RenderFillRect(this->main_renderer, &dest);
 
     if (this->mouse.pressed) {
+        int min_x = this->mouse.x-25;
+        int min_y = this->mouse.y-25;
+        int max_x = this->mouse.x+25;
+        int max_y = this->mouse.y+25;
+        if (min_x<0) {min_x=0;} if (max_x>this->source_texture->GetWidth() ) {max_x=this->source_texture->GetWidth(); }
+        if (min_y<0) {min_y=0;} if (max_y>this->source_texture->GetHeight()) {max_y=this->source_texture->GetHeight();}
+        SDL_Rect transfer = {min_x,min_y,max_x-min_x,max_y-min_y};
+        this->source_texture->Render(&transfer, &transfer);
+
         this->voronoi_graph->RenderTree(this->main_renderer);
+
+        VoronoiNode* double_sample = nullptr;
+        this->voronoi_graph->Sample(this->mouse.x, this->mouse.y, &double_sample);
+        std::vector<VoronoiNode*> nearby = this->voronoi_graph->GetRecentNearby();
+        std::for_each(nearby.begin(), nearby.end(), [&](VoronoiNode* current_node) {
+            current_node->ClearGradients();
+        });
+        this->voronoi_graph->Poke(this->mouse.x, this->mouse.y, this->SampleSourceImage(this->mouse.x,this->mouse.y), &double_sample);
+        std::for_each(nearby.begin(), nearby.end(), [&](VoronoiNode* current_node) {
+            current_node->LogGradients();
+            current_node->RenderLoggedGradient(this->main_renderer);
+        });
     }
 
     SDL_SetRenderDrawColor(this->main_renderer, 0xFF, 0xFF, 0xFF, 0xFF);

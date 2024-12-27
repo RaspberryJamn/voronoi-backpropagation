@@ -35,9 +35,12 @@ void VoronoiGraph::RemoveNode(VoronoiNode* node) {
 RGBColor VoronoiGraph::Sample(double x, double y, VoronoiNode** io_seed) { // nearby nodes already have their distances calculated, aka gain and bandwidth are baked in
 
     this->recent_nearby.clear();
-    this->recent_nearby = this->quad_tree.GetNearby(x, y, *io_seed);
-    (*io_seed) = this->recent_nearby.front();
-
+    if (io_seed == nullptr) {
+        this->recent_nearby = this->quad_tree.GetNearby(x, y, nullptr);
+    } else {
+        this->recent_nearby = this->quad_tree.GetNearby(x, y, *io_seed);
+        (*io_seed) = this->recent_nearby.front();
+    }
     double z = 0;
     double exp_offset = -this->recent_nearby.front()->GetDist(); // for numerical precision. softmax doesnt care about offsets so long as theyre applied to all applicants
 
@@ -90,6 +93,11 @@ void VoronoiGraph::SetBandWidth(double band_width) {
 double VoronoiGraph::GetGain() {
     return this->gain;
 }
+
+std::vector<VoronoiNode*> VoronoiGraph::GetRecentNearby() {
+    return this->recent_nearby;
+}
+
 void VoronoiGraph::PrintTree() {
     this->quad_tree.PrintTree();
 }

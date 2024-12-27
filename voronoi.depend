@@ -402,7 +402,7 @@
 1734563325 source:c:\users\james\documents\cpp\voronoi\src\capp.cpp
 	"CApp.h"
 
-1734563577 c:\users\james\documents\cpp\voronoi\include\capp.h
+1735255182 c:\users\james\documents\cpp\voronoi\include\capp.h
 	<SDL.h>
 	<SDL_image.h>
 	<SDL_ttf.h>
@@ -427,25 +427,26 @@
 1733112938 source:c:\users\james\documents\cpp\voronoi\src\capp_oncleanup.cpp
 	"CApp.h"
 
-1734563774 source:c:\users\james\documents\cpp\voronoi\src\capp_onevent.cpp
+1735255204 source:c:\users\james\documents\cpp\voronoi\src\capp_onevent.cpp
 	"CApp.h"
 	<iostream>
 
-1735172211 source:c:\users\james\documents\cpp\voronoi\src\capp_oninit.cpp
+1735256116 source:c:\users\james\documents\cpp\voronoi\src\capp_oninit.cpp
 	"CApp.h"
 	<iostream>
 	<cstdlib>
 
-1735178519 source:c:\users\james\documents\cpp\voronoi\src\capp_onloop.cpp
+1735178847 source:c:\users\james\documents\cpp\voronoi\src\capp_onloop.cpp
 	"CApp.h"
 	<cmath>
 	<iostream>
 	<sstream>
 
-1735177923 source:c:\users\james\documents\cpp\voronoi\src\capp_onrender.cpp
+1735258187 source:c:\users\james\documents\cpp\voronoi\src\capp_onrender.cpp
 	"CApp.h"
 	<sstream>
 	<cmath>
+	<algorithm>
 
 1705848815 c:\sdl\sdl2_ttf-2.22.0\i686-w64-mingw32\include\sdl2\sdl_ttf.h
 	"SDL.h"
@@ -478,17 +479,17 @@
 	"Texture.h"
 	"SDL.h"
 
-1734642314 source:c:\users\james\documents\cpp\voronoi\src\voronoinode.cpp
+1735258045 source:c:\users\james\documents\cpp\voronoi\src\voronoinode.cpp
 	"VoronoiNode.h"
 	<cmath>
 	<ctime>
 	<iostream>
 
-1734642028 c:\users\james\documents\cpp\voronoi\include\voronoinode.h
+1735257765 c:\users\james\documents\cpp\voronoi\include\voronoinode.h
 	"SDL.h"
 	<cmath>
 
-1735178685 source:c:\users\james\documents\cpp\voronoi\src\voronoigraph.cpp
+1735257346 source:c:\users\james\documents\cpp\voronoi\src\voronoigraph.cpp
 	"VoronoiGraph.h"
 	"CApp.h"
 	<cmath>
@@ -496,7 +497,7 @@
 	<vector>
 	<iostream>
 
-1735173366 c:\users\james\documents\cpp\voronoi\include\voronoigraph.h
+1735257317 c:\users\james\documents\cpp\voronoi\include\voronoigraph.h
 	"VoronoiQuadTree.h"
 	"VoronoiNode.h"
 	<vector>

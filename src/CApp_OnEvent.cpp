@@ -22,6 +22,9 @@ void CApp::OnEvent(SDL_Event& event) {
     if (event.type == SDL_MOUSEMOTION) {
         SDL_GetMouseState(&(this->mouse.x),&(this->mouse.y));
         this->OnMouseMoved();
+        if (this->mouse.pressed) {
+            this->OnMouseDragged();
+        }
     }
 }
 
@@ -34,5 +37,9 @@ void CApp::OnMouseUp() {
 }
 
 void CApp::OnMouseMoved() {
+
+}
+
+void CApp::OnMouseDragged() {
 
 }

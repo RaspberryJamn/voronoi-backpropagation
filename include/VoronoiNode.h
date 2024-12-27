@@ -114,17 +114,22 @@ class VoronoiNode {
         double GetX();
         double GetY();
 
+
         void Print(int indent);
         void Render(SDL_Renderer* target_renderer);
+        void RenderLoggedGradient(SDL_Renderer* target_renderer);
 
 //        RGBColor SampleColor(double sample_x, double sample_y);
         RGBColor ForwardPass(double sample_x, double sample_y);
         void BackwardPass(double sample_x, double sample_y, RGBColor finalcolor, RGBColor d_loss_d_finalcolor);
         void ApplyGradients(double learning_rate);
+        void LogGradients();
+        void ClearGradients();
         void CalculateExp(double offset);
         double GetExp();
         void SetM(double m);
         double GetM();
+        void GetLastGradients(double* x_grad, double* y_grad, RGBColor* color_grad);
 
         void CalculateDist(double from_x, double from_y, double gain);
         double GetDist();
@@ -152,6 +157,10 @@ class VoronoiNode {
         double x_grad;
         double y_grad;
         RGBColor color_grad;
+
+        double last_x_grad;
+        double last_y_grad;
+        RGBColor last_color_grad;
 
         int sorting_x;
         int sorting_y;

@@ -65,6 +65,7 @@ class CApp {
         void OnMouseDown();
         void OnMouseUp();
         void OnMouseMoved();
+        void OnMouseDragged();
 
         // OnRender
         void RenderFullFrameVoronoi();
