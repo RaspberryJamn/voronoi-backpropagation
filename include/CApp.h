@@ -4,6 +4,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
+#include "IdkFunctions.h"
 #include "CanvasWindow.h"
 #include "Timer.h"
 #include "Texture.h"

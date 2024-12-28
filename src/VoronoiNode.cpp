@@ -121,13 +121,15 @@ void VoronoiNode::Render(SDL_Renderer* target_renderer) {
 //    SDL_RenderDrawPoint(target_renderer, this->sorting_x, this->sorting_y);
     SDL_RenderDrawLine(target_renderer, this->sorting_x, this->sorting_y-2, this->sorting_x, sorting_y+2);
     SDL_RenderDrawLine(target_renderer, this->sorting_x-2, this->sorting_y, this->sorting_x+2, sorting_y);
+
+    this->RenderLoggedGradient(target_renderer);
 }
 void VoronoiNode::RenderLoggedGradient(SDL_Renderer* target_renderer) {
     SDL_SetRenderDrawColor(target_renderer, 0x00, 0x00, 0x00, 0xFF);
     double delta_x = this->last_x_grad;
     double delta_y = this->last_y_grad;
     double mag = 1;//std::sqrt(delta_x*delta_x+delta_y*delta_y);
-    double scale = 0.077;
+    double scale = -0.001;
     if (mag == 0) {
         mag = 1;
     }
@@ -184,9 +186,9 @@ void VoronoiNode::ApplyGradients(double learning_rate) {
 
     std::srand(std::time(0)+this->color.r*this->x);
 
-    this->x -= this->x_grad*learning_rate*4 + ((std::rand()%100+std::rand()%100-100)*0.009);
-    this->y -= this->y_grad*learning_rate*4 + ((std::rand()%100+std::rand()%100-100)*0.009);
-    this->color -= this->color_grad*learning_rate*5000.0;
+    this->x -= this->x_grad*learning_rate*10 + ((std::rand()%100+std::rand()%100-100)*0.009);
+    this->y -= this->y_grad*learning_rate*10 + ((std::rand()%100+std::rand()%100-100)*0.009);
+    this->color -= this->color_grad*learning_rate*50.0;
     this->color.Clamp();
     this->ClearGradients();
 }

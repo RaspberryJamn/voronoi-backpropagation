@@ -399,13 +399,14 @@
 	"begin_code.h"
 	"close_code.h"
 
-1734563325 source:c:\users\james\documents\cpp\voronoi\src\capp.cpp
+1735427637 source:c:\users\james\documents\cpp\voronoi\src\capp.cpp
 	"CApp.h"
 
-1735255182 c:\users\james\documents\cpp\voronoi\include\capp.h
+1735427716 c:\users\james\documents\cpp\voronoi\include\capp.h
 	<SDL.h>
 	<SDL_image.h>
 	<SDL_ttf.h>
+	"IdkFunctions.h"
 	"CanvasWindow.h"
 	"Timer.h"
 	"Texture.h"
@@ -436,14 +437,15 @@
 	<iostream>
 	<cstdlib>
 
-1735261288 source:c:\users\james\documents\cpp\voronoi\src\capp_onloop.cpp
+1735429344 source:c:\users\james\documents\cpp\voronoi\src\capp_onloop.cpp
 	"CApp.h"
 	<cmath>
 	<iostream>
 	<sstream>
 
-1735422427 source:c:\users\james\documents\cpp\voronoi\src\capp_onrender.cpp
+1735430036 source:c:\users\james\documents\cpp\voronoi\src\capp_onrender.cpp
 	"CApp.h"
+	"IdkFunctions.h"
 	<sstream>
 	<cmath>
 	<algorithm>
@@ -479,13 +481,13 @@
 	"Texture.h"
 	"SDL.h"
 
-1735422326 source:c:\users\james\documents\cpp\voronoi\src\voronoinode.cpp
+1735430008 source:c:\users\james\documents\cpp\voronoi\src\voronoinode.cpp
 	"VoronoiNode.h"
 	<cmath>
 	<ctime>
 	<iostream>
 
-1735420156 c:\users\james\documents\cpp\voronoi\include\voronoinode.h
+1735427065 c:\users\james\documents\cpp\voronoi\include\voronoinode.h
 	"SDL.h"
 	<cmath>
 
@@ -544,4 +546,9 @@
 	<algorithm>
 	<vector>
 	<iostream>
+
+1735429133 source:c:\users\james\documents\cpp\voronoi\src\idkfunctions.cpp
+	"IdkFunctions.h"
+
+1735429132 c:\users\james\documents\cpp\voronoi\include\idkfunctions.h
 
