@@ -59,7 +59,7 @@ bool CApp::OnInit() {
 //                                                     ((double)i/node_count)*this->media_texture->GetHeight(),
 //                                                     127+i%6,127+i%12,127+i%18));
 //    }
-    this->voronoi_graph->AddNode(new VoronoiNode(390,80 ,255,255,255));
+    this->voronoi_graph->AddNode(new VoronoiNode(390+10,80-10 ,255,255,255));
     this->voronoi_graph->AddNode(new VoronoiNode(160,290,0  ,160,230));
     this->voronoi_graph->AddNode(new VoronoiNode(380,390,170,60 ,190));
 //    this->voronoi_graph->AddNode(new VoronoiNode(300,540,100,100,100));
