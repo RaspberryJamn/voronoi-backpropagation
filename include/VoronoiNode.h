@@ -158,7 +158,7 @@ class VoronoiNode {
         double y_grad;
         RGBColor color_grad;
 
-        RGBColor log_d_loss_d_finalcolor;
+//        RGBColor log_d_loss_d_finalcolor;
         double last_x_grad;
         double last_y_grad;
         RGBColor last_color_grad;

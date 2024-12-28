@@ -137,7 +137,7 @@ void VoronoiNode::RenderLoggedGradient(SDL_Renderer* target_renderer) {
     delta_x *= draw_length;
     delta_y *= draw_length;
     SDL_RenderDrawLine(target_renderer, this->sorting_x, this->sorting_y, this->sorting_x+(int)delta_x, sorting_y+(int)delta_y);
-    std::cout << "[" << this->log_d_loss_d_finalcolor.r*scale << "," << this->log_d_loss_d_finalcolor.g*scale << "," << this->log_d_loss_d_finalcolor.b*scale << "]" << std::endl;
+//    std::cout << "[" << this->log_d_loss_d_finalcolor.r*scale << "," << this->log_d_loss_d_finalcolor.g*scale << "," << this->log_d_loss_d_finalcolor.b*scale << "]" << std::endl;
 }
 
 RGBColor VoronoiNode::ForwardPass(double sample_x, double sample_y) {
@@ -145,7 +145,7 @@ RGBColor VoronoiNode::ForwardPass(double sample_x, double sample_y) {
     return this->color;
 }
 // this->mag = ((this->x-sample_x)^2+(this->y-sample_y)^2)*gain
-//     this->exp = exp(this->mag)
+//     this->exp = exp(-this->mag) // oops, correction
 //     g_z = this->exp+that->exp+there->exp
 //     this->m = this->exp/g_z
 // this->color = this->Generate(sample_x-this->x, sample_y-this->y)
@@ -159,22 +159,22 @@ RGBColor VoronoiNode::ForwardPass(double sample_x, double sample_y) {
 // d_this->color_d_this->weights = 0//d_this->Generate(sample_x-this->x, sample_y-this->y)_d_weights
 // d_this->color_d_this->x = 0//d_this->Generate(sample_x-this->x, sample_y-this->y)_d_this->x
 
-// d_this->m_d_this->mag = this->m*(1-this->m)
+// d_this->m_d_this->mag = this->m*(this->m-1) // oops, correction
 // d_this->mag_d_this->x = 2*(this->x-sample_x)*gain
 
-void VoronoiNode::BackwardPass(double sample_x, double sample_y, RGBColor finalcolor, RGBColor d_loss_d_finalcolor) { // finalcolor = {+,+,+}; d_loss_d_finalcolor = {-,-,-}; correct
+void VoronoiNode::BackwardPass(double sample_x, double sample_y, RGBColor finalcolor, RGBColor d_loss_d_finalcolor) {
 //    std::cout << std::floor(100.0*d_loss_d_finalcolor.r)/100.0 << " ";
-    RGBColor d_finalcolor_d_m = ((this->color*this->color)/finalcolor)*.5; // this must have been a positive number. incorrect, should be negative
+    RGBColor d_finalcolor_d_m = ((this->color*this->color)/finalcolor)*.5;
     RGBColor d_finalcolor_d_thiscolor = (this->color/finalcolor)*this->m_value;
-    double d_m_d_mag = this->m_value*(1.0-this->m_value); // this is always a positive number
-    double d_mag_d_x = 2.0*(this->x-sample_x)*this->gain; // this should have been positive. correct
+    double d_m_d_mag = this->m_value*(this->m_value-1.0);
+    double d_mag_d_x = 2.0*(this->x-sample_x)*this->gain;
     double d_mag_d_y = 2.0*(this->y-sample_y)*this->gain;
 
-    double d_loss_d_m = RGBColor::Trace(d_loss_d_finalcolor*d_finalcolor_d_m); // this must have been a negative number. incorrect, should be positive
-    double d_loss_d_mag = d_loss_d_m * d_m_d_mag; // this must have been a negative number. incorrect, should be positive
+    double d_loss_d_m = RGBColor::Trace(d_loss_d_finalcolor*d_finalcolor_d_m);
+    double d_loss_d_mag = d_loss_d_m * d_m_d_mag;
 
-    this->log_d_loss_d_finalcolor += d_loss_d_finalcolor;
-    this->x_grad += d_loss_d_mag * d_mag_d_x; // observation: negative. incorrect, should be positive
+//    this->log_d_loss_d_finalcolor += d_loss_d_finalcolor;
+    this->x_grad += d_loss_d_mag * d_mag_d_x;
     this->y_grad += d_loss_d_mag * d_mag_d_y;
     this->color_grad += d_loss_d_finalcolor*d_finalcolor_d_thiscolor;
 }
@@ -196,7 +196,7 @@ void VoronoiNode::LogGradients() {
     this->last_color_grad = this->color_grad;
 }
 void VoronoiNode::ClearGradients() {
-    this->log_d_loss_d_finalcolor = RGBColor(0,0,0);
+//    this->log_d_loss_d_finalcolor = RGBColor(0,0,0);
     this->x_grad = 0;
     this->y_grad = 0;
     this->color_grad.r = 0;
