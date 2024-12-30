@@ -1,6 +1,7 @@
 #ifndef VORONOINODE_H
 #define VORONOINODE_H
 #include "SDL.h"
+#include "IdkFunctions.h"
 #include <cmath>
 
 struct NodeLinkedList;
@@ -39,9 +40,9 @@ struct RGBColor {
         return col.r+col.g+col.b;
     }
     void Clamp() {
-        if (this->r < 0) { this->r = 0; } if (this->r > 255) { this->r = 255; }
-        if (this->g < 0) { this->g = 0; } if (this->g > 255) { this->g = 255; }
-        if (this->b < 0) { this->b = 0; } if (this->b > 255) { this->b = 255; }
+        G_Clamp<double>(&this->r, 0.01, 255);
+        G_Clamp<double>(&this->g, 0.01, 255);
+        G_Clamp<double>(&this->b, 0.01, 255);
     }
 };
 
@@ -129,6 +130,7 @@ class VoronoiNode {
         double GetExp();
         void SetM(double m);
         double GetM();
+        double GetGainGradient();
         void GetLastGradients(double* x_grad, double* y_grad, RGBColor* color_grad);
 
         void CalculateDist(double from_x, double from_y, double gain);
@@ -157,11 +159,15 @@ class VoronoiNode {
         double x_grad;
         double y_grad;
         RGBColor color_grad;
+        double gain_grad;
+        double recent_gain_grad;
 
 //        RGBColor log_d_loss_d_finalcolor;
         double last_x_grad;
         double last_y_grad;
         RGBColor last_color_grad;
+        int poke_count;
+        int last_poke_count;
 
         int sorting_x;
         int sorting_y;

@@ -1,5 +1,6 @@
 #include "VoronoiGraph.h"
 #include "CApp.h"
+#include "IdkFunctions.h"
 #include <cmath>
 #include <algorithm>
 #include <vector>
@@ -11,6 +12,7 @@ VoronoiGraph::VoronoiGraph() {
     this->gain = 0;
     this->quad_tree.SetGain(this->gain);
     this->quad_tree.SetBandWidth(this->band_width);
+    this->gain_gradient = 0;
 }
 
 VoronoiGraph::~VoronoiGraph() {
@@ -74,11 +76,15 @@ void VoronoiGraph::Poke(double x, double y, RGBColor image_sample, VoronoiNode**
 }
 
 void VoronoiGraph::UpdateAllGradients(double learning_rate) {
+    this->gain_gradient = 0;
     std::vector<VoronoiNode*> nodes = this->quad_tree.GetAllNodes();
     std::for_each(nodes.begin(), nodes.end(), [&](VoronoiNode* current_node) {
         current_node->ApplyGradients(learning_rate);
+        this->gain_gradient += current_node->GetGainGradient();
     });
-//    this->SetGain(this->gain-this->gain_gradient*learning_rate*10);
+//    this->gain -= this->gain_gradient*learning_rate*0.0000000005;
+//    G_Clamp<double>(&this->gain, 0.0005, 1.0);
+//    this->SetGain(this->gain);
     this->quad_tree.UpdateNodePositions();
 }
 

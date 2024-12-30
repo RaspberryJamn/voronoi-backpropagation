@@ -21,7 +21,9 @@ VoronoiNode* g_train_past_nearest_0_y_seed = nullptr; // keeps tab on a good see
 VoronoiNode* g_train_running_seed = nullptr; // seed for the current sample, reads from and writes to the previous two
 
 void CApp::OnLoop() {
-
+    if (this->mouse.pressed) {
+        return;
+    }
     int stride = 4;
     for (int i = 0; i < (this->media_texture->GetWidth()*this->media_texture->GetHeight()/(1.0+this->refresh_period)*loop_advantage_factor); i++) {
         int x = g_train_sample_x;
@@ -45,7 +47,7 @@ void CApp::OnLoop() {
                 g_train_sample_y = 0;
                 g_train_running_seed = g_train_past_nearest_0_0_seed; // hit the bottom of the image, slide back to the top, reading the value as step one
 
-                this->voronoi_graph->UpdateAllGradients(0.0000000015);
+                this->voronoi_graph->UpdateAllGradients(0.0000015);
             }
         }
     }

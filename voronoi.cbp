@@ -43,6 +43,7 @@
 		<Unit filename="include/CApp.h" />
 		<Unit filename="include/CanvasWindow.h" />
 		<Unit filename="include/ErrorLogger.h" />
+		<Unit filename="include/IdkFunctions.h" />
 		<Unit filename="include/LapCounter.h" />
 		<Unit filename="include/Texture.h" />
 		<Unit filename="include/Timer.h" />
@@ -64,6 +65,7 @@
 		<Unit filename="src/CApp_OnRender.cpp" />
 		<Unit filename="src/CanvasWindow.cpp" />
 		<Unit filename="src/ErrorLogger.cpp" />
+		<Unit filename="src/IdkFunctions.cpp" />
 		<Unit filename="src/LapCounter.cpp" />
 		<Unit filename="src/Texture.cpp" />
 		<Unit filename="src/Timer.cpp" />

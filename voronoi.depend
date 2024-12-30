@@ -432,18 +432,18 @@
 	"CApp.h"
 	<iostream>
 
-1735422194 source:c:\users\james\documents\cpp\voronoi\src\capp_oninit.cpp
+1735586893 source:c:\users\james\documents\cpp\voronoi\src\capp_oninit.cpp
 	"CApp.h"
 	<iostream>
 	<cstdlib>
 
-1735429344 source:c:\users\james\documents\cpp\voronoi\src\capp_onloop.cpp
+1735586843 source:c:\users\james\documents\cpp\voronoi\src\capp_onloop.cpp
 	"CApp.h"
 	<cmath>
 	<iostream>
 	<sstream>
 
-1735430036 source:c:\users\james\documents\cpp\voronoi\src\capp_onrender.cpp
+1735586261 source:c:\users\james\documents\cpp\voronoi\src\capp_onrender.cpp
 	"CApp.h"
 	"IdkFunctions.h"
 	<sstream>
@@ -470,7 +470,7 @@
 	"Texture.h"
 	<iostream>
 
-1734572565 source:c:\users\james\documents\cpp\voronoi\src\capp_importassets.cpp
+1735586552 source:c:\users\james\documents\cpp\voronoi\src\capp_importassets.cpp
 	"CApp.h"
 	<iostream>
 
@@ -481,19 +481,21 @@
 	"Texture.h"
 	"SDL.h"
 
-1735430008 source:c:\users\james\documents\cpp\voronoi\src\voronoinode.cpp
+1735586412 source:c:\users\james\documents\cpp\voronoi\src\voronoinode.cpp
 	"VoronoiNode.h"
 	<cmath>
 	<ctime>
 	<iostream>
 
-1735427065 c:\users\james\documents\cpp\voronoi\include\voronoinode.h
+1735585853 c:\users\james\documents\cpp\voronoi\include\voronoinode.h
 	"SDL.h"
+	"IdkFunctions.h"
 	<cmath>
 
-1735257346 source:c:\users\james\documents\cpp\voronoi\src\voronoigraph.cpp
+1735586576 source:c:\users\james\documents\cpp\voronoi\src\voronoigraph.cpp
 	"VoronoiGraph.h"
 	"CApp.h"
+	"IdkFunctions.h"
 	<cmath>
 	<algorithm>
 	<vector>
