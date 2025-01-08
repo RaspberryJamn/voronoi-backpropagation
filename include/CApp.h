@@ -17,6 +17,11 @@ struct MouseInfo {
     int x;
     int y;
     bool pressed;
+    bool started_dragging;
+    struct DragStart {
+        int x;
+        int y;
+    } drag_start;
 };
 
 class CApp {
@@ -51,7 +56,7 @@ class CApp {
         Texture* media_texture;
         VoronoiGraph* voronoi_graph;
 
-        Texture* text_textures[4];
+        Texture* text_textures[7];
         AtlasNumberDrawer number_renderer;
 
         TTF_Font* main_font;
@@ -68,8 +73,11 @@ class CApp {
         void OnMouseMoved();
         void OnMouseDragged();
 
+        // OnLoop
+        void ProgressivePoke(double fraction);
+
         // OnRender
-        void RenderFullFrameVoronoi();
+        void RenderFullFrameVoronoi(double* total_loss);
         RGBColor SampleSourceImage(int x, int y);
         int refresh_period; // 0 means redraw graph every frame, 1 every other, etc.
         double loop_advantage_factor;

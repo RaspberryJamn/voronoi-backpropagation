@@ -143,6 +143,8 @@ void VoronoiNode::RenderLoggedGradient(SDL_Renderer* target_renderer) {
     delta_x *= draw_length;
     delta_y *= draw_length;
     SDL_RenderDrawLine(target_renderer, this->sorting_x, this->sorting_y, this->sorting_x+(int)delta_x, sorting_y+(int)delta_y);
+    SDL_Rect dest = {this->sorting_x-(int)delta_x-1, sorting_y-(int)delta_y-1, 3, 3}; SDL_RenderDrawRect(target_renderer, &dest);
+//    SDL_RenderDrawPoint(target_renderer, this->sorting_x-(int)delta_x, sorting_y-(int)delta_y);
 //    std::cout << "[" << this->log_d_loss_d_finalcolor.r*scale << "," << this->log_d_loss_d_finalcolor.g*scale << "," << this->log_d_loss_d_finalcolor.b*scale << "]" << std::endl;
 }
 

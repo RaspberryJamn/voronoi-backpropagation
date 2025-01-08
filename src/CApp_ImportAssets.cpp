@@ -30,7 +30,7 @@ bool CApp::ImportAssets() {
 //        return false;
 //    }
     this->source_texture = new Texture(this->main_renderer);
-    this->source_texture->LoadFromFile("assets/kannapng.png");
+    this->source_texture->LoadFromFile("assets/gradient.png");
     if(this->source_texture->WasSuccessful() == false) {
         std::cout << "Failed to load texture" << std::endl;
         return false;
@@ -63,13 +63,17 @@ bool CApp::ImportAssets() {
     this->text_textures[3]->LoadInRenderedText("ms", {0,0,0,255});
     if (!this->text_textures[3]->WasSuccessful()) { std::cout << "Failed to create text texture" << std::endl; return false; }
 
-//    this->text_textures[4] = new Texture(this->main_renderer, this->main_font);
-//    this->text_textures[4]->LoadInRenderedText("Average fps: ", {0,0,0,255});
-//    if (!this->text_textures[4]->WasSuccessful()) { std::cout << "Failed to create text texture" << std::endl; return false; }
-//
-//    this->text_textures[5] = new Texture(this->main_renderer, this->main_font);
-//    this->text_textures[5]->LoadInRenderedText("fps", {0,0,0,255});
-//    if (!this->text_textures[5]->WasSuccessful()) { std::cout << "Failed to create text texture" << std::endl; return false; }
+    this->text_textures[4] = new Texture(this->main_renderer, this->main_font);
+    this->text_textures[4]->LoadInRenderedText("last ", {0,0,0,255});
+    if (!this->text_textures[4]->WasSuccessful()) { std::cout << "Failed to create text texture" << std::endl; return false; }
+
+    this->text_textures[5] = new Texture(this->main_renderer, this->main_font);
+    this->text_textures[5]->LoadInRenderedText("running ", {0,0,0,255});
+    if (!this->text_textures[5]->WasSuccessful()) { std::cout << "Failed to create text texture" << std::endl; return false; }
+
+    this->text_textures[6] = new Texture(this->main_renderer, this->main_font);
+    this->text_textures[6]->LoadInRenderedText("loss ", {0,0,0,255});
+    if (!this->text_textures[6]->WasSuccessful()) { std::cout << "Failed to create text texture" << std::endl; return false; }
 
     SDL_Color number_color = {0,0,0,255};
     this->number_renderer.BuildAtlas(this->main_renderer, this->main_font, number_color);

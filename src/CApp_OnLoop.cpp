@@ -19,17 +19,24 @@ int g_train_sample_y = 0;
 VoronoiNode* g_train_past_nearest_0_0_seed = nullptr; // keeps tab on a good seed for the top left corner
 VoronoiNode* g_train_past_nearest_0_y_seed = nullptr; // keeps tab on a good seed for the left hand spine of the current scan line
 VoronoiNode* g_train_running_seed = nullptr; // seed for the current sample, reads from and writes to the previous two
+int g_train_hits = 0;
 
 void CApp::OnLoop() {
+//    return;
     if (this->mouse.pressed) {
         return;
     }
+    this->ProgressivePoke(1.0/(1.0+this->refresh_period)*this->loop_advantage_factor);
+}
+
+void CApp::ProgressivePoke(double fraction) {
     int stride = 4;
-    for (int i = 0; i < (this->media_texture->GetWidth()*this->media_texture->GetHeight()/(1.0+this->refresh_period)*loop_advantage_factor); i++) {
+    for (int i = 0; i < (this->media_texture->GetWidth()*this->media_texture->GetHeight()*fraction); i += stride*stride) {
         int x = g_train_sample_x;
         int y = g_train_sample_y;
 
         this->voronoi_graph->Poke((double)x, (double)y, this->SampleSourceImage(x,y), &g_train_running_seed);
+        g_train_hits++;
 
         if (g_train_sample_x <= 0) {
             g_train_past_nearest_0_y_seed = g_train_running_seed; // having hit the end of the line and slid back to the left, writing the value as step two
@@ -48,8 +55,8 @@ void CApp::OnLoop() {
                 g_train_running_seed = g_train_past_nearest_0_0_seed; // hit the bottom of the image, slide back to the top, reading the value as step one
 
                 this->voronoi_graph->UpdateAllGradients(0.0000015);
+                g_train_hits = 0;
             }
         }
     }
-
 }
