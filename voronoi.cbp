@@ -45,6 +45,8 @@
 		<Unit filename="include/ErrorLogger.h" />
 		<Unit filename="include/IdkFunctions.h" />
 		<Unit filename="include/LapCounter.h" />
+		<Unit filename="include/NNLayer.h" />
+		<Unit filename="include/NeuralNetwork.h" />
 		<Unit filename="include/Texture.h" />
 		<Unit filename="include/Timer.h" />
 		<Unit filename="include/VoronoiGraph.h" />
@@ -67,6 +69,8 @@
 		<Unit filename="src/ErrorLogger.cpp" />
 		<Unit filename="src/IdkFunctions.cpp" />
 		<Unit filename="src/LapCounter.cpp" />
+		<Unit filename="src/NNLayer.cpp" />
+		<Unit filename="src/NeuralNetwork.cpp" />
 		<Unit filename="src/Texture.cpp" />
 		<Unit filename="src/Timer.cpp" />
 		<Unit filename="src/VoronoiGraph.cpp" />

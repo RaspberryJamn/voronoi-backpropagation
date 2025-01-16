@@ -162,6 +162,11 @@ class VoronoiNode {
         double gain_grad;
         double recent_gain_grad;
 
+        double* weights; // forward_parameters
+        double* forward_values; // hidden layers
+        double* gradients; // backward_parameters
+        double* backward_values; // layer gradients
+
 //        RGBColor log_d_loss_d_finalcolor;
         double last_x_grad;
         double last_y_grad;
