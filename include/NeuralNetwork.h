@@ -1,6 +1,9 @@
 #ifndef NEURALNETWORK_H
 #define NEURALNETWORK_H
 #include "NNLayer.h"
+#include <cstdlib>
+#include "SDL.h"
+#include <algorithm>
 #include <vector>
 
 class NeuralNetwork
@@ -9,7 +12,7 @@ class NeuralNetwork
         NeuralNetwork();
         ~NeuralNetwork();
 
-        void AddLayer(NNLayerType type, size_t size);
+        void AddLayer(NNLayer* layer);
 
         void Build();
         void ClearGradients();
@@ -23,7 +26,7 @@ class NeuralNetwork
         void Output(double* output, size_t output_size); // ([0,0], 2) | [...blah,blah,out1,out2] => [out1,out2]
 
     private:
-        std::vector<NNLayer> layers;
+        std::vector<NNLayer*> layers;
 
         bool built;
 

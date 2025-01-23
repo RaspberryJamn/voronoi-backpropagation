@@ -3,6 +3,7 @@
 #include "SDL.h"
 #include "IdkFunctions.h"
 #include <cmath>
+#include "NeuralNetwork.h"
 
 struct NodeLinkedList;
 
@@ -102,11 +103,6 @@ class VoronoiNode {
         VoronoiNode(double x, double y, double r, double g, double b);
         ~VoronoiNode();
 
-        void SetResidence(NodeLinkedList* home);
-        NodeLinkedList* GetResidence();
-        void SetTreeSlot(NodeLinkedList* location);
-        NodeLinkedList* GetTreeSlot();
-
         void SetPosition(double x, double y);
         void SetBounds(int min_x, int min_y, int max_x, int max_y);
         bool IsBounded(int x, int y);
@@ -162,10 +158,11 @@ class VoronoiNode {
         double gain_grad;
         double recent_gain_grad;
 
-        double* weights; // forward_parameters
-        double* forward_values; // hidden layers
-        double* gradients; // backward_parameters
-        double* backward_values; // layer gradients
+//        double* weights; // forward_parameters
+//        double* forward_values; // hidden layers
+//        double* gradients; // backward_parameters
+//        double* backward_values; // layer gradients
+        NeuralNetwork network;
 
 //        RGBColor log_d_loss_d_finalcolor;
         double last_x_grad;

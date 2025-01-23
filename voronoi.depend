@@ -432,7 +432,7 @@
 	"CApp.h"
 	<iostream>
 
-1736361209 source:c:\users\james\documents\cpp\voronoi\src\capp_oninit.cpp
+1736363875 source:c:\users\james\documents\cpp\voronoi\src\capp_oninit.cpp
 	"CApp.h"
 	<iostream>
 	<cstdlib>
@@ -487,10 +487,11 @@
 	<ctime>
 	<iostream>
 
-1735585853 c:\users\james\documents\cpp\voronoi\include\voronoinode.h
+1737617721 c:\users\james\documents\cpp\voronoi\include\voronoinode.h
 	"SDL.h"
 	"IdkFunctions.h"
 	<cmath>
+	"NeuralNetwork.h"
 
 1735586576 source:c:\users\james\documents\cpp\voronoi\src\voronoigraph.cpp
 	"VoronoiGraph.h"
@@ -553,4 +554,21 @@
 	"IdkFunctions.h"
 
 1735429132 c:\users\james\documents\cpp\voronoi\include\idkfunctions.h
+
+1737616798 c:\users\james\documents\cpp\voronoi\include\neuralnetwork.h
+	"NNLayer.h"
+	<cstdlib>
+	"SDL.h"
+	<algorithm>
+	<vector>
+
+1737617197 c:\users\james\documents\cpp\voronoi\include\nnlayer.h
+	<cstddef>
+
+1737615864 source:c:\users\james\documents\cpp\voronoi\src\nnlayer.cpp
+	"NNLayer.h"
+	<cmath>
+
+1737617535 source:c:\users\james\documents\cpp\voronoi\src\neuralnetwork.cpp
+	"NeuralNetwork.h"
 

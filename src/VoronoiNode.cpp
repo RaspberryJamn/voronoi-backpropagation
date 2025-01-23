@@ -2,6 +2,9 @@
 #include <cmath>
 #include <ctime>
 #include <iostream>
+#include "NeuralNetwork/Input.h"
+#include "NeuralNetwork/Sigmoid.h"
+#include "NeuralNetwork/Dense.h"
 
 VoronoiNode::VoronoiNode(double x, double y) {
     this->Init(x, y, 128+120*std::cos(x/100), 128+120*std::cos(x/70+10), 128+120*std::cos((x+y)/180));
@@ -19,16 +22,19 @@ void VoronoiNode::Init(double x, double y, double r, double g, double b) {
     this->last_x_grad = 0;
     this->last_y_grad = 0;
     this->last_color_grad = RGBColor(0,0,0);
-    this->gain_grad = 0;
-    this->recent_gain_grad = 0;
     this->poke_count = 0;
     this->last_poke_count = 0;
 
-    this->residential_slot = nullptr;
-    this->tree_slot = nullptr;
+    this->network.AddLayer(new NNLayerNSP::Input(2));
+    this->network.AddLayer(new NNLayerNSP::Dense(0));
+    this->network.AddLayer(new NNLayerNSP::Dense(3));
 
     this->gain = 0;
+    this->gain_grad = 0;
+    this->recent_gain_grad = 0;
+
     this->mag = 0;
+    this->exp = 0;
     this->m_value = 0;
     this->sorting_dist = 0;
     this->sorting_x = (int)x;
@@ -44,20 +50,6 @@ VoronoiNode::~VoronoiNode() {
     this->y = 0;
     this->sorting_x = 0;
     this->sorting_y = 0;
-}
-
-void VoronoiNode::SetResidence(NodeLinkedList* home) {
-    this->residential_slot = home;
-}
-NodeLinkedList* VoronoiNode::GetResidence() {
-    return this->residential_slot;
-}
-
-void VoronoiNode::SetTreeSlot(NodeLinkedList* location) {
-    this->tree_slot = location;
-}
-NodeLinkedList* VoronoiNode::GetTreeSlot() {
-    return this->tree_slot;
 }
 
 void VoronoiNode::SetPosition(double x, double y) {

@@ -71,6 +71,9 @@
 		<Unit filename="src/LapCounter.cpp" />
 		<Unit filename="src/NNLayer.cpp" />
 		<Unit filename="src/NeuralNetwork.cpp" />
+		<Unit filename="src/NeuralNetwork/Dense.h" />
+		<Unit filename="src/NeuralNetwork/Input.h" />
+		<Unit filename="src/NeuralNetwork/Sigmoid.h" />
 		<Unit filename="src/Texture.cpp" />
 		<Unit filename="src/Timer.cpp" />
 		<Unit filename="src/VoronoiGraph.cpp" />
