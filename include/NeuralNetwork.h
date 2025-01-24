@@ -12,7 +12,7 @@ class NeuralNetwork
         NeuralNetwork();
         ~NeuralNetwork();
 
-        void AddLayer(NNLayer* layer);
+        void AddLayer(NNLayer::NNLayer* layer);
 
         void Build();
         void ClearGradients();
@@ -26,7 +26,7 @@ class NeuralNetwork
         void Output(double* output, size_t output_size); // ([0,0], 2) | [...blah,blah,out1,out2] => [out1,out2]
 
     private:
-        std::vector<NNLayer*> layers;
+        std::vector<NNLayer::NNLayer*> layers;
 
         bool built;
 

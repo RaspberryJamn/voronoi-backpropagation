@@ -17,7 +17,7 @@ NeuralNetwork::NeuralNetwork() {
 }
 
 NeuralNetwork::~NeuralNetwork() {
-    std::for_each(this->layers.begin(), this->layers.end(), [&](NNLayer* layer) {
+    std::for_each(this->layers.begin(), this->layers.end(), [&](NNLayer::NNLayer* layer) {
         delete layer;
     });
     this->layers.clear();
@@ -35,7 +35,7 @@ NeuralNetwork::~NeuralNetwork() {
     this->parameters_size = 0;
 }
 
-void NeuralNetwork::AddLayer(NNLayer* layer) {
+void NeuralNetwork::AddLayer(NNLayer::NNLayer* layer) {
     SDL_assert(this->built == false);
 
 //    NNLayer::NNLayer layer = *layer_ptr;
@@ -58,7 +58,7 @@ void NeuralNetwork::Build() {
     this->gradients = (double*)malloc( sizeof(double)*this->parameters_size );
 
     double* active_weights = this->weights;
-    std::for_each(this->layers.begin(), this->layers.end(), [&](NNLayer* layer) {
+    std::for_each(this->layers.begin(), this->layers.end(), [&](NNLayer::NNLayer* layer) {
         layer->Init(&active_weights);
     });
     this->ClearGradients();
@@ -103,7 +103,7 @@ void NeuralNetwork::Forward() {
 
     double* active_vector = this->forward_values;
     double* active_weights = this->weights;
-    std::for_each(this->layers.begin(), this->layers.end(), [&](NNLayer* layer) {
+    std::for_each(this->layers.begin(), this->layers.end(), [&](NNLayer::NNLayer* layer) {
         layer->Forward(&active_vector, &active_weights);
     });
 }
@@ -119,7 +119,7 @@ void NeuralNetwork::Backward(double* label, size_t label_size) { // MSE
     double* active_back_vector = this->backward_values+this->values_size;
     double* active_weights = this->weights+this->parameters_size;
     double* active_gradients = this->gradients+this->parameters_size;
-    std::for_each(this->layers.end(), this->layers.begin(), [&](NNLayer* layer) {
+    std::for_each(this->layers.end(), this->layers.begin(), [&](NNLayer::NNLayer* layer) {
         layer->Backward(&active_vector, &active_back_vector, &active_weights, &active_gradients);
     });
 }

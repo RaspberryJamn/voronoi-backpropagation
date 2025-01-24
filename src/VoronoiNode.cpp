@@ -2,9 +2,9 @@
 #include <cmath>
 #include <ctime>
 #include <iostream>
-#include "NeuralNetwork/Input.h"
-#include "NeuralNetwork/Sigmoid.h"
-#include "NeuralNetwork/Dense.h"
+#include "NNLayer/Input.h"
+#include "NNLayer/Sigmoid.h"
+#include "NNLayer/Dense.h"
 
 VoronoiNode::VoronoiNode(double x, double y) {
     this->Init(x, y, 128+120*std::cos(x/100), 128+120*std::cos(x/70+10), 128+120*std::cos((x+y)/180));
@@ -25,9 +25,9 @@ void VoronoiNode::Init(double x, double y, double r, double g, double b) {
     this->poke_count = 0;
     this->last_poke_count = 0;
 
-    this->network.AddLayer(new NNLayerNSP::Input(2));
-    this->network.AddLayer(new NNLayerNSP::Dense(0));
-    this->network.AddLayer(new NNLayerNSP::Dense(3));
+    this->network.AddLayer(new NNLayer::Input(2));
+    this->network.AddLayer(new NNLayer::Dense(0));
+    this->network.AddLayer(new NNLayer::Dense(3));
 
     this->gain = 0;
     this->gain_grad = 0;
