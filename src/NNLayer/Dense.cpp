@@ -1,5 +1,6 @@
 #include "NNLayer/Dense.h"
 #include <cstdlib>
+//#include <iostream>
 
 namespace NNLayer {
     Dense::Dense(size_t output_size) : NNLayer(output_size) {}
@@ -43,6 +44,7 @@ namespace NNLayer {
     }
 
     void Dense::Backward(double** read_values_tail, double** io_back_values_tail, double** read_weights_tail, double** write_gradient_tail) { // ex: 3 -> 5 dense
+//        std::cout << "got here" << std::endl;
         double* current_output = (*read_values_tail)-this->output_size; // read only 5
         double* preceding_input = current_output-this->input_size; // read only 3
 

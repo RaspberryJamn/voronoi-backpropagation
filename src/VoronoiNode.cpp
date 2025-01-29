@@ -29,6 +29,7 @@ void VoronoiNode::Init(double x, double y, double r, double g, double b) {
     this->model.network.AddLayer(new NNLayer::Dense(0));
     this->model.network.AddLayer(new NNLayer::Dense(3));
 
+    this->model.network.Build();
 //    this->gain = 0;
 //    this->gain_grad = 0;
 //    this->recent_gain_grad = 0;
@@ -43,6 +44,7 @@ void VoronoiNode::Init(double x, double y, double r, double g, double b) {
     this->sort.y_min = 0;
     this->sort.x_max = 0;
     this->sort.y_max = 0;
+
 }
 
 VoronoiNode::~VoronoiNode() {

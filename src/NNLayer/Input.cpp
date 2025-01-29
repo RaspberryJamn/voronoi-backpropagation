@@ -1,4 +1,5 @@
 #include "NNLayer/Input.h"
+//#include <iostream>
 
 namespace NNLayer {
     Input::Input(size_t output_size) : NNLayer(output_size) {}
@@ -18,6 +19,7 @@ namespace NNLayer {
     }
 
     void Input::Backward(double** read_values_tail, double** io_back_values_tail, double** read_weights_tail, double** write_gradient_tail) {
+//        std::cout << "got here" << std::endl;
         return;
     }
 }

@@ -399,7 +399,7 @@
 	"begin_code.h"
 	"close_code.h"
 
-1735427637 source:c:\users\james\documents\cpp\voronoi\src\capp.cpp
+1738122073 source:c:\users\james\documents\cpp\voronoi\src\capp.cpp
 	"CApp.h"
 
 1736363046 c:\users\james\documents\cpp\voronoi\include\capp.h
@@ -432,18 +432,18 @@
 	"CApp.h"
 	<iostream>
 
-1738120910 source:c:\users\james\documents\cpp\voronoi\src\capp_oninit.cpp
+1738122035 source:c:\users\james\documents\cpp\voronoi\src\capp_oninit.cpp
 	"CApp.h"
 	<iostream>
 	<cstdlib>
 
-1736362331 source:c:\users\james\documents\cpp\voronoi\src\capp_onloop.cpp
+1738122216 source:c:\users\james\documents\cpp\voronoi\src\capp_onloop.cpp
 	"CApp.h"
 	<cmath>
 	<iostream>
 	<sstream>
 
-1738113858 source:c:\users\james\documents\cpp\voronoi\src\capp_onrender.cpp
+1738122055 source:c:\users\james\documents\cpp\voronoi\src\capp_onrender.cpp
 	"CApp.h"
 	"IdkFunctions.h"
 	<sstream>
@@ -481,7 +481,7 @@
 	"Texture.h"
 	"SDL.h"
 
-1738114215 source:c:\users\james\documents\cpp\voronoi\src\voronoinode.cpp
+1738122507 source:c:\users\james\documents\cpp\voronoi\src\voronoinode.cpp
 	"VoronoiNode.h"
 	<cmath>
 	<ctime>
@@ -496,7 +496,7 @@
 	<cmath>
 	"NeuralNetwork.h"
 
-1738114099 source:c:\users\james\documents\cpp\voronoi\src\voronoigraph.cpp
+1738122349 source:c:\users\james\documents\cpp\voronoi\src\voronoigraph.cpp
 	"VoronoiGraph.h"
 	"CApp.h"
 	"IdkFunctions.h"
@@ -573,11 +573,12 @@
 	"NNLayer.h"
 	<cmath>
 
-1737782449 source:c:\users\james\documents\cpp\voronoi\src\neuralnetwork.cpp
+1738123384 source:c:\users\james\documents\cpp\voronoi\src\neuralnetwork.cpp
 	"NeuralNetwork.h"
 
-1737758254 source:c:\users\james\documents\cpp\voronoi\src\nnlayer\input.cpp
+1738122766 source:c:\users\james\documents\cpp\voronoi\src\nnlayer\input.cpp
 	"NNLayer/Input.h"
+	<iostream>
 
 1737757859 c:\users\james\documents\cpp\voronoi\include\nnlayer\input.h
 	<NNLayer.h>
@@ -590,9 +591,10 @@
 	<NNLayer.h>
 	<cmath>
 
-1738116247 source:c:\users\james\documents\cpp\voronoi\src\nnlayer\dense.cpp
+1738122789 source:c:\users\james\documents\cpp\voronoi\src\nnlayer\dense.cpp
 	"NNLayer/Dense.h"
 	<cstdlib>
+	<iostream>
 
 1737757860 c:\users\james\documents\cpp\voronoi\include\nnlayer\dense.h
 	<NNLayer.h>

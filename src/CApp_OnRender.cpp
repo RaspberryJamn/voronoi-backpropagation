@@ -71,6 +71,7 @@ void CApp::RenderFullFrameVoronoi(double* running_loss) {
 double g_running_loss = 0;
 double g_last_full_frame_loss = 0;
 void CApp::OnRender() {
+
     SDL_Rect dest = {0,0,0,0};
 
     SDL_SetRenderDrawColor(this->main_renderer, 0xFF, 0xFF, 0xFF, 0xFF);

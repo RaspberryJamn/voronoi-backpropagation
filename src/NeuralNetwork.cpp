@@ -1,4 +1,5 @@
 #include "NeuralNetwork.h"
+//#include <iostream>
 
 NeuralNetwork::NeuralNetwork() {
     this->layers.clear();
@@ -37,9 +38,11 @@ NeuralNetwork::~NeuralNetwork() {
 void NeuralNetwork::AddLayer(NNLayer::NNLayer* layer) { // output size is set in initialization
     SDL_assert(this->built == false);
 
-//    NNLayer::NNLayer layer = *layer_ptr;
-//    delete layer_ptr;
-    layer->SetInputSize(this->layers.back()->GetOutputSize());
+    if (!this->layers.empty()) {
+        layer->SetInputSize(this->layers.back()->GetOutputSize());
+    } else {
+        layer->SetInputSize(0);
+    }
 //    new_layer->SetOutputSize(size);
     layer->CalculateParameterSize();
     this->values_size += layer->GetOutputSize();
@@ -138,7 +141,16 @@ void NeuralNetwork::Backward() { // MSE, called after NeuralNetwork::Forward()
     double* active_back_vector = this->backward_values+this->values_size;
     double* active_weights = this->weights+this->parameters_size;
     double* active_gradients = this->gradients+this->parameters_size;
-    std::for_each(this->layers.end(), this->layers.begin(), [&](NNLayer::NNLayer* layer) {
+//    std::cout << "NeuralNetwork::Backward" << std::endl;
+//    std::cout << "this->layers length: " << this->layers.size() << std::endl;
+    for (unsigned i = this->layers.size(); i-- > 0; ) {
+        NNLayer::NNLayer* layer = this->layers.at(i);
+//    std::for_each(this->layers.end(), this->layers.begin(), [&](NNLayer::NNLayer* layer) {
+//        std::cout << "layer: " << layer << std::endl;
+//        std::cout << layer->GetInputSize() << " " << layer->GetOutputSize() << " " << layer->GetParameterSize() << " " << std::endl;
+//        std::cout << "starting layer->Backawrd" << std::endl;
         layer->Backward(&active_vector, &active_back_vector, &active_weights, &active_gradients);
-    });
+//        std::cout << "finished layer->Backawrd" << std::endl;
+//    });
+    }
 }
