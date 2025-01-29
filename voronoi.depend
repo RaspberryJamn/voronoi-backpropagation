@@ -432,7 +432,7 @@
 	"CApp.h"
 	<iostream>
 
-1736363875 source:c:\users\james\documents\cpp\voronoi\src\capp_oninit.cpp
+1738120910 source:c:\users\james\documents\cpp\voronoi\src\capp_oninit.cpp
 	"CApp.h"
 	<iostream>
 	<cstdlib>
@@ -505,11 +505,12 @@
 	<vector>
 	<iostream>
 
-1735257317 c:\users\james\documents\cpp\voronoi\include\voronoigraph.h
+1738120891 c:\users\james\documents\cpp\voronoi\include\voronoigraph.h
 	"VoronoiQuadTree.h"
 	"VoronoiNode.h"
 	<vector>
 	<SDL.h>
+	"NNLayer.h"
 
 1732749583 c:\users\james\documents\cpp\voronoi\include\lapcounter.h
 	"Timer.h"
@@ -582,14 +583,14 @@
 	<NNLayer.h>
 	<cmath>
 
-1737758378 source:c:\users\james\documents\cpp\voronoi\src\nnlayer\sigmoid.cpp
+1738116288 source:c:\users\james\documents\cpp\voronoi\src\nnlayer\sigmoid.cpp
 	"NNLayer/Sigmoid.h"
 
 1737757859 c:\users\james\documents\cpp\voronoi\include\nnlayer\sigmoid.h
 	<NNLayer.h>
 	<cmath>
 
-1737758454 source:c:\users\james\documents\cpp\voronoi\src\nnlayer\dense.cpp
+1738116247 source:c:\users\james\documents\cpp\voronoi\src\nnlayer\dense.cpp
 	"NNLayer/Dense.h"
 	<cstdlib>
 

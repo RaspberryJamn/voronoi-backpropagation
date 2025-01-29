@@ -49,7 +49,7 @@ bool CApp::OnInit() {
         return false;
     }
 
-    this->voronoi_graph = new VoronoiGraph();
+    this->voronoi_graph = new VoronoiGraph(0);
 //    this->voronoi_graph->SetErrorLogger(this->error_logger);
     this->voronoi_graph->Reshape(0, 0, this->media_texture->GetWidth(), this->media_texture->GetHeight(), 5, 3);
 

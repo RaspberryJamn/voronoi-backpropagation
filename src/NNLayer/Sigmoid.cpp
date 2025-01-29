@@ -38,6 +38,6 @@ namespace NNLayer {
         }
 
         (*read_values_tail) = preceding_input+this->input_size;
-        (*io_back_values_tail) = preceding_input;
+        (*io_back_values_tail) = preceding_value_gradient+this->input_size;
     }
 }

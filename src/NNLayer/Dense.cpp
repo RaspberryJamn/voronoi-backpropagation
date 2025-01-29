@@ -42,12 +42,12 @@ namespace NNLayer {
         (*read_weight_start) = (*read_weight_start)+this->parameter_size;
     }
 
-    void Dense::Backward(double** read_values_tail, double** io_back_values_tail, double** read_weights_tail, double** write_gradient_tail) {
+    void Dense::Backward(double** read_values_tail, double** io_back_values_tail, double** read_weights_tail, double** write_gradient_tail) { // ex: 3 -> 5 dense
         double* current_output = (*read_values_tail)-this->output_size; // read only 5
         double* preceding_input = current_output-this->input_size; // read only 3
 
         double* current_value_gradient = (*io_back_values_tail)-this->output_size; // read only 5
-        double* preceding_value_gradient = current_value_gradient-this->input_size; // this gets set 3
+        double* preceding_value_gradient = current_value_gradient-this->input_size; // write only 3
 
         double* bias = (*read_weights_tail)-this->parameter_size; // read only 5
         double* weights = bias+this->output_size; // read only 15
@@ -73,6 +73,6 @@ namespace NNLayer {
         (*write_gradient_tail) = bias_gradient;
 
         (*read_values_tail) = preceding_input+this->input_size;
-        (*io_back_values_tail) = preceding_input;
+        (*io_back_values_tail) = preceding_value_gradient+this->input_size;
     }
 }
