@@ -3,20 +3,14 @@
 
 #include <cstddef>
 
-//enum NNLayerType {
-//    NN_INPUT,
-//    NN_DENSE,
-//    NN_SIGMOID
-//};
-
 namespace NNLayer {
     class NNLayer {
         public:
-            NNLayer(size_t output_size);//NNLayerType type);
+            NNLayer(size_t output_size);
             virtual ~NNLayer();
 
             void SetInputSize(size_t size);
-            void SetOutputSize(size_t size);
+            void SetOutputSize(size_t size); // output size is set in initialization
 
             size_t GetInputSize();
             size_t GetOutputSize();
@@ -54,35 +48,10 @@ namespace NNLayer {
             virtual void Backward(double** read_values_tail, double** io_back_values_tail, double** read_weights_tail, double** write_gradient_tail) = 0;
 
         protected:
-    //        NNLayerType type;
             size_t input_size;
             size_t output_size;
             size_t parameter_size;
-
-    //        void *init_func;
-    //        void *forward_func;
-    //        void *backward_func;
-
-    //    private:
-    //
-    //        NNInputInit(double* w);
-    //        NNInputForward(double** v, double** w);
-    //        NNInputBackward(double** v, double** bv, double** w, double** g);
-    //
-    //        NNSigmoidInit(double* w);
-    //        NNSigmoidForward(double** v, double** w);
-    //        NNSigmoidBackward(double** v, double** bv, double** w, double** g);
-    //
-    //        NNDenseInit(double* w);
-    //        NNDenseForward(double** v, double** w);
-    //        NNDenseBackward(double** v, double** bv, double** w, double** g);
     };
 }
-
-//namespace NNLayerNSP {
-//    class Input;
-//    class Sigmoid;
-//    class Dense;
-//}
 
 #endif // NNLAYER_H

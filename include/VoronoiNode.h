@@ -108,27 +108,6 @@ class VoronoiNode {
         bool IsBounded(int x, int y);
         void Clamp(int min_x, int min_y, int max_x, int max_y);
 
-        double GetX();
-        double GetY();
-
-
-        void Print(int indent);
-        void Render(SDL_Renderer* target_renderer);
-        void RenderLoggedGradient(SDL_Renderer* target_renderer);
-
-//        RGBColor SampleColor(double sample_x, double sample_y);
-        RGBColor ForwardPass(double sample_x, double sample_y);
-        void BackwardPass(double sample_x, double sample_y, RGBColor finalcolor, RGBColor d_loss_d_finalcolor);
-        void ApplyGradients(double learning_rate);
-        void LogGradients();
-        void ClearGradients();
-        void CalculateExp(double offset);
-        double GetExp();
-        void SetM(double m);
-        double GetM();
-        double GetGainGradient();
-        void GetLastGradients(double* x_grad, double* y_grad, RGBColor* color_grad);
-
         void CalculateDist(double from_x, double from_y, double gain);
         double GetDist();
         void CalculateSortingDist(double from_x, double from_y);
@@ -138,46 +117,81 @@ class VoronoiNode {
         int GetSortingPosX();
         int GetSortingPosY();
 
+        double GetX();
+        double GetY();
+
+
+        void Print(int indent);
+        void Render(SDL_Renderer* target_renderer);
+//        void RenderLoggedGradient(SDL_Renderer* target_renderer);
+
+//        RGBColor SampleColor(double sample_x, double sample_y);
+        RGBColor ForwardPass(double sample_x, double sample_y);
+        void BackwardPass(double sample_x, double sample_y, double gain,  double* gain_grad, RGBColor finalcolor, RGBColor d_loss_d_finalcolor);
+        void ApplyGradients(double learning_rate);
+//        void LogGradients();
+        void ClearGradients();
+        void CalculateExp(double offset);
+        double GetExp();
+        void SetM(double m);
+        double GetM();
+        double GetGainGradient();
+//        void GetLastGradients(double* x_grad, double* y_grad, RGBColor* color_grad);
+
+
     private:
         void Init(double x, double y, double r, double g, double b);
 
-        NodeLinkedList* residential_slot;
-        NodeLinkedList* tree_slot;
+        struct {
+            int x;
+            int y;
+            int x_min;
+            int y_min;
+            int x_max;
+            int y_max;
+            int dist;
+        } sort;
 
         double x;
         double y;
-        double gain;
-        double mag;
-        double exp;
-        double m_value;
-        RGBColor color;
+//        double gain;
+//        double mag;
+//        double exp;
+//        double m_value;
+//        RGBColor color;
 
-        double x_grad;
-        double y_grad;
-        RGBColor color_grad;
-        double gain_grad;
-        double recent_gain_grad;
+//        double x_grad;
+//        double y_grad;
+//        RGBColor color_grad;
+//        double gain_grad;
+//        double recent_gain_grad;
 
 //        double* weights; // forward_parameters
 //        double* forward_values; // hidden layers
 //        double* gradients; // backward_parameters
 //        double* backward_values; // layer gradients
-        NeuralNetwork network;
-
+        struct {
+            NeuralNetwork network;
+            double x_grad;
+            double y_grad;
+            double mag;
+            double exp;
+            double m;
+        } model;
 //        RGBColor log_d_loss_d_finalcolor;
-        double last_x_grad;
-        double last_y_grad;
-        RGBColor last_color_grad;
-        int poke_count;
-        int last_poke_count;
+//        double last_x_grad;
+//        double last_y_grad;
+//        RGBColor last_color_grad;
+//        int poke_count;
+//        int last_poke_count;
 
-        int sorting_x;
-        int sorting_y;
-        int sorting_dist;
-        int sorting_x_min;
-        int sorting_y_min;
-        int sorting_x_max;
-        int sorting_y_max;
+//        int sorting_x;
+//        int sorting_y;
+//        int sorting_dist;
+//        int sorting_x_min;
+//        int sorting_y_min;
+//        int sorting_x_max;
+//        int sorting_y_max;
 };
 
 #endif // VORONOINODE_H

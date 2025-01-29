@@ -87,49 +87,49 @@ void CApp::OnRender() {
     dest = {this->source_texture->GetWidth(), g_sample_y, 5, 5}; SDL_RenderFillRect(this->main_renderer, &dest);
 
     if (this->mouse.pressed) {
-        if (this->mouse.started_dragging == true) {
-            int min_x = this->mouse.x-25;
-            int min_y = this->mouse.y-25;
-            int max_x = this->mouse.x+25;
-            int max_y = this->mouse.y+25;
-            G_Clamp<int>(&min_x, 0, this->source_texture->GetWidth());
-            G_Clamp<int>(&min_y, 0, this->source_texture->GetHeight());
-            G_Clamp<int>(&max_x, 0, this->source_texture->GetWidth());
-            G_Clamp<int>(&max_y, 0, this->source_texture->GetHeight());
-            SDL_Rect transfer = {min_x,min_y,max_x-min_x,max_y-min_y};
-            this->source_texture->Render(&transfer, &transfer);
-
-            RGBColor target_color = this->SampleSourceImage(this->mouse.x,this->mouse.y);
-    //        SDL_SetRenderDrawColor(this->main_renderer, (Uint8)target_color.r, (Uint8)target_color.g, (Uint8)target_color.b, 0xFF);
-    //        SDL_RenderFillRect(this->main_renderer, &transfer);
-
-            VoronoiNode* double_sample = nullptr;
-            this->voronoi_graph->Sample(this->mouse.x, this->mouse.y, &double_sample);
-            std::vector<VoronoiNode*> nearby = this->voronoi_graph->GetRecentNearby();
-            std::for_each(nearby.begin(), nearby.end(), [&](VoronoiNode* current_node) {
-                current_node->ClearGradients();
-            });
-            this->voronoi_graph->Poke(this->mouse.x  , this->mouse.y  , target_color, &double_sample);
-
-            this->voronoi_graph->Poke(this->mouse.x-1, this->mouse.y  , target_color, &double_sample);
-            this->voronoi_graph->Poke(this->mouse.x  , this->mouse.y-1, target_color, &double_sample);
-            this->voronoi_graph->Poke(this->mouse.x+1, this->mouse.y  , target_color, &double_sample);
-            this->voronoi_graph->Poke(this->mouse.x  , this->mouse.y+1, target_color, &double_sample);
-
-            this->voronoi_graph->Poke(this->mouse.x-3, this->mouse.y  , target_color, &double_sample);
-            this->voronoi_graph->Poke(this->mouse.x  , this->mouse.y-3, target_color, &double_sample);
-            this->voronoi_graph->Poke(this->mouse.x+3, this->mouse.y  , target_color, &double_sample);
-            this->voronoi_graph->Poke(this->mouse.x  , this->mouse.y+3, target_color, &double_sample);
-
-            this->voronoi_graph->Poke(this->mouse.x-2, this->mouse.y-2, target_color, &double_sample);
-            this->voronoi_graph->Poke(this->mouse.x-2, this->mouse.y+2, target_color, &double_sample);
-            this->voronoi_graph->Poke(this->mouse.x+2, this->mouse.y-2, target_color, &double_sample);
-            this->voronoi_graph->Poke(this->mouse.x+2, this->mouse.y+2, target_color, &double_sample);
-            std::for_each(nearby.begin(), nearby.end(), [&](VoronoiNode* current_node) {
-                current_node->LogGradients();
-                current_node->RenderLoggedGradient(this->main_renderer);
-            });
-        }
+//        if (this->mouse.started_dragging == true) {
+//            int min_x = this->mouse.x-25;
+//            int min_y = this->mouse.y-25;
+//            int max_x = this->mouse.x+25;
+//            int max_y = this->mouse.y+25;
+//            G_Clamp<int>(&min_x, 0, this->source_texture->GetWidth());
+//            G_Clamp<int>(&min_y, 0, this->source_texture->GetHeight());
+//            G_Clamp<int>(&max_x, 0, this->source_texture->GetWidth());
+//            G_Clamp<int>(&max_y, 0, this->source_texture->GetHeight());
+//            SDL_Rect transfer = {min_x,min_y,max_x-min_x,max_y-min_y};
+//            this->source_texture->Render(&transfer, &transfer);
+//
+//            RGBColor target_color = this->SampleSourceImage(this->mouse.x,this->mouse.y);
+//    //        SDL_SetRenderDrawColor(this->main_renderer, (Uint8)target_color.r, (Uint8)target_color.g, (Uint8)target_color.b, 0xFF);
+//    //        SDL_RenderFillRect(this->main_renderer, &transfer);
+//
+//            VoronoiNode* double_sample = nullptr;
+//            this->voronoi_graph->Sample(this->mouse.x, this->mouse.y, &double_sample);
+//            std::vector<VoronoiNode*> nearby = this->voronoi_graph->GetRecentNearby();
+//            std::for_each(nearby.begin(), nearby.end(), [&](VoronoiNode* current_node) {
+//                current_node->ClearGradients();
+//            });
+//            this->voronoi_graph->Poke(this->mouse.x  , this->mouse.y  , target_color, &double_sample);
+//
+//            this->voronoi_graph->Poke(this->mouse.x-1, this->mouse.y  , target_color, &double_sample);
+//            this->voronoi_graph->Poke(this->mouse.x  , this->mouse.y-1, target_color, &double_sample);
+//            this->voronoi_graph->Poke(this->mouse.x+1, this->mouse.y  , target_color, &double_sample);
+//            this->voronoi_graph->Poke(this->mouse.x  , this->mouse.y+1, target_color, &double_sample);
+//
+//            this->voronoi_graph->Poke(this->mouse.x-3, this->mouse.y  , target_color, &double_sample);
+//            this->voronoi_graph->Poke(this->mouse.x  , this->mouse.y-3, target_color, &double_sample);
+//            this->voronoi_graph->Poke(this->mouse.x+3, this->mouse.y  , target_color, &double_sample);
+//            this->voronoi_graph->Poke(this->mouse.x  , this->mouse.y+3, target_color, &double_sample);
+//
+//            this->voronoi_graph->Poke(this->mouse.x-2, this->mouse.y-2, target_color, &double_sample);
+//            this->voronoi_graph->Poke(this->mouse.x-2, this->mouse.y+2, target_color, &double_sample);
+//            this->voronoi_graph->Poke(this->mouse.x+2, this->mouse.y-2, target_color, &double_sample);
+//            this->voronoi_graph->Poke(this->mouse.x+2, this->mouse.y+2, target_color, &double_sample);
+////            std::for_each(nearby.begin(), nearby.end(), [&](VoronoiNode* current_node) {
+////                current_node->LogGradients();
+////                current_node->RenderLoggedGradient(this->main_renderer);
+////            });
+//        }
 
         this->voronoi_graph->RenderTree(this->main_renderer);
     }

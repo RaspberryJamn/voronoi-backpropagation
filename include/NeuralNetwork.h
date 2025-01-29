@@ -21,9 +21,15 @@ class NeuralNetwork
         void Input(double* input, size_t input_size); // ([set,set,set], 3) => [set,set,set,0,0,0...]
 
         void Forward();
-        void Backward(double* label, size_t label_size); // MSE on last few
 
         void Output(double* output, size_t output_size); // ([0,0], 2) | [...blah,blah,out1,out2] => [out1,out2]
+
+        void SetOutputGradient(double* output, size_t output_size);
+        void SetOutputGradientFromLabel(double* label, size_t label_size); // MSE
+
+        void Backward();
+
+        void GetInputGradient(double* input, size_t input_size); // ([0,0,0], 3) | [grad1,grad2,grad3,blah,blah...] => [grad1,grad2,grad3]
 
     private:
         std::vector<NNLayer::NNLayer*> layers;

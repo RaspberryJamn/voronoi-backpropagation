@@ -13,7 +13,6 @@ NeuralNetwork::NeuralNetwork() {
     this->gradients = nullptr;
     this->parameters_size = 0;
 
-//    std::srand(std::time(0));
 }
 
 NeuralNetwork::~NeuralNetwork() {
@@ -35,7 +34,7 @@ NeuralNetwork::~NeuralNetwork() {
     this->parameters_size = 0;
 }
 
-void NeuralNetwork::AddLayer(NNLayer::NNLayer* layer) {
+void NeuralNetwork::AddLayer(NNLayer::NNLayer* layer) { // output size is set in initialization
     SDL_assert(this->built == false);
 
 //    NNLayer::NNLayer layer = *layer_ptr;
@@ -98,6 +97,31 @@ void NeuralNetwork::Output(double* output, size_t output_size) {
     }
 }
 
+void NeuralNetwork::SetOutputGradient(double* output, size_t output_size) {
+    SDL_assert(this->built == true);
+
+    for (size_t i = 0; i < output_size; i++) {
+        this->backward_values[this->values_size-output_size+i] = output[i];
+    }
+}
+
+void NeuralNetwork::SetOutputGradientFromLabel(double* label, size_t label_size) {
+    SDL_assert(this->built == true);
+
+    for (size_t i = 0; i < label_size; i++) {
+        size_t j = this->values_size-label_size+i;
+        this->backward_values[j] = 2.0*(this->forward_values[j]-label[i]); // d_loss_d_forwardvalues[-(label_size..1)]
+    }
+}
+
+void NeuralNetwork::GetInputGradient(double* input, size_t input_size) {
+    SDL_assert(this->built == true);
+
+    for (size_t i = 0; i < input_size; i++) {
+        input[i] = this->backward_values[i];
+    }
+}
+
 void NeuralNetwork::Forward() {
     SDL_assert(this->built == true);
 
@@ -107,13 +131,8 @@ void NeuralNetwork::Forward() {
         layer->Forward(&active_vector, &active_weights);
     });
 }
-void NeuralNetwork::Backward(double* label, size_t label_size) { // MSE
+void NeuralNetwork::Backward() { // MSE, called after NeuralNetwork::Forward()
     SDL_assert(this->built == true);
-
-    for (size_t i = 0; i < label_size; i++) {
-        size_t j = this->values_size-i-1;
-        this->backward_values[j] = 2.0*(this->forward_values[j]-label[i]); // d_loss_d_forwardvalues[-(0..label_size)]
-    }
 
     double* active_vector = this->forward_values+this->values_size;
     double* active_back_vector = this->backward_values+this->values_size;

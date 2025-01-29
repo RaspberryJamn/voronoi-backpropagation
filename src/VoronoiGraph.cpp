@@ -71,7 +71,8 @@ void VoronoiGraph::Poke(double x, double y, RGBColor image_sample, VoronoiNode**
     RGBColor final_color = this->Sample(x, y, io_seed);
 
     std::for_each(this->recent_nearby.begin(), this->recent_nearby.end(), [&](VoronoiNode* current_node) {
-        current_node->BackwardPass(x, y, final_color, (final_color-image_sample)*2);
+        double gain_grad = 0;
+        current_node->BackwardPass(x, y, this->gain, &gain_grad, final_color, (final_color-image_sample)*2);
     });
 }
 
