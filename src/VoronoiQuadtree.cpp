@@ -15,16 +15,16 @@ VoronoiQuadTree::VoronoiQuadTree() {
     this->total_child_count = 0;
 
     // GetNearby {
-    this->nearby_candidates.clear();
+    this->search.nearby_candidates.clear();
 
-    this->recent_x = 0;
-    this->recent_y = 0;
-    this->sort_recent_x = 0;
-    this->sort_recent_y = 0;
-    this->band_width = 0;
-    this->sort_band_width = 0;
-    this->current_bounding_mag = 0;
-    this->current_box_radius = 0;
+    this->search.recent_x = 0;
+    this->search.recent_y = 0;
+    this->search.sort_recent_x = 0;
+    this->search.sort_recent_y = 0;
+    this->search.band_width = 0;
+    this->search.sort_band_width = 0;
+    this->search.current_bounding_mag = 0;
+    this->search.current_box_radius = 0;
     // }
 }
 
@@ -43,16 +43,16 @@ VoronoiQuadTree::~VoronoiQuadTree() {
     this->total_child_count = 0;
 
     // GetNearby {
-    this->nearby_candidates.clear();
+    this->search.nearby_candidates.clear();
 
-    this->recent_x = 0;
-    this->recent_y = 0;
-    this->sort_recent_x = 0;
-    this->sort_recent_y = 0;
-    this->band_width = 0;
-    this->sort_band_width = 0;
-    this->current_bounding_mag = 0;
-    this->current_box_radius = 0;
+    this->search.recent_x = 0;
+    this->search.recent_y = 0;
+    this->search.sort_recent_x = 0;
+    this->search.sort_recent_y = 0;
+    this->search.band_width = 0;
+    this->search.sort_band_width = 0;
+    this->search.current_bounding_mag = 0;
+    this->search.current_box_radius = 0;
     // }
 }
 
@@ -70,9 +70,11 @@ void VoronoiQuadTree::RespecTree(int x, int y, int w, int h, int max_depth, int 
     this->root = new VQuadTree(this->x, this->y, this->x+this->w, this->y+this->h, 0);
 
     std::for_each(this->all_child_nodes.begin(), this->all_child_nodes.end(), [&](VoronoiNode* current_node) {
-        current_node->CalculateSortingPos();
-        this->sort_recent_x = current_node->GetSortingPosX();
-        this->sort_recent_y = current_node->GetSortingPosY();
+//        current_node->CalculateSortingPos();
+        current_node->sort.x = (int)current_node->x;
+        current_node->sort.y = (int)current_node->y;
+        this->search.sort_recent_x = current_node->sort.x;
+        this->search.sort_recent_y = current_node->sort.y;
         this->AddToChildren(current_node, this->root);
     });
 }
@@ -98,9 +100,11 @@ void VoronoiQuadTree::AddNode(VoronoiNode* node) {
     this->all_child_nodes.push_back(node);
     this->total_child_count++;
 
-    node->CalculateSortingPos(); // this is where the new node's sort position is actually ascertained
-    this->sort_recent_x = node->GetSortingPosX();
-    this->sort_recent_y = node->GetSortingPosY();
+//    node->CalculateSortingPos(); // this is where the new node's sort position is actually ascertained
+    node->sort.x = (int)node->x;
+    node->sort.y = (int)node->y;
+    this->search.sort_recent_x = node->sort.x;
+    this->search.sort_recent_y = node->sort.y;
     this->AddToChildren(node, this->root);
 }
 void VoronoiQuadTree::AddToChildren(VoronoiNode* node, VQuadTree* branch) {
@@ -114,7 +118,11 @@ void VoronoiQuadTree::AddToChildren(VoronoiNode* node, VQuadTree* branch) {
 
         branch->node_children.push_back(node);
         branch->total_children++;
-        node->SetBounds(branch->min_x, branch->min_y, branch->max_x, branch->max_y); // node knows its shape
+//        node->SetBounds(branch->min_x, branch->min_y, branch->max_x, branch->max_y); // node knows its shape
+        node->sort.x_min = branch->min_x;
+        node->sort.y_min = branch->min_y;
+        node->sort.x_max = branch->max_x;
+        node->sort.y_max = branch->max_y;
 
         if (this->SplitValid(branch)) { // or more specifically, does it _now_ qualify for splitting
 
@@ -127,8 +135,8 @@ void VoronoiQuadTree::AddToChildren(VoronoiNode* node, VQuadTree* branch) {
 
             std::for_each(branch->node_children.begin(), branch->node_children.end(), [&](VoronoiNode* current_node) {
                 VoronoiNode* repositioned_node = current_node; // get the node
-                this->sort_recent_x = repositioned_node->GetSortingPosX(); // and its position (NOT recalculated)
-                this->sort_recent_y = repositioned_node->GetSortingPosY();
+                this->search.sort_recent_x = repositioned_node->sort.x; // and its position (NOT recalculated)
+                this->search.sort_recent_y = repositioned_node->sort.y;
                 this->AddToChildrenSplit(repositioned_node, branch); // the nodes in each slot find their new home
             });
 
@@ -137,14 +145,14 @@ void VoronoiQuadTree::AddToChildren(VoronoiNode* node, VQuadTree* branch) {
     }
 }
 void VoronoiQuadTree::AddToChildrenSplit(VoronoiNode* node, VQuadTree* branch) {
-    if (this->sort_recent_y < branch->half_y) {
-        if (this->sort_recent_x < branch->half_x) {
+    if (this->search.sort_recent_y < branch->half_y) {
+        if (this->search.sort_recent_x < branch->half_x) {
             this->AddToChildren(node, branch->tree_children[0]);
         } else {
             this->AddToChildren(node, branch->tree_children[1]);
         }
     } else {
-        if (this->sort_recent_x < branch->half_x) {
+        if (this->search.sort_recent_x < branch->half_x) {
             this->AddToChildren(node, branch->tree_children[2]);
         } else {
             this->AddToChildren(node, branch->tree_children[3]);
@@ -155,21 +163,21 @@ void VoronoiQuadTree::AddToChildrenSplit(VoronoiNode* node, VQuadTree* branch) {
 void VoronoiQuadTree::RemoveNode(VoronoiNode* node) {
     this->all_child_nodes.erase(find(this->all_child_nodes.begin(), this->all_child_nodes.end(), node));
     this->total_child_count--;
-    this->sort_recent_x = node->GetSortingPosX();
-    this->sort_recent_y = node->GetSortingPosY();
+    this->search.sort_recent_x = node->sort.x;
+    this->search.sort_recent_y = node->sort.y;
     this->RemoveFromBranch(node, this->root);
 }
 
 void VoronoiQuadTree::RemoveFromBranch(VoronoiNode* node, VQuadTree* branch) {
     if (this->SplitValid(branch)) { // branched
-        if (this->sort_recent_y < branch->half_y) {
-            if (this->sort_recent_x < branch->half_x) {
+        if (this->search.sort_recent_y < branch->half_y) {
+            if (this->search.sort_recent_x < branch->half_x) {
                 this->RemoveFromBranch(node, branch->tree_children[0]);
             } else {
                 this->RemoveFromBranch(node, branch->tree_children[1]);
             }
         } else {
-            if (this->sort_recent_x < branch->half_x) {
+            if (this->search.sort_recent_x < branch->half_x) {
                 this->RemoveFromBranch(node, branch->tree_children[2]);
             } else {
                 this->RemoveFromBranch(node, branch->tree_children[3]);
@@ -201,18 +209,28 @@ void VoronoiQuadTree::ConsolidateChildLists(VQuadTree* branch) {
 void VoronoiQuadTree::UpdateNodePositions() {
 //    this->RespecTree(this->x, this->y, this->w, this->h, this->max_depth, this->critical_mass);
     std::for_each(this->all_child_nodes.begin(), this->all_child_nodes.end(), [&](VoronoiNode* current_node) {
-        int x_copy = current_node->GetSortingPosX(); // store a copy of the old sorting position before the most recent move
-        int y_copy = current_node->GetSortingPosY();
+        int x_copy = current_node->sort.x; // store a copy of the old sorting position before the most recent move
+        int y_copy = current_node->sort.y;
 
-        current_node->Clamp(this->x, this->y, this->x+this->w, this->y+this->h);
+        if (current_node->x <  this->x) { current_node->x = this->x;}
+        if (current_node->x >= this->x+this->w) { current_node->x = this->x+this->w-1;}
+        if (current_node->y <  this->y) { current_node->y = this->y;}
+        if (current_node->y >= this->y+this->h) { current_node->y = this->y+this->h-1;}
 
-        current_node->CalculateSortingPos(); // you moved, therefore you should have an updated sorting position
-        if (!(current_node->IsBounded(current_node->GetSortingPosX(), current_node->GetSortingPosY()))) { // now, have you left the box you were in just a moment ago?
-            this->sort_recent_x = x_copy;
-            this->sort_recent_y = y_copy;
+//        current_node->CalculateSortingPos(); // you moved, therefore you should have an updated sorting position
+        current_node->sort.x = (int)current_node->x;
+        current_node->sort.y = (int)current_node->y;
+//        if (!(current_node->IsBounded(current_node->GetSortingPosX(), current_node->GetSortingPosY()))) { // now, have you left the box you were in just a moment ago?
+        if ((current_node->sort.x >=current_node->sort.x_min) &&
+            (current_node->sort.x < current_node->sort.x_max) &&
+            (current_node->sort.y >=current_node->sort.y_min) &&
+            (current_node->sort.y < current_node->sort.y_max)) {
+
+            this->search.sort_recent_x = x_copy;
+            this->search.sort_recent_y = y_copy;
             this->RemoveFromBranch(current_node, this->root); // use the old for removing it
-            this->sort_recent_x = current_node->GetSortingPosX();// and the new for adding it
-            this->sort_recent_y = current_node->GetSortingPosY();
+            this->search.sort_recent_x = current_node->sort.x;// and the new for adding it
+            this->search.sort_recent_y = current_node->sort.y;
             this->AddToChildren(current_node, this->root);
         }
     });
@@ -224,38 +242,38 @@ std::vector<VoronoiNode*> VoronoiQuadTree::GetNearby(double x, double y, double 
     return this->GetNearby(x, y, seed);
 }
 std::vector<VoronoiNode*> VoronoiQuadTree::GetNearby(double x, double y, VoronoiNode* seed) {
-    this->recent_x = x;
-    this->recent_y = y;
-    this->sort_recent_x = (int)this->recent_x;
-    this->sort_recent_y = (int)this->recent_y;
+    this->search.recent_x = x;
+    this->search.recent_y = y;
+    this->search.sort_recent_x = (int)this->search.recent_x;
+    this->search.sort_recent_y = (int)this->search.recent_y;
 
     if (seed != nullptr) {
-        seed->CalculateDist(this->recent_x, this->recent_y, this->gain); // work done here
-        seed->CalculateSortingDist(this->recent_x, this->recent_y); // work done here
-        this->current_bounding_mag = seed->GetDist() + this->band_width;
-        this->current_box_radius = seed->GetSortingDist() + this->sort_band_width;
+        seed->CalculateMag(this->search.recent_x, this->search.recent_y, this->search.gain); // work done here
+        seed->CalculateBoxRadius(this->search.recent_x, this->search.recent_y); // work done here
+        this->search.current_bounding_mag = seed->sort.mag + this->search.band_width;
+        this->search.current_box_radius = seed->sort.box_radius + this->search.sort_band_width;
     } else {
         VoronoiNode* arbitrary_seed = this->all_child_nodes.front();
-        arbitrary_seed->CalculateDist(this->recent_x, this->recent_y, this->gain); // work done here
-        arbitrary_seed->CalculateSortingDist(this->recent_x, this->recent_y); // work done here
-        this->current_bounding_mag = arbitrary_seed->GetDist() + this->band_width;
-        this->current_box_radius = arbitrary_seed->GetSortingDist() + this->sort_band_width;
+        arbitrary_seed->CalculateMag(this->search.recent_x, this->search.recent_y, this->search.gain); // work done here
+        arbitrary_seed->CalculateBoxRadius(this->search.recent_x, this->search.recent_y); // work done here
+        this->search.current_bounding_mag = arbitrary_seed->sort.mag + this->search.band_width;
+        this->search.current_box_radius = arbitrary_seed->sort.box_radius + this->search.sort_band_width;
     }
 
-    this->nearby_candidates.clear();
+    this->search.nearby_candidates.clear();
 
         this->BuildNearbyList(this->root); // this is where the job is mostly done
 
-    SDL_assert(!this->nearby_candidates.empty());
+    SDL_assert(!this->search.nearby_candidates.empty());
 
     size_t nearest_slot = 0; // we're gonna be searching for the nearest node to swap to the front
     size_t current_slot = 0;
-    double nearest_dist = this->nearby_candidates.front()->GetDist();
+    double nearest_dist = this->search.nearby_candidates.front()->sort.mag;
 
-    for (std::vector<VoronoiNode*>::iterator it = this->nearby_candidates.begin(); it != this->nearby_candidates.end();) {
+    for (std::vector<VoronoiNode*>::iterator it = this->search.nearby_candidates.begin(); it != this->search.nearby_candidates.end();) {
 
-        double current_distance = (*it)->GetDist();
-        if (current_distance <= this->current_bounding_mag) { // scanned node passes the check, may have significant m value
+        double current_distance = (*it)->sort.mag;
+        if (current_distance <= this->search.current_bounding_mag) { // scanned node passes the check, may have significant m value
 
             if (current_distance < nearest_dist) {
                 nearest_slot = current_slot;
@@ -265,17 +283,17 @@ std::vector<VoronoiNode*> VoronoiQuadTree::GetNearby(double x, double y, Voronoi
             ++it;
 
         } else { // node fails the check, will definitely not have significant m value
-            it = this->nearby_candidates.erase(it);
+            it = this->search.nearby_candidates.erase(it);
         }
     }
 
     if (nearest_slot != 0) { // puts the nearest node at the top
-        VoronoiNode* temp_first = this->nearby_candidates.front();
-        this->nearby_candidates.front() = this->nearby_candidates.at(nearest_slot);
-        this->nearby_candidates.at(nearest_slot) = temp_first;
+        VoronoiNode* temp_first = this->search.nearby_candidates.front();
+        this->search.nearby_candidates.front() = this->search.nearby_candidates.at(nearest_slot);
+        this->search.nearby_candidates.at(nearest_slot) = temp_first;
     }
     std::vector<VoronoiNode*> result_list = {};
-    this->nearby_candidates.swap(result_list);
+    this->search.nearby_candidates.swap(result_list);
     return result_list;
 }
 void VoronoiQuadTree::BuildNearbyList(VQuadTree* branch) { // takes the running info on the best distance upper bound and adds the nodes descendant to this branch to the list of potential candidates
@@ -284,22 +302,23 @@ void VoronoiQuadTree::BuildNearbyList(VQuadTree* branch) { // takes the running 
         VoronoiNode* new_nearest = nullptr;
         std::for_each(branch->node_children.begin(), branch->node_children.end(), [&](VoronoiNode* current_node) {
 
-            current_node->CalculateDist(this->recent_x, this->recent_y, this->gain);
-            double relative_dist = this->current_bounding_mag-current_node->GetDist(); // from this node to the outer circle
+            current_node->CalculateMag(this->search.recent_x, this->search.recent_y, this->search.gain);
+            double relative_dist = this->search.current_bounding_mag-current_node->sort.mag; // from this node to the outer circle
             if (relative_dist > 0) { // beats the outer circle
-                this->nearby_candidates.push_back(current_node);
-                if (relative_dist >= this->band_width) { // beats the middle circle
-                    this->current_bounding_mag = current_node->GetDist()+this->band_width; // now the outer circle is this dist plus out by band width
+                this->search.nearby_candidates.push_back(current_node);
+                if (relative_dist >= this->search.band_width) { // beats the middle circle
+                    this->search.current_bounding_mag = current_node->sort.mag+this->search.band_width; // now the outer circle is this dist plus out by band width
                     new_nearest = current_node;
                 }
             }
         });
 
         if (new_nearest != nullptr) { // if a candidate in this branch beat the standing record
-            new_nearest->CalculateSortingDist(this->recent_x, this->recent_y); // do the work to find the box radius
-            this->current_box_radius = new_nearest->GetSortingDist() + this->sort_band_width; // update the search
+            new_nearest->CalculateBoxRadius(this->search.recent_x, this->search.recent_y); // do the work to find the box radius
 
-            this->current_bounding_mag = new_nearest->GetDist()+this->band_width;
+            this->search.current_box_radius = new_nearest->sort.box_radius + this->search.sort_band_width; // update the search
+
+            this->search.current_bounding_mag = new_nearest->sort.mag+this->search.band_width;
         }
 
     } else { // split, doesnt itself have child nodes but it's boughs may
@@ -321,8 +340,8 @@ void VoronoiQuadTree::BuildNearbyList(VQuadTree* branch) { // takes the running 
         size_t search_3;
         size_t search_4;
         bool search_x_then_y;
-        int dx = this->sort_recent_x-branch->half_x; // and now this is the vector position of the sample center, with the branch as the origin
-        int dy = this->sort_recent_y-branch->half_y;
+        int dx = this->search.sort_recent_x-branch->half_x; // and now this is the vector position of the sample center, with the branch as the origin
+        int dy = this->search.sort_recent_y-branch->half_y;
         if (dx < 0) {
             if (dy < 0) {
                 search_1 = 0;
@@ -364,43 +383,43 @@ void VoronoiQuadTree::BuildNearbyList(VQuadTree* branch) { // takes the running 
         if (search_x_then_y) { // search x first
             // dx is the vector from midpoint to sample
             // (dx is positive, actually so positive its tail on the left cant possibly fit in the box) || (dx is negative, even more negative than the box can accomodate, the tail sticks out to the right)
-            if ((dx > this->current_box_radius) || (dx < -this->current_box_radius)) {
+            if ((dx > this->search.current_box_radius) || (dx < -this->search.current_box_radius)) {
                 return;
             }
         } else { // search y first
-            if ((dy > this->current_box_radius) || (dy < -this->current_box_radius)) {
+            if ((dy > this->search.current_box_radius) || (dy < -this->search.current_box_radius)) {
                 return;
             }
         }
         this->BuildNearbyList(branch->tree_children[search_2]);
 
         if (search_x_then_y) { // search y second
-            if ((dy > this->current_box_radius) || (dy < -this->current_box_radius)) {
+            if ((dy > this->search.current_box_radius) || (dy < -this->search.current_box_radius)) {
                 return;
             }
         } else { // search x second
-            if ((dx > this->current_box_radius) || (dx < -this->current_box_radius)) {
+            if ((dx > this->search.current_box_radius) || (dx < -this->search.current_box_radius)) {
                 return;
             }
         }
         this->BuildNearbyList(branch->tree_children[search_3]);
 
-        if ((dx*dx+dy*dy)*this->gain > this->current_bounding_mag) { // center point mag further out than the bounding outer circle mag (bounding mag has gain in it)
+        if ((dx*dx+dy*dy)*this->search.gain > this->search.current_bounding_mag) { // center point mag further out than the bounding outer circle mag (bounding mag has gain in it)
             return;
         }
         this->BuildNearbyList(branch->tree_children[search_4]);
     }
 }
 void VoronoiQuadTree::SetGain(double gain) {
-    this->gain = gain;
-    this->SetBandWidth(this->band_width);
+    this->search.gain = gain;
+    this->SetBandWidth(this->search.band_width);
 }
 void VoronoiQuadTree::SetBandWidth(double band_width) {
-    this->band_width = band_width;
-    this->sort_band_width = (int)(std::ceil(this->band_width/this->gain));
+    this->search.band_width = band_width;
+    this->search.sort_band_width = (int)(std::ceil(this->search.band_width/this->search.gain));
 }
 double VoronoiQuadTree::GetGain() {
-    return this->gain;
+    return this->search.gain;
 }
 std::vector<VoronoiNode*> VoronoiQuadTree::GetAllNodes() {
     return this->all_child_nodes;

@@ -15,6 +15,7 @@ class NeuralNetwork
         void AddLayer(NNLayer::NNLayer* layer);
 
         void Build();
+        bool IsBuilt();
         void ClearGradients();
         void ApplyGradients(double learning_rate);
 

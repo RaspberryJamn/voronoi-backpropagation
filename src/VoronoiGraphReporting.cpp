@@ -14,8 +14,8 @@ bool VQuadTree::Contains(VQuadTree* tree, VoronoiNode* node) {
         return true;
     } else {
         size_t search_first;
-        int dx = node->GetSortingPosX()-tree->half_x;
-        int dy = node->GetSortingPosX()-tree->half_y;
+        int dx = node->sort.x-tree->half_x;
+        int dy = node->sort.y-tree->half_y;
         if (dx < 0) {
             if (dy < 0) {
                 search_first = 0;
@@ -79,7 +79,7 @@ void VQuadTree::Print(VQuadTree* tree, int indent) {
 void VoronoiQuadTree::RenderTree(SDL_Renderer* target_renderer) {
     this->RenderVQuadTree(this->root, target_renderer);
     std::for_each(this->all_child_nodes.begin(), this->all_child_nodes.end(), [&](VoronoiNode* current_node) {
-        current_node->Render(target_renderer);
+//        current_node->Render(target_renderer);
     });
 }
 void VoronoiQuadTree::RenderVQuadTree(VQuadTree* branch, SDL_Renderer* target_renderer) {

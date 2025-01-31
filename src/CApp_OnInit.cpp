@@ -60,9 +60,9 @@ bool CApp::OnInit() {
 //        RGBColor c = this->SampleSourceImage(x, y);
 //        this->voronoi_graph->AddNode(new VoronoiNode(x, y, c.r, c.g, c.b));//127+i%6,127+i%12,127+i%18));
 //    }
-    this->voronoi_graph->AddNode(new VoronoiNode(390,80 ,0  ,0,0));
-    this->voronoi_graph->AddNode(new VoronoiNode(160,290,0  ,0,0));
-    this->voronoi_graph->AddNode(new VoronoiNode(380,390,0,0 ,0));
+    this->voronoi_graph->AddNode(new VoronoiNode(390,80 ));
+    this->voronoi_graph->AddNode(new VoronoiNode(160,290));
+    this->voronoi_graph->AddNode(new VoronoiNode(380,390));
 //    this->voronoi_graph->AddNode(new VoronoiNode(300,540,100,100,100));
 //    this->voronoi_graph->AddNode(new VoronoiNode(270,540,255,0  ,0  ));
 //    this->voronoi_graph->AddNode(new VoronoiNode(370,160,0  ,255,0  ));

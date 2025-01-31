@@ -67,6 +67,9 @@ void NeuralNetwork::Build() {
 
     this->built = true;
 }
+bool NeuralNetwork::IsBuilt() {
+    return this->built;
+}
 
 void NeuralNetwork::ClearGradients() {
     for (size_t i = 0; i < this->parameters_size; i++) {
@@ -78,7 +81,7 @@ void NeuralNetwork::ApplyGradients(double learning_rate) {
     for (size_t i = 0; i < this->parameters_size; i++) {
         this->weights[i] -= this->gradients[i]*learning_rate;
     }
-    this->ClearGradients();
+//    this->ClearGradients();
 }
 
 // std::memcpy(new_array, old_array, length);

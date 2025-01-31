@@ -1,10 +1,12 @@
 #ifndef VORONOIGRAPH_H
 #define VORONOIGRAPH_H
+#include <vector>
 #include "VoronoiQuadTree.h"
 #include "VoronoiNode.h"
-#include <vector>
-#include <SDL.h>
 #include "NNLayer.h"
+#include "NNLayer/Input.h"
+#include "NNLayer/Sigmoid.h"
+#include "NNLayer/Dense.h"
 
 class VoronoiGraph : virtual public NNLayer::NNLayer {
     public:

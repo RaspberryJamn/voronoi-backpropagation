@@ -79,18 +79,20 @@ class VoronoiQuadTree {
         int total_child_count;
 
         // GetNearby stuff {
-        double recent_x;
-        double recent_y;
-        int sort_recent_x;
-        int sort_recent_y;
+        struct {
+            double recent_x;
+            double recent_y;
+            int sort_recent_x;
+            int sort_recent_y;
 
-        double gain;
-        double band_width;
-        int sort_band_width;
+            double gain;
+            double band_width;
+            int sort_band_width;
 
-        std::vector<VoronoiNode*> nearby_candidates;
-        double current_bounding_mag;
-        int current_box_radius;
+            std::vector<VoronoiNode*> nearby_candidates;
+            double current_bounding_mag;
+            int current_box_radius;
+        } search;
         // }
 };
 
