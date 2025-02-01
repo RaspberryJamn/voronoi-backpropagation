@@ -44,6 +44,14 @@ class NeuralNetwork
         double* weights;
         double* gradients;
         size_t parameters_size;
+
+        struct {
+            double b1;
+            double b2;
+            double e;
+            double* m;
+            double* v;
+        } optimizer;
 };
 
 #endif // NEURALNETWORK_H

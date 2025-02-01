@@ -1,4 +1,5 @@
 #include "NeuralNetwork.h"
+#include <cmath>
 //#include <iostream>
 
 NeuralNetwork::NeuralNetwork() {
@@ -14,6 +15,11 @@ NeuralNetwork::NeuralNetwork() {
     this->gradients = nullptr;
     this->parameters_size = 0;
 
+    this->optimizer.b1 = 0.9;
+    this->optimizer.b2 = 0.9;
+    this->optimizer.e = 0.000001;
+    this->optimizer.m = nullptr;
+    this->optimizer.v = nullptr;
 }
 
 NeuralNetwork::~NeuralNetwork() {
@@ -58,6 +64,12 @@ void NeuralNetwork::Build() {
 
     this->weights = (double*)malloc( sizeof(double)*this->parameters_size );
     this->gradients = (double*)malloc( sizeof(double)*this->parameters_size );
+    this->optimizer.m = (double*)malloc( sizeof(double)*this->parameters_size );
+    this->optimizer.v = (double*)malloc( sizeof(double)*this->parameters_size );
+    for (size_t i = 0; i < this->parameters_size; i++) {
+        this->optimizer.m[i] = 0.0;
+        this->optimizer.v[i] = 1000000.0;
+    }
 
     double* active_weights = this->weights;
     std::for_each(this->layers.begin(), this->layers.end(), [&](NNLayer::NNLayer* layer) {
@@ -79,8 +91,13 @@ void NeuralNetwork::ClearGradients() {
 
 void NeuralNetwork::ApplyGradients(double learning_rate) {
     for (size_t i = 0; i < this->parameters_size; i++) {
-        this->weights[i] -= this->gradients[i]*learning_rate;
+        this->optimizer.m[i] = this->optimizer.b1*this->optimizer.m[i] + (1.0-this->optimizer.b1)*this->gradients[i];
+        this->optimizer.v[i] = this->optimizer.b2*this->optimizer.v[i] + (1.0-this->optimizer.b2)*this->gradients[i]*this->gradients[i];
+        this->weights[i] -= ( (this->optimizer.m[i]/(1.0-this->optimizer.b1)) / (std::sqrt(this->optimizer.v[i]/(1.0-this->optimizer.b2))+this->optimizer.e) )*learning_rate;
     }
+//    for (size_t i = 0; i < this->parameters_size; i++) {
+//        this->weights[i] -= this->gradients[i]*learning_rate;
+//    }
 //    this->ClearGradients();
 }
 

@@ -71,13 +71,13 @@ bool CApp::OnInit() {
 //    this->voronoi_graph->AddNode(new VoronoiNode(110,520,255,0  ,255));
 //    this->voronoi_graph->AddNode(new VoronoiNode(200,180,0  ,255,255));
 //    this->voronoi_graph->AddNode(new VoronoiNode(180,120,255,255,255));
-    double band_width = 6.0;
-    double gain = 0.00065; // higher gain => higher sharpness / smaller gain => higher smoothness
+    double band_width =  6.0;
+    double gain = 0.00070; // higher gain => higher sharpness / smaller gain => higher smoothness
     this->voronoi_graph->SetGain(gain);
     this->voronoi_graph->SetBandWidth(band_width);
 
     this->refresh_period = 100;
-    this->loop_advantage_factor = 9.0;
+    this->loop_advantage_factor = 20.0;
 
 //    this->voronoi_graph->PrintTree();
     return true;

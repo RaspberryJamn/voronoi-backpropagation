@@ -432,12 +432,12 @@
 	"CApp.h"
 	<iostream>
 
-1738389929 source:c:\users\james\documents\cpp\voronoi\src\capp_oninit.cpp
+1738390746 source:c:\users\james\documents\cpp\voronoi\src\capp_oninit.cpp
 	"CApp.h"
 	<iostream>
 	<cstdlib>
 
-1738389955 source:c:\users\james\documents\cpp\voronoi\src\capp_onloop.cpp
+1738390740 source:c:\users\james\documents\cpp\voronoi\src\capp_onloop.cpp
 	"CApp.h"
 	<cmath>
 	<iostream>
@@ -563,7 +563,7 @@
 
 1735429132 c:\users\james\documents\cpp\voronoi\include\idkfunctions.h
 
-1738280301 c:\users\james\documents\cpp\voronoi\include\neuralnetwork.h
+1738392734 c:\users\james\documents\cpp\voronoi\include\neuralnetwork.h
 	"NNLayer.h"
 	<cstdlib>
 	"SDL.h"
@@ -577,8 +577,9 @@
 	"NNLayer.h"
 	<cmath>
 
-1738381830 source:c:\users\james\documents\cpp\voronoi\src\neuralnetwork.cpp
+1738393795 source:c:\users\james\documents\cpp\voronoi\src\neuralnetwork.cpp
 	"NeuralNetwork.h"
+	<cmath>
 
 1738385150 source:c:\users\james\documents\cpp\voronoi\src\nnlayer\input.cpp
 	"NNLayer/Input.h"
