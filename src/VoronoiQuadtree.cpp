@@ -1,5 +1,6 @@
 #include "VoronoiQuadTree.h"
 #include <algorithm>
+#include <iostream>
 
 VoronoiQuadTree::VoronoiQuadTree() {
     this->x = 0;
@@ -264,7 +265,11 @@ std::vector<VoronoiNode*> VoronoiQuadTree::GetNearby(double x, double y, Voronoi
 
         this->BuildNearbyList(this->root); // this is where the job is mostly done
 
-    SDL_assert(!this->search.nearby_candidates.empty());
+//    SDL_assert(!this->search.nearby_candidates.empty());
+    if (this->search.nearby_candidates.empty()) {
+        std::cout << "assert failed: !this->search.nearby_candidates.empty() in VoronoiQuadTree::GetNearby" << std::endl;
+        this->PrintTree();
+    }
 
     size_t nearest_slot = 0; // we're gonna be searching for the nearest node to swap to the front
     size_t current_slot = 0;

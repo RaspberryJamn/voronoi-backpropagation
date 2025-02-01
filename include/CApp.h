@@ -63,6 +63,8 @@ class CApp {
 
         MouseInfo mouse;
 
+        SDL_Keycode last_keypress;
+
     private:
         // OnInit
         bool ImportAssets();
@@ -73,8 +75,11 @@ class CApp {
         void OnMouseMoved();
         void OnMouseDragged();
 
+        void OnKeyDown(SDL_Keycode key);
+
         // OnLoop
         void ProgressivePoke(double fraction);
+        int training_stride;
 
         // OnRender
         void RenderFullFrameVoronoi(double* total_loss);

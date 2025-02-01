@@ -200,11 +200,14 @@ struct VoronoiNode {
     VoronoiNode(double x, double y) : x(x), y(y) {
         this->model.x_grad = 0;
         this->model.y_grad = 0;
+        this->model.mag = 0;
+        this->model.exp = 0;
+        this->model.m = 0;
         this->model.network.AddLayer(new NNLayer::Input(2));
-        this->model.network.AddLayer(new NNLayer::ODense(16, 8.0, 30.0, 0.1)); this->model.network.AddLayer(new NNLayer::Sigmoid(16));
+        this->model.network.AddLayer(new NNLayer::ODense(8, 8.0, 10.0, 0.1)); this->model.network.AddLayer(new NNLayer::Sigmoid(8));
+        this->model.network.AddLayer(new NNLayer::ODense(4, 1.0, 0.5, 1.5)); this->model.network.AddLayer(new NNLayer::Sigmoid(4));
         this->model.network.AddLayer(new NNLayer::Dense(4, 1.0, 0.0, 0.5, 1.5)); this->model.network.AddLayer(new NNLayer::Sigmoid(4));
-        this->model.network.AddLayer(new NNLayer::Dense(4, 1.0, 0.0, 0.5, 1.5)); this->model.network.AddLayer(new NNLayer::Sigmoid(4));
-        this->model.network.AddLayer(new NNLayer::Dense(3, 5.0, 0.5, 0.15, 1.2));
+        this->model.network.AddLayer(new NNLayer::Dense(3, 3.0, 0.5, 0.15, 1.2));
         this->model.network.Build();
     }
     struct {

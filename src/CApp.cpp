@@ -24,6 +24,8 @@ CApp::CApp() {
     this->refresh_period = 0;
     this->loop_advantage_factor = 0;
     this->mouse = {};
+    this->last_keypress = SDLK_ESCAPE;
+    this->training_stride = 4;
 
 }
 

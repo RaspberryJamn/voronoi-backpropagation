@@ -2,6 +2,7 @@
 #include <cmath>
 #include <iostream>
 #include <sstream>
+#include "IdkFunctions.h"
 
 RGBColor CApp::SampleSourceImage(int x, int y) {
     if (x < 0) { x = 0; }
@@ -30,10 +31,21 @@ void CApp::OnLoop() {
 }
 
 void CApp::ProgressivePoke(double fraction) {
-    int stride = 4;
+    bool debug_visualize_pokes = false;
+    if (debug_visualize_pokes) {
+        this->media_texture->SetSelfAsRenderTarget();
+    }
+
+    int stride = this->training_stride;
     for (int i = 0; i < (this->media_texture->GetWidth()*this->media_texture->GetHeight()*fraction); i += stride*stride) {
-        int x = g_train_sample_x;
-        int y = g_train_sample_y;
+        int x = g_train_sample_x+std::rand()%stride-stride/2;
+        int y = g_train_sample_y+std::rand()%stride-stride/2;
+        G_Clamp<int>(&x, 0, this->media_texture->GetWidth()-1);
+        G_Clamp<int>(&y, 0, this->media_texture->GetHeight()-1);
+        if (debug_visualize_pokes) {
+            SDL_SetRenderDrawColor(this->main_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+            SDL_RenderDrawPoint(this->main_renderer, x, y);
+        }
 
         this->voronoi_graph->Poke((double)x, (double)y, this->SampleSourceImage(x,y), &g_train_running_seed);
         g_train_hits++;
@@ -56,12 +68,16 @@ void CApp::ProgressivePoke(double fraction) {
 //                std::cout << "printing graph" << std::endl;
 //                this->voronoi_graph->PrintTree();
 //                std::cout << "before update gradients in loop" << std::endl;
-                this->voronoi_graph->UpdateAllGradients(0.006);
+                this->voronoi_graph->UpdateAllGradients(0.0055);
 //                std::cout << "after update gradients in loop" << std::endl;
 //                std::cout << "printing graph" << std::endl;
 //                this->voronoi_graph->PrintTree();
                 g_train_hits = 0;
             }
         }
+    }
+
+    if (debug_visualize_pokes) {
+        SDL_SetRenderTarget(this->main_renderer, nullptr);
     }
 }

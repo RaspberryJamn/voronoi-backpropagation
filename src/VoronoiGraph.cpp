@@ -54,6 +54,9 @@ void VoronoiGraph::UpdateAllGradients(double learning_rate) {
     std::for_each(nodes.begin(), nodes.end(), [&](VoronoiNode* current_node) {
 //        std::cout << current_node->model.x_grad << std::endl;
 //        std::cout << current_node->model.y_grad << std::endl;
+        if (!((current_node->model.x_grad > 0) || (current_node->model.x_grad <= 0))) {
+            SDL_assert(false);
+        }
         current_node->x -= (current_node->model.x_grad + (std::rand()%100+std::rand()%100-100)*500)*learning_rate*this->node_xy_rate;
         current_node->y -= (current_node->model.y_grad + (std::rand()%100+std::rand()%100-100)*500)*learning_rate*this->node_xy_rate;
         current_node->model.network.ApplyGradients(learning_rate);
