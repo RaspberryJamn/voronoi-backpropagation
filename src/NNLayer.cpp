@@ -2,16 +2,18 @@
 #include <cmath>
 
 namespace NNLayer {
-    NNLayer::NNLayer(size_t output_size) {
+    NNLayer::NNLayer(size_t output_size, double speed) {
         this->input_size = 0;
         this->output_size = output_size;
         this->parameter_size = 0;
+        this->speed = speed;
     }
 
     NNLayer::~NNLayer() {
         this->input_size = 0;
         this->output_size = 0;
         this->parameter_size = 0;
+        this->speed = 0;
     }
 
     void NNLayer::SetInputSize(size_t size) {

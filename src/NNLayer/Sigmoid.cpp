@@ -5,7 +5,7 @@ namespace NNLayer {
         return 2.0/(1.0+std::exp(-input))-1.0;
     }
 
-    Sigmoid::Sigmoid(size_t output_size) : NNLayer(output_size) {}
+    Sigmoid::Sigmoid(size_t output_size) : NNLayer(output_size, 0) {}
 
     Sigmoid::~Sigmoid() {}
 

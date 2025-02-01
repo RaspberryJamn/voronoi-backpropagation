@@ -8,6 +8,7 @@
 #include "NNLayer/Input.h"
 #include "NNLayer/Sigmoid.h"
 #include "NNLayer/Dense.h"
+#include "NNLayer/ODense.h"
 
 struct RGBColor {
     double r;
@@ -200,8 +201,10 @@ struct VoronoiNode {
         this->model.x_grad = 0;
         this->model.y_grad = 0;
         this->model.network.AddLayer(new NNLayer::Input(2));
-        this->model.network.AddLayer(new NNLayer::Dense(0));
-        this->model.network.AddLayer(new NNLayer::Dense(3));
+        this->model.network.AddLayer(new NNLayer::ODense(16, 8.0, 30.0, 0.1)); this->model.network.AddLayer(new NNLayer::Sigmoid(16));
+        this->model.network.AddLayer(new NNLayer::Dense(4, 1.0, 0.0, 0.5, 1.5)); this->model.network.AddLayer(new NNLayer::Sigmoid(4));
+        this->model.network.AddLayer(new NNLayer::Dense(4, 1.0, 0.0, 0.5, 1.5)); this->model.network.AddLayer(new NNLayer::Sigmoid(4));
+        this->model.network.AddLayer(new NNLayer::Dense(3, 5.0, 0.5, 0.15, 1.2));
         this->model.network.Build();
     }
     struct {

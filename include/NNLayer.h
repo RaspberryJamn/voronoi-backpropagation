@@ -6,7 +6,7 @@
 namespace NNLayer {
     class NNLayer {
         public:
-            NNLayer(size_t output_size);
+            NNLayer(size_t output_size, double speed);
             virtual ~NNLayer();
 
             void SetInputSize(size_t size);
@@ -51,6 +51,7 @@ namespace NNLayer {
             size_t input_size;
             size_t output_size;
             size_t parameter_size;
+            double speed;
     };
 }
 

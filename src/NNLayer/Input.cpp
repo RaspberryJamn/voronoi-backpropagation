@@ -2,7 +2,7 @@
 //#include <iostream>
 
 namespace NNLayer {
-    Input::Input(size_t output_size) : NNLayer(output_size) {}
+    Input::Input(size_t output_size) : NNLayer(output_size, 0) {}
 
     Input::~Input() {}
 

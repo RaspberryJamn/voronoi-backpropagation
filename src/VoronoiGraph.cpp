@@ -7,12 +7,14 @@
 #include <iostream>
 #include "NNLayer.h"
 
-VoronoiGraph::VoronoiGraph(size_t output_size) : NNLayer::NNLayer(output_size) {
+VoronoiGraph::VoronoiGraph(size_t output_size) : NNLayer::NNLayer(output_size, 0) {
     this->band_width = 0;
     this->gain = 0;
     this->quad_tree.SetGain(this->gain);
     this->quad_tree.SetBandWidth(this->band_width);
     this->gain_gradient = 0;
+
+    this->node_xy_rate = 0.0;
 
     this->input_size = 2;
     this->output_size = 3;
@@ -52,8 +54,8 @@ void VoronoiGraph::UpdateAllGradients(double learning_rate) {
     std::for_each(nodes.begin(), nodes.end(), [&](VoronoiNode* current_node) {
 //        std::cout << current_node->model.x_grad << std::endl;
 //        std::cout << current_node->model.y_grad << std::endl;
-        current_node->x -= (current_node->model.x_grad + (std::rand()%100+std::rand()%100-100)*500)*learning_rate;
-        current_node->y -= (current_node->model.y_grad + (std::rand()%100+std::rand()%100-100)*500)*learning_rate;
+        current_node->x -= (current_node->model.x_grad + (std::rand()%100+std::rand()%100-100)*500)*learning_rate*this->node_xy_rate;
+        current_node->y -= (current_node->model.y_grad + (std::rand()%100+std::rand()%100-100)*500)*learning_rate*this->node_xy_rate;
         current_node->model.network.ApplyGradients(learning_rate);
 //        this->gain_gradient += current_node->GetGainGradient();
 
@@ -107,7 +109,7 @@ RGBColor VoronoiGraph::Sample(double x, double y, VoronoiNode** io_seed) { // ne
     double* active_weights = nullptr;//io;
     this->Forward(&active_vector, &active_weights);
     (*io_seed) = this->GetRecentNearest();
-    return RGBColor(active_vector[0], active_vector[1], active_vector[2]);
+    return RGBColor(active_vector[0]*256.0, active_vector[1]*256.0, active_vector[2]*256.0);
 //    return RGBColor(io[2], io[3], io[4]);
 }
 
@@ -124,9 +126,9 @@ void VoronoiGraph::Poke(double x, double y, RGBColor image_sample, VoronoiNode**
     double backward_values[5];
     backward_values[0] = 0;
     backward_values[1] = 0;
-    backward_values[2] = 2*(final_color.r-image_sample.r);
-    backward_values[3] = 2*(final_color.g-image_sample.g);
-    backward_values[4] = 2*(final_color.b-image_sample.b);
+    backward_values[2] = 2*(final_color.r-image_sample.r)/256.0;
+    backward_values[3] = 2*(final_color.g-image_sample.g)/256.0;
+    backward_values[4] = 2*(final_color.b-image_sample.b)/256.0;
 
     double* active_vector = forward_values+5;
     double* active_back_vector = backward_values+5;
@@ -177,9 +179,9 @@ void VoronoiGraph::Forward(double** io_values_start, double** read_weight_start)
     next_layer[0] = std::sqrt(next_layer[0]);
     next_layer[1] = std::sqrt(next_layer[1]);
     next_layer[2] = std::sqrt(next_layer[2]);
-    G_Clamp<double>(&next_layer[0], 0, 255);
-    G_Clamp<double>(&next_layer[1], 0, 255);
-    G_Clamp<double>(&next_layer[2], 0, 255);
+//    G_Clamp<double>(&next_layer[0], 0, 255);
+//    G_Clamp<double>(&next_layer[1], 0, 255);
+//    G_Clamp<double>(&next_layer[2], 0, 255);
 
     (*io_values_start) = next_layer;
     (*read_weight_start) = (*read_weight_start)+this->parameter_size; // does not move
@@ -237,8 +239,8 @@ void VoronoiGraph::Backward(double** read_values_tail, double** io_back_values_t
 
         double d_loss_d_colorxy[2]; current_node->model.network.GetInputGradient(d_loss_d_colorxy, 2);
 
-        current_node->model.x_grad += d_loss_d_mag * d_mag_d_x + d_loss_d_colorxy[0];
-        current_node->model.y_grad += d_loss_d_mag * d_mag_d_y + d_loss_d_colorxy[1];
+        current_node->model.x_grad += (d_loss_d_mag * d_mag_d_x + d_loss_d_colorxy[0]);
+        current_node->model.y_grad += (d_loss_d_mag * d_mag_d_y + d_loss_d_colorxy[1]);
         gain_grad += d_loss_d_mag*(current_node->model.mag/gain);
     });
 

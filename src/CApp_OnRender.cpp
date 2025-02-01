@@ -25,6 +25,9 @@ void CApp::RenderFullFrameVoronoi(double* running_loss) {
         int y = g_sample_y;
 
         RGBColor sample = this->voronoi_graph->Sample((double)x, (double)y, &g_running_seed);
+        G_Clamp<double>(&sample.r, 0, 255);
+        G_Clamp<double>(&sample.g, 0, 255);
+        G_Clamp<double>(&sample.b, 0, 255);
         g_render_hits++;
 
         if (calculate_loss == true) {
