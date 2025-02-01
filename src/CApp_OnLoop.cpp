@@ -53,8 +53,13 @@ void CApp::ProgressivePoke(double fraction) {
             if (g_train_sample_y >= this->source_texture->GetHeight()) {
                 g_train_sample_y = 0;
                 g_train_running_seed = g_train_past_nearest_0_0_seed; // hit the bottom of the image, slide back to the top, reading the value as step one
-
-                this->voronoi_graph->UpdateAllGradients(0.0000015);
+//                std::cout << "printing graph" << std::endl;
+//                this->voronoi_graph->PrintTree();
+//                std::cout << "before update gradients in loop" << std::endl;
+                this->voronoi_graph->UpdateAllGradients(0.000005);
+//                std::cout << "after update gradients in loop" << std::endl;
+//                std::cout << "printing graph" << std::endl;
+//                this->voronoi_graph->PrintTree();
                 g_train_hits = 0;
             }
         }

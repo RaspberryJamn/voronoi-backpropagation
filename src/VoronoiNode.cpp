@@ -1,7 +1,8 @@
 #include "VoronoiNode.h"
+#include <vector>
+#include <iostream>
 //#include <cmath>
 //#include <ctime>
-//#include <iostream>
 //#include "NNLayer/Input.h"
 //#include "NNLayer/Sigmoid.h"
 //#include "NNLayer/Dense.h"
@@ -21,25 +22,6 @@
 //    PrintIndents(indent); std::cout << "}";
 //}
 //
-//void VoronoiNode::Render(SDL_Renderer* target_renderer) {
-//    SDL_Rect dest = {0,0,0,0};
-//
-//    SDL_SetRenderDrawColor(target_renderer, 0x00, 0x00, 0x00, 0xFF);
-////    dest = {this->sorting_x-3, this->sorting_y-3, 7, 7}; SDL_RenderDrawRect(target_renderer, &dest);
-//    dest = {this->sort.x-2, this->sort.y-3, 5, 7}; SDL_RenderDrawRect(target_renderer, &dest);
-//    dest = {this->sort.x-3, this->sort.y-2, 7, 5}; SDL_RenderDrawRect(target_renderer, &dest);
-//
-//    SDL_SetRenderDrawColor(target_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-//    dest = {this->sort.x-2, this->sort.y-2, 5, 5}; SDL_RenderDrawRect(target_renderer, &dest);
-//
-//    SDL_SetRenderDrawColor(target_renderer, 0x00, 0x00, 0x00, 0xFF);//(Uint8)this->color.r, (Uint8)this->color.g, (Uint8)this->color.b, 0xFF);
-//    dest = {this->sort.x-1, this->sort.y-1, 3, 3}; SDL_RenderDrawRect(target_renderer, &dest);
-////    SDL_RenderDrawPoint(target_renderer, this->sorting_x, this->sorting_y);
-//    SDL_RenderDrawLine(target_renderer, this->sort.x, this->sort.y-2, this->sort.x, sort.y+2);
-//    SDL_RenderDrawLine(target_renderer, this->sort.x-2, this->sort.y, this->sort.x+2, sort.y);
-//
-////    this->RenderLoggedGradient(target_renderer);
-//}
 //void VoronoiNode::RenderLoggedGradient(SDL_Renderer* target_renderer) {
 //    SDL_SetRenderDrawColor(target_renderer, 0x00, 0x00, 0x00, 0xFF);
 //    double delta_x = 0;//this->last_x_grad;
@@ -73,4 +55,43 @@ void VoronoiNode::CalculateBoxRadius(double from_x, double from_y) {
     double dx = this->x-from_x;
     double dy = this->y-from_y;
     this->sort.box_radius = (int)(std::ceil(std::sqrt(dx*dx+dy*dy)));
+}
+
+void PrintIndents(int indent);
+void VoronoiNode::Print(VoronoiNode* node, int indent) {
+    PrintIndents(indent); std::cout << node << ": {" << std::endl;
+    PrintIndents(indent+1); std::cout << "sort_(x,y): (" << node->sort.x << "," << node->sort.y << ")," << std::endl;
+    PrintIndents(indent+1); std::cout << "precise_(x,y): (" << node->x << "," << node->y << ")," << std::endl;
+    PrintIndents(indent+1); std::cout << "min_corner_(x,y): (" << node->sort.x_min << "," << node->sort.y_min << ")," << std::endl;
+    PrintIndents(indent+1); std::cout << "max_corner_(x,y): (" << node->sort.x_max << "," << node->sort.y_max << ")," << std::endl;
+    PrintIndents(indent+1); std::cout << "mag:" << node->sort.mag << "," << std::endl;
+    PrintIndents(indent+1); std::cout << "box_radius:" << node->sort.box_radius << "," << std::endl;
+    PrintIndents(indent+1); std::cout << "grad_(x,y): (" << node->model.x_grad << "," << node->model.y_grad << ")," << std::endl;
+    PrintIndents(indent); std::cout << "}" << std::endl;
+}
+
+void VoronoiNode::PrintList(std::vector<VoronoiNode*> node_list, int indent) {
+    std::for_each(node_list.begin(), node_list.end(), [&](VoronoiNode* current_node) {
+        VoronoiNode::Print(current_node, indent);
+    });
+}
+
+void VoronoiNode::Render(VoronoiNode* node, SDL_Renderer* target_renderer) {
+    SDL_Rect dest = {0,0,0,0};
+
+    SDL_SetRenderDrawColor(target_renderer, 0x00, 0x00, 0x00, 0xFF);
+//    dest = {this->sorting_x-3, this->sorting_y-3, 7, 7}; SDL_RenderDrawRect(target_renderer, &dest);
+    dest = {node->sort.x-2, node->sort.y-3, 5, 7}; SDL_RenderDrawRect(target_renderer, &dest);
+    dest = {node->sort.x-3, node->sort.y-2, 7, 5}; SDL_RenderDrawRect(target_renderer, &dest);
+
+    SDL_SetRenderDrawColor(target_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+    dest = {node->sort.x-2, node->sort.y-2, 5, 5}; SDL_RenderDrawRect(target_renderer, &dest);
+
+    SDL_SetRenderDrawColor(target_renderer, 0x00, 0x00, 0x00, 0xFF);//(Uint8)this->color.r, (Uint8)this->color.g, (Uint8)this->color.b, 0xFF);
+    dest = {node->sort.x-1, node->sort.y-1, 3, 3}; SDL_RenderDrawRect(target_renderer, &dest);
+//    SDL_RenderDrawPoint(target_renderer, this->sorting_x, this->sorting_y);
+    SDL_RenderDrawLine(target_renderer, node->sort.x, node->sort.y-2, node->sort.x, node->sort.y+2);
+    SDL_RenderDrawLine(target_renderer, node->sort.x-2, node->sort.y, node->sort.x+2, node->sort.y);
+
+//    this->RenderLoggedGradient(target_renderer);
 }

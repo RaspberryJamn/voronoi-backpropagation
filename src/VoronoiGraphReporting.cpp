@@ -61,8 +61,10 @@ void VQuadTree::Print(VQuadTree* tree, int indent) {
     PrintIndents(indent+1); std::cout << "min_(x,y): (" << tree->min_x << "," << tree->min_y << ")" << std::endl;
     PrintIndents(indent+1); std::cout << "max_(x,y): (" << tree->max_x << "," << tree->max_y << ")" << std::endl;
     PrintIndents(indent+1); std::cout << "half_(x,y): (" << tree->half_x << "," << tree->half_y << ")" << std::endl;
-//    PrintIndents(indent+1); NodeLinkedList::Print("node_children: ", tree->node_children, indent+1);
-    PrintIndents(indent+1); //NodeLinkedList::PrintNodes("node_children: ", tree->node_children, indent+1); // debug edit nevermind//NodeLinkedList::Print("node_children: ", tree->node_children, indent+1);//
+    PrintIndents(indent+1); std::cout << "node_children: [" << std::endl;
+        VoronoiNode::PrintList(tree->node_children, indent+2);
+    PrintIndents(indent+1); std::cout << "]," << std::endl;
+//    PrintIndents(indent+1); //NodeLinkedList::PrintNodes("node_children: ", tree->node_children, indent+1); // debug edit nevermind//NodeLinkedList::Print("node_children: ", tree->node_children, indent+1);//
     if (tree->tree_children[0] == nullptr) {
         PrintIndents(indent+1); std::cout << "tree_children: []" << std::endl;
     } else {
@@ -79,7 +81,7 @@ void VQuadTree::Print(VQuadTree* tree, int indent) {
 void VoronoiQuadTree::RenderTree(SDL_Renderer* target_renderer) {
     this->RenderVQuadTree(this->root, target_renderer);
     std::for_each(this->all_child_nodes.begin(), this->all_child_nodes.end(), [&](VoronoiNode* current_node) {
-//        current_node->Render(target_renderer);
+        VoronoiNode::Render(current_node, target_renderer);
     });
 }
 void VoronoiQuadTree::RenderVQuadTree(VQuadTree* branch, SDL_Renderer* target_renderer) {
@@ -120,6 +122,9 @@ void PrintNodeVector(std::string comment, const std::vector<VoronoiNode*>& c) {
     std::cout << "]\n";
 }
 void VoronoiQuadTree::PrintTree() {
-    PrintNodeVector("all_child_nodes: ", this->all_child_nodes);
+//    PrintNodeVector("all_child_nodes: ", this->all_child_nodes);
+    std::cout << "all_child_nodes: [" << std::endl;
+    VoronoiNode::PrintList(this->all_child_nodes, 1);
+    std::cout << "]" << std::endl;
     VQuadTree::Print(this->root, 0);
 }

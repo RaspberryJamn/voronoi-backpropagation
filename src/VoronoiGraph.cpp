@@ -39,6 +39,7 @@ void VoronoiGraph::Reshape(int x, int y, int w, int h, int max_depth, int critic
 
 void VoronoiGraph::AddNode(VoronoiNode* node) {
     this->quad_tree.AddNode(node);
+//    this->quad_tree.PrintTree();
 }
 void VoronoiGraph::RemoveNode(VoronoiNode* node) {
     this->quad_tree.RemoveNode(node);
@@ -49,7 +50,8 @@ void VoronoiGraph::UpdateAllGradients(double learning_rate) {
     this->gain_gradient = 0;
     std::vector<VoronoiNode*> nodes = this->quad_tree.GetAllNodes();
     std::for_each(nodes.begin(), nodes.end(), [&](VoronoiNode* current_node) {
-
+//        std::cout << current_node->model.x_grad << std::endl;
+//        std::cout << current_node->model.y_grad << std::endl;
         current_node->x -= (current_node->model.x_grad + (std::rand()%100+std::rand()%100-100)*500)*learning_rate;
         current_node->y -= (current_node->model.y_grad + (std::rand()%100+std::rand()%100-100)*500)*learning_rate;
         current_node->model.network.ApplyGradients(learning_rate);
@@ -102,10 +104,11 @@ RGBColor VoronoiGraph::Sample(double x, double y, VoronoiNode** io_seed) { // ne
     io[0] = x;
     io[1] = y;
     double* active_vector = io;
-    double* active_weights = io;
+    double* active_weights = nullptr;//io;
     this->Forward(&active_vector, &active_weights);
     (*io_seed) = this->GetRecentNearest();
     return RGBColor(active_vector[0], active_vector[1], active_vector[2]);
+//    return RGBColor(io[2], io[3], io[4]);
 }
 
 void VoronoiGraph::Poke(double x, double y, RGBColor image_sample, VoronoiNode** io_seed) {
@@ -206,11 +209,10 @@ void VoronoiGraph::Backward(double** read_values_tail, double** io_back_values_t
     double* preceding_value_gradient = current_value_gradient-this->input_size; // write only [dldx, dldy]
     double* weights = (*read_weights_tail)-this->parameter_size; // read only
     double* weights_gradient = (*write_gradient_tail)-this->parameter_size; // appended
+    RGBColor finalcolor = RGBColor(current_output[0],current_output[1],current_output[2]);
 
     std::for_each(this->recent_nearby.begin(), this->recent_nearby.end(), [&](VoronoiNode* current_node) {
         double gain_grad = 0;
-
-        RGBColor finalcolor = RGBColor(current_output[0],current_output[1],current_output[2]);
         RGBColor d_loss_d_finalcolor = RGBColor(current_value_gradient[0],current_value_gradient[1],current_value_gradient[2]);
         double thiscolorarr[3];
         current_node->model.network.Output(thiscolorarr, 3);
@@ -238,8 +240,6 @@ void VoronoiGraph::Backward(double** read_values_tail, double** io_back_values_t
         current_node->model.x_grad += d_loss_d_mag * d_mag_d_x + d_loss_d_colorxy[0];
         current_node->model.y_grad += d_loss_d_mag * d_mag_d_y + d_loss_d_colorxy[1];
         gain_grad += d_loss_d_mag*(current_node->model.mag/gain);
-
-
     });
 
     (*read_weights_tail) = weights; // does not move

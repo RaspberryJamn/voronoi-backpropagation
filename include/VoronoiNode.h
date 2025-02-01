@@ -2,6 +2,7 @@
 #define VORONOINODE_H
 #include "SDL.h"
 #include <cmath>
+#include <vector>
 #include "IdkFunctions.h"
 #include "NeuralNetwork.h"
 #include "NNLayer/Input.h"
@@ -30,9 +31,9 @@ struct RGBColor {
         return RGBColor(r*rhs.r,g*rhs.g,b*rhs.b);//RGBColor result = RGBColor(r*rhs.r,g*rhs.g,b*rhs.b); return result; //
     }
     RGBColor operator/(RGBColor const& rhs) const {
-        RGBColor result = RGBColor((std::abs(rhs.r)<0.0001) ? 0 : this->r/rhs.r,
-                                   (std::abs(rhs.g)<0.0001) ? 0 : this->g/rhs.g,
-                                   (std::abs(rhs.b)<0.0001) ? 0 : this->b/rhs.b);
+        RGBColor result = RGBColor(this->r*((std::abs(rhs.r)<0.0001) ? ((rhs.r>0)?1:-1)*10000.0 : 1.0/rhs.r),
+                                   this->g*((std::abs(rhs.g)<0.0001) ? ((rhs.g>0)?1:-1)*10000.0 : 1.0/rhs.g),
+                                   this->b*((std::abs(rhs.b)<0.0001) ? ((rhs.b>0)?1:-1)*10000.0 : 1.0/rhs.b));
         return result; //return RGBColor(r/rhs.r,g/rhs.g,b/rhs.b);
     }
     RGBColor operator*(double const& rhs) const {
@@ -196,6 +197,8 @@ struct RGBColor {
 //};
 struct VoronoiNode {
     VoronoiNode(double x, double y) : x(x), y(y) {
+        this->model.x_grad = 0;
+        this->model.y_grad = 0;
         this->model.network.AddLayer(new NNLayer::Input(2));
         this->model.network.AddLayer(new NNLayer::Dense(0));
         this->model.network.AddLayer(new NNLayer::Dense(3));
@@ -225,6 +228,10 @@ struct VoronoiNode {
         double exp;
         double m;
     } model;
+
+    static void Print(VoronoiNode* node, int indent);
+    static void PrintList(std::vector<VoronoiNode*> node_list, int indent);
+    static void Render(VoronoiNode* node, SDL_Renderer* target_renderer);
 };
 
 #endif // VORONOINODE_H

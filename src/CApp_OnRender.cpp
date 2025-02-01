@@ -88,17 +88,17 @@ void CApp::OnRender() {
     dest = {this->source_texture->GetWidth(), g_sample_y, 5, 5}; SDL_RenderFillRect(this->main_renderer, &dest);
 
     if (this->mouse.pressed) {
-//        if (this->mouse.started_dragging == true) {
-//            int min_x = this->mouse.x-25;
-//            int min_y = this->mouse.y-25;
-//            int max_x = this->mouse.x+25;
-//            int max_y = this->mouse.y+25;
-//            G_Clamp<int>(&min_x, 0, this->source_texture->GetWidth());
-//            G_Clamp<int>(&min_y, 0, this->source_texture->GetHeight());
-//            G_Clamp<int>(&max_x, 0, this->source_texture->GetWidth());
-//            G_Clamp<int>(&max_y, 0, this->source_texture->GetHeight());
-//            SDL_Rect transfer = {min_x,min_y,max_x-min_x,max_y-min_y};
-//            this->source_texture->Render(&transfer, &transfer);
+        if (this->mouse.started_dragging == true) {
+            int min_x = this->mouse.x-25;
+            int min_y = this->mouse.y-25;
+            int max_x = this->mouse.x+25;
+            int max_y = this->mouse.y+25;
+            G_Clamp<int>(&min_x, 0, this->source_texture->GetWidth());
+            G_Clamp<int>(&min_y, 0, this->source_texture->GetHeight());
+            G_Clamp<int>(&max_x, 0, this->source_texture->GetWidth());
+            G_Clamp<int>(&max_y, 0, this->source_texture->GetHeight());
+            SDL_Rect transfer = {min_x,min_y,max_x-min_x,max_y-min_y};
+            this->source_texture->Render(&transfer, &transfer);
 //
 //            RGBColor target_color = this->SampleSourceImage(this->mouse.x,this->mouse.y);
 //    //        SDL_SetRenderDrawColor(this->main_renderer, (Uint8)target_color.r, (Uint8)target_color.g, (Uint8)target_color.b, 0xFF);
@@ -130,7 +130,7 @@ void CApp::OnRender() {
 ////                current_node->LogGradients();
 ////                current_node->RenderLoggedGradient(this->main_renderer);
 ////            });
-//        }
+        }
 
         this->voronoi_graph->RenderTree(this->main_renderer);
     }

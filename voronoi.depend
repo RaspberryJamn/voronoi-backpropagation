@@ -437,13 +437,13 @@
 	<iostream>
 	<cstdlib>
 
-1738122216 source:c:\users\james\documents\cpp\voronoi\src\capp_onloop.cpp
+1738378517 source:c:\users\james\documents\cpp\voronoi\src\capp_onloop.cpp
 	"CApp.h"
 	<cmath>
 	<iostream>
 	<sstream>
 
-1738122055 source:c:\users\james\documents\cpp\voronoi\src\capp_onrender.cpp
+1738378860 source:c:\users\james\documents\cpp\voronoi\src\capp_onrender.cpp
 	"CApp.h"
 	"IdkFunctions.h"
 	<sstream>
@@ -481,26 +481,30 @@
 	"Texture.h"
 	"SDL.h"
 
-1738278923 source:c:\users\james\documents\cpp\voronoi\src\voronoinode.cpp
+1738378783 source:c:\users\james\documents\cpp\voronoi\src\voronoinode.cpp
 	"VoronoiNode.h"
+	<vector>
+	<iostream>
 
-1738284958 c:\users\james\documents\cpp\voronoi\include\voronoinode.h
+1738378643 c:\users\james\documents\cpp\voronoi\include\voronoinode.h
 	"SDL.h"
 	<cmath>
+	<vector>
 	"IdkFunctions.h"
 	"NeuralNetwork.h"
 	"NNLayer/Input.h"
 	"NNLayer/Sigmoid.h"
 	"NNLayer/Dense.h"
 
-1738122349 source:c:\users\james\documents\cpp\voronoi\src\voronoigraph.cpp
+1738378452 source:c:\users\james\documents\cpp\voronoi\src\voronoigraph.cpp
 	"VoronoiGraph.h"
-	"CApp.h"
+	"VoronoiNode.h"
 	"IdkFunctions.h"
 	<cmath>
+	<ctime>
 	<algorithm>
-	<vector>
 	<iostream>
+	"NNLayer.h"
 
 1738282306 c:\users\james\documents\cpp\voronoi\include\voronoigraph.h
 	<vector>
@@ -545,7 +549,7 @@
 	<cstdlib>
 	<ctime>
 
-1738279417 source:c:\users\james\documents\cpp\voronoi\src\voronoigraphreporting.cpp
+1738378755 source:c:\users\james\documents\cpp\voronoi\src\voronoigraphreporting.cpp
 	"VoronoiGraph.h"
 	"CApp.h"
 	<cmath>
