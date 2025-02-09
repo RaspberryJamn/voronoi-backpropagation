@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <iostream>
 #include "NNLayer.h"
+#include "RGBColor.h"
 
 VoronoiGraph::VoronoiGraph(size_t output_size) : NNLayer::NNLayer(output_size, 0) {
     this->band_width = 0;
@@ -84,10 +85,6 @@ double VoronoiGraph::GetGain() {
     return this->gain;
 }
 
-VoronoiNode* VoronoiGraph::GetRecentNearest() {
-    return this->recent_nearby.front();
-}
-
 std::vector<VoronoiNode*> VoronoiGraph::GetRecentNearby() {
     return this->recent_nearby;
 }
@@ -104,28 +101,28 @@ RGBColor VoronoiGraph::Sample(double x, double y) { // nearby nodes already have
     io[0] = x;
     io[1] = y;
     double* active_vector = io;
-    double* active_weights = nullptr;//io;
-    this->Forward(&active_vector, &active_weights);
+    double* active_weights = nullptr;//io; // a formality of the NNLayer framework
+    this->Forward(&active_vector, &active_weights); // moves active_vector from [x, y, ...] to [final_r, final_g, final_b]
     return RGBColor(active_vector[0]*256.0, active_vector[1]*256.0, active_vector[2]*256.0);
 //    return RGBColor(io[2], io[3], io[4]);
 }
 
 void VoronoiGraph::Poke(double x, double y, RGBColor image_sample) {
 
-    RGBColor final_color = this->Sample(x, y);
-
     double forward_values[5];
     forward_values[0] = x;
     forward_values[1] = y;
+    RGBColor final_color = this->Sample(x, y);
     forward_values[2] = final_color.r;
     forward_values[3] = final_color.g;
     forward_values[4] = final_color.b;
+
     double backward_values[5];
-    backward_values[0] = 0;
+    backward_values[0] = 0; // will be overwritten
     backward_values[1] = 0;
-    backward_values[2] = 2*(final_color.r-image_sample.r)/256.0;
-    backward_values[3] = 2*(final_color.g-image_sample.g)/256.0;
-    backward_values[4] = 2*(final_color.b-image_sample.b)/256.0;
+    backward_values[2] = 2*((final_color.r-image_sample.r)/256.0); // d_( (finalcolor-targetcolor)^2 )_d_finalcolor
+    backward_values[3] = 2*((final_color.g-image_sample.g)/256.0);
+    backward_values[4] = 2*((final_color.b-image_sample.b)/256.0);
 
     double* active_vector = forward_values+5;
     double* active_back_vector = backward_values+5;
@@ -143,42 +140,43 @@ void VoronoiGraph::Init(double** write_weights_start) {
 }
 
 void VoronoiGraph::Forward(double** io_values_start, double** read_weight_start) { // io_values_start = &[sample_x, sample_y, final_r, final_g, final_b]
-    double* current_layer = (*io_values_start);
-    double* next_layer = current_layer+this->input_size;
+    double* current_layer = (*io_values_start); // [sample_x, sample_y, ...]
+    double* next_layer = current_layer+this->input_size; // [final_r, final_g, final_b] (ranges from 0.0..1.0)
 
     this->recent_nearby.clear();
     this->recent_nearby = this->quad_tree.GetNearby(current_layer[0], current_layer[1]);
+
+    // establish both the exp per node and the sum of all exps
     double z = 0;
-    double exp_offset = -this->GetRecentNearest()->model.mag; // for numerical precision. softmax doesnt care about offsets so long as theyre applied to all applicants
+    double exp_offset = -this->recent_nearby.front()->model.mag; // for numerical precision. softmax doesnt care about constant offsets so long as theyre applied to all applicants
     std::for_each(this->recent_nearby.begin(), this->recent_nearby.end(), [&](VoronoiNode* current_node) {
         current_node->model.exp = std::exp(-(current_node->model.mag + exp_offset));
         z += current_node->model.exp;
     });
+    // now that m can be inferred, calculate the content of each node's contribution and combine using each contribution's weight (m)
     next_layer[0] = 0;
     next_layer[1] = 0;
     next_layer[2] = 0;
     std::for_each(this->recent_nearby.begin(), this->recent_nearby.end(), [&](VoronoiNode* current_node) {
         double m = current_node->model.exp/z;
         current_node->model.m = m;
-//        RGBColor c = current_node->ForwardPass(current_layer[0], current_layer[1]);//node->SampleColor(x, y); // heres the only place x and y are used
-        double io[3];
+
+        double io[3]; // [rel_x, rel_y, ...] -> [r, g, b]
         io[0] = current_layer[0]-current_node->x;
         io[1] = current_layer[1]-current_node->y;
         current_node->model.network.Input(io, 2);
         current_node->model.network.Forward();
         current_node->model.network.Output(io, 3);
-
+        // node colors converted to a more perceptual space (^2) before interpolation,
         next_layer[0] += io[0]*io[0]*m;
         next_layer[1] += io[1]*io[1]*m;
         next_layer[2] += io[2]*io[2]*m;
 
     });
+    // and are converted back (^0.5) when outputted
     next_layer[0] = std::sqrt(next_layer[0]);
     next_layer[1] = std::sqrt(next_layer[1]);
     next_layer[2] = std::sqrt(next_layer[2]);
-//    G_Clamp<double>(&next_layer[0], 0, 255);
-//    G_Clamp<double>(&next_layer[1], 0, 255);
-//    G_Clamp<double>(&next_layer[2], 0, 255);
 
     (*io_values_start) = next_layer;
     (*read_weight_start) = (*read_weight_start)+this->parameter_size; // does not move
@@ -211,34 +209,41 @@ void VoronoiGraph::Backward(double** read_values_tail, double** io_back_values_t
     RGBColor finalcolor = RGBColor(current_output[0],current_output[1],current_output[2]);
 
     std::for_each(this->recent_nearby.begin(), this->recent_nearby.end(), [&](VoronoiNode* current_node) {
-        double gain_grad = 0;
+        // setup partial derivatives
+
         RGBColor d_loss_d_finalcolor = RGBColor(current_value_gradient[0],current_value_gradient[1],current_value_gradient[2]);
-        double thiscolorarr[3];
-        current_node->model.network.Output(thiscolorarr, 3);
-        RGBColor thiscolor = RGBColor(thiscolorarr[0], thiscolorarr[1], thiscolorarr[2]);
-        RGBColor d_finalcolor_d_m = ((thiscolor*thiscolor)/finalcolor)*.5;
-        RGBColor d_finalcolor_d_thiscolor = (thiscolor/finalcolor)*current_node->model.m;
+
+        // gets current_node's generated color
+        double currentscolor_arr[3];
+        current_node->model.network.Output(currentscolor_arr, 3);
+        RGBColor currentscolor = RGBColor(currentscolor_arr[0], currentscolor_arr[1], currentscolor_arr[2]);
+        // d_loss_d_mag
+        RGBColor d_finalcolor_d_m = ((currentscolor*currentscolor)/finalcolor)*.5;
+        double d_loss_d_m = RGBColor::Trace(d_loss_d_finalcolor*d_finalcolor_d_m);
         double d_m_d_mag = current_node->model.m*(current_node->model.m-1.0);
+        double d_loss_d_mag = d_loss_d_m * d_m_d_mag;
+        // d_loss_d_currentscolor
+        RGBColor d_finalcolor_d_currentscolor = (currentscolor/finalcolor)*current_node->model.m;
+        RGBColor d_loss_d_currentscolor = d_loss_d_finalcolor*d_finalcolor_d_currentscolor;
+        double d_loss_d_currentscolor_arr[3];
+        d_loss_d_currentscolor_arr[0] = d_loss_d_currentscolor.r;
+        d_loss_d_currentscolor_arr[1] = d_loss_d_currentscolor.g;
+        d_loss_d_currentscolor_arr[2] = d_loss_d_currentscolor.b;
+        // propagate and store gradients back through the current_node's network
+        current_node->model.network.SetOutputGradient(d_loss_d_currentscolor_arr, 3);
+        current_node->model.network.Backward();
+        double d_loss_d_currentscolor_d_currentscolor_d_xy[2]; current_node->model.network.GetInputGradient(d_loss_d_currentscolor_d_currentscolor_d_xy, 2);
+        //
         double d_mag_d_x = 2.0*(current_node->x-preceding_input[0])*this->gain;
         double d_mag_d_y = 2.0*(current_node->y-preceding_input[1])*this->gain;
+        // store gradient on position
+        current_node->model.x_grad += (d_loss_d_mag * d_mag_d_x + d_loss_d_currentscolor_d_currentscolor_d_xy[0]);
+        current_node->model.y_grad += (d_loss_d_mag * d_mag_d_y + d_loss_d_currentscolor_d_currentscolor_d_xy[1]);
+//        gain_grad += d_loss_d_mag*(current_node->model.mag/gain); // unused
 
-        double d_loss_d_m = RGBColor::Trace(d_loss_d_finalcolor*d_finalcolor_d_m);
-        double d_loss_d_mag = d_loss_d_m * d_m_d_mag;
-
-        RGBColor d_loss_d_thiscolor = d_loss_d_finalcolor*d_finalcolor_d_thiscolor;
-        double d_loss_d_thiscolor_arr[3];
-        d_loss_d_thiscolor_arr[0] = d_loss_d_thiscolor.r;
-        d_loss_d_thiscolor_arr[1] = d_loss_d_thiscolor.g;
-        d_loss_d_thiscolor_arr[2] = d_loss_d_thiscolor.b;
-        current_node->model.network.SetOutputGradient(d_loss_d_thiscolor_arr, 3);
-
-        current_node->model.network.Backward();
-
-        double d_loss_d_colorxy[2]; current_node->model.network.GetInputGradient(d_loss_d_colorxy, 2);
-
-        current_node->model.x_grad += (d_loss_d_mag * d_mag_d_x + d_loss_d_colorxy[0]);
-        current_node->model.y_grad += (d_loss_d_mag * d_mag_d_y + d_loss_d_colorxy[1]);
-        gain_grad += d_loss_d_mag*(current_node->model.mag/gain);
+        // quickly take note of loss from this sample, for the purpose of having all nodes have approx equal loss
+        RGBColor final_pixel_loss = d_loss_d_finalcolor*d_loss_d_finalcolor*0.25; // only works for MSE, be warned
+        current_node->model.accum_loss += RGBColor::Trace(final_pixel_loss)*current_node->model.m;
     });
 
     (*read_weights_tail) = weights; // does not move

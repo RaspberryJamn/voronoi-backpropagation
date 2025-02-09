@@ -3,6 +3,7 @@
 #include <sstream>
 #include <cmath>
 #include <algorithm>
+#include "RGBColor.h"
 
 int g_sample_x = 0;
 int g_sample_y = 0;

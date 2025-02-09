@@ -61,11 +61,15 @@ void CApp::OnMouseDragged() {
 void CApp::OnKeyDown(SDL_Keycode key) {
     switch (key) {
     case SDLK_UP:
-        this->training_stride++;
+        this->training_stride *= 2;
+        G_Clamp<int>(&this->training_stride, 1, 32);
+//        std::cout << this->training_stride << std::endl;
         break;
     case SDLK_DOWN:
-        this->training_stride--;
+        this->training_stride /= 2;
+        G_Clamp<int>(&this->training_stride, 1, 32);
+//        std::cout << this->training_stride << std::endl;
         break;
     }
-    G_Clamp<int>(&this->training_stride, 1, 32);
+
 }

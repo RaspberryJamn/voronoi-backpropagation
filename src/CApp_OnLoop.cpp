@@ -3,6 +3,7 @@
 #include <iostream>
 #include <sstream>
 #include "IdkFunctions.h"
+#include "RGBColor.h"
 
 RGBColor CApp::SampleSourceImage(int x, int y) {
     if (x < 0) { x = 0; }

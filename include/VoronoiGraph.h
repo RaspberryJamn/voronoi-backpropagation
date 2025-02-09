@@ -1,6 +1,7 @@
 #ifndef VORONOIGRAPH_H
 #define VORONOIGRAPH_H
 #include <vector>
+#include "RGBColor.h"
 #include "VoronoiQuadTree.h"
 #include "VoronoiNode.h"
 #include "NNLayer.h"
@@ -26,7 +27,6 @@ class VoronoiGraph : virtual public NNLayer::NNLayer {
 
         void UpdateAllGradients(double learning_rate);
 
-        VoronoiNode* GetRecentNearest();
         std::vector<VoronoiNode*> GetRecentNearby();
 
         RGBColor Sample(double x, double y);
