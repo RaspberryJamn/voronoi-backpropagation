@@ -15,6 +15,8 @@ NeuralNetwork::NeuralNetwork() {
     this->gradients = nullptr;
     this->parameters_size = 0;
 
+    this->backward_count = 0;
+
     this->optimizer.b1 = 0.9;
     this->optimizer.b2 = 0.9;
     this->optimizer.e = 0.000001;
@@ -39,6 +41,7 @@ NeuralNetwork::~NeuralNetwork() {
     this->built = false;
     this->values_size = 0;
     this->parameters_size = 0;
+    this->backward_count = 0;
 }
 
 void NeuralNetwork::AddLayer(NNLayer::NNLayer* layer) { // output size is set in initialization
@@ -87,12 +90,14 @@ void NeuralNetwork::ClearGradients() {
     for (size_t i = 0; i < this->parameters_size; i++) {
         this->gradients[i] = 0.0;
     }
+    this->backward_count = 0;
 }
 
 void NeuralNetwork::ApplyGradients(double learning_rate) {
     for (size_t i = 0; i < this->parameters_size; i++) {
-        this->optimizer.m[i] = this->optimizer.b1*this->optimizer.m[i] + (1.0-this->optimizer.b1)*this->gradients[i];
-        this->optimizer.v[i] = this->optimizer.b2*this->optimizer.v[i] + (1.0-this->optimizer.b2)*this->gradients[i]*this->gradients[i];
+        double averaged_gradient = this->gradients[i]/(this->backward_count+0.001);
+        this->optimizer.m[i] = this->optimizer.b1*this->optimizer.m[i] + (1.0-this->optimizer.b1)*averaged_gradient;
+        this->optimizer.v[i] = this->optimizer.b2*this->optimizer.v[i] + (1.0-this->optimizer.b2)*averaged_gradient*averaged_gradient;
         this->weights[i] -= ( (this->optimizer.m[i]/(1.0-this->optimizer.b1)) / (std::sqrt(this->optimizer.v[i]/(1.0-this->optimizer.b2))+this->optimizer.e) )*learning_rate;
     }
 //    for (size_t i = 0; i < this->parameters_size; i++) {
@@ -173,4 +178,5 @@ void NeuralNetwork::Backward() { // MSE, called after NeuralNetwork::Forward()
 //        std::cout << "finished layer->Backawrd" << std::endl;
 //    });
     }
+    this->backward_count++;
 }

@@ -17,6 +17,7 @@ VoronoiGraph::VoronoiGraph(size_t output_size) : NNLayer::NNLayer(output_size, 0
 
     this->node_xy_rate = 0.0;
 
+    this->backward_count = 0;
     this->input_size = 2;
     this->output_size = 3;
     this->parameter_size = 0;
@@ -29,6 +30,7 @@ VoronoiGraph::~VoronoiGraph() {
     this->quad_tree.SetBandWidth(this->band_width);
     this->gain_gradient = 0;
 
+    this->backward_count = 0;
     this->input_size = 2;
     this->output_size = 3;
     this->parameter_size = 0;
@@ -58,8 +60,8 @@ void VoronoiGraph::UpdateAllGradients(double learning_rate) {
         if (!((current_node->model.x_grad > 0) || (current_node->model.x_grad <= 0))) {
             SDL_assert(false);
         }
-        current_node->x -= (current_node->model.x_grad + (std::rand()%100+std::rand()%100-100)*500)*learning_rate*this->node_xy_rate;
-        current_node->y -= (current_node->model.y_grad + (std::rand()%100+std::rand()%100-100)*500)*learning_rate*this->node_xy_rate;
+        current_node->x -= (current_node->model.x_grad + (std::rand()%100+std::rand()%100-100)/300)/this->backward_count*learning_rate*this->node_xy_rate;
+        current_node->y -= (current_node->model.y_grad + (std::rand()%100+std::rand()%100-100)/300)/this->backward_count*learning_rate*this->node_xy_rate;
         current_node->model.network.ApplyGradients(learning_rate);
 //        this->gain_gradient += current_node->GetGainGradient();
 
@@ -67,6 +69,7 @@ void VoronoiGraph::UpdateAllGradients(double learning_rate) {
         current_node->model.y_grad = 0;
         current_node->model.network.ClearGradients();
     });
+    this->backward_count = 0;
 //    this->gain -= this->gain_gradient*learning_rate*0.0000000005;
 //    G_Clamp<double>(&this->gain, 0.0005, 1.0);
 //    this->gain_gradient = 0;
@@ -245,6 +248,7 @@ void VoronoiGraph::Backward(double** read_values_tail, double** io_back_values_t
         RGBColor final_pixel_loss = d_loss_d_finalcolor*d_loss_d_finalcolor*0.25; // only works for MSE, be warned
         current_node->model.accum_loss += RGBColor::Trace(final_pixel_loss)*current_node->model.m;
     });
+    this->backward_count++;
 
     (*read_weights_tail) = weights; // does not move
     (*write_gradient_tail) = weights_gradient; // does not move

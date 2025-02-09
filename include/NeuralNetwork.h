@@ -45,6 +45,8 @@ class NeuralNetwork
         double* gradients;
         size_t parameters_size;
 
+        int backward_count;
+
         struct {
             double b1;
             double b2;

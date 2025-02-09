@@ -50,6 +50,8 @@ class VoronoiGraph : virtual public NNLayer::NNLayer {
         double gain;
         double gain_gradient;
 
+        int backward_count;
+
 };
 
 #endif // VORONOIGRAPH_H
