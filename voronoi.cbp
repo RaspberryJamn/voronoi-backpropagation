@@ -48,6 +48,7 @@
 		<Unit filename="include/NNLayer.h" />
 		<Unit filename="include/NNLayer/Dense.h" />
 		<Unit filename="include/NNLayer/Input.h" />
+		<Unit filename="include/NNLayer/ODense.h" />
 		<Unit filename="include/NNLayer/Sigmoid.h" />
 		<Unit filename="include/NeuralNetwork.h" />
 		<Unit filename="include/Texture.h" />
@@ -75,6 +76,7 @@
 		<Unit filename="src/NNLayer.cpp" />
 		<Unit filename="src/NNLayer/Dense.cpp" />
 		<Unit filename="src/NNLayer/Input.cpp" />
+		<Unit filename="src/NNLayer/ODense.cpp" />
 		<Unit filename="src/NNLayer/Sigmoid.cpp" />
 		<Unit filename="src/NeuralNetwork.cpp" />
 		<Unit filename="src/Texture.cpp" />

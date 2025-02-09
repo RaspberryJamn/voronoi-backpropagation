@@ -84,10 +84,6 @@ double VoronoiGraph::GetGain() {
     return this->gain;
 }
 
-void VoronoiGraph::SetNearbySeed(VoronoiNode* seed) {
-    this->seed = seed;
-}
-
 VoronoiNode* VoronoiGraph::GetRecentNearest() {
     return this->recent_nearby.front();
 }
@@ -103,22 +99,20 @@ void VoronoiGraph::RenderTree(SDL_Renderer* render_target) {
     this->quad_tree.RenderTree(render_target);
 }
 
-RGBColor VoronoiGraph::Sample(double x, double y, VoronoiNode** io_seed) { // nearby nodes already have their distances calculated, aka gain and bandwidth are baked in
-    this->SetNearbySeed((*io_seed));
+RGBColor VoronoiGraph::Sample(double x, double y) { // nearby nodes already have their distances calculated, aka gain and bandwidth are baked in
     double io[5];
     io[0] = x;
     io[1] = y;
     double* active_vector = io;
     double* active_weights = nullptr;//io;
     this->Forward(&active_vector, &active_weights);
-    (*io_seed) = this->GetRecentNearest();
     return RGBColor(active_vector[0]*256.0, active_vector[1]*256.0, active_vector[2]*256.0);
 //    return RGBColor(io[2], io[3], io[4]);
 }
 
-void VoronoiGraph::Poke(double x, double y, RGBColor image_sample, VoronoiNode** io_seed) {
+void VoronoiGraph::Poke(double x, double y, RGBColor image_sample) {
 
-    RGBColor final_color = this->Sample(x, y, io_seed);
+    RGBColor final_color = this->Sample(x, y);
 
     double forward_values[5];
     forward_values[0] = x;
@@ -153,7 +147,7 @@ void VoronoiGraph::Forward(double** io_values_start, double** read_weight_start)
     double* next_layer = current_layer+this->input_size;
 
     this->recent_nearby.clear();
-    this->recent_nearby = this->quad_tree.GetNearby(current_layer[0], current_layer[1], this->seed);
+    this->recent_nearby = this->quad_tree.GetNearby(current_layer[0], current_layer[1]);
     double z = 0;
     double exp_offset = -this->GetRecentNearest()->model.mag; // for numerical precision. softmax doesnt care about offsets so long as theyre applied to all applicants
     std::for_each(this->recent_nearby.begin(), this->recent_nearby.end(), [&](VoronoiNode* current_node) {

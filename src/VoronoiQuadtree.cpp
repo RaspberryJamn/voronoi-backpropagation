@@ -18,6 +18,7 @@ VoronoiQuadTree::VoronoiQuadTree() {
     // GetNearby {
     this->search.nearby_candidates.clear();
 
+    this->search.recent_seed = nullptr;
     this->search.recent_x = 0;
     this->search.recent_y = 0;
     this->search.sort_recent_x = 0;
@@ -237,29 +238,24 @@ void VoronoiQuadTree::UpdateNodePositions() {
     });
 }
 
-std::vector<VoronoiNode*> VoronoiQuadTree::GetNearby(double x, double y, double band_width, double gain, VoronoiNode* seed) {
+std::vector<VoronoiNode*> VoronoiQuadTree::GetNearby(double x, double y, double band_width, double gain) {
     this->SetGain(gain);
     this->SetBandWidth(band_width);
-    return this->GetNearby(x, y, seed);
+    return this->GetNearby(x, y);
 }
-std::vector<VoronoiNode*> VoronoiQuadTree::GetNearby(double x, double y, VoronoiNode* seed) {
+std::vector<VoronoiNode*> VoronoiQuadTree::GetNearby(double x, double y) {
     this->search.recent_x = x;
     this->search.recent_y = y;
     this->search.sort_recent_x = (int)this->search.recent_x;
     this->search.sort_recent_y = (int)this->search.recent_y;
 
-    if (seed != nullptr) {
-        seed->CalculateMag(this->search.recent_x, this->search.recent_y, this->search.gain); // work done here
-        seed->CalculateBoxRadius(this->search.recent_x, this->search.recent_y); // work done here
-        this->search.current_bounding_mag = seed->sort.mag + this->search.band_width;
-        this->search.current_box_radius = seed->sort.box_radius + this->search.sort_band_width;
-    } else {
-        VoronoiNode* arbitrary_seed = this->all_child_nodes.front();
-        arbitrary_seed->CalculateMag(this->search.recent_x, this->search.recent_y, this->search.gain); // work done here
-        arbitrary_seed->CalculateBoxRadius(this->search.recent_x, this->search.recent_y); // work done here
-        this->search.current_bounding_mag = arbitrary_seed->sort.mag + this->search.band_width;
-        this->search.current_box_radius = arbitrary_seed->sort.box_radius + this->search.sort_band_width;
+    if (this->search.recent_seed == nullptr) {
+        this->search.recent_seed = this->all_child_nodes.front();
     }
+    this->search.recent_seed->CalculateMag(this->search.recent_x, this->search.recent_y, this->search.gain); // work done here
+    this->search.recent_seed->CalculateBoxRadius(this->search.recent_x, this->search.recent_y); // work done here
+    this->search.current_bounding_mag = this->search.recent_seed->sort.mag + this->search.band_width;
+    this->search.current_box_radius = this->search.recent_seed->sort.box_radius + this->search.sort_band_width;
 
     this->search.nearby_candidates.clear();
 

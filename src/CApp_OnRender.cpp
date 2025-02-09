@@ -6,12 +6,6 @@
 
 int g_sample_x = 0;
 int g_sample_y = 0;
-VoronoiNode* g_past_nearest_0_0_seed = nullptr; // keeps tab on a good seed for the top left corner
-VoronoiNode* g_past_nearest_0_y_seed = nullptr; // keeps tab on a good seed for the left hand spine of the current scan line
-VoronoiNode* g_running_seed = nullptr; // seed for the current sample, reads from and writes to the previous two
-
-VoronoiNode* g_add_remove_node = nullptr;
-
 int g_render_hits = 0;
 void CApp::RenderFullFrameVoronoi(double* running_loss) {
 
@@ -24,7 +18,7 @@ void CApp::RenderFullFrameVoronoi(double* running_loss) {
         int x = g_sample_x;
         int y = g_sample_y;
 
-        RGBColor sample = this->voronoi_graph->Sample((double)x, (double)y, &g_running_seed);
+        RGBColor sample = this->voronoi_graph->Sample((double)x, (double)y);
         G_Clamp<double>(&sample.r, 0, 255);
         G_Clamp<double>(&sample.g, 0, 255);
         G_Clamp<double>(&sample.b, 0, 255);
@@ -40,20 +34,12 @@ void CApp::RenderFullFrameVoronoi(double* running_loss) {
         SDL_SetRenderDrawColor(this->main_renderer, (Uint8)c.r, (Uint8)c.g, (Uint8)c.b, 0xFF);
         SDL_RenderDrawPoint(this->main_renderer, x, y);
 
-        if (g_sample_x == 0) {
-            g_past_nearest_0_y_seed = g_running_seed; // having hit the end of the line and slid back to the left, writing the value as step two
-            if (g_sample_y == 0) {
-                g_past_nearest_0_0_seed = g_running_seed; // having hit the bottom of the image and slid back to the top, writing the value as step two
-            }
-        }
         g_sample_x++;
         if (g_sample_x == this->source_texture->GetWidth()) {
             g_sample_x = 0;
-            g_running_seed = g_past_nearest_0_y_seed; // hit the end of the line, slide back to the left, reading the value as step one
             g_sample_y++;
             if (g_sample_y == this->source_texture->GetHeight()) {
                 g_sample_y = 0;
-                g_running_seed = g_past_nearest_0_0_seed; // hit the bottom of the image, slide back to the top, reading the value as step one
 
                 if (calculate_loss) {
                     (*running_loss) = 0;

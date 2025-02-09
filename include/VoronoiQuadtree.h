@@ -41,8 +41,8 @@ class VoronoiQuadTree {
         void AddNode(VoronoiNode* node);
         void RemoveNode(VoronoiNode* node);
         void UpdateNodePositions();
-        std::vector<VoronoiNode*> GetNearby(double x, double y, double band_width, double gain, VoronoiNode* seed);
-        std::vector<VoronoiNode*> GetNearby(double x, double y, VoronoiNode* seed); // closest node on top, the mag of everything else is at most the nearest dist plus the band width
+        std::vector<VoronoiNode*> GetNearby(double x, double y, double band_width, double gain);
+        std::vector<VoronoiNode*> GetNearby(double x, double y); // closest node on top, the mag of everything else is at most the nearest dist plus the band width
 
         std::vector<VoronoiNode*> GetAllNodes();
         void SetGain(double gain);
@@ -80,6 +80,7 @@ class VoronoiQuadTree {
 
         // GetNearby stuff {
         struct {
+            VoronoiNode* recent_seed;
             double recent_x;
             double recent_y;
             int sort_recent_x;

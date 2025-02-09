@@ -53,7 +53,7 @@ bool CApp::OnInit() {
 //    this->voronoi_graph->SetErrorLogger(this->error_logger);
     this->voronoi_graph->Reshape(0, 0, this->media_texture->GetWidth(), this->media_texture->GetHeight(), 5, 3);
 
-    const int node_count = 100;
+    const int node_count = 400;
     for (int i = 0; i < node_count; i++) {
         double x = std::fmod((i*1.618034+0.5),1.0)*this->media_texture->GetWidth();
         double y = std::fmod(((double)i/node_count+0.5),1.0)*this->media_texture->GetHeight();
@@ -72,7 +72,7 @@ bool CApp::OnInit() {
 //    this->voronoi_graph->AddNode(new VoronoiNode(200,180,0  ,255,255));
 //    this->voronoi_graph->AddNode(new VoronoiNode(180,120,255,255,255));
     double band_width =  6.0;
-    double gain = 0.001; // higher gain => higher sharpness / smaller gain => higher smoothness
+    double gain = 0.004; // higher gain => higher sharpness / smaller gain => higher smoothness
     this->voronoi_graph->SetGain(gain);
     this->voronoi_graph->SetBandWidth(band_width);
 

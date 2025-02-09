@@ -26,12 +26,11 @@ class VoronoiGraph : virtual public NNLayer::NNLayer {
 
         void UpdateAllGradients(double learning_rate);
 
-        void SetNearbySeed(VoronoiNode* seed);
         VoronoiNode* GetRecentNearest();
         std::vector<VoronoiNode*> GetRecentNearby();
 
-        RGBColor Sample(double x, double y, VoronoiNode** io_seed);
-        void Poke(double x, double y, RGBColor image_sample, VoronoiNode** io_seed);
+        RGBColor Sample(double x, double y);
+        void Poke(double x, double y, RGBColor image_sample);
         void CalculateParameterSize() override;
         void Init(double** write_weights_start) override;
         void Forward(double** io_values_start, double** read_weight_start) override;
@@ -42,7 +41,6 @@ class VoronoiGraph : virtual public NNLayer::NNLayer {
 
         VoronoiQuadTree quad_tree;
 
-        VoronoiNode* seed;
         std::vector<VoronoiNode*> recent_nearby;
 
         double node_xy_rate;
