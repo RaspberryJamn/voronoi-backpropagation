@@ -45,6 +45,7 @@ class VoronoiQuadTree {
         std::vector<VoronoiNode*> GetNearby(double x, double y); // closest node on top, the mag of everything else is at most the nearest dist plus the band width
 
         std::vector<VoronoiNode*> GetAllNodes();
+        int GetNodeCount();
         void SetGain(double gain);
         void SetBandWidth(double band_width);
         double GetGain();

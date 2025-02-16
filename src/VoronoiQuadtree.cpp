@@ -219,15 +219,12 @@ void VoronoiQuadTree::UpdateNodePositions() {
         if (current_node->y <  this->y) { current_node->y = this->y;}
         if (current_node->y >= this->y+this->h) { current_node->y = this->y+this->h-1;}
 
-//        current_node->CalculateSortingPos(); // you moved, therefore you should have an updated sorting position
-        current_node->sort.x = (int)current_node->x;
+        current_node->sort.x = (int)current_node->x;// you moved, therefore you should have an updated sorting position
         current_node->sort.y = (int)current_node->y;
-//        if (!(current_node->IsBounded(current_node->GetSortingPosX(), current_node->GetSortingPosY()))) { // now, have you left the box you were in just a moment ago?
-        if ((current_node->sort.x >=current_node->sort.x_min) &&
-            (current_node->sort.x < current_node->sort.x_max) &&
-            (current_node->sort.y >=current_node->sort.y_min) &&
-            (current_node->sort.y < current_node->sort.y_max)) {
-
+        if ((current_node->sort.x < current_node->sort.x_min) ||
+            (current_node->sort.x >=current_node->sort.x_max) ||
+            (current_node->sort.y < current_node->sort.y_min) ||
+            (current_node->sort.y >=current_node->sort.y_max)) { // now, have you left the box you were in just a moment ago?
             this->search.sort_recent_x = x_copy;
             this->search.sort_recent_y = y_copy;
             this->RemoveFromBranch(current_node, this->root); // use the old for removing it
@@ -424,4 +421,7 @@ double VoronoiQuadTree::GetGain() {
 }
 std::vector<VoronoiNode*> VoronoiQuadTree::GetAllNodes() {
     return this->all_child_nodes;
+}
+int VoronoiQuadTree::GetNodeCount() {
+    return this->total_child_count;
 }
