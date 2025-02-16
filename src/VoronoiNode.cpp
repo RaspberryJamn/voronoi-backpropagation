@@ -76,7 +76,7 @@ void VoronoiNode::PrintList(std::vector<VoronoiNode*> node_list, int indent) {
     });
 }
 
-void VoronoiNode::Render(VoronoiNode* node, SDL_Renderer* target_renderer) {
+void VoronoiNode::Render(VoronoiNode* node, SDL_Renderer* target_renderer, AtlasNumberDrawer* number_renderer) {
     SDL_Rect dest = {0,0,0,0};
 
     SDL_SetRenderDrawColor(target_renderer, 0x00, 0x00, 0x00, 0xFF);
@@ -92,6 +92,12 @@ void VoronoiNode::Render(VoronoiNode* node, SDL_Renderer* target_renderer) {
 //    SDL_RenderDrawPoint(target_renderer, this->sorting_x, this->sorting_y);
     SDL_RenderDrawLine(target_renderer, node->sort.x, node->sort.y-2, node->sort.x, node->sort.y+2);
     SDL_RenderDrawLine(target_renderer, node->sort.x-2, node->sort.y, node->sort.x+2, node->sort.y);
+
+    SDL_Rect string_bounds;
+    double disp;
+    string_bounds = {node->sort.x, node->sort.y+4,0,0};
+    disp = node->model.prev_accum_loss;
+    number_renderer->DrawRTL(std::to_string((int)(disp)), &string_bounds);
 
 //    this->RenderLoggedGradient(target_renderer);
 }

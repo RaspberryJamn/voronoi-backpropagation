@@ -399,13 +399,15 @@
 	"begin_code.h"
 	"close_code.h"
 
-1738395130 source:c:\users\james\documents\cpp\voronoi\src\capp.cpp
+1739676175 source:c:\users\james\documents\cpp\voronoi\src\capp.cpp
 	"CApp.h"
 
-1738395114 c:\users\james\documents\cpp\voronoi\include\capp.h
+1739676492 c:\users\james\documents\cpp\voronoi\include\capp.h
 	<SDL.h>
 	<SDL_image.h>
 	<SDL_ttf.h>
+	<vector>
+	<string>
 	"IdkFunctions.h"
 	"CanvasWindow.h"
 	"Timer.h"
@@ -425,7 +427,7 @@
 	"CApp.h"
 	<iostream>
 
-1736360449 source:c:\users\james\documents\cpp\voronoi\src\capp_oncleanup.cpp
+1739677074 source:c:\users\james\documents\cpp\voronoi\src\capp_oncleanup.cpp
 	"CApp.h"
 
 1739063229 source:c:\users\james\documents\cpp\voronoi\src\capp_onevent.cpp
@@ -433,12 +435,13 @@
 	<iostream>
 	"IdkFunctions.h"
 
-1738409019 source:c:\users\james\documents\cpp\voronoi\src\capp_oninit.cpp
+1739677826 source:c:\users\james\documents\cpp\voronoi\src\capp_oninit.cpp
 	"CApp.h"
 	<iostream>
+	<math.h>
 	<cstdlib>
 
-1739062757 source:c:\users\james\documents\cpp\voronoi\src\capp_onloop.cpp
+1739678541 source:c:\users\james\documents\cpp\voronoi\src\capp_onloop.cpp
 	"CApp.h"
 	<cmath>
 	<iostream>
@@ -446,9 +449,10 @@
 	"IdkFunctions.h"
 	"RGBColor.h"
 
-1739062761 source:c:\users\james\documents\cpp\voronoi\src\capp_onrender.cpp
+1739678970 source:c:\users\james\documents\cpp\voronoi\src\capp_onrender.cpp
 	"CApp.h"
 	"IdkFunctions.h"
+	<vector>
 	<sstream>
 	<cmath>
 	<algorithm>
@@ -474,9 +478,11 @@
 	"Texture.h"
 	<iostream>
 
-1739054083 source:c:\users\james\documents\cpp\voronoi\src\capp_importassets.cpp
+1739678514 source:c:\users\james\documents\cpp\voronoi\src\capp_importassets.cpp
 	"CApp.h"
 	<iostream>
+	<vector>
+	<string>
 
 1729621601 source:c:\users\james\documents\cpp\voronoi\src\atlasnumberdrawer.cpp
 	"AtlasNumberDrawer.h"
@@ -485,21 +491,22 @@
 	"Texture.h"
 	"SDL.h"
 
-1738378783 source:c:\users\james\documents\cpp\voronoi\src\voronoinode.cpp
+1739679208 source:c:\users\james\documents\cpp\voronoi\src\voronoinode.cpp
 	"VoronoiNode.h"
 	<vector>
 	<iostream>
 
-1739063779 c:\users\james\documents\cpp\voronoi\include\voronoinode.h
+1739678837 c:\users\james\documents\cpp\voronoi\include\voronoinode.h
 	"SDL.h"
 	<vector>
+	"AtlasNumberDrawer.h"
 	"NeuralNetwork.h"
 	"NNLayer/Input.h"
 	"NNLayer/Sigmoid.h"
 	"NNLayer/Dense.h"
 	"NNLayer/ODense.h"
 
-1739071454 source:c:\users\james\documents\cpp\voronoi\src\voronoigraph.cpp
+1739678894 source:c:\users\james\documents\cpp\voronoi\src\voronoigraph.cpp
 	"VoronoiGraph.h"
 	"VoronoiNode.h"
 	"IdkFunctions.h"
@@ -510,7 +517,7 @@
 	"NNLayer.h"
 	"RGBColor.h"
 
-1739070973 c:\users\james\documents\cpp\voronoi\include\voronoigraph.h
+1739678942 c:\users\james\documents\cpp\voronoi\include\voronoigraph.h
 	<vector>
 	"RGBColor.h"
 	"VoronoiQuadTree.h"
@@ -526,7 +533,7 @@
 1732749739 source:c:\users\james\documents\cpp\voronoi\src\lapcounter.cpp
 	"LapCounter.h"
 
-1739060924 c:\users\james\documents\cpp\voronoi\include\voronoiquadtree.h
+1739678912 c:\users\james\documents\cpp\voronoi\include\voronoiquadtree.h
 	<vector>
 	"VoronoiNode.h"
 
@@ -555,7 +562,7 @@
 	<cstdlib>
 	<ctime>
 
-1738378755 source:c:\users\james\documents\cpp\voronoi\src\voronoigraphreporting.cpp
+1739678863 source:c:\users\james\documents\cpp\voronoi\src\voronoigraphreporting.cpp
 	"VoronoiGraph.h"
 	"CApp.h"
 	<cmath>
@@ -582,7 +589,7 @@
 	"NNLayer.h"
 	<cmath>
 
-1739071227 source:c:\users\james\documents\cpp\voronoi\src\neuralnetwork.cpp
+1739678296 source:c:\users\james\documents\cpp\voronoi\src\neuralnetwork.cpp
 	"NeuralNetwork.h"
 	<cmath>
 

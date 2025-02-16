@@ -12,10 +12,10 @@ void CApp::OnCleanup() {
     delete this->voronoi_graph;
     this->voronoi_graph = nullptr;
 
-    for (int i = 0; i < 7; i++) { // hardcoded but whatever man
-        delete this->text_textures[i];
-        this->text_textures[i] = nullptr;
-    }
+    std::for_each(this->text_textures.begin(), this->text_textures.end(), [&](Texture* current_texture) {
+        delete current_texture;
+    });
+    this->text_textures.clear();
 
     TTF_CloseFont(this->main_font);
     this->main_font = nullptr;

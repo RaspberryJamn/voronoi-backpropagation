@@ -1,5 +1,6 @@
 #include "CApp.h"
 #include "IdkFunctions.h"
+#include <vector>
 #include <sstream>
 #include <cmath>
 #include <algorithm>
@@ -122,7 +123,7 @@ void CApp::OnRender() {
 ////            });
         }
 
-        this->voronoi_graph->RenderTree(this->main_renderer);
+        this->voronoi_graph->RenderTree(this->main_renderer, &this->number_renderer);
     }
 //    this->voronoi_graph->RenderTree(this->main_renderer);
 
@@ -132,35 +133,43 @@ void CApp::OnRender() {
     SDL_Rect string_bounds = {5,this->media_texture->GetHeight()+5,0,0};
     disp = this->last_frametime;
     if (disp > 9999) {disp = 9999;}
-    this->text_textures[0]->RenderRTL(&string_bounds); // "Last frametime: "
+    this->text_textures.at(0)->RenderRTL(&string_bounds); // "Last frametime: "
     this->number_renderer.DrawRTL(std::to_string((int)disp), &string_bounds);
-    this->text_textures[1]->RenderRTL(&string_bounds); // "ms"
+    this->text_textures.at(1)->RenderRTL(&string_bounds); // "ms"
 
     string_bounds = {5,this->media_texture->GetHeight()+20,0,0};
     disp = this->average_frametime;
-    this->text_textures[2]->RenderRTL(&string_bounds); // "Average frametime: "
+    this->text_textures.at(2)->RenderRTL(&string_bounds); // "Average frametime: "
     this->number_renderer.DrawRTL(std::to_string((int)(disp)), &string_bounds);
-    this->text_textures[3]->RenderRTL(&string_bounds); // "ms"
+    this->text_textures.at(1)->RenderRTL(&string_bounds); // "ms"
 
     string_bounds = {5,this->media_texture->GetHeight()+35,0,0};
     disp = g_running_loss;
-    this->text_textures[5]->RenderRTL(&string_bounds); // "running "
-    this->text_textures[6]->RenderRTL(&string_bounds); // "loss "
+    this->text_textures.at(4)->RenderRTL(&string_bounds); // "running "
+    this->text_textures.at(5)->RenderRTL(&string_bounds); // "loss "
     this->number_renderer.DrawRTL(std::to_string((int)(disp)), &string_bounds);
 
     string_bounds = {5,this->media_texture->GetHeight()+50,0,0};
     disp = g_last_full_frame_loss;
-    this->text_textures[4]->RenderRTL(&string_bounds); // "last "
-    this->text_textures[6]->RenderRTL(&string_bounds); // "loss "
+    this->text_textures.at(3)->RenderRTL(&string_bounds); // "last "
+    this->text_textures.at(5)->RenderRTL(&string_bounds); // "loss "
     this->number_renderer.DrawRTL(std::to_string((int)(disp)), &string_bounds);
 
-//    string_bounds = {5,35,0,0};
-//    disp = 1000.0/this->average_full_frametime;
-////    if (disp < (1000.0/9999.0)) {disp = (1000.0/9999.0);}
-////    disp = (1000.0/disp);
-//    this->text_textures[4]->RenderRTL(&string_bounds); // "Average fps: "
-//    this->number_renderer.DrawRTL(std::to_string((int)(disp)), &string_bounds);
-//    this->text_textures[5]->RenderRTL(&string_bounds); // "fps"
+    string_bounds = {5,this->media_texture->GetHeight()+65,0,0};
+    disp = this->voronoi_graph->GetRecentCummLossMean()*1000.0;
+    this->text_textures.at(6)->RenderRTL(&string_bounds); // "mean "
+    this->text_textures.at(8)->RenderRTL(&string_bounds); // "node "
+    this->text_textures.at(5)->RenderRTL(&string_bounds); // "loss "
+    this->text_textures.at(10)->RenderRTL(&string_bounds); // "x100 "
+    this->number_renderer.DrawRTL(std::to_string((int)(disp)), &string_bounds);
+
+    string_bounds = {5,this->media_texture->GetHeight()+80,0,0};
+    disp = this->voronoi_graph->GetRecentCummLossVariance()*1000.0;
+    this->text_textures.at(8)->RenderRTL(&string_bounds); // "node "
+    this->text_textures.at(5)->RenderRTL(&string_bounds); // "loss "
+    this->text_textures.at(7)->RenderRTL(&string_bounds); // "variance "
+    this->text_textures.at(10)->RenderRTL(&string_bounds); // "x100 "
+    this->number_renderer.DrawRTL(std::to_string((int)(disp)), &string_bounds);
 
     SDL_RenderPresent(this->main_renderer);
 

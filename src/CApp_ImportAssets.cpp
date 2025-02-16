@@ -1,5 +1,7 @@
 #include "CApp.h"
 #include <iostream>
+#include <vector>
+#include <string>
 
 SDL_Surface* LoadSurface(std::string path, SDL_PixelFormat* format) {
 
@@ -20,6 +22,13 @@ SDL_Surface* LoadSurface(std::string path, SDL_PixelFormat* format) {
     SDL_FreeSurface(loaded_surface);
 
     return optimized_surface;
+}
+
+bool CApp::AddStringToTextTextures(std::string string) {
+    this->text_textures.push_back(new Texture(this->main_renderer, this->main_font));
+    this->text_textures.back()->LoadInRenderedText(string, {0,0,0,255});
+    if (!this->text_textures.back()->WasSuccessful()) { std::cout << "Failed to create text texture" << std::endl; return false; }
+    return true;
 }
 
 bool CApp::ImportAssets() {
@@ -46,34 +55,17 @@ bool CApp::ImportAssets() {
         std::cout << "Failed to load font, SDL_ttf error: " << TTF_GetError() << std::endl;
         return false;
     }
-
-    this->text_textures[0] = new Texture(this->main_renderer, this->main_font);
-    this->text_textures[0]->LoadInRenderedText("Last frametime: ", {0,0,0,255});
-    if (!this->text_textures[0]->WasSuccessful()) { std::cout << "Failed to create text texture" << std::endl; return false; }
-
-    this->text_textures[1] = new Texture(this->main_renderer, this->main_font);
-    this->text_textures[1]->LoadInRenderedText("ms", {0,0,0,255});
-    if (!this->text_textures[1]->WasSuccessful()) { std::cout << "Failed to create text texture" << std::endl; return false; }
-
-    this->text_textures[2] = new Texture(this->main_renderer, this->main_font);
-    this->text_textures[2]->LoadInRenderedText("Average frametime: ", {0,0,0,255});
-    if (!this->text_textures[2]->WasSuccessful()) { std::cout << "Failed to create text texture" << std::endl; return false; }
-
-    this->text_textures[3] = new Texture(this->main_renderer, this->main_font);
-    this->text_textures[3]->LoadInRenderedText("ms", {0,0,0,255});
-    if (!this->text_textures[3]->WasSuccessful()) { std::cout << "Failed to create text texture" << std::endl; return false; }
-
-    this->text_textures[4] = new Texture(this->main_renderer, this->main_font);
-    this->text_textures[4]->LoadInRenderedText("last ", {0,0,0,255});
-    if (!this->text_textures[4]->WasSuccessful()) { std::cout << "Failed to create text texture" << std::endl; return false; }
-
-    this->text_textures[5] = new Texture(this->main_renderer, this->main_font);
-    this->text_textures[5]->LoadInRenderedText("running ", {0,0,0,255});
-    if (!this->text_textures[5]->WasSuccessful()) { std::cout << "Failed to create text texture" << std::endl; return false; }
-
-    this->text_textures[6] = new Texture(this->main_renderer, this->main_font);
-    this->text_textures[6]->LoadInRenderedText("loss ", {0,0,0,255});
-    if (!this->text_textures[6]->WasSuccessful()) { std::cout << "Failed to create text texture" << std::endl; return false; }
+    if (!this->AddStringToTextTextures("Last frametime: ")) { return false; }// 0
+    if (!this->AddStringToTextTextures("ms")) { return false; } // 1
+    if (!this->AddStringToTextTextures("Average frametime: ")) { return false; } // 2
+    if (!this->AddStringToTextTextures("last ")) { return false; } // 3
+    if (!this->AddStringToTextTextures("running ")) { return false; } // 4
+    if (!this->AddStringToTextTextures("loss ")) { return false; } // 5
+    if (!this->AddStringToTextTextures("mean ")) { return false; } // 6
+    if (!this->AddStringToTextTextures("variance ")) { return false; } // 7
+    if (!this->AddStringToTextTextures("node ")) { return false; } // 8
+    if (!this->AddStringToTextTextures("x10 ")) { return false; } // 9
+    if (!this->AddStringToTextTextures("x1000 ")) { return false; } // 10
 
     SDL_Color number_color = {0,0,0,255};
     this->number_renderer.BuildAtlas(this->main_renderer, this->main_font, number_color);

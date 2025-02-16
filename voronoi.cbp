@@ -51,6 +51,7 @@
 		<Unit filename="include/NNLayer/ODense.h" />
 		<Unit filename="include/NNLayer/Sigmoid.h" />
 		<Unit filename="include/NeuralNetwork.h" />
+		<Unit filename="include/RGBColor.h" />
 		<Unit filename="include/Texture.h" />
 		<Unit filename="include/Timer.h" />
 		<Unit filename="include/VoronoiGraph.h" />

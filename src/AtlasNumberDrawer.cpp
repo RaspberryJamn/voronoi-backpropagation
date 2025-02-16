@@ -36,6 +36,7 @@ void AtlasNumberDrawer::BuildAtlas(SDL_Renderer* target_renderer, TTF_Font* font
     this->atlas->NewBlankFromDims(horizontal_position, max_vertical_position);
     this->atlas->SetSelfAsRenderTarget();
 
+    SDL_SetRenderDrawColor(target_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
     SDL_RenderClear(target_renderer);
 
     for (int i = 0; i <= 9; i++) {

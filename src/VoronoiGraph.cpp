@@ -16,6 +16,9 @@ VoronoiGraph::VoronoiGraph(size_t output_size) : NNLayer::NNLayer(output_size, 0
     this->gain_gradient = 0;
 
     this->node_xy_rate = 0.0;
+    this->active_cumm_loss = 0;
+    this->recent_cumm_loss = 0;
+    this->recent_loss_variance = 0;
 
     this->backward_count = 0;
     this->input_size = 2;
@@ -29,6 +32,11 @@ VoronoiGraph::~VoronoiGraph() {
     this->quad_tree.SetGain(this->gain);
     this->quad_tree.SetBandWidth(this->band_width);
     this->gain_gradient = 0;
+
+    this->node_xy_rate = 0.0;
+    this->active_cumm_loss = 0;
+    this->recent_cumm_loss = 0;
+    this->recent_loss_variance = 0;
 
     this->backward_count = 0;
     this->input_size = 2;
@@ -50,6 +58,25 @@ void VoronoiGraph::RemoveNode(VoronoiNode* node) {
     this->quad_tree.RemoveNode(node);
 }
 
+void VoronoiGraph::PrintTree() {
+    this->quad_tree.PrintTree();
+}
+void VoronoiGraph::RenderTree(SDL_Renderer* render_target, AtlasNumberDrawer* number_renderer) {
+    this->quad_tree.RenderTree(render_target, number_renderer);
+}
+
+void VoronoiGraph::SetGain(double gain) {
+    this->gain = gain;
+    this->quad_tree.SetGain(this->gain);
+}
+void VoronoiGraph::SetBandWidth(double band_width) {
+    this->band_width = band_width;
+    this->quad_tree.SetBandWidth(this->band_width);
+}
+double VoronoiGraph::GetGain() {
+    return this->gain;
+}
+
 void VoronoiGraph::UpdateAllGradients(double learning_rate) {
     std::srand(std::time(0));
     this->gain_gradient = 0;
@@ -68,35 +95,52 @@ void VoronoiGraph::UpdateAllGradients(double learning_rate) {
         current_node->model.x_grad = 0;
         current_node->model.y_grad = 0;
         current_node->model.network.ClearGradients();
+
+        current_node->model.prev_accum_loss = current_node->model.accum_loss;
+        current_node->model.accum_loss = 0;
     });
     this->backward_count = 0;
+    this->recent_cumm_loss = this->active_cumm_loss;
+    this->active_cumm_loss = 0;
+    this->CalculateVarianceOfCummulativeLoss();
 //    this->gain -= this->gain_gradient*learning_rate*0.0000000005;
 //    G_Clamp<double>(&this->gain, 0.0005, 1.0);
 //    this->gain_gradient = 0;
     this->quad_tree.UpdateNodePositions();
 }
 
-void VoronoiGraph::SetGain(double gain) {
-    this->gain = gain;
-    this->quad_tree.SetGain(this->gain);
-}
-void VoronoiGraph::SetBandWidth(double band_width) {
-    this->band_width = band_width;
-    this->quad_tree.SetBandWidth(this->band_width);
-}
-double VoronoiGraph::GetGain() {
-    return this->gain;
-}
-
 std::vector<VoronoiNode*> VoronoiGraph::GetRecentNearby() {
     return this->recent_nearby;
 }
-
-void VoronoiGraph::PrintTree() {
-    this->quad_tree.PrintTree();
+void VoronoiGraph::CalculateVarianceOfCummulativeLoss() {
+    double mean = 0;
+    int n = 0;
+    std::vector<VoronoiNode*> all_nodes = this->quad_tree.GetAllNodes();
+    std::for_each(all_nodes.begin(), all_nodes.end(), [&](VoronoiNode* current_node) {
+        mean += current_node->model.prev_accum_loss;
+        n++;
+    });
+    mean /= n;
+    this->recent_loss_mean = mean;
+    double variance = 0;
+    std::for_each(all_nodes.begin(), all_nodes.end(), [&](VoronoiNode* current_node) {
+        double delta = current_node->model.prev_accum_loss-this->recent_loss_mean;
+        variance += delta*delta;
+    });
+    variance /= n;
+    this->recent_loss_variance = variance;
 }
-void VoronoiGraph::RenderTree(SDL_Renderer* render_target) {
-    this->quad_tree.RenderTree(render_target);
+double VoronoiGraph::GetRecentCummLossVariance() {
+    return this->recent_loss_variance;
+}
+double VoronoiGraph::GetRecentCummLossMean() {
+    return this->recent_loss_mean;
+}
+double VoronoiGraph::GetActiveCummLoss() {
+    return this->active_cumm_loss;
+}
+double VoronoiGraph::GetRecentCummLoss() {
+    return this->recent_cumm_loss;
 }
 
 RGBColor VoronoiGraph::Sample(double x, double y) { // nearby nodes already have their distances calculated, aka gain and bandwidth are baked in
@@ -185,6 +229,8 @@ void VoronoiGraph::Forward(double** io_values_start, double** read_weight_start)
     (*read_weight_start) = (*read_weight_start)+this->parameter_size; // does not move
 }
 
+//
+
 // this->mag = ((this->x-sample_x)^2+(this->y-sample_y)^2)*gain
 //     this->exp = exp(-this->mag) // oops, correction
 //     g_z = this->exp+that->exp+there->exp
@@ -211,10 +257,10 @@ void VoronoiGraph::Backward(double** read_values_tail, double** io_back_values_t
     double* weights_gradient = (*write_gradient_tail)-this->parameter_size; // appended
     RGBColor finalcolor = RGBColor(current_output[0],current_output[1],current_output[2]);
 
+    RGBColor d_loss_d_finalcolor = RGBColor(current_value_gradient[0],current_value_gradient[1],current_value_gradient[2]);
+    double final_pixel_loss = RGBColor::Trace(d_loss_d_finalcolor*d_loss_d_finalcolor)*0.25; // only works for MSE, be warned
     std::for_each(this->recent_nearby.begin(), this->recent_nearby.end(), [&](VoronoiNode* current_node) {
         // setup partial derivatives
-
-        RGBColor d_loss_d_finalcolor = RGBColor(current_value_gradient[0],current_value_gradient[1],current_value_gradient[2]);
 
         // gets current_node's generated color
         double currentscolor_arr[3];
@@ -245,10 +291,10 @@ void VoronoiGraph::Backward(double** read_values_tail, double** io_back_values_t
 //        gain_grad += d_loss_d_mag*(current_node->model.mag/gain); // unused
 
         // quickly take note of loss from this sample, for the purpose of having all nodes have approx equal loss
-        RGBColor final_pixel_loss = d_loss_d_finalcolor*d_loss_d_finalcolor*0.25; // only works for MSE, be warned
-        current_node->model.accum_loss += RGBColor::Trace(final_pixel_loss)*current_node->model.m;
+        current_node->model.accum_loss += final_pixel_loss*current_node->model.m; // color shall be considered constant, m is the vehicle by which varience is decreased
     });
     this->backward_count++;
+    this->active_cumm_loss+=final_pixel_loss;
 
     (*read_weights_tail) = weights; // does not move
     (*write_gradient_tail) = weights_gradient; // does not move

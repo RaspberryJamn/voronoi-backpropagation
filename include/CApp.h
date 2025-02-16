@@ -4,6 +4,8 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
+#include <vector>
+#include <string>
 #include "IdkFunctions.h"
 #include "CanvasWindow.h"
 #include "Timer.h"
@@ -56,7 +58,7 @@ class CApp {
         Texture* media_texture;
         VoronoiGraph* voronoi_graph;
 
-        Texture* text_textures[7];
+        std::vector<Texture*> text_textures;
         AtlasNumberDrawer number_renderer;
 
         TTF_Font* main_font;
@@ -68,6 +70,7 @@ class CApp {
     private:
         // OnInit
         bool ImportAssets();
+        bool AddStringToTextTextures(std::string string);
 
         // OnEvent
         void OnMouseDown();

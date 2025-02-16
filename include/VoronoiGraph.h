@@ -23,9 +23,15 @@ class VoronoiGraph : virtual public NNLayer::NNLayer {
         double GetGain();
 
         void PrintTree();
-        void RenderTree(SDL_Renderer* render_target);
+        void RenderTree(SDL_Renderer* render_target, AtlasNumberDrawer* number_renderer);
 
         void UpdateAllGradients(double learning_rate);
+
+        double GetActiveCummLoss(); // counts on backward passes specifically
+        double GetRecentCummLoss();
+        void CalculateVarianceOfCummulativeLoss();
+        double GetRecentCummLossMean();
+        double GetRecentCummLossVariance();
 
         std::vector<VoronoiNode*> GetRecentNearby();
 
@@ -49,6 +55,11 @@ class VoronoiGraph : virtual public NNLayer::NNLayer {
 
         double gain;
         double gain_gradient;
+
+        double recent_cumm_loss;
+        double active_cumm_loss;
+        double recent_loss_mean;
+        double recent_loss_variance;
 
         int backward_count;
 

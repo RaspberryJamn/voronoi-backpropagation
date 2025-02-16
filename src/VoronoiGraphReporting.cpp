@@ -78,10 +78,10 @@ void VQuadTree::Print(VQuadTree* tree, int indent) {
     PrintIndents(indent); std::cout<< "}" << std::endl;
 }
 
-void VoronoiQuadTree::RenderTree(SDL_Renderer* target_renderer) {
+void VoronoiQuadTree::RenderTree(SDL_Renderer* target_renderer, AtlasNumberDrawer* number_renderer) {
     this->RenderVQuadTree(this->root, target_renderer);
     std::for_each(this->all_child_nodes.begin(), this->all_child_nodes.end(), [&](VoronoiNode* current_node) {
-        VoronoiNode::Render(current_node, target_renderer);
+        VoronoiNode::Render(current_node, target_renderer, number_renderer);
     });
 }
 void VoronoiQuadTree::RenderVQuadTree(VQuadTree* branch, SDL_Renderer* target_renderer) {

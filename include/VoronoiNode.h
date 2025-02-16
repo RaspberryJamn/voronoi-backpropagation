@@ -2,6 +2,7 @@
 #define VORONOINODE_H
 #include "SDL.h"
 #include <vector>
+#include "AtlasNumberDrawer.h"
 #include "NeuralNetwork.h"
 #include "NNLayer/Input.h"
 #include "NNLayer/Sigmoid.h"
@@ -53,7 +54,7 @@ struct VoronoiNode {
 
     static void Print(VoronoiNode* node, int indent);
     static void PrintList(std::vector<VoronoiNode*> node_list, int indent);
-    static void Render(VoronoiNode* node, SDL_Renderer* target_renderer);
+    static void Render(VoronoiNode* node, SDL_Renderer* target_renderer, AtlasNumberDrawer* number_renderer);
 };
 
 #endif // VORONOINODE_H

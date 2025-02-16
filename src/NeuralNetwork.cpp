@@ -71,7 +71,7 @@ void NeuralNetwork::Build() {
     this->optimizer.v = (double*)malloc( sizeof(double)*this->parameters_size );
     for (size_t i = 0; i < this->parameters_size; i++) {
         this->optimizer.m[i] = 0.0;
-        this->optimizer.v[i] = 1000.0;
+        this->optimizer.v[i] = 100.0;
     }
 
     double* active_weights = this->weights;
@@ -95,7 +95,7 @@ void NeuralNetwork::ClearGradients() {
 
 void NeuralNetwork::ApplyGradients(double learning_rate) {
     for (size_t i = 0; i < this->parameters_size; i++) {
-        double averaged_gradient = this->gradients[i]/(this->backward_count+0.001);
+        double averaged_gradient = this->gradients[i]/(this->backward_count+1);
         this->optimizer.m[i] = this->optimizer.b1*this->optimizer.m[i] + (1.0-this->optimizer.b1)*averaged_gradient;
         this->optimizer.v[i] = this->optimizer.b2*this->optimizer.v[i] + (1.0-this->optimizer.b2)*averaged_gradient*averaged_gradient;
         this->weights[i] -= ( (this->optimizer.m[i]/(1.0-this->optimizer.b1)) / (std::sqrt(this->optimizer.v[i]/(1.0-this->optimizer.b2))+this->optimizer.e) )*learning_rate;

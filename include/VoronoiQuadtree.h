@@ -50,7 +50,7 @@ class VoronoiQuadTree {
         double GetGain();
 
         void PrintTree();
-        void RenderTree(SDL_Renderer* render_target);
+        void RenderTree(SDL_Renderer* render_target, AtlasNumberDrawer* number_renderer);
 
     private:
         void AddToChildren(VoronoiNode* node, VQuadTree* branch);
