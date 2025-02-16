@@ -50,6 +50,7 @@ class VoronoiGraph : virtual public NNLayer::NNLayer {
         std::vector<VoronoiNode*> recent_nearby;
 
         double node_xy_rate;
+        double xy_pressure;
 
         double band_width;
 

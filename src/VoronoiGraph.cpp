@@ -15,7 +15,8 @@ VoronoiGraph::VoronoiGraph(size_t output_size) : NNLayer::NNLayer(output_size, 0
     this->quad_tree.SetBandWidth(this->band_width);
     this->gain_gradient = 0;
 
-    this->node_xy_rate = 500.0;
+    this->node_xy_rate = 5000.0;
+    this->xy_pressure = 1000.0;
     this->active_cumm_loss = 0;
     this->recent_cumm_loss = 0;
     this->recent_loss_variance = 0;
@@ -34,6 +35,7 @@ VoronoiGraph::~VoronoiGraph() {
     this->gain_gradient = 0;
 
     this->node_xy_rate = 0.0;
+    this->xy_pressure = 0.0;
     this->active_cumm_loss = 0;
     this->recent_cumm_loss = 0;
     this->recent_loss_variance = 0;
@@ -84,16 +86,18 @@ void VoronoiGraph::UpdateAllGradients(double learning_rate) {
     std::for_each(nodes.begin(), nodes.end(), [&](VoronoiNode* current_node) {
 //        std::cout << current_node->model.x_grad << std::endl;
 //        std::cout << current_node->model.y_grad << std::endl;
-        if (!((current_node->model.x_grad > 0) || (current_node->model.x_grad <= 0))) {
+//        if (!((current_node->model.x_grad > 0) || (current_node->model.x_grad <= 0))) {
 //            SDL_assert(false);
-            current_node->model.x_grad = 0;
-        }
-        if (!((current_node->model.y_grad > 0) || (current_node->model.y_grad <= 0))) {
+////            current_node->model.x_grad = 0;
+//        }
+//        if (!((current_node->model.y_grad > 0) || (current_node->model.y_grad <= 0))) {
 //            SDL_assert(false);
-            current_node->model.y_grad = 0;
-        }
-        current_node->x -= std::rand()%100-50;//(current_node->model.x_grad + (std::rand()%100+std::rand()%100-100)/300)/this->backward_count*learning_rate*this->node_xy_rate;
-        current_node->y -= std::rand()%100-50;//(current_node->model.y_grad + (std::rand()%100+std::rand()%100-100)/300)/this->backward_count*learning_rate*this->node_xy_rate;
+////            current_node->model.y_grad = 0;
+//        }
+        G_Clamp<double>(&current_node->model.x_grad, -100, 100);
+        G_Clamp<double>(&current_node->model.y_grad, -100, 100);
+        current_node->x -= (current_node->model.x_grad/this->backward_count*learning_rate + (std::rand()%100+std::rand()%100-100)/300)*this->node_xy_rate;
+        current_node->y -= (current_node->model.y_grad/this->backward_count*learning_rate + (std::rand()%100+std::rand()%100-100)/300)*this->node_xy_rate;
         current_node->model.network.ApplyGradients(learning_rate);
 //        this->gain_gradient += current_node->GetGainGradient();
 
@@ -287,15 +291,15 @@ void VoronoiGraph::Backward(double** read_values_tail, double** io_back_values_t
         current_node->model.network.Backward();
 //        double d_loss_d_currentscolor_d_currentscolor_d_xy[2]; current_node->model.network.GetInputGradient(d_loss_d_currentscolor_d_currentscolor_d_xy, 2);
         //
-        double d_varloss_d_accum_loss = 2.0/total_child_count*(current_node->model.prev_accum_loss-this->recent_loss_mean);
+        double d_varloss_d_accum_loss = (2.0/total_child_count)*(current_node->model.prev_accum_loss-this->recent_loss_mean);
         double d_varloss_d_mag = d_varloss_d_accum_loss*final_pixel_loss*d_m_d_mag;
         double d_mag_d_x = 2.0*(current_node->x-preceding_input[0])*this->gain;
         double d_mag_d_y = 2.0*(current_node->y-preceding_input[1])*this->gain;
         // store gradient on position
 //        current_node->model.x_grad += (d_loss_d_mag * d_mag_d_x + d_loss_d_currentscolor_d_currentscolor_d_xy[0]);
 //        current_node->model.y_grad += (d_loss_d_mag * d_mag_d_y + d_loss_d_currentscolor_d_currentscolor_d_xy[1]);
-        current_node->model.x_grad += d_varloss_d_mag*d_mag_d_x;
-        current_node->model.y_grad += d_varloss_d_mag*d_mag_d_y;
+        current_node->model.x_grad += d_mag_d_x*(d_varloss_d_mag);//-0.0*d_m_d_mag*this->xy_pressure);
+        current_node->model.y_grad += d_mag_d_y*(d_varloss_d_mag);//-0.0*d_m_d_mag*this->xy_pressure);
 //        gain_grad += d_loss_d_mag*(current_node->model.mag/gain); // unused
 
         // quickly take note of loss from this sample, for the purpose of having all nodes have approx equal loss

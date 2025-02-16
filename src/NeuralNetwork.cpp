@@ -71,7 +71,7 @@ void NeuralNetwork::Build() {
     this->optimizer.v = (double*)malloc( sizeof(double)*this->parameters_size );
     for (size_t i = 0; i < this->parameters_size; i++) {
         this->optimizer.m[i] = 0.0;
-        this->optimizer.v[i] = 100.0;
+        this->optimizer.v[i] = 1.0;
     }
 
     double* active_weights = this->weights;

@@ -32,8 +32,8 @@ void CApp::RenderFullFrameVoronoi(double* running_loss) {
             batch_loss += RGBColor::Trace(diff*diff);
         }
 
-        int nearby_count = this->voronoi_graph->GetRecentNearby().size();
-        RGBColor c = RGBColor(255,255,255)*(1-1.0/(nearby_count*2+1));//sample;//(target_color-sample)*127+RGBColor(127,127,127);
+//        int nearby_count = this->voronoi_graph->GetRecentNearby().size();
+        RGBColor c = sample;//(target_color-sample)*127+RGBColor(127,127,127);//RGBColor(255,255,255)*(1-1.0/(nearby_count*2+1));//
         SDL_SetRenderDrawColor(this->main_renderer, (Uint8)c.r, (Uint8)c.g, (Uint8)c.b, 0xFF);
         SDL_RenderDrawPoint(this->main_renderer, x, y);
 

@@ -57,7 +57,7 @@ void CApp::ProgressivePoke(double fraction) {
 //                std::cout << "printing graph" << std::endl;
 //                this->voronoi_graph->PrintTree();
 //                std::cout << "before update gradients in loop" << std::endl;
-                this->voronoi_graph->UpdateAllGradients(0.01);
+                this->voronoi_graph->UpdateAllGradients(1.0);
 //                std::cout << "after update gradients in loop" << std::endl;
 //                std::cout << "printing graph" << std::endl;
 //                this->voronoi_graph->PrintTree();
