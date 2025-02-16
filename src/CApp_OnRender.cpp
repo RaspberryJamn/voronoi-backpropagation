@@ -62,6 +62,7 @@ void CApp::RenderFullFrameVoronoi(double* running_loss) {
 
 double g_running_loss = 0;
 double g_last_full_frame_loss = 0;
+int g_render_round = 0;
 void CApp::OnRender() {
 
     SDL_Rect dest = {0,0,0,0};
@@ -73,6 +74,17 @@ void CApp::OnRender() {
     this->RenderFullFrameVoronoi(&g_running_loss);
     if (g_running_loss < pre_update) {
         g_last_full_frame_loss = pre_update;
+        g_render_round++;
+        if (g_render_round == 20) {
+            this->voronoi_graph->SetXYRate(0.0);
+            this->voronoi_graph->SetLearningRate(this->voronoi_graph->GetLearningRate()*2.0);
+            std::cout << "round 30 hit, node positions frozen" << std::endl;
+        }
+//        if (g_render_round%5 == 0) {
+        double new_learning_rate = this->voronoi_graph->GetLearningRate()*0.98;
+        this->voronoi_graph->SetLearningRate(new_learning_rate);
+        std::cout << g_render_round << " rounds passed, learning rate now: " << new_learning_rate << std::endl;
+//        }
     }
 
     this->media_texture->Render(0,0);

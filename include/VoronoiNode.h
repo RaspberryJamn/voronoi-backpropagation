@@ -19,7 +19,7 @@ struct VoronoiNode {
         this->model.accum_loss = 0;
         this->model.prev_accum_loss = 0;
         this->model.network.AddLayer(new NNLayer::Input(2));
-        this->model.network.AddLayer(new NNLayer::ODense(8, 8.0, 6.0, 0.1)); this->model.network.AddLayer(new NNLayer::Sigmoid(8));
+        this->model.network.AddLayer(new NNLayer::ODense(8, 6.0, 12.0, 0.2)); this->model.network.AddLayer(new NNLayer::Sigmoid(8));
         this->model.network.AddLayer(new NNLayer::ODense(4, 1.0, 0.5, 1.5)); this->model.network.AddLayer(new NNLayer::Sigmoid(4));
         this->model.network.AddLayer(new NNLayer::Dense(4, 1.0, 0.0, 0.5, 1.5)); this->model.network.AddLayer(new NNLayer::Sigmoid(4));
         this->model.network.AddLayer(new NNLayer::Dense(3, 3.0, 0.5, 0.15, 1.2));

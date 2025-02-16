@@ -18,7 +18,7 @@ NeuralNetwork::NeuralNetwork() {
     this->backward_count = 0;
 
     this->optimizer.b1 = 0.9;
-    this->optimizer.b2 = 0.9;
+    this->optimizer.b2 = 0.85;
     this->optimizer.e = 0.000001;
     this->optimizer.m = nullptr;
     this->optimizer.v = nullptr;

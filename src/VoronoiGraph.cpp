@@ -15,8 +15,12 @@ VoronoiGraph::VoronoiGraph(size_t output_size) : NNLayer::NNLayer(output_size, 0
     this->quad_tree.SetBandWidth(this->band_width);
     this->gain_gradient = 0;
 
-    this->node_xy_rate = 5000.0;
-    this->xy_pressure = 1000.0;
+    this->learning_rate = 0.0045;
+
+    this->node_xy_rate = 10000.0;
+    this->variance_strength = 0.0;
+    this->xy_pressure = 0.0;
+    this->xy_centrality = 2.0;
     this->active_cumm_loss = 0;
     this->recent_cumm_loss = 0;
     this->recent_loss_variance = 0;
@@ -34,8 +38,12 @@ VoronoiGraph::~VoronoiGraph() {
     this->quad_tree.SetBandWidth(this->band_width);
     this->gain_gradient = 0;
 
+    this->learning_rate = 0;
+
     this->node_xy_rate = 0.0;
+    this->variance_strength = 0.0;
     this->xy_pressure = 0.0;
+    this->xy_centrality = 0.0;
     this->active_cumm_loss = 0;
     this->recent_cumm_loss = 0;
     this->recent_loss_variance = 0;
@@ -79,26 +87,26 @@ double VoronoiGraph::GetGain() {
     return this->gain;
 }
 
-void VoronoiGraph::UpdateAllGradients(double learning_rate) {
+void VoronoiGraph::UpdateAllGradients() {
     std::srand(std::time(0));
     this->gain_gradient = 0;
     std::vector<VoronoiNode*> nodes = this->quad_tree.GetAllNodes();
     std::for_each(nodes.begin(), nodes.end(), [&](VoronoiNode* current_node) {
 //        std::cout << current_node->model.x_grad << std::endl;
 //        std::cout << current_node->model.y_grad << std::endl;
-//        if (!((current_node->model.x_grad > 0) || (current_node->model.x_grad <= 0))) {
-//            SDL_assert(false);
-////            current_node->model.x_grad = 0;
-//        }
-//        if (!((current_node->model.y_grad > 0) || (current_node->model.y_grad <= 0))) {
-//            SDL_assert(false);
-////            current_node->model.y_grad = 0;
-//        }
+        if (!((current_node->model.x_grad > 0) || (current_node->model.x_grad <= 0))) {
+            SDL_assert(false);
+//            current_node->model.x_grad = 0;
+        }
+        if (!((current_node->model.y_grad > 0) || (current_node->model.y_grad <= 0))) {
+            SDL_assert(false);
+//            current_node->model.y_grad = 0;
+        }
         G_Clamp<double>(&current_node->model.x_grad, -100, 100);
         G_Clamp<double>(&current_node->model.y_grad, -100, 100);
-        current_node->x -= (current_node->model.x_grad/this->backward_count*learning_rate + (std::rand()%100+std::rand()%100-100)/300)*this->node_xy_rate;
-        current_node->y -= (current_node->model.y_grad/this->backward_count*learning_rate + (std::rand()%100+std::rand()%100-100)/300)*this->node_xy_rate;
-        current_node->model.network.ApplyGradients(learning_rate);
+        current_node->x -= (current_node->model.x_grad/this->backward_count*this->learning_rate + (std::rand()%100+std::rand()%100-100)/300)*this->node_xy_rate;
+        current_node->y -= (current_node->model.y_grad/this->backward_count*this->learning_rate + (std::rand()%100+std::rand()%100-100)/300)*this->node_xy_rate;
+        current_node->model.network.ApplyGradients(this->learning_rate);
 //        this->gain_gradient += current_node->GetGainGradient();
 
         current_node->model.x_grad = 0;
@@ -149,6 +157,15 @@ double VoronoiGraph::GetActiveCummLoss() {
 }
 double VoronoiGraph::GetRecentCummLoss() {
     return this->recent_cumm_loss;
+}
+double VoronoiGraph::GetLearningRate() {
+    return this->learning_rate;
+}
+void VoronoiGraph::SetLearningRate(double learning_rate) {
+    this->learning_rate = learning_rate;
+}
+void VoronoiGraph::SetXYRate(double xy_rate) {
+    this->node_xy_rate = xy_rate;
 }
 
 RGBColor VoronoiGraph::Sample(double x, double y) { // nearby nodes already have their distances calculated, aka gain and bandwidth are baked in
@@ -264,7 +281,7 @@ void VoronoiGraph::Backward(double** read_values_tail, double** io_back_values_t
     double* weights_gradient = (*write_gradient_tail)-this->parameter_size; // appended
     RGBColor finalcolor = RGBColor(current_output[0],current_output[1],current_output[2]);
 
-    int total_child_count = this->quad_tree.GetNodeCount();
+//    int total_child_count = this->quad_tree.GetNodeCount();
     RGBColor d_loss_d_finalcolor = RGBColor(current_value_gradient[0],current_value_gradient[1],current_value_gradient[2]);
     double final_pixel_loss = RGBColor::Trace(d_loss_d_finalcolor*d_loss_d_finalcolor)*0.25; // only works for MSE, be warned
     std::for_each(this->recent_nearby.begin(), this->recent_nearby.end(), [&](VoronoiNode* current_node) {
@@ -277,7 +294,7 @@ void VoronoiGraph::Backward(double** read_values_tail, double** io_back_values_t
         // d_loss_d_mag
 //        RGBColor d_finalcolor_d_m = ((currentscolor*currentscolor)/finalcolor)*.5;
 //        double d_loss_d_m = RGBColor::Trace(d_loss_d_finalcolor*d_finalcolor_d_m);
-        double d_m_d_mag = current_node->model.m*(current_node->model.m-1.0);
+//        double d_m_d_mag = current_node->model.m*(current_node->model.m-1.0);
 //        double d_loss_d_mag = d_loss_d_m * d_m_d_mag;
         // d_loss_d_currentscolor
         RGBColor d_finalcolor_d_currentscolor = (currentscolor/finalcolor)*current_node->model.m;
@@ -291,15 +308,36 @@ void VoronoiGraph::Backward(double** read_values_tail, double** io_back_values_t
         current_node->model.network.Backward();
 //        double d_loss_d_currentscolor_d_currentscolor_d_xy[2]; current_node->model.network.GetInputGradient(d_loss_d_currentscolor_d_currentscolor_d_xy, 2);
         //
-        double d_varloss_d_accum_loss = (2.0/total_child_count)*(current_node->model.prev_accum_loss-this->recent_loss_mean);
-        double d_varloss_d_mag = d_varloss_d_accum_loss*final_pixel_loss*d_m_d_mag;
-        double d_mag_d_x = 2.0*(current_node->x-preceding_input[0])*this->gain;
-        double d_mag_d_y = 2.0*(current_node->y-preceding_input[1])*this->gain;
+//        double d_varloss_d_accum_loss = (2.0/total_child_count)*(current_node->model.prev_accum_loss-this->recent_loss_mean);
+//        double d_varloss_d_mag = d_varloss_d_accum_loss*final_pixel_loss*d_m_d_mag;
+//        double d_mag_d_x = 2.0*(current_node->x-preceding_input[0])*this->gain;
+//        double d_mag_d_y = 2.0*(current_node->y-preceding_input[1])*this->gain;
+//        double mag = (d_mag_d_x*d_mag_d_x+d_mag_d_y*d_mag_d_y)/this->gain*0.25;
         // store gradient on position
 //        current_node->model.x_grad += (d_loss_d_mag * d_mag_d_x + d_loss_d_currentscolor_d_currentscolor_d_xy[0]);
 //        current_node->model.y_grad += (d_loss_d_mag * d_mag_d_y + d_loss_d_currentscolor_d_currentscolor_d_xy[1]);
-        current_node->model.x_grad += d_mag_d_x*(d_varloss_d_mag);//-0.0*d_m_d_mag*this->xy_pressure);
-        current_node->model.y_grad += d_mag_d_y*(d_varloss_d_mag);//-0.0*d_m_d_mag*this->xy_pressure);
+
+//        double grad_from_variance_x = d_varloss_d_mag*d_mag_d_x*this->variance_strength;
+//        double grad_from_variance_y = d_varloss_d_mag*d_mag_d_y*this->variance_strength;
+//        current_node->model.x_grad += grad_from_variance_x;
+//        current_node->model.y_grad += grad_from_variance_y;
+
+//        double grad_from_pressure_x = -(d_m_d_mag*d_m_d_mag/(mag+0.001))*d_mag_d_x*this->xy_pressure;
+//        double grad_from_pressure_y = -(d_m_d_mag*d_m_d_mag/(mag+0.001))*d_mag_d_y*this->xy_pressure;
+//        current_node->model.x_grad += grad_from_pressure_x;
+//        current_node->model.y_grad += grad_from_pressure_y;
+
+//        double grad_from_centrality_x = current_node->model.m*d_mag_d_x*this->xy_centrality;
+//        double grad_from_centrality_y = current_node->model.m*d_mag_d_y*this->xy_centrality;
+//        current_node->model.x_grad += grad_from_centrality_x;
+//        current_node->model.y_grad += grad_from_centrality_y;
+
+        double delta_x = (current_node->x-preceding_input[0]);
+        double delta_y = (current_node->y-preceding_input[1]);
+        double grad_from_centrality_x = final_pixel_loss*current_node->model.m*delta_x*this->xy_centrality;
+        double grad_from_centrality_y = final_pixel_loss*current_node->model.m*delta_y*this->xy_centrality;
+        current_node->model.x_grad += grad_from_centrality_x;
+        current_node->model.y_grad += grad_from_centrality_y;
 //        gain_grad += d_loss_d_mag*(current_node->model.mag/gain); // unused
 
         // quickly take note of loss from this sample, for the purpose of having all nodes have approx equal loss
