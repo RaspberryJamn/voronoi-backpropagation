@@ -14,17 +14,7 @@
 #include "LapCounter.h"
 #include "VoronoiGraph.h"
 #include "VoronoiNode.h"
-
-struct MouseInfo {
-    int x;
-    int y;
-    bool pressed;
-    bool started_dragging;
-    struct DragStart {
-        int x;
-        int y;
-    } drag_start;
-};
+#include "MouseInfo.h"
 
 class CApp {
     public:

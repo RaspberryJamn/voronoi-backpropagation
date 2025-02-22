@@ -45,6 +45,7 @@
 		<Unit filename="include/ErrorLogger.h" />
 		<Unit filename="include/IdkFunctions.h" />
 		<Unit filename="include/LapCounter.h" />
+		<Unit filename="include/MouseInfo.h" />
 		<Unit filename="include/NNLayer.h" />
 		<Unit filename="include/NNLayer/Dense.h" />
 		<Unit filename="include/NNLayer/Input.h" />
@@ -52,6 +53,7 @@
 		<Unit filename="include/NNLayer/Sigmoid.h" />
 		<Unit filename="include/NeuralNetwork.h" />
 		<Unit filename="include/RGBColor.h" />
+		<Unit filename="include/ScreenElement.h" />
 		<Unit filename="include/Texture.h" />
 		<Unit filename="include/Timer.h" />
 		<Unit filename="include/VoronoiGraph.h" />
@@ -80,6 +82,7 @@
 		<Unit filename="src/NNLayer/ODense.cpp" />
 		<Unit filename="src/NNLayer/Sigmoid.cpp" />
 		<Unit filename="src/NeuralNetwork.cpp" />
+		<Unit filename="src/ScreenElement.cpp" />
 		<Unit filename="src/Texture.cpp" />
 		<Unit filename="src/Timer.cpp" />
 		<Unit filename="src/VoronoiGraph.cpp" />

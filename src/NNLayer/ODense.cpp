@@ -3,9 +3,11 @@
 //#include <iostream>
 
 namespace NNLayer {
-    ODense::ODense(size_t output_size, double speed, double bias_variance, double weight_variance) :
-        NNLayer(output_size, speed),
+    ODense::ODense(size_t output_size, double bias_speed, double bias_variance, double weight_speed, double weight_variance) :
+        NNLayer(output_size, weight_speed),
+        bias_speed(bias_speed),
         bias_variance(bias_variance),
+        weight_speed(weight_speed),
         weight_variance(weight_variance) {}
 
     ODense::~ODense() {}
@@ -18,10 +20,10 @@ namespace NNLayer {
         double* bias = (*write_weights_start);
         double* weights = bias+this->output_size*this->input_size;
         for (size_t i = 0; i < this->output_size*this->input_size; i++) {
-            bias[i] = (std::rand()%100-50)*0.025*this->bias_variance;
+            bias[i] = (std::rand()%100-50)*0.02*this->bias_variance;
         }
         for (size_t i = 0; i < this->output_size*this->input_size; i++) {
-            weights[i] = (std::rand()%100-50)*0.025*this->weight_variance;
+            weights[i] = (std::rand()%100-50)*0.02*this->weight_variance;
         }
         (*write_weights_start) = (*write_weights_start)+this->parameter_size;
     }
@@ -64,8 +66,8 @@ namespace NNLayer {
             double in_node_grad = 0;
             size_t page = 0;
             for (size_t j = 0; j < this->output_size; j++) {
-                weights_gradient[page+i] += (preceding_input[i]+bias[page+i])*current_value_gradient[j]*this->speed;
-                bias_gradient[page+i] += weights[page+i]*current_value_gradient[j]*this->speed;
+                weights_gradient[page+i] += (preceding_input[i]+bias[page+i])*current_value_gradient[j]*this->weight_speed;
+                bias_gradient[page+i] += weights[page+i]*current_value_gradient[j]*this->bias_speed;
                 in_node_grad += weights[page+i]*current_value_gradient[j];
                 page += this->input_size;
             }

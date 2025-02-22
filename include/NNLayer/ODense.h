@@ -7,7 +7,7 @@
 namespace NNLayer {
     class ODense : virtual public NNLayer::NNLayer {
     public:
-        ODense(size_t output_size, double speed, double bias_variance, double weight_variance);
+        ODense(size_t output_size, double bias_speed, double bias_variance, double weight_speed, double weight_variance);
         ~ODense();
 
         void CalculateParameterSize() override;
@@ -18,7 +18,9 @@ namespace NNLayer {
 
         void Backward(double** read_values_tail, double** io_back_values_tail, double** read_weights_tail, double** write_gradient_tail) override;
     private:
+        double bias_speed;
         double bias_variance;
+        double weight_speed;
         double weight_variance;
     };
 }

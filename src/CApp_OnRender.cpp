@@ -75,11 +75,11 @@ void CApp::OnRender() {
     if (g_running_loss < pre_update) {
         g_last_full_frame_loss = pre_update;
         g_render_round++;
-        if (g_render_round == 20) {
-            this->voronoi_graph->SetXYRate(0.0);
-            this->voronoi_graph->SetLearningRate(this->voronoi_graph->GetLearningRate()*2.0);
-            std::cout << "round 30 hit, node positions frozen" << std::endl;
-        }
+//        if (g_render_round == 20) {
+//            this->voronoi_graph->SetXYRate(0.0);
+//            this->voronoi_graph->SetLearningRate(this->voronoi_graph->GetLearningRate()*2.0);
+//            std::cout << "round " << g_render_round << " hit, node positions frozen" << std::endl;
+//        }
 //        if (g_render_round%5 == 0) {
         double new_learning_rate = this->voronoi_graph->GetLearningRate()*0.98;
         this->voronoi_graph->SetLearningRate(new_learning_rate);

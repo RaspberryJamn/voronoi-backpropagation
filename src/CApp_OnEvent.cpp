@@ -12,7 +12,7 @@ void CApp::OnEvent(SDL_Event& event) {
 
     if (event.type == SDL_MOUSEBUTTONDOWN) {
         this->mouse.pressed = true;
-        SDL_GetMouseState(&(this->mouse.x),&(this->mouse.y));
+        this->mouse.button_mask = SDL_GetMouseState(&(this->mouse.x),&(this->mouse.y));
         this->mouse.drag_start.x = this->mouse.x;
         this->mouse.drag_start.y = this->mouse.y;
         this->OnMouseDown();
@@ -22,7 +22,7 @@ void CApp::OnEvent(SDL_Event& event) {
         this->mouse.started_dragging = false;
         this->mouse.drag_start.x = 0;
         this->mouse.drag_start.y = 0;
-        SDL_GetMouseState(&(this->mouse.x),&(this->mouse.y));
+        this->mouse.button_mask = SDL_GetMouseState(&(this->mouse.x),&(this->mouse.y));
         this->OnMouseUp();
     }
     if (event.type == SDL_MOUSEMOTION) {

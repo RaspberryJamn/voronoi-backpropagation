@@ -292,10 +292,10 @@ void VoronoiGraph::Backward(double** read_values_tail, double** io_back_values_t
         current_node->model.network.Output(currentscolor_arr, 3);
         RGBColor currentscolor = RGBColor(currentscolor_arr[0], currentscolor_arr[1], currentscolor_arr[2]);
         // d_loss_d_mag
-//        RGBColor d_finalcolor_d_m = ((currentscolor*currentscolor)/finalcolor)*.5;
-//        double d_loss_d_m = RGBColor::Trace(d_loss_d_finalcolor*d_finalcolor_d_m);
-//        double d_m_d_mag = current_node->model.m*(current_node->model.m-1.0);
-//        double d_loss_d_mag = d_loss_d_m * d_m_d_mag;
+        RGBColor d_finalcolor_d_m = ((currentscolor*currentscolor)/finalcolor)*.5;
+        double d_loss_d_m = RGBColor::Trace(d_loss_d_finalcolor*d_finalcolor_d_m);
+        double d_m_d_mag = current_node->model.m*(current_node->model.m-1.0);
+        double d_loss_d_mag = d_loss_d_m * d_m_d_mag;
         // d_loss_d_currentscolor
         RGBColor d_finalcolor_d_currentscolor = (currentscolor/finalcolor)*current_node->model.m;
         RGBColor d_loss_d_currentscolor = d_loss_d_finalcolor*d_finalcolor_d_currentscolor;
@@ -306,16 +306,16 @@ void VoronoiGraph::Backward(double** read_values_tail, double** io_back_values_t
         // propagate and store gradients back through the current_node's network
         current_node->model.network.SetOutputGradient(d_loss_d_currentscolor_arr, 3);
         current_node->model.network.Backward();
-//        double d_loss_d_currentscolor_d_currentscolor_d_xy[2]; current_node->model.network.GetInputGradient(d_loss_d_currentscolor_d_currentscolor_d_xy, 2);
+        double d_loss_d_currentscolor_d_currentscolor_d_xy[2]; current_node->model.network.GetInputGradient(d_loss_d_currentscolor_d_currentscolor_d_xy, 2);
         //
 //        double d_varloss_d_accum_loss = (2.0/total_child_count)*(current_node->model.prev_accum_loss-this->recent_loss_mean);
 //        double d_varloss_d_mag = d_varloss_d_accum_loss*final_pixel_loss*d_m_d_mag;
-//        double d_mag_d_x = 2.0*(current_node->x-preceding_input[0])*this->gain;
-//        double d_mag_d_y = 2.0*(current_node->y-preceding_input[1])*this->gain;
+        double d_mag_d_x = 2.0*(current_node->x-preceding_input[0])*this->gain;
+        double d_mag_d_y = 2.0*(current_node->y-preceding_input[1])*this->gain;
 //        double mag = (d_mag_d_x*d_mag_d_x+d_mag_d_y*d_mag_d_y)/this->gain*0.25;
         // store gradient on position
-//        current_node->model.x_grad += (d_loss_d_mag * d_mag_d_x + d_loss_d_currentscolor_d_currentscolor_d_xy[0]);
-//        current_node->model.y_grad += (d_loss_d_mag * d_mag_d_y + d_loss_d_currentscolor_d_currentscolor_d_xy[1]);
+        current_node->model.x_grad += (d_loss_d_mag * d_mag_d_x + d_loss_d_currentscolor_d_currentscolor_d_xy[0]);
+        current_node->model.y_grad += (d_loss_d_mag * d_mag_d_y + d_loss_d_currentscolor_d_currentscolor_d_xy[1]);
 
 //        double grad_from_variance_x = d_varloss_d_mag*d_mag_d_x*this->variance_strength;
 //        double grad_from_variance_y = d_varloss_d_mag*d_mag_d_y*this->variance_strength;

@@ -402,7 +402,7 @@
 1739676175 source:c:\users\james\documents\cpp\voronoi\src\capp.cpp
 	"CApp.h"
 
-1739676492 c:\users\james\documents\cpp\voronoi\include\capp.h
+1740195661 c:\users\james\documents\cpp\voronoi\include\capp.h
 	<SDL.h>
 	<SDL_image.h>
 	<SDL_ttf.h>
@@ -416,6 +416,7 @@
 	"LapCounter.h"
 	"VoronoiGraph.h"
 	"VoronoiNode.h"
+	"MouseInfo.h"
 
 1704144964 c:\sdl\sdl2_image-2.8.2\i686-w64-mingw32\include\sdl2\sdl_image.h
 	"SDL.h"
@@ -430,12 +431,12 @@
 1739677074 source:c:\users\james\documents\cpp\voronoi\src\capp_oncleanup.cpp
 	"CApp.h"
 
-1739063229 source:c:\users\james\documents\cpp\voronoi\src\capp_onevent.cpp
+1740200636 source:c:\users\james\documents\cpp\voronoi\src\capp_onevent.cpp
 	"CApp.h"
 	<iostream>
 	"IdkFunctions.h"
 
-1739704359 source:c:\users\james\documents\cpp\voronoi\src\capp_oninit.cpp
+1740204889 source:c:\users\james\documents\cpp\voronoi\src\capp_oninit.cpp
 	"CApp.h"
 	<iostream>
 	<math.h>
@@ -449,7 +450,7 @@
 	"IdkFunctions.h"
 	"RGBColor.h"
 
-1739706455 source:c:\users\james\documents\cpp\voronoi\src\capp_onrender.cpp
+1740204440 source:c:\users\james\documents\cpp\voronoi\src\capp_onrender.cpp
 	"CApp.h"
 	"IdkFunctions.h"
 	<vector>
@@ -478,7 +479,7 @@
 	"Texture.h"
 	<iostream>
 
-1739704252 source:c:\users\james\documents\cpp\voronoi\src\capp_importassets.cpp
+1740202473 source:c:\users\james\documents\cpp\voronoi\src\capp_importassets.cpp
 	"CApp.h"
 	<iostream>
 	<vector>
@@ -496,7 +497,7 @@
 	<vector>
 	<iostream>
 
-1739705292 c:\users\james\documents\cpp\voronoi\include\voronoinode.h
+1740204883 c:\users\james\documents\cpp\voronoi\include\voronoinode.h
 	"SDL.h"
 	<vector>
 	"AtlasNumberDrawer.h"
@@ -506,7 +507,7 @@
 	"NNLayer/Dense.h"
 	"NNLayer/ODense.h"
 
-1739706883 source:c:\users\james\documents\cpp\voronoi\src\voronoigraph.cpp
+1740205280 source:c:\users\james\documents\cpp\voronoi\src\voronoigraph.cpp
 	"VoronoiGraph.h"
 	"VoronoiNode.h"
 	"IdkFunctions.h"
@@ -589,7 +590,7 @@
 	"NNLayer.h"
 	<cmath>
 
-1739703763 source:c:\users\james\documents\cpp\voronoi\src\neuralnetwork.cpp
+1740205181 source:c:\users\james\documents\cpp\voronoi\src\neuralnetwork.cpp
 	"NeuralNetwork.h"
 	<cmath>
 
@@ -607,7 +608,7 @@
 	<NNLayer.h>
 	<cmath>
 
-1738385272 source:c:\users\james\documents\cpp\voronoi\src\nnlayer\dense.cpp
+1740202646 source:c:\users\james\documents\cpp\voronoi\src\nnlayer\dense.cpp
 	"NNLayer/Dense.h"
 	<cstdlib>
 
@@ -615,15 +616,28 @@
 	<NNLayer.h>
 	<cmath>
 
-1738385021 c:\users\james\documents\cpp\voronoi\include\nnlayer\odense.h
+1740202496 c:\users\james\documents\cpp\voronoi\include\nnlayer\odense.h
 	<NNLayer.h>
 	<cmath>
 
-1738385249 source:c:\users\james\documents\cpp\voronoi\src\nnlayer\odense.cpp
+1740204543 source:c:\users\james\documents\cpp\voronoi\src\nnlayer\odense.cpp
 	"NNLayer/ODense.h"
 	<cstdlib>
 
 1739066915 c:\users\james\documents\cpp\voronoi\include\rgbcolor.h
 	<cmath>
 	"IdkFunctions.h"
+
+1740201855 c:\users\james\documents\cpp\voronoi\include\mouseinfo.h
+	<SDL_stdinc.h>
+
+1740201796 source:c:\users\james\documents\cpp\voronoi\src\screenelement.cpp
+	"ScreenElement.h"
+	<vector>
+	<algorithm>
+
+1740201714 c:\users\james\documents\cpp\voronoi\include\screenelement.h
+	"MouseInfo.h"
+	"Texture.h"
+	<vector>
 

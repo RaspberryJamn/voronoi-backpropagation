@@ -19,10 +19,10 @@ namespace NNLayer {
         double* bias = (*write_weights_start);
         double* weights = bias+this->output_size;
         for (size_t i = 0; i < this->output_size; i++) {
-            bias[i] = this->bias_mean + (std::rand()%100-50)*0.025*this->bias_variance;
+            bias[i] = this->bias_mean + (std::rand()%100-50)*0.02*this->bias_variance;
         }
         for (size_t i = 0; i < this->output_size*this->input_size; i++) {
-            weights[i] = (std::rand()%100-50)*0.025*this->bias_variance;
+            weights[i] = (std::rand()%100-50)*0.02*this->bias_variance;
         }
         (*write_weights_start) = (*write_weights_start)+this->parameter_size;
     }
