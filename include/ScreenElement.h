@@ -10,8 +10,6 @@ namespace ScreenElement {
             ScreenElement(SDL_Renderer* renderer);
             virtual ~ScreenElement();
 
-    //        void UpdateContainerRect(SDL_Rect container);
-    //        void Assemble();
             virtual void SetPosition(SDL_Rect rect);
             virtual void AddChild(ScreenElement* element);
             SDL_Rect GetPosition();
@@ -32,14 +30,7 @@ namespace ScreenElement {
         protected:
             SDL_Renderer* renderer;
 
-    //        SDL_Rect container_box;
             SDL_Rect bounding_box; // functions as a hitbox for mouse events and as a render rect on most recent parent texture
-
-    //        int min_width;
-    //        int min_height;
-
-//            Texture* texture;
-//            bool owns_texture;
 
             bool image_updated;
 
