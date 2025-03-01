@@ -2,6 +2,9 @@
 #include <iostream>
 #include <math.h>
 #include <cstdlib>
+#include "ScreenElement.h"
+#include "ScreenElement/Pan.h"
+#include "ScreenElement/VoronoiViewport.h"
 
 bool CApp::OnInit() {
 
@@ -51,10 +54,10 @@ bool CApp::OnInit() {
     }
 
     this->voronoi_graph = new VoronoiGraph(0);
-//    this->voronoi_graph->SetErrorLogger(this->error_logger);
     this->voronoi_graph->Reshape(0, 0, this->media_texture->GetWidth(), this->media_texture->GetHeight(), 5, 3);
+    this->voronoi_graph->SetTargetImage(this->source_texture);
 
-    const int node_count = 500;
+    const int node_count = 200;
     for (int i = 0; i < node_count; i++) {
         double x = std::fmod((i*1.618034+0.5),1.0)*this->media_texture->GetWidth();
         double y = std::fmod(((double)i/node_count+0.5),1.0)*this->media_texture->GetHeight();
@@ -80,6 +83,9 @@ bool CApp::OnInit() {
     this->refresh_period = 100;
     this->loop_advantage_factor = 20.0;
 
-//    this->voronoi_graph->PrintTree();
+    this->root_screen_element = this->main_window->SetRootElement(new ScreenElement::Pan(this->main_renderer));
+
+    this->root_screen_element->AddChild(new ScreenElement::VoronoiViewport(this->main_renderer, this->voronoi_graph));
+
     return true;
 }

@@ -2,6 +2,7 @@
 #define VORONOIGRAPH_H
 #include <vector>
 #include "RGBColor.h"
+#include "Texture.h"
 #include "VoronoiQuadTree.h"
 #include "VoronoiNode.h"
 #include "NNLayer.h"
@@ -15,12 +16,16 @@ class VoronoiGraph : virtual public NNLayer::NNLayer {
         ~VoronoiGraph();
 
         void Reshape(int x, int y, int w, int h, int max_depth, int critical_mass);
+        SDL_Rect GetShape();
         void AddNode(VoronoiNode* node);
         void RemoveNode(VoronoiNode* node);
 
         void SetGain(double gain);
         void SetBandWidth(double band_width);
         double GetGain();
+
+        void SetTargetImage(Texture* target);
+        RGBColor SampleTrueReferenceColor(int x, int y);
 
         void PrintTree();
         void RenderTree(SDL_Renderer* render_target, AtlasNumberDrawer* number_renderer);
@@ -49,6 +54,8 @@ class VoronoiGraph : virtual public NNLayer::NNLayer {
     private:
 
         VoronoiQuadTree quad_tree;
+
+        Texture* target_image; // non-posessive
 
         std::vector<VoronoiNode*> recent_nearby;
 

@@ -2,6 +2,7 @@
 #define CANVASWINDOW_H
 
 #include <SDL.h>
+#include <ScreenElement.h>
 
 class CanvasWindow {
     public:
@@ -18,6 +19,7 @@ class CanvasWindow {
         //Handles window events
         void HandleEvent(SDL_Event& event);
 
+        ScreenElement::ScreenElement* SetRootElement(ScreenElement::ScreenElement* element);
 
         //Window dimensions
         int GetWidth();
@@ -33,6 +35,8 @@ class CanvasWindow {
         SDL_Window* window;
         SDL_Renderer* renderer;
         Uint32 window_id;
+
+        ScreenElement::ScreenElement* root_element;
 
         //Window dimensions
         int width;

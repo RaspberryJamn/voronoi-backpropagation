@@ -39,7 +39,7 @@ bool CApp::ImportAssets() {
 //        return false;
 //    }
     this->source_texture = new Texture(this->main_renderer);
-    this->source_texture->LoadFromFile("assets/momokasakurai.png");//gradient.png");
+    this->source_texture->LoadFromFile("assets/teto.png");//gradient.png");
     if(this->source_texture->WasSuccessful() == false) {
         std::cout << "Failed to load texture" << std::endl;
         return false;

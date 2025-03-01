@@ -5,6 +5,7 @@ CApp::CApp() {
 
     this->main_window = nullptr;
     this->main_renderer = nullptr;
+    this->root_screen_element = nullptr;
 
     this->last_frametime = 0;
     this->average_frametime = 0;
@@ -32,15 +33,15 @@ int CApp::OnExecute() {
         return -1;
     }
 
-    SDL_Event Event;
+    SDL_Event event;
     Timer frametime_timer;
     LapCounter frametime_counter;
     frametime_counter.Reset();
     while(this->running) {
         frametime_timer.Reset();
 
-        while(SDL_PollEvent(&Event)) {
-            OnEvent(Event);
+        while(SDL_PollEvent(&event)) {
+            OnEvent(event);
         }
         OnLoop();
         OnRender();

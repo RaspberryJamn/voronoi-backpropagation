@@ -4,6 +4,7 @@
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 #include <iostream>
+#include "RGBColor.h"
 
 class Texture {
     public:
@@ -44,6 +45,7 @@ class Texture {
         void RenderRTL(SDL_Rect* inout_bounds);
 
         Uint8* GetPixels();
+        RGBColor SampleColor(int xi, int yi);
 
         //Gets image dimensions
         int GetWidth();

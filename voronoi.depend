@@ -1,9 +1,10 @@
 # depslib dependency file v1.0
-1729012799 source:c:\users\james\documents\cpp\voronoi\src\canvaswindow.cpp
+1740793184 source:c:\users\james\documents\cpp\voronoi\src\canvaswindow.cpp
 	"CanvasWindow.h"
 
-1729008283 c:\users\james\documents\cpp\voronoi\include\canvaswindow.h
+1740792827 c:\users\james\documents\cpp\voronoi\include\canvaswindow.h
 	<SDL.h>
+	<ScreenElement.h>
 
 1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl.h
 	"SDL_main.h"
@@ -399,10 +400,10 @@
 	"begin_code.h"
 	"close_code.h"
 
-1739676175 source:c:\users\james\documents\cpp\voronoi\src\capp.cpp
+1740795557 source:c:\users\james\documents\cpp\voronoi\src\capp.cpp
 	"CApp.h"
 
-1740195661 c:\users\james\documents\cpp\voronoi\include\capp.h
+1740791702 c:\users\james\documents\cpp\voronoi\include\capp.h
 	<SDL.h>
 	<SDL_image.h>
 	<SDL_ttf.h>
@@ -417,6 +418,7 @@
 	"VoronoiGraph.h"
 	"VoronoiNode.h"
 	"MouseInfo.h"
+	"ScreenElement.h"
 
 1704144964 c:\sdl\sdl2_image-2.8.2\i686-w64-mingw32\include\sdl2\sdl_image.h
 	"SDL.h"
@@ -428,21 +430,24 @@
 	"CApp.h"
 	<iostream>
 
-1739677074 source:c:\users\james\documents\cpp\voronoi\src\capp_oncleanup.cpp
+1740787348 source:c:\users\james\documents\cpp\voronoi\src\capp_oncleanup.cpp
 	"CApp.h"
 
-1740200636 source:c:\users\james\documents\cpp\voronoi\src\capp_onevent.cpp
+1740790826 source:c:\users\james\documents\cpp\voronoi\src\capp_onevent.cpp
 	"CApp.h"
 	<iostream>
 	"IdkFunctions.h"
 
-1740204889 source:c:\users\james\documents\cpp\voronoi\src\capp_oninit.cpp
+1740797846 source:c:\users\james\documents\cpp\voronoi\src\capp_oninit.cpp
 	"CApp.h"
 	<iostream>
 	<math.h>
 	<cstdlib>
+	"ScreenElement.h"
+	"ScreenElement/Pan.h"
+	"ScreenElement/VoronoiViewport.h"
 
-1739706262 source:c:\users\james\documents\cpp\voronoi\src\capp_onloop.cpp
+1740800444 source:c:\users\james\documents\cpp\voronoi\src\capp_onloop.cpp
 	"CApp.h"
 	<cmath>
 	<iostream>
@@ -450,7 +455,7 @@
 	"IdkFunctions.h"
 	"RGBColor.h"
 
-1740204440 source:c:\users\james\documents\cpp\voronoi\src\capp_onrender.cpp
+1740799412 source:c:\users\james\documents\cpp\voronoi\src\capp_onrender.cpp
 	"CApp.h"
 	"IdkFunctions.h"
 	<vector>
@@ -470,16 +475,18 @@
 1729011418 c:\users\james\documents\cpp\voronoi\include\timer.h
 	<SDL.h>
 
-1731877508 c:\users\james\documents\cpp\voronoi\include\texture.h
+1740800041 c:\users\james\documents\cpp\voronoi\include\texture.h
 	<SDL_image.h>
 	<SDL_ttf.h>
 	<iostream>
+	"RGBColor.h"
 
-1731894350 source:c:\users\james\documents\cpp\voronoi\src\texture.cpp
+1740799998 source:c:\users\james\documents\cpp\voronoi\src\texture.cpp
 	"Texture.h"
 	<iostream>
+	"RGBColor.h"
 
-1740202473 source:c:\users\james\documents\cpp\voronoi\src\capp_importassets.cpp
+1740713138 source:c:\users\james\documents\cpp\voronoi\src\capp_importassets.cpp
 	"CApp.h"
 	<iostream>
 	<vector>
@@ -497,7 +504,7 @@
 	<vector>
 	<iostream>
 
-1740204883 c:\users\james\documents\cpp\voronoi\include\voronoinode.h
+1740712931 c:\users\james\documents\cpp\voronoi\include\voronoinode.h
 	"SDL.h"
 	<vector>
 	"AtlasNumberDrawer.h"
@@ -507,7 +514,7 @@
 	"NNLayer/Dense.h"
 	"NNLayer/ODense.h"
 
-1740205280 source:c:\users\james\documents\cpp\voronoi\src\voronoigraph.cpp
+1740800383 source:c:\users\james\documents\cpp\voronoi\src\voronoigraph.cpp
 	"VoronoiGraph.h"
 	"VoronoiNode.h"
 	"IdkFunctions.h"
@@ -518,9 +525,10 @@
 	"NNLayer.h"
 	"RGBColor.h"
 
-1739706362 c:\users\james\documents\cpp\voronoi\include\voronoigraph.h
+1740800323 c:\users\james\documents\cpp\voronoi\include\voronoigraph.h
 	<vector>
 	"RGBColor.h"
+	"Texture.h"
 	"VoronoiQuadTree.h"
 	"VoronoiNode.h"
 	"NNLayer.h"
@@ -534,11 +542,11 @@
 1732749739 source:c:\users\james\documents\cpp\voronoi\src\lapcounter.cpp
 	"LapCounter.h"
 
-1739683121 c:\users\james\documents\cpp\voronoi\include\voronoiquadtree.h
+1740799505 c:\users\james\documents\cpp\voronoi\include\voronoiquadtree.h
 	<vector>
 	"VoronoiNode.h"
 
-1739686323 source:c:\users\james\documents\cpp\voronoi\src\voronoiquadtree.cpp
+1740799577 source:c:\users\james\documents\cpp\voronoi\src\voronoiquadtree.cpp
 	"VoronoiQuadTree.h"
 	<algorithm>
 	<iostream>
@@ -631,13 +639,28 @@
 1740201855 c:\users\james\documents\cpp\voronoi\include\mouseinfo.h
 	<SDL_stdinc.h>
 
-1740201796 source:c:\users\james\documents\cpp\voronoi\src\screenelement.cpp
+1740795868 source:c:\users\james\documents\cpp\voronoi\src\screenelement.cpp
 	"ScreenElement.h"
 	<vector>
 	<algorithm>
+	<iostream>
 
-1740201714 c:\users\james\documents\cpp\voronoi\include\screenelement.h
+1740798826 c:\users\james\documents\cpp\voronoi\include\screenelement.h
 	"MouseInfo.h"
 	"Texture.h"
 	<vector>
+
+1740797252 source:c:\users\james\documents\cpp\voronoi\src\screenelement\pan.cpp
+	"ScreenElement/Pan.h"
+
+1740797645 c:\users\james\documents\cpp\voronoi\include\screenelement\pan.h
+	"ScreenElement.h"
+
+1740800422 source:c:\users\james\documents\cpp\voronoi\src\screenelement\voronoiviewport.cpp
+	"VoronoiViewport.h"
+	"IdkFunctions.h"
+
+1740799214 c:\users\james\documents\cpp\voronoi\include\screenelement\voronoiviewport.h
+	"ScreenElement.h"
+	"VoronoiGraph.h"
 

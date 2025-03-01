@@ -1,5 +1,6 @@
 #include "Texture.h"
 #include <iostream>
+#include "RGBColor.h"
 
 Texture::Texture() {
     this->Init(nullptr, nullptr);
@@ -188,6 +189,20 @@ Uint8* Texture::GetPixels() {
     }
     this->was_successful = false;
     return nullptr;
+}
+
+RGBColor Texture::SampleColor(int xi, int yi) {
+    int x = xi;
+    int y = yi;
+    if (x < 0) { x = 0; }
+    if (x >= this->width) { x = this->width-1; }
+    if (y < 0) { y = 0; }
+    if (y >= this->height) { y = this->height-1; }
+    size_t i = (y*this->width+x)*4;
+    Uint8* pixels = this->GetPixels();
+    return RGBColor(pixels[i],
+                    pixels[i+1],
+                    pixels[i+2]);
 }
 
 int Texture::GetWidth() {

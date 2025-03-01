@@ -9,6 +9,7 @@
 #include "RGBColor.h"
 
 VoronoiGraph::VoronoiGraph(size_t output_size) : NNLayer::NNLayer(output_size, 0) {
+    this->target_image = nullptr;
     this->band_width = 0;
     this->gain = 0;
     this->quad_tree.SetGain(this->gain);
@@ -32,6 +33,7 @@ VoronoiGraph::VoronoiGraph(size_t output_size) : NNLayer::NNLayer(output_size, 0
 }
 
 VoronoiGraph::~VoronoiGraph() {
+    this->target_image = nullptr;
     this->band_width = 0;
     this->gain = 0;
     this->quad_tree.SetGain(this->gain);
@@ -60,6 +62,10 @@ void VoronoiGraph::Reshape(int x, int y, int w, int h, int max_depth, int critic
     this->quad_tree.SetBandWidth(this->band_width);
 }
 
+SDL_Rect VoronoiGraph::GetShape() {
+    return this->quad_tree.GetShape();
+}
+
 void VoronoiGraph::AddNode(VoronoiNode* node) {
     this->quad_tree.AddNode(node);
 //    this->quad_tree.PrintTree();
@@ -85,6 +91,14 @@ void VoronoiGraph::SetBandWidth(double band_width) {
 }
 double VoronoiGraph::GetGain() {
     return this->gain;
+}
+
+void VoronoiGraph::SetTargetImage(Texture* target) {
+    this->target_image = target;
+}
+RGBColor VoronoiGraph::SampleTrueReferenceColor(int x, int y) {
+    SDL_assert(this->target_image != nullptr);
+    return this->target_image->SampleColor(x,y);
 }
 
 void VoronoiGraph::UpdateAllGradients() {

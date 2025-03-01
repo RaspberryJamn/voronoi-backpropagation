@@ -4,6 +4,7 @@ CanvasWindow::CanvasWindow() {
     this->window = nullptr;
     this->window_id = 0;
     this->renderer = nullptr;
+    this->root_element = nullptr;
     this->mouse_focus = false;
     this->keyboard_focus = false;
     this->fullscreen = false;
@@ -66,6 +67,7 @@ void CanvasWindow::HandleEvent(SDL_Event& event) {
             case SDL_WINDOWEVENT_SIZE_CHANGED:
                 this->width = event.window.data1;
                 this->height = event.window.data2;
+                if (this->root_element != nullptr) {this->root_element->SetPosition({0,0,this->width,this->height});}
                 SDL_RenderPresent(this->renderer);
                 break;
             case SDL_WINDOWEVENT_EXPOSED:
@@ -97,6 +99,13 @@ void CanvasWindow::HandleEvent(SDL_Event& event) {
                 break;
         }
     }
+}
+
+ScreenElement::ScreenElement* CanvasWindow::SetRootElement(ScreenElement::ScreenElement* element) {
+    SDL_assert(this->root_element == nullptr);
+    this->root_element = element;
+    this->root_element->SetPosition({0,0,this->width,this->height});
+    return this->root_element;
 }
 
 int CanvasWindow::GetWidth() {

@@ -80,6 +80,12 @@ void VoronoiQuadTree::RespecTree(int x, int y, int w, int h, int max_depth, int 
         this->AddToChildren(current_node, this->root);
     });
 }
+SDL_Rect VoronoiQuadTree::GetShape() {
+    return {this->x,
+            this->y,
+            this->w,
+            this->h};
+}
 
 void VoronoiQuadTree::DeleteTree(VQuadTree* branch) {
     if (branch->node_children.empty()) {

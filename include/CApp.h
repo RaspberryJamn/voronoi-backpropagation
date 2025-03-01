@@ -15,6 +15,7 @@
 #include "VoronoiGraph.h"
 #include "VoronoiNode.h"
 #include "MouseInfo.h"
+#include "ScreenElement.h"
 
 class CApp {
     public:
@@ -38,6 +39,7 @@ class CApp {
 
         CanvasWindow* main_window;
         SDL_Renderer* main_renderer;
+        ScreenElement::ScreenElement* root_screen_element;
 
         Uint32 last_frametime;
         double average_frametime;

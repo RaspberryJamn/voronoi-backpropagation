@@ -37,6 +37,7 @@ class VoronoiQuadTree {
         ~VoronoiQuadTree();
 
         void RespecTree(int x, int y, int w, int h, int max_depth, int critical_mass);
+        SDL_Rect GetShape();
 
         void AddNode(VoronoiNode* node);
         void RemoveNode(VoronoiNode* node);
