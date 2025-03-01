@@ -28,8 +28,7 @@ class Texture {
 
         void NewBlankFromDims(int x, int y);
 
-        void SetSelfAsRenderTarget();
-
+        SDL_Texture* SetSelfAsRenderTarget(); // returns what texture it displaced
 
 //        //Set color modulation
 //        void SetColor(Uint8 red, Uint8 green, Uint8 blue);

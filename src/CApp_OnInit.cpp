@@ -43,10 +43,6 @@ bool CApp::OnInit() {
     }
     SDL_SetRenderDrawColor(this->main_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
     SDL_RenderClear(this->main_renderer);
-//    SDL_RendererInfo info;
-//    SDL_GetRendererInfo(this->main_renderer, &info);
-//    std::cout << "renderer info: " << info.flags << std::endl;
-//    return false;
 
     if (this->ImportAssets() == false) {
         std::cout << "Failed to load assets" << std::endl;
@@ -54,13 +50,13 @@ bool CApp::OnInit() {
     }
 
     this->voronoi_graph = new VoronoiGraph(0);
-    this->voronoi_graph->Reshape(0, 0, this->media_texture->GetWidth(), this->media_texture->GetHeight(), 5, 3);
+    this->voronoi_graph->Reshape(0, 0, this->source_texture->GetWidth(), this->source_texture->GetHeight(), 5, 3);
     this->voronoi_graph->SetTargetImage(this->source_texture);
 
     const int node_count = 200;
     for (int i = 0; i < node_count; i++) {
-        double x = std::fmod((i*1.618034+0.5),1.0)*this->media_texture->GetWidth();
-        double y = std::fmod(((double)i/node_count+0.5),1.0)*this->media_texture->GetHeight();
+        double x = std::fmod((i*1.618034+0.5),1.0)*this->source_texture->GetWidth();
+        double y = std::fmod(((double)i/node_count+0.5),1.0)*this->source_texture->GetHeight();
 //        RGBColor c = this->SampleSourceImage(x, y);
         this->voronoi_graph->AddNode(new VoronoiNode(x, y));//127+i%6,127+i%12,127+i%18));
     }
@@ -76,7 +72,7 @@ bool CApp::OnInit() {
 //    this->voronoi_graph->AddNode(new VoronoiNode(200,180,0  ,255,255));
 //    this->voronoi_graph->AddNode(new VoronoiNode(180,120,255,255,255));
     double band_width =  6.0;
-    double gain = 0.3/std::sqrt(this->media_texture->GetWidth()*this->media_texture->GetHeight()/node_count); // higher gain => higher sharpness / smaller gain => higher smoothness
+    double gain = 0.3/std::sqrt(this->source_texture->GetWidth()*this->source_texture->GetHeight()/node_count); // higher gain => higher sharpness / smaller gain => higher smoothness
     this->voronoi_graph->SetGain(gain);
     this->voronoi_graph->SetBandWidth(band_width);
 

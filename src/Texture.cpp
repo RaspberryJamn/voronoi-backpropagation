@@ -156,9 +156,11 @@ void Texture::NewBlankFromDims(int x, int y) {
     this->was_successful = true;
 }
 
-void Texture::SetSelfAsRenderTarget() {
+SDL_Texture* Texture::SetSelfAsRenderTarget() {
+    SDL_Texture* previous_target = SDL_GetRenderTarget(this->renderer);
     SDL_SetRenderTarget(this->renderer, this->texture);
     this->was_successful = true;
+    return previous_target;
 }
 
 void Texture::Render(int x, int y) {

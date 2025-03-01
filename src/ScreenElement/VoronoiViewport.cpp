@@ -1,5 +1,6 @@
 #include "VoronoiViewport.h"
 #include "IdkFunctions.h"
+#include <iostream>
 
 int g_sample_x = 0;
 int g_sample_y = 0;
@@ -10,26 +11,29 @@ double g_last_full_frame_loss = 0;
 int g_render_round = 0;
 
 namespace ScreenElement {
-    VoronoiViewport::VoronoiViewport(SDL_Renderer* renderer, VoronoiGraph* graph) : ScreenElement(renderer, false) {
+    VoronoiViewport::VoronoiViewport(SDL_Renderer* renderer, VoronoiGraph* graph) : ScreenElement(renderer) {
         this->graph = graph;
         this->refresh_period = 100;
         // will crop up as an issue later im sure of it
         SDL_Rect graph_shape = this->graph->GetShape();
+        this->bounding_box = graph_shape;
         this->media_width = graph_shape.w;
         this->media_height = graph_shape.h;
+        this->texture = new Texture(this->renderer);
+        this->texture->NewBlankFromDims(this->media_width, this->media_height);
     }
 
     VoronoiViewport::~VoronoiViewport() {}
 
-    void VoronoiViewport::HandleMouseEvent(MouseInfo mouse) {
+    void VoronoiViewport::HandleMouseEvent(MouseInfo mouse) {}
 
-    }
 
     void VoronoiViewport::RenderFullFrameVoronoi(double* running_loss) {
 
         bool calculate_loss = (running_loss != nullptr);
         double batch_loss = 0;
 
+        SDL_Texture* previous_target = this->texture->SetSelfAsRenderTarget();
         for (int i = 0; i < (this->media_width*this->media_height/(1.0+this->refresh_period)); i++) {
             int x = g_sample_x;
             int y = g_sample_y;
@@ -66,12 +70,16 @@ namespace ScreenElement {
                 }
             }
         }
+        SDL_SetRenderTarget(this->renderer, previous_target);
 
         if (calculate_loss) {
             (*running_loss) += batch_loss;
         }
     }
-    bool VoronoiViewport::DrawIndividual() {
+    bool VoronoiViewport::DrawIndividualUnder() {
+        return false;
+    }
+    bool VoronoiViewport::DrawIndividualOver() {
         double pre_update = g_running_loss;
         RenderFullFrameVoronoi(&g_running_loss);
         if (g_running_loss < pre_update) {
@@ -89,7 +97,7 @@ namespace ScreenElement {
     //        }
         }
 
-//        this->media_texture->Render(0,0);
+        this->texture->Render(0,0);
 
         SDL_Rect dest = {0,0,0,0};
         SDL_SetRenderDrawColor(this->renderer, 0x00, 0x00, 0x00, 0xFF);
@@ -188,6 +196,11 @@ namespace ScreenElement {
 //        this->text_textures.at(10)->RenderRTL(&string_bounds); // "x100 "
 //        this->number_renderer.DrawRTL(std::to_string((int)(disp)), &string_bounds);
 
+//        SDL_SetRenderDrawColor(this->renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+//        SDL_RenderClear(this->renderer);
+//        if (this->owns_texture) {
+//            this->texture->Render(this->bounding_box.x, this->bounding_box.y);
+//        }
         return true;
     }
 }

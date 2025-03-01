@@ -15,7 +15,7 @@ CApp::CApp() {
     this->source_texture = nullptr;
     this->source_pixels = nullptr;
 
-    this->media_texture = nullptr;
+//    this->media_texture = nullptr;
     this->voronoi_graph = nullptr;
 
     this->text_textures[0] = nullptr;

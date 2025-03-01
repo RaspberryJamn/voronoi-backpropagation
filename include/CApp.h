@@ -47,7 +47,7 @@ class CApp {
         Texture* source_texture;
         Uint8* source_pixels;
 
-        Texture* media_texture;
+//        Texture* media_texture;
         VoronoiGraph* voronoi_graph;
 
         std::vector<Texture*> text_textures;

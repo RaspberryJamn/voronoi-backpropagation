@@ -7,7 +7,7 @@
 namespace ScreenElement {
     class ScreenElement {
         public:
-            ScreenElement(SDL_Renderer* renderer, bool owns_texture);
+            ScreenElement(SDL_Renderer* renderer);
             virtual ~ScreenElement();
 
     //        void UpdateContainerRect(SDL_Rect container);
@@ -25,7 +25,8 @@ namespace ScreenElement {
 
         private:
             void ZeroMemberVariables();
-            virtual bool DrawIndividual() = 0;
+            virtual bool DrawIndividualUnder() = 0;
+            virtual bool DrawIndividualOver() = 0;
             virtual void HandleMouseEvent(MouseInfo mouse) = 0;
 
         protected:
@@ -37,8 +38,8 @@ namespace ScreenElement {
     //        int min_width;
     //        int min_height;
 
-            Texture* texture;
-            bool owns_texture;
+//            Texture* texture;
+//            bool owns_texture;
 
             bool image_updated;
 

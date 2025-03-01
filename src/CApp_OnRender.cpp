@@ -8,8 +8,6 @@
 
 
 void CApp::OnRender() {
-    SDL_SetRenderDrawColor(this->main_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-    SDL_RenderClear(this->main_renderer);
 
     this->root_screen_element->Draw();
 

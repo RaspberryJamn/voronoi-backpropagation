@@ -10,7 +10,8 @@ namespace ScreenElement {
         VoronoiViewport(SDL_Renderer* renderer, VoronoiGraph* graph);
         ~VoronoiViewport();
     private:
-        bool DrawIndividual() override;
+        bool DrawIndividualUnder() override;
+        bool DrawIndividualOver() override;
         void HandleMouseEvent(MouseInfo mouse) override;
 
         void RenderFullFrameVoronoi(double* running_loss);
@@ -19,6 +20,8 @@ namespace ScreenElement {
         int media_width;
         int media_height;
         int refresh_period;
+
+        Texture* texture;
     };
 }
 

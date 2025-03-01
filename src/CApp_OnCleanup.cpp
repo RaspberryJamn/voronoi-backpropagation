@@ -6,8 +6,8 @@ void CApp::OnCleanup() {
     this->source_texture = nullptr;
     this->source_pixels = nullptr;
 
-    delete this->media_texture;
-    this->media_texture = nullptr;
+//    delete this->media_texture;
+//    this->media_texture = nullptr;
 
     delete this->voronoi_graph;
     this->voronoi_graph = nullptr;
