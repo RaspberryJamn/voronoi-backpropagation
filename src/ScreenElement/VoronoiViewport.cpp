@@ -2,10 +2,6 @@
 #include "IdkFunctions.h"
 #include <iostream>
 
-int g_sample_x = 0;
-int g_sample_y = 0;
-int g_render_hits = 0;
-
 double g_running_loss = 0;
 double g_last_full_frame_loss = 0;
 int g_render_round = 0;
@@ -21,79 +17,79 @@ namespace ScreenElement {
         this->media_height = graph_shape.h;
         this->texture = new Texture(this->renderer);
         this->texture->NewBlankFromDims(this->media_width, this->media_height);
+
+        this->render_progress.sample_x = 0;
+        this->render_progress.sample_y = 0;
+        this->render_progress.hits = 0;
+
+        this->render_stats.running_loss = 0;
+        this->render_stats.last_full_frame_loss = 0;
+        this->render_stats.round = 0;
+    }
+    void VoronoiViewport::SetupChildElements() {
+
     }
 
     VoronoiViewport::~VoronoiViewport() {}
 
     void VoronoiViewport::HandleMouseEvent(MouseInfo mouse) {}
 
-
     void VoronoiViewport::RenderFullFrameVoronoi(double* running_loss) {
-
-        bool calculate_loss = (running_loss != nullptr);
         double batch_loss = 0;
-
         SDL_Texture* previous_target = this->texture->SetSelfAsRenderTarget();
         for (int i = 0; i < (this->media_width*this->media_height/(1.0+this->refresh_period)); i++) {
-            int x = g_sample_x;
-            int y = g_sample_y;
+            int x = this->render_progress.sample_x;
+            int y = this->render_progress.sample_y;
 
             RGBColor sample = this->graph->Sample((double)x, (double)y);
             G_Clamp<double>(&sample.r, 0, 255);
             G_Clamp<double>(&sample.g, 0, 255);
             G_Clamp<double>(&sample.b, 0, 255);
-            g_render_hits++;
+            this->render_progress.hits++;
 
-            if (calculate_loss == true) {
-                RGBColor target_color = this->graph->SampleTrueReferenceColor(x, y);
-                RGBColor diff = sample - target_color;
-                batch_loss += RGBColor::Trace(diff*diff);
-            }
+            RGBColor target_color = this->graph->SampleTrueReferenceColor(x, y);
+            RGBColor diff = sample - target_color;
+            batch_loss += RGBColor::Trace(diff*diff);
 
     //        int nearby_count = this->voronoi_graph->GetRecentNearby().size();
             RGBColor c = sample;//(target_color-sample)*127+RGBColor(127,127,127);//RGBColor(255,255,255)*(1-1.0/(nearby_count*2+1));//
             SDL_SetRenderDrawColor(this->renderer, (Uint8)c.r, (Uint8)c.g, (Uint8)c.b, 0xFF);
             SDL_RenderDrawPoint(this->renderer, x, y);
 
-            g_sample_x++;
-            if (g_sample_x == this->media_width) {
-                g_sample_x = 0;
-                g_sample_y++;
-                if (g_sample_y == this->media_height) {
-                    g_sample_y = 0;
-
-                    if (calculate_loss) {
-                        (*running_loss) = 0;
-                    }
-                    g_render_hits = 0;
+            this->render_progress.sample_x++;
+            if (this->render_progress.sample_x == this->media_width) {
+                this->render_progress.sample_x = 0;
+                this->render_progress.sample_y++;
+                if (this->render_progress.sample_y == this->media_height) {
+                    this->render_progress.sample_y = 0;
+                    this->render_stats.running_loss = 0;
+                    this->render_progress.hits = 0;
     //                g_offset++; // finished frame
                 }
             }
         }
         SDL_SetRenderTarget(this->renderer, previous_target);
-
-        if (calculate_loss) {
-            (*running_loss) += batch_loss;
-        }
+        this->render_stats.running_loss += batch_loss;
     }
+
     bool VoronoiViewport::DrawIndividualUnder() {
         return false;
     }
     bool VoronoiViewport::DrawIndividualOver() {
-        double pre_update = g_running_loss;
-        RenderFullFrameVoronoi(&g_running_loss);
-        if (g_running_loss < pre_update) {
-            g_last_full_frame_loss = pre_update;
-            g_render_round++;
-    //        if (g_render_round == 20) {
+        double pre_update = this->render_stats.running_loss;
+        RenderFullFrameVoronoi(&this->render_stats.running_loss);
+        if (this->render_stats.running_loss < pre_update) {
+            this->render_stats.last_full_frame_loss = pre_update;
+            this->render_stats.round++;
+    //        if (this->render_stats.round == 20) {
     //            this->voronoi_graph->SetXYRate(0.0);
     //            this->voronoi_graph->SetLearningRate(this->voronoi_graph->GetLearningRate()*2.0);
-    //            std::cout << "round " << g_render_round << " hit, node positions frozen" << std::endl;
+    //            std::cout << "round " << this->render_stats.round << " hit, node positions frozen" << std::endl;
     //        }
-    //        if (g_render_round%5 == 0) {
+    //        if (this->render_stats.round%5 == 0) {
             double new_learning_rate = this->graph->GetLearningRate()*0.98;
             this->graph->SetLearningRate(new_learning_rate);
-            std::cout << g_render_round << " rounds passed, learning rate now: " << new_learning_rate << std::endl;
+            std::cout << this->render_stats.round << " rounds passed, learning rate now: " << new_learning_rate << std::endl;
     //        }
         }
 
@@ -101,7 +97,7 @@ namespace ScreenElement {
 
         SDL_Rect dest = {0,0,0,0};
         SDL_SetRenderDrawColor(this->renderer, 0x00, 0x00, 0x00, 0xFF);
-        dest = {this->media_width, g_sample_y, 5, 5}; SDL_RenderFillRect(this->renderer, &dest);
+        dest = {this->media_width, this->render_progress.sample_y, 5, 5}; SDL_RenderFillRect(this->renderer, &dest);
 
 //        if (this->mouse.pressed) {
 //            if (this->mouse.started_dragging == true) {
@@ -169,13 +165,13 @@ namespace ScreenElement {
 //        this->text_textures.at(1)->RenderRTL(&string_bounds); // "ms"
 //
 //        string_bounds = {5,this->media_texture->GetHeight()+35,0,0};
-//        disp = g_running_loss;
+//        disp = this->render_stats.running_loss;
 //        this->text_textures.at(4)->RenderRTL(&string_bounds); // "running "
 //        this->text_textures.at(5)->RenderRTL(&string_bounds); // "loss "
 //        this->number_renderer.DrawRTL(std::to_string((int)(disp)), &string_bounds);
 //
 //        string_bounds = {5,this->media_texture->GetHeight()+50,0,0};
-//        disp = g_last_full_frame_loss;
+//        disp = this->render_stats.last_full_frame_loss;
 //        this->text_textures.at(3)->RenderRTL(&string_bounds); // "last "
 //        this->text_textures.at(5)->RenderRTL(&string_bounds); // "loss "
 //        this->number_renderer.DrawRTL(std::to_string((int)(disp)), &string_bounds);
