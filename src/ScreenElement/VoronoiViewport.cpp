@@ -72,10 +72,12 @@ namespace ScreenElement {
         this->render_stats.running_loss += batch_loss;
     }
 
-    bool VoronoiViewport::DrawIndividualUnder() {
-        return false;
+    bool VoronoiViewport::IndividualTick() {
+        return true;
     }
-    bool VoronoiViewport::DrawIndividualOver() {
+
+    void VoronoiViewport::DrawIndividualUnder() {}
+    void VoronoiViewport::DrawIndividualOver() {
         double pre_update = this->render_stats.running_loss;
         RenderFullFrameVoronoi(&this->render_stats.running_loss);
         if (this->render_stats.running_loss < pre_update) {
@@ -197,6 +199,5 @@ namespace ScreenElement {
 //        if (this->owns_texture) {
 //            this->texture->Render(this->bounding_box.x, this->bounding_box.y);
 //        }
-        return true;
     }
 }

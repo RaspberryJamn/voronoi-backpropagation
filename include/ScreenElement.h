@@ -17,14 +17,16 @@ namespace ScreenElement {
             // returns whether there was any change in the image.
             // really, this function ensures that the image is in sync with the most modern notion of what it should be
             // (whether that means actually "drawing" anything or not just happens to be up to the current situation)
-            bool Draw();
+            void Draw();
+            bool Tick();
 
             void MouseEvent(MouseInfo mouse);
 
         private:
             void ZeroMemberVariables();
-            virtual bool DrawIndividualUnder() = 0;
-            virtual bool DrawIndividualOver() = 0;
+            virtual bool IndividualTick() = 0;
+            virtual void DrawIndividualUnder() = 0;
+            virtual void DrawIndividualOver() = 0;
             virtual void HandleMouseEvent(MouseInfo mouse) = 0;
 
         protected:
@@ -32,7 +34,7 @@ namespace ScreenElement {
 
             SDL_Rect bounding_box; // functions as a hitbox for mouse events and as a render rect on most recent parent texture
 
-            bool image_updated;
+            bool image_dirty;
 
             std::vector<ScreenElement*> child_elements;
     };

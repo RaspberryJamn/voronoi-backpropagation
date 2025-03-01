@@ -645,7 +645,7 @@
 	<algorithm>
 	<iostream>
 
-1740804641 c:\users\james\documents\cpp\voronoi\include\screenelement.h
+1740866479 c:\users\james\documents\cpp\voronoi\include\screenelement.h
 	"MouseInfo.h"
 	"Texture.h"
 	<vector>
@@ -653,7 +653,7 @@
 1740806048 source:c:\users\james\documents\cpp\voronoi\src\screenelement\pan.cpp
 	"ScreenElement/Pan.h"
 
-1740804904 c:\users\james\documents\cpp\voronoi\include\screenelement\pan.h
+1740867162 c:\users\james\documents\cpp\voronoi\include\screenelement\pan.h
 	"ScreenElement.h"
 
 1740805938 source:c:\users\james\documents\cpp\voronoi\src\screenelement\voronoiviewport.cpp
@@ -661,7 +661,7 @@
 	"IdkFunctions.h"
 	<iostream>
 
-1740863354 c:\users\james\documents\cpp\voronoi\include\screenelement\voronoiviewport.h
+1740867172 c:\users\james\documents\cpp\voronoi\include\screenelement\voronoiviewport.h
 	"ScreenElement.h"
 	"VoronoiGraph.h"
 

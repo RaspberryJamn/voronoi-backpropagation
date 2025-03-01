@@ -56,19 +56,15 @@ namespace ScreenElement {
         }
     }
 
-    bool Pan::DrawIndividualUnder() {
-        bool should_update = true;
-        if (should_update) {
-            SDL_SetRenderDrawColor(this->renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-            SDL_RenderClear(this->renderer);
-        }
-        return should_update;
-    }
-    bool Pan::DrawIndividualOver() {
+    bool Pan::IndividualTick() {
         return false;
     }
 
-    void Pan::HandleMouseEvent(MouseInfo mouse) {
-
+    void Pan::DrawIndividualUnder() {
+        SDL_SetRenderDrawColor(this->renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+        SDL_RenderClear(this->renderer);
     }
+    void Pan::DrawIndividualOver() {}
+
+    void Pan::HandleMouseEvent(MouseInfo mouse) {}
 }

@@ -12,8 +12,9 @@ namespace ScreenElement {
         void AddChild(ScreenElement* element) override;
 
     private:
-        bool DrawIndividualUnder() override;
-        bool DrawIndividualOver() override;
+        bool IndividualTick() override;
+        void DrawIndividualUnder() override;
+        void DrawIndividualOver() override;
         void HandleMouseEvent(MouseInfo mouse) override;
 
         Texture* texture;

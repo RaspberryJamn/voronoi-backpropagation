@@ -11,8 +11,9 @@ namespace ScreenElement {
         ~VoronoiViewport();
     private:
         void SetupChildElements();
-        bool DrawIndividualUnder() override;
-        bool DrawIndividualOver() override;
+        bool IndividualTick() override;
+        void DrawIndividualUnder() override;
+        void DrawIndividualOver() override;
         void HandleMouseEvent(MouseInfo mouse) override;
 
         void RenderFullFrameVoronoi(double* running_loss);

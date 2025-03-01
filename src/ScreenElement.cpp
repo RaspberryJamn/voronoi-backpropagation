@@ -34,16 +34,25 @@ namespace ScreenElement {
         return this->bounding_box;
     }
 
-    bool ScreenElement::Draw() {
+    bool ScreenElement::Tick() {
         bool any_update = false;
-
-        any_update |= this->DrawIndividualUnder();
         std::for_each(this->child_elements.begin(), this->child_elements.end(), [&](ScreenElement* current_element) {
-            any_update |= current_element->Draw();
+            any_update |= current_element->Tick();
         });
-        any_update |= this->DrawIndividualOver();
-
+        any_update |= this->IndividualTick();
+        this->image_dirty |= any_update;
         return any_update;
+    }
+
+    void ScreenElement::Draw() {
+        if (this->image_dirty) {
+            this->DrawIndividualUnder();
+            std::for_each(this->child_elements.begin(), this->child_elements.end(), [&](ScreenElement* current_element) {
+                current_element->Draw();
+            });
+            this->DrawIndividualOver();
+            this->image_dirty = false;
+        }
     }
 
     void ScreenElement::MouseEvent(MouseInfo mouse) {
