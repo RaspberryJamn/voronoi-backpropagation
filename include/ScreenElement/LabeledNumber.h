@@ -8,11 +8,12 @@
 namespace ScreenElement {
     class LabeledNumber : virtual public ScreenElement::ScreenElement {
     public:
-        LabeledNumber(SDL_Renderer* renderer, AtlasNumberDrawer* number_drawer);
+        LabeledNumber(SDL_Renderer* renderer);
         ~LabeledNumber();
         virtual void SetPosition(SDL_Rect rect);
 
         void SetFont(TTF_Font* font);
+        void SetNumberDrawer(AtlasNumberDrawer* number_drawer);
         void SetLabel(std::string label);
         void SetNumber(int number);
     private:
@@ -21,9 +22,12 @@ namespace ScreenElement {
         void DrawIndividualOver() override;
         void HandleMouseEvent(MouseInfo mouse) override;
 
+//        void UpdateTextures();
+
         TTF_Font* font;
         Texture* label;
         AtlasNumberDrawer* number_drawer;
+        int number;
     };
 }
 

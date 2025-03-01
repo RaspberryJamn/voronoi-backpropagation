@@ -52,7 +52,7 @@ namespace ScreenElement {
         }
         if (update_necessary) {
             this->texture->NewBlankFromDims(this->internal_dims.w, this->internal_dims.h);
-            this->image_updated = true;
+            this->image_dirty = true;
         }
     }
 

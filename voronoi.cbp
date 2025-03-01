@@ -55,6 +55,7 @@
 		<Unit filename="include/NeuralNetwork.h" />
 		<Unit filename="include/RGBColor.h" />
 		<Unit filename="include/ScreenElement.h" />
+		<Unit filename="include/ScreenElement/LabeledNumber.h" />
 		<Unit filename="include/ScreenElement/Pan.h" />
 		<Unit filename="include/ScreenElement/VoronoiViewport.h" />
 		<Unit filename="include/Texture.h" />
@@ -85,6 +86,7 @@
 		<Unit filename="src/NNLayer/Sigmoid.cpp" />
 		<Unit filename="src/NeuralNetwork.cpp" />
 		<Unit filename="src/ScreenElement.cpp" />
+		<Unit filename="src/ScreenElement/LabeledNumber.cpp" />
 		<Unit filename="src/ScreenElement/Pan.cpp" />
 		<Unit filename="src/ScreenElement/VoronoiViewport.cpp" />
 		<Unit filename="src/Texture.cpp" />

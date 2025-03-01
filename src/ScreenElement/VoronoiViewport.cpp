@@ -1,6 +1,7 @@
 #include "VoronoiViewport.h"
 #include "IdkFunctions.h"
 #include <iostream>
+#include "ScreenElement/LabeledNumber.h"
 
 double g_running_loss = 0;
 double g_last_full_frame_loss = 0;
@@ -27,7 +28,7 @@ namespace ScreenElement {
         this->render_stats.round = 0;
     }
     void VoronoiViewport::SetupChildElements() {
-
+        ScreenElement::LabeledNumber(this->renderer);
     }
 
     VoronoiViewport::~VoronoiViewport() {}

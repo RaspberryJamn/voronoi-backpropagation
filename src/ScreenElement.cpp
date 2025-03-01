@@ -19,7 +19,7 @@ namespace ScreenElement {
     void ScreenElement::ZeroMemberVariables() {
         this->renderer = nullptr;
         this->bounding_box = {0};
-        this->image_updated = false;
+        this->image_dirty = false;
         this->child_elements.clear();
     }
 
