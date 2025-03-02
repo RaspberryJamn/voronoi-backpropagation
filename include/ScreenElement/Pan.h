@@ -6,7 +6,7 @@
 namespace ScreenElement {
     class Pan : virtual public ScreenElement::ScreenElement {
     public:
-        Pan(SDL_Renderer* renderer);
+        Pan();
         ~Pan();
         virtual void SetPosition(SDL_Rect rect);
         void AddChild(ScreenElement* element) override;
@@ -18,6 +18,7 @@ namespace ScreenElement {
         void HandleMouseEvent(MouseInfo mouse) override;
 
         Texture* texture;
+        SDL_Texture* prior_context;
 
         SDL_Rect internal_dims;
         SDL_Point camera_corner;

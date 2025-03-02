@@ -79,9 +79,10 @@ bool CApp::OnInit() {
     this->refresh_period = 100;
     this->loop_advantage_factor = 20.0;
 
-    this->root_screen_element = this->main_window->SetRootElement(new ScreenElement::Pan(this->main_renderer));
+    ScreenElement::ScreenElement::FillInRenderUtils(this->main_renderer, this->main_font, &this->number_renderer);
+    this->root_screen_element = this->main_window->SetRootElement(new ScreenElement::Pan());
 
-    this->root_screen_element->AddChild(new ScreenElement::VoronoiViewport(this->main_renderer, this->voronoi_graph));
+    this->root_screen_element->AddChild(new ScreenElement::VoronoiViewport(this->voronoi_graph));
 
     return true;
 }

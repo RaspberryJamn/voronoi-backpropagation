@@ -52,6 +52,7 @@ void AtlasNumberDrawer::DrawRTL(std::string text, SDL_Rect* inout_bounds) {
     int i = 0;
     SDL_Rect foot = *inout_bounds;
     SDL_Rect paste = {foot.x+foot.w,foot.y,0,0};
+    int height = 0;
     while (text[i]) {
         int c = text[i]-48;
         if ((c >= 0) && (c <= 9)) {
@@ -60,8 +61,10 @@ void AtlasNumberDrawer::DrawRTL(std::string text, SDL_Rect* inout_bounds) {
             paste.h = cut.h;
             this->atlas->Render(&cut, &paste);
             paste.x+=paste.w;
+            if (height<paste.h) {height=paste.h;}
         }
         i++;
     }
     inout_bounds->w = paste.x-foot.x;
+    inout_bounds->h = height;
 }

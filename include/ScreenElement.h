@@ -2,25 +2,33 @@
 #define SCREENELEMENT_H
 #include "MouseInfo.h"
 #include "Texture.h"
+#include "AtlasNumberDrawer.h"
 #include <vector>
 
 namespace ScreenElement {
+    struct RenderUtilType {
+        SDL_Renderer* context;
+        TTF_Font* font;
+        AtlasNumberDrawer* number_drawer;
+    };
+
     class ScreenElement {
         public:
-            ScreenElement(SDL_Renderer* renderer);
+            static void FillInRenderUtils(SDL_Renderer* context, TTF_Font* font, AtlasNumberDrawer* number_drawer);
+
+            ScreenElement();
             virtual ~ScreenElement();
 
             virtual void SetPosition(SDL_Rect rect);
             virtual void AddChild(ScreenElement* element);
             SDL_Rect GetPosition();
 
-            // returns whether there was any change in the image.
-            // really, this function ensures that the image is in sync with the most modern notion of what it should be
-            // (whether that means actually "drawing" anything or not just happens to be up to the current situation)
-            void Draw();
             bool Tick();
+            void Draw();
 
             void MouseEvent(MouseInfo mouse);
+
+            static RenderUtilType render;
 
         private:
             void ZeroMemberVariables();
@@ -30,7 +38,6 @@ namespace ScreenElement {
             virtual void HandleMouseEvent(MouseInfo mouse) = 0;
 
         protected:
-            SDL_Renderer* renderer;
 
             SDL_Rect bounding_box; // functions as a hitbox for mouse events and as a render rect on most recent parent texture
 

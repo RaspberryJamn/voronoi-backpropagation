@@ -7,7 +7,7 @@
 namespace ScreenElement {
     class VoronoiViewport : virtual public ScreenElement::ScreenElement {
     public:
-        VoronoiViewport(SDL_Renderer* renderer, VoronoiGraph* graph);
+        VoronoiViewport(VoronoiGraph* graph);
         ~VoronoiViewport();
     private:
         void SetupChildElements();

@@ -8,7 +8,7 @@ double g_last_full_frame_loss = 0;
 int g_render_round = 0;
 
 namespace ScreenElement {
-    VoronoiViewport::VoronoiViewport(SDL_Renderer* renderer, VoronoiGraph* graph) : ScreenElement(renderer) {
+    VoronoiViewport::VoronoiViewport(VoronoiGraph* graph) : ScreenElement() {
         this->graph = graph;
         this->refresh_period = 100;
         // will crop up as an issue later im sure of it
@@ -16,7 +16,7 @@ namespace ScreenElement {
         this->bounding_box = graph_shape;
         this->media_width = graph_shape.w;
         this->media_height = graph_shape.h;
-        this->texture = new Texture(this->renderer);
+        this->texture = new Texture(this->render.context);
         this->texture->NewBlankFromDims(this->media_width, this->media_height);
 
         this->render_progress.sample_x = 0;
@@ -26,9 +26,19 @@ namespace ScreenElement {
         this->render_stats.running_loss = 0;
         this->render_stats.last_full_frame_loss = 0;
         this->render_stats.round = 0;
+
+        this->SetupChildElements();
     }
     void VoronoiViewport::SetupChildElements() {
-        ScreenElement::LabeledNumber(this->renderer);
+        LabeledNumber* running_loss = new LabeledNumber(&this->render_stats.running_loss);
+        running_loss->SetLabel("Running loss: ");
+        running_loss->SetPosition({5,this->media_height+35,0,0});
+        this->AddChild(running_loss);
+
+        LabeledNumber* last_full_frame_loss = new LabeledNumber(&this->render_stats.last_full_frame_loss);
+        last_full_frame_loss->SetLabel("Last loss: ");
+        last_full_frame_loss->SetPosition({5,this->media_height+50,0,0});
+        this->AddChild(last_full_frame_loss);
     }
 
     VoronoiViewport::~VoronoiViewport() {}
@@ -54,8 +64,8 @@ namespace ScreenElement {
 
     //        int nearby_count = this->voronoi_graph->GetRecentNearby().size();
             RGBColor c = sample;//(target_color-sample)*127+RGBColor(127,127,127);//RGBColor(255,255,255)*(1-1.0/(nearby_count*2+1));//
-            SDL_SetRenderDrawColor(this->renderer, (Uint8)c.r, (Uint8)c.g, (Uint8)c.b, 0xFF);
-            SDL_RenderDrawPoint(this->renderer, x, y);
+            SDL_SetRenderDrawColor(this->render.context, (Uint8)c.r, (Uint8)c.g, (Uint8)c.b, 0xFF);
+            SDL_RenderDrawPoint(this->render.context, x, y);
 
             this->render_progress.sample_x++;
             if (this->render_progress.sample_x == this->media_width) {
@@ -69,7 +79,7 @@ namespace ScreenElement {
                 }
             }
         }
-        SDL_SetRenderTarget(this->renderer, previous_target);
+        SDL_SetRenderTarget(this->render.context, previous_target);
         this->render_stats.running_loss += batch_loss;
     }
 
@@ -77,8 +87,8 @@ namespace ScreenElement {
         return true;
     }
 
-    void VoronoiViewport::DrawIndividualUnder() {}
-    void VoronoiViewport::DrawIndividualOver() {
+    void VoronoiViewport::DrawIndividualOver() {}
+    void VoronoiViewport::DrawIndividualUnder() {
         double pre_update = this->render_stats.running_loss;
         RenderFullFrameVoronoi(&this->render_stats.running_loss);
         if (this->render_stats.running_loss < pre_update) {
@@ -99,8 +109,9 @@ namespace ScreenElement {
         this->texture->Render(0,0);
 
         SDL_Rect dest = {0,0,0,0};
-        SDL_SetRenderDrawColor(this->renderer, 0x00, 0x00, 0x00, 0xFF);
-        dest = {this->media_width, this->render_progress.sample_y, 5, 5}; SDL_RenderFillRect(this->renderer, &dest);
+        SDL_SetRenderDrawColor(this->render.context, 0x00, 0x00, 0x00, 0xFF);
+        dest = {this->media_width, this->render_progress.sample_y, 5, 5}; SDL_RenderFillRect(this->render.context, &dest);
+
 
 //        if (this->mouse.pressed) {
 //            if (this->mouse.started_dragging == true) {
@@ -195,8 +206,8 @@ namespace ScreenElement {
 //        this->text_textures.at(10)->RenderRTL(&string_bounds); // "x100 "
 //        this->number_renderer.DrawRTL(std::to_string((int)(disp)), &string_bounds);
 
-//        SDL_SetRenderDrawColor(this->renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-//        SDL_RenderClear(this->renderer);
+//        SDL_SetRenderDrawColor(this->render.context, 0xFF, 0xFF, 0xFF, 0xFF);
+//        SDL_RenderClear(this->render.context);
 //        if (this->owns_texture) {
 //            this->texture->Render(this->bounding_box.x, this->bounding_box.y);
 //        }

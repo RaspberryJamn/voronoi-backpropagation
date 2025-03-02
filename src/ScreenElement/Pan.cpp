@@ -2,9 +2,9 @@
 //#include <iostream>
 
 namespace ScreenElement {
-    Pan::Pan(SDL_Renderer* renderer) : ScreenElement(renderer) {
+    Pan::Pan() : ScreenElement() {
         this->internal_dims = {0};
-        this->texture = new Texture(renderer);
+        this->texture = new Texture(this->render.context);
     }
 
     Pan::~Pan() {}
@@ -18,17 +18,22 @@ namespace ScreenElement {
     }
 
     void Pan::AddChild(ScreenElement* element) {
-        ScreenElement::ScreenElement::AddChild(element);
         // grow internal_dims to contain element, preserving relative camera position
         SDL_Rect child_pos = element->GetPosition();
-        int min_x = child_pos.x;
-        int min_y = child_pos.y;
-        int max_x = min_x+child_pos.w;
-        int max_y = min_y+child_pos.h;
-        int left = this->internal_dims.x-min_x;
-        int right = max_x-(this->internal_dims.x+this->internal_dims.w);
-        int up = this->internal_dims.y-min_y;
-        int down = max_y-(this->internal_dims.y+this->internal_dims.h);
+        int child_min_x = child_pos.x;
+        int child_min_y = child_pos.y;
+        int child_max_x = child_min_x+child_pos.w;
+        int child_max_y = child_min_y+child_pos.h;
+        int current_min_x = this->internal_dims.x;
+        int current_min_y = this->internal_dims.y;
+        int current_max_x = current_min_x+this->internal_dims.w;
+        int current_max_y = current_min_y+this->internal_dims.h;
+
+        int left = current_max_x-child_max_x;
+        int right = child_max_x-current_max_x;
+        int up = current_max_y-child_max_y;
+        int down = child_max_y-current_max_y;
+
         bool update_necessary = false;
         if (left > 0) {
             this->internal_dims.x -= left;
@@ -52,8 +57,16 @@ namespace ScreenElement {
         }
         if (update_necessary) {
             this->texture->NewBlankFromDims(this->internal_dims.w, this->internal_dims.h);
+
+            this->prior_context = this->texture->SetSelfAsRenderTarget();
+            SDL_SetRenderDrawColor(this->render.context, 0xFF, 0xFF, 0xFF, 0xFF);
+            SDL_RenderClear(this->render.context);
+            SDL_SetRenderTarget(this->render.context, this->prior_context);
+
             this->image_dirty = true;
         }
+//        ScreenElement::ScreenElement::AddChild(element);
+        this->child_elements.push_back(element);
     }
 
     bool Pan::IndividualTick() {
@@ -61,10 +74,14 @@ namespace ScreenElement {
     }
 
     void Pan::DrawIndividualUnder() {
-        SDL_SetRenderDrawColor(this->renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-        SDL_RenderClear(this->renderer);
+        SDL_SetRenderDrawColor(this->render.context, 0xFF, 0xFF, 0xFF, 0xFF);
+        SDL_RenderClear(this->render.context);
+        this->prior_context = this->texture->SetSelfAsRenderTarget();
     }
-    void Pan::DrawIndividualOver() {}
+    void Pan::DrawIndividualOver() {
+        SDL_SetRenderTarget(this->render.context, this->prior_context);
+        this->texture->Render(0,0);
+    }
 
     void Pan::HandleMouseEvent(MouseInfo mouse) {}
 }

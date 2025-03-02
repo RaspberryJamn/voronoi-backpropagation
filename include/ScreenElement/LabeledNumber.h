@@ -8,14 +8,12 @@
 namespace ScreenElement {
     class LabeledNumber : virtual public ScreenElement::ScreenElement {
     public:
-        LabeledNumber(SDL_Renderer* renderer);
+        LabeledNumber(const int* watched_number);
+        LabeledNumber(const double* watched_number);
         ~LabeledNumber();
         virtual void SetPosition(SDL_Rect rect);
 
-        void SetFont(TTF_Font* font);
-        void SetNumberDrawer(AtlasNumberDrawer* number_drawer);
         void SetLabel(std::string label);
-        void SetNumber(int number);
     private:
         bool IndividualTick() override;
         void DrawIndividualUnder() override;
@@ -24,10 +22,11 @@ namespace ScreenElement {
 
 //        void UpdateTextures();
 
-        TTF_Font* font;
         Texture* label;
-        AtlasNumberDrawer* number_drawer;
-        int number;
+        bool is_int;
+        const int* watched_number_int;
+        const double* watched_number_double;
+        int last_number;
     };
 }
 

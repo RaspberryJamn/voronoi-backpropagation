@@ -4,9 +4,19 @@
 #include <iostream>
 
 namespace ScreenElement {
-    ScreenElement::ScreenElement(SDL_Renderer* renderer) {
+    RenderUtilType ScreenElement::render = {nullptr, nullptr, nullptr};
+
+    void ScreenElement::FillInRenderUtils(SDL_Renderer* context, TTF_Font* font, AtlasNumberDrawer* number_drawer) {
+        SDL_assert(ScreenElement::render.context == nullptr);
+        ScreenElement::render.context = context;
+        ScreenElement::render.font = font;
+        ScreenElement::render.number_drawer = number_drawer;
+    }
+
+    ScreenElement::ScreenElement() {
+        SDL_assert(this->render.context != nullptr);
         this->ZeroMemberVariables();
-        this->renderer = renderer;
+        this->image_dirty = true; // we have to render at least once to start out
     }
 
     ScreenElement::~ScreenElement() {
@@ -17,7 +27,6 @@ namespace ScreenElement {
     }
 
     void ScreenElement::ZeroMemberVariables() {
-        this->renderer = nullptr;
         this->bounding_box = {0};
         this->image_dirty = false;
         this->child_elements.clear();
@@ -28,6 +37,21 @@ namespace ScreenElement {
     }
 
     void ScreenElement::AddChild(ScreenElement* element) {
+        SDL_Rect child_pos = element->GetPosition();
+        int child_min_x = child_pos.x;
+        int child_min_y = child_pos.y;
+        int child_max_x = child_min_x+child_pos.w;
+        int child_max_y = child_min_y+child_pos.h;
+        int current_min_x = this->bounding_box.x;
+        int current_min_y = this->bounding_box.y;
+        int current_max_x = current_min_x+this->bounding_box.w;
+        int current_max_y = current_min_y+this->bounding_box.h;
+        int min_x = current_min_x; if (child_min_x < min_x) {min_x = child_min_x;}
+        int min_y = current_min_y; if (child_min_y < min_y) {min_y = child_min_y;}
+        int max_x = current_max_x; if (child_max_x > max_x) {max_x = child_max_x;}
+        int max_y = current_max_y; if (child_max_y > max_y) {max_y = child_max_y;}
+        this->bounding_box = {min_x, min_y, max_x-min_x, max_y-min_y};
+
         this->child_elements.push_back(element);
     }
     SDL_Rect ScreenElement::GetPosition() {

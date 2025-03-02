@@ -9,6 +9,7 @@
 
 void CApp::OnRender() {
 
+    this->root_screen_element->Tick();
     this->root_screen_element->Draw();
 
     SDL_RenderPresent(this->main_renderer);
