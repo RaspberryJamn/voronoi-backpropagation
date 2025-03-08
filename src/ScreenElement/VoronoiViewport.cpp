@@ -32,12 +32,12 @@ namespace ScreenElement {
     }
     void VoronoiViewport::SetupChildElements() {
         LabeledNumber* average_frametime = new LabeledNumber("average frametime");
-        average_frametime->SetLabel("Average frametime: ");
+        average_frametime->SetLabel("Average frametime: ", "ms");
         average_frametime->SetPosition({5,this->media_height+5,0,0});
         this->AddChild(average_frametime);
 
         LabeledNumber* last_frametime = new LabeledNumber("last frametime");
-        last_frametime->SetLabel("Last frametime: ");
+        last_frametime->SetLabel("Last frametime: ", "ms");
         last_frametime->SetPosition({5,this->media_height+20,0,0});
         this->AddChild(last_frametime);
 

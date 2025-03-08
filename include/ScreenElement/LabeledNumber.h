@@ -13,6 +13,7 @@ namespace ScreenElement {
         ~LabeledNumber();
         virtual void SetPosition(SDL_Rect rect);
 
+        void SetLabel(std::string before, std::string after);
         void SetLabel(std::string label);
 
     private:
@@ -23,7 +24,9 @@ namespace ScreenElement {
 
 //        void UpdateTextures();
 
-        Texture* label;
+        Texture* label_before;
+        Texture* label_after;
+        bool has_label_after;
         statid_t watched_number;
         int last_number;
     };
