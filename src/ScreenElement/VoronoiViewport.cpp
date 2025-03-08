@@ -2,6 +2,7 @@
 #include "IdkFunctions.h"
 #include <iostream>
 #include "ScreenElement/LabeledNumber.h"
+#include "StatisticsLibrary.h"
 
 double g_running_loss = 0;
 double g_last_full_frame_loss = 0;
@@ -30,12 +31,26 @@ namespace ScreenElement {
         this->SetupChildElements();
     }
     void VoronoiViewport::SetupChildElements() {
-        LabeledNumber* running_loss = new LabeledNumber(&this->render_stats.running_loss);
+        LabeledNumber* average_frametime = new LabeledNumber("average frametime");
+        average_frametime->SetLabel("Average frametime: ");
+        average_frametime->SetPosition({5,this->media_height+5,0,0});
+        this->AddChild(average_frametime);
+
+        LabeledNumber* last_frametime = new LabeledNumber("last frametime");
+        last_frametime->SetLabel("Last frametime: ");
+        last_frametime->SetPosition({5,this->media_height+20,0,0});
+        this->AddChild(last_frametime);
+
+        statid_t running_loss_id = this->stats_library->GenerateNewIdFromName("running loss");
+        this->stats_library->Publish(running_loss_id, &this->render_stats.running_loss);
+        LabeledNumber* running_loss = new LabeledNumber("running loss");
         running_loss->SetLabel("Running loss: ");
         running_loss->SetPosition({5,this->media_height+35,0,0});
         this->AddChild(running_loss);
 
-        LabeledNumber* last_full_frame_loss = new LabeledNumber(&this->render_stats.last_full_frame_loss);
+        statid_t last_full_frame_loss_id = this->stats_library->GenerateNewIdFromName("last full loss");
+        this->stats_library->Publish(last_full_frame_loss_id, &this->render_stats.last_full_frame_loss);
+        LabeledNumber* last_full_frame_loss = new LabeledNumber("last full loss");
         last_full_frame_loss->SetLabel("Last loss: ");
         last_full_frame_loss->SetPosition({5,this->media_height+50,0,0});
         this->AddChild(last_full_frame_loss);

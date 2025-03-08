@@ -4,16 +4,17 @@
 #include "ScreenElement.h"
 #include "AtlasNumberDrawer.h"
 #include <string>
+#include "StatisticsLibrary.h"
 
 namespace ScreenElement {
     class LabeledNumber : virtual public ScreenElement::ScreenElement {
     public:
-        LabeledNumber(const int* watched_number);
-        LabeledNumber(const double* watched_number);
+        LabeledNumber(std::string statistic_name);
         ~LabeledNumber();
         virtual void SetPosition(SDL_Rect rect);
 
         void SetLabel(std::string label);
+
     private:
         bool IndividualTick() override;
         void DrawIndividualUnder() override;
@@ -23,9 +24,7 @@ namespace ScreenElement {
 //        void UpdateTextures();
 
         Texture* label;
-        bool is_int;
-        const int* watched_number_int;
-        const double* watched_number_double;
+        statid_t watched_number;
         int last_number;
     };
 }

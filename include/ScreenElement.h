@@ -4,6 +4,7 @@
 #include "Texture.h"
 #include "AtlasNumberDrawer.h"
 #include <vector>
+#include "StatisticsLibrary.h"
 
 namespace ScreenElement {
     struct RenderUtilType {
@@ -14,7 +15,7 @@ namespace ScreenElement {
 
     class ScreenElement {
         public:
-            static void FillInRenderUtils(SDL_Renderer* context, TTF_Font* font, AtlasNumberDrawer* number_drawer);
+            static void FillInRenderUtils(SDL_Renderer* context, TTF_Font* font, AtlasNumberDrawer* number_drawer, StatisticsLibrary* library);
 
             ScreenElement();
             virtual ~ScreenElement();
@@ -28,6 +29,7 @@ namespace ScreenElement {
 
             void MouseEvent(MouseInfo mouse);
 
+            static StatisticsLibrary* stats_library;
             static RenderUtilType render;
 
         private:

@@ -5,12 +5,14 @@
 
 namespace ScreenElement {
     RenderUtilType ScreenElement::render = {nullptr, nullptr, nullptr};
+    StatisticsLibrary* ScreenElement::stats_library = nullptr;
 
-    void ScreenElement::FillInRenderUtils(SDL_Renderer* context, TTF_Font* font, AtlasNumberDrawer* number_drawer) {
+    void ScreenElement::FillInRenderUtils(SDL_Renderer* context, TTF_Font* font, AtlasNumberDrawer* number_drawer, StatisticsLibrary* library) {
         SDL_assert(ScreenElement::render.context == nullptr);
         ScreenElement::render.context = context;
         ScreenElement::render.font = font;
         ScreenElement::render.number_drawer = number_drawer;
+        ScreenElement::stats_library = library;
     }
 
     ScreenElement::ScreenElement() {

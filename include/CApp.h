@@ -37,18 +37,17 @@ class CApp {
     private:
         bool running;
 
-
         CanvasWindow* main_window;
         SDL_Renderer* main_renderer;
         ScreenElement::ScreenElement* root_screen_element;
 
         Uint32 last_frametime;
         double average_frametime;
+        StatisticsLibrary statistics_library;
 
         Texture* source_texture;
         Uint8* source_pixels;
 
-//        Texture* media_texture;
         VoronoiGraph* voronoi_graph;
 
         AtlasNumberDrawer number_renderer;
@@ -75,10 +74,6 @@ class CApp {
         // OnLoop
         void ProgressivePoke(double fraction);
         int training_stride;
-
-        // OnRender
-        void RenderFullFrameVoronoi(double* total_loss);
-        RGBColor SampleSourceImage(int x, int y);
         int refresh_period; // 0 means redraw graph every frame, 1 every other, etc.
         double loop_advantage_factor;
 };

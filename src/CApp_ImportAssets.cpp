@@ -48,17 +48,17 @@ bool CApp::ImportAssets() {
         std::cout << "Failed to load font, SDL_ttf error: " << TTF_GetError() << std::endl;
         return false;
     }
-    if (!this->AddStringToTextTextures("Last frametime: ")) { return false; }// 0
-    if (!this->AddStringToTextTextures("ms")) { return false; } // 1
-    if (!this->AddStringToTextTextures("Average frametime: ")) { return false; } // 2
-    if (!this->AddStringToTextTextures("last ")) { return false; } // 3
-    if (!this->AddStringToTextTextures("running ")) { return false; } // 4
-    if (!this->AddStringToTextTextures("loss ")) { return false; } // 5
-    if (!this->AddStringToTextTextures("mean ")) { return false; } // 6
-    if (!this->AddStringToTextTextures("variance ")) { return false; } // 7
-    if (!this->AddStringToTextTextures("node ")) { return false; } // 8
-    if (!this->AddStringToTextTextures("x10 ")) { return false; } // 9
-    if (!this->AddStringToTextTextures("x1000 ")) { return false; } // 10
+//    if (!this->AddStringToTextTextures("Last frametime: ")) { return false; }// 0
+//    if (!this->AddStringToTextTextures("ms")) { return false; } // 1
+//    if (!this->AddStringToTextTextures("Average frametime: ")) { return false; } // 2
+//    if (!this->AddStringToTextTextures("last ")) { return false; } // 3
+//    if (!this->AddStringToTextTextures("running ")) { return false; } // 4
+//    if (!this->AddStringToTextTextures("loss ")) { return false; } // 5
+//    if (!this->AddStringToTextTextures("mean ")) { return false; } // 6
+//    if (!this->AddStringToTextTextures("variance ")) { return false; } // 7
+//    if (!this->AddStringToTextTextures("node ")) { return false; } // 8
+//    if (!this->AddStringToTextTextures("x10 ")) { return false; } // 9
+//    if (!this->AddStringToTextTextures("x1000 ")) { return false; } // 10
 
     SDL_Color number_color = {0,0,0,255};
     this->number_renderer.BuildAtlas(this->main_renderer, this->main_font, number_color);

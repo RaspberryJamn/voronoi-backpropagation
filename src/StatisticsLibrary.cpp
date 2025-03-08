@@ -1,7 +1,7 @@
 #include "StatisticsLibrary.h"
 #include <string>
 #include <vector>
-//#include <algorithm>
+#include <iostream>
 
 StatisticsLibrary::StatisticsLibrary() {
     AccessorData invalid;
@@ -19,6 +19,7 @@ statid_t StatisticsLibrary::GenerateNewIdFromName(std::string name) {
 //    std::for_each(this->stats.begin(), this->stats.end(), [&](AccessorData stat_data) {
     for (AccessorData stat_data : this->stats) {
         if (stat_data.name == name) {
+            std::cout << "statistic \"" << name << "\"has already been assigned" << std::endl;
             return (statid_t)(INVALID); // you cant generate the same name twice
         }
     }
@@ -42,42 +43,37 @@ statid_t StatisticsLibrary::FindIdFromName(std::string name) {
 }
 
 void StatisticsLibrary::Publish(statid_t id, int* target) {
-    AccessorData selected_entry = this->stats.at(id); // erm dont give a bad id pls
-    if (selected_entry.method != UNPOPULATED) {
+    if (this->stats[id].method != UNPOPULATED) {// erm dont give a bad id pls
         return;
     }
-    selected_entry.pointer = target;
-    selected_entry.method = INT_POINTER;
+    this->stats[id].pointer = target;
+    this->stats[id].method = INT_POINTER;
 }
 void StatisticsLibrary::Publish(statid_t id, double* target) {
-    AccessorData selected_entry = this->stats.at(id); // erm dont give a bad id pls
-    if (selected_entry.method != UNPOPULATED) {
+    if (this->stats[id].method != UNPOPULATED) {// erm dont give a bad id pls
         return;
     }
-    selected_entry.pointer = target;
-    selected_entry.method = DOUBLE_POINTER;
+    this->stats[id].pointer = target;
+    this->stats[id].method = DOUBLE_POINTER;
 }
 void StatisticsLibrary::Publish(statid_t id, int (*getter)()) {
-    AccessorData selected_entry = this->stats.at(id); // erm dont give a bad id pls
-    if (selected_entry.method != UNPOPULATED) {
+    if (this->stats[id].method != UNPOPULATED) {// erm dont give a bad id pls
         return;
     }
-    selected_entry.pointer = (void*)getter;
-    selected_entry.method = INT_GETTER;
+    this->stats[id].pointer = (void*)getter;
+    this->stats[id].method = INT_GETTER;
 }
 void StatisticsLibrary::Publish(statid_t id, double (*getter)()) {
-    AccessorData selected_entry = this->stats.at(id); // erm dont give a bad id pls
-    if (selected_entry.method != UNPOPULATED) {
+    if (this->stats[id].method != UNPOPULATED) {// erm dont give a bad id pls
         return;
     }
-    selected_entry.pointer = (void*)getter;
-    selected_entry.method = DOUBLE_GETTER;
+    this->stats[id].pointer = (void*)getter;
+    this->stats[id].method = DOUBLE_GETTER;
 }
 
 void StatisticsLibrary::Unpublish(statid_t id) {
-    AccessorData selected_entry = this->stats.at(id); // erm dont give a bad id pls
-    selected_entry.pointer = nullptr;
-    selected_entry.method = INVALID;
+    this->stats[id].pointer = nullptr;
+    this->stats[id].method = INVALID;
 }
 
 int StatisticsLibrary::ReadIntFromId(statid_t id) {

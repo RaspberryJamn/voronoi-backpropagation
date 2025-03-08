@@ -5,6 +5,7 @@
 #include "ScreenElement.h"
 #include "ScreenElement/Pan.h"
 #include "ScreenElement/VoronoiViewport.h"
+#include "ScreenElement/LabeledNumber.h"
 
 bool CApp::OnInit() {
 
@@ -60,26 +61,18 @@ bool CApp::OnInit() {
 //        RGBColor c = this->SampleSourceImage(x, y);
         this->voronoi_graph->AddNode(new VoronoiNode(x, y));//127+i%6,127+i%12,127+i%18));
     }
-//    this->voronoi_graph->AddNode(new VoronoiNode(390,80 ));
-//    this->voronoi_graph->AddNode(new VoronoiNode(160,290));
-//    this->voronoi_graph->AddNode(new VoronoiNode(380,390));
-//    this->voronoi_graph->AddNode(new VoronoiNode(300,540,100,100,100));
-//    this->voronoi_graph->AddNode(new VoronoiNode(270,540,255,0  ,0  ));
-//    this->voronoi_graph->AddNode(new VoronoiNode(370,160,0  ,255,0  ));
-//    this->voronoi_graph->AddNode(new VoronoiNode(420,580,255,255,0  ));
-//    this->voronoi_graph->AddNode(new VoronoiNode(060,110,0  ,0  ,255));
-//    this->voronoi_graph->AddNode(new VoronoiNode(110,520,255,0  ,255));
-//    this->voronoi_graph->AddNode(new VoronoiNode(200,180,0  ,255,255));
-//    this->voronoi_graph->AddNode(new VoronoiNode(180,120,255,255,255));
     double band_width =  6.0;
     double gain = 0.3/std::sqrt(this->source_texture->GetWidth()*this->source_texture->GetHeight()/node_count); // higher gain => higher sharpness / smaller gain => higher smoothness
     this->voronoi_graph->SetGain(gain);
     this->voronoi_graph->SetBandWidth(band_width);
 
+
     this->refresh_period = 100;
     this->loop_advantage_factor = 20.0;
 
-    ScreenElement::ScreenElement::FillInRenderUtils(this->main_renderer, this->main_font, &this->number_renderer);
+    this->statistics_library.Publish(this->statistics_library.GenerateNewIdFromName("average frametime"), &this->average_frametime);
+    this->statistics_library.Publish(this->statistics_library.GenerateNewIdFromName("last frametime"), (int*)(&this->last_frametime));
+    ScreenElement::ScreenElement::FillInRenderUtils(this->main_renderer, this->main_font, &this->number_renderer, &this->statistics_library);
     this->root_screen_element = this->main_window->SetRootElement(new ScreenElement::Pan());
 
     this->root_screen_element->AddChild(new ScreenElement::VoronoiViewport(this->voronoi_graph));

@@ -400,10 +400,10 @@
 	"begin_code.h"
 	"close_code.h"
 
-1740806378 source:c:\users\james\documents\cpp\voronoi\src\capp.cpp
+1741402473 source:c:\users\james\documents\cpp\voronoi\src\capp.cpp
 	"CApp.h"
 
-1740806372 c:\users\james\documents\cpp\voronoi\include\capp.h
+1741401609 c:\users\james\documents\cpp\voronoi\include\capp.h
 	<SDL.h>
 	<SDL_image.h>
 	<SDL_ttf.h>
@@ -419,6 +419,7 @@
 	"VoronoiNode.h"
 	"MouseInfo.h"
 	"ScreenElement.h"
+	"StatisticsLibrary.h"
 
 1704144964 c:\sdl\sdl2_image-2.8.2\i686-w64-mingw32\include\sdl2\sdl_image.h
 	"SDL.h"
@@ -430,7 +431,7 @@
 	"CApp.h"
 	<iostream>
 
-1740806316 source:c:\users\james\documents\cpp\voronoi\src\capp_oncleanup.cpp
+1741401319 source:c:\users\james\documents\cpp\voronoi\src\capp_oncleanup.cpp
 	"CApp.h"
 
 1740790826 source:c:\users\james\documents\cpp\voronoi\src\capp_onevent.cpp
@@ -438,7 +439,7 @@
 	<iostream>
 	"IdkFunctions.h"
 
-1740887704 source:c:\users\james\documents\cpp\voronoi\src\capp_oninit.cpp
+1741402684 source:c:\users\james\documents\cpp\voronoi\src\capp_oninit.cpp
 	"CApp.h"
 	<iostream>
 	<math.h>
@@ -446,6 +447,7 @@
 	"ScreenElement.h"
 	"ScreenElement/Pan.h"
 	"ScreenElement/VoronoiViewport.h"
+	"ScreenElement/LabeledNumber.h"
 
 1740806384 source:c:\users\james\documents\cpp\voronoi\src\capp_onloop.cpp
 	"CApp.h"
@@ -486,7 +488,7 @@
 	<iostream>
 	"RGBColor.h"
 
-1740806262 source:c:\users\james\documents\cpp\voronoi\src\capp_importassets.cpp
+1741403058 source:c:\users\james\documents\cpp\voronoi\src\capp_importassets.cpp
 	"CApp.h"
 	<iostream>
 	<vector>
@@ -639,17 +641,18 @@
 1740201855 c:\users\james\documents\cpp\voronoi\include\mouseinfo.h
 	<SDL_stdinc.h>
 
-1740881066 source:c:\users\james\documents\cpp\voronoi\src\screenelement.cpp
+1741402697 source:c:\users\james\documents\cpp\voronoi\src\screenelement.cpp
 	"ScreenElement.h"
 	<vector>
 	<algorithm>
 	<iostream>
 
-1740874601 c:\users\james\documents\cpp\voronoi\include\screenelement.h
+1741402598 c:\users\james\documents\cpp\voronoi\include\screenelement.h
 	"MouseInfo.h"
 	"Texture.h"
 	"AtlasNumberDrawer.h"
 	<vector>
+	"StatisticsLibrary.h"
 
 1740885966 source:c:\users\james\documents\cpp\voronoi\src\screenelement\pan.cpp
 	"ScreenElement/Pan.h"
@@ -657,24 +660,37 @@
 1740878940 c:\users\james\documents\cpp\voronoi\include\screenelement\pan.h
 	"ScreenElement.h"
 
-1740886788 source:c:\users\james\documents\cpp\voronoi\src\screenelement\voronoiviewport.cpp
+1741403033 source:c:\users\james\documents\cpp\voronoi\src\screenelement\voronoiviewport.cpp
 	"VoronoiViewport.h"
 	"IdkFunctions.h"
 	<iostream>
 	"ScreenElement/LabeledNumber.h"
+	"StatisticsLibrary.h"
 
 1740872532 c:\users\james\documents\cpp\voronoi\include\screenelement\voronoiviewport.h
 	"ScreenElement.h"
 	"VoronoiGraph.h"
 
-1740885765 source:c:\users\james\documents\cpp\voronoi\src\screenelement\labelednumber.cpp
+1741403631 source:c:\users\james\documents\cpp\voronoi\src\screenelement\labelednumber.cpp
 	"ScreenElement/LabeledNumber.h"
 	"Texture.h"
 	<string>
+	"StatisticsLibrary.h"
 	<iostream>
 
-1740876735 c:\users\james\documents\cpp\voronoi\include\screenelement\labelednumber.h
+1741402559 c:\users\james\documents\cpp\voronoi\include\screenelement\labelednumber.h
 	"ScreenElement.h"
 	"AtlasNumberDrawer.h"
 	<string>
+	"StatisticsLibrary.h"
+
+1741394449 c:\users\james\documents\cpp\voronoi\include\statisticslibrary.h
+	<string>
+	<vector>
+
+1741404065 source:c:\users\james\documents\cpp\voronoi\src\statisticslibrary.cpp
+	"StatisticsLibrary.h"
+	<string>
+	<vector>
+	<iostream>
 

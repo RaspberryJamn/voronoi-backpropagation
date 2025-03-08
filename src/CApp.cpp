@@ -16,7 +16,6 @@ CApp::CApp() {
 //    this->media_texture = nullptr;
     this->voronoi_graph = nullptr;
 
-    this->text_textures.clear();
 //    AtlasNumberDrawer this->number_renderer;
     this->main_font = nullptr;
     this->refresh_period = 0;

@@ -1,25 +1,18 @@
 #include "ScreenElement/LabeledNumber.h"
 #include "Texture.h"
 #include <string>
+#include "StatisticsLibrary.h"
 #include <iostream>
 
 namespace ScreenElement {
-    LabeledNumber::LabeledNumber(const int* watched_number) : ScreenElement() {
-        SDL_assert(watched_number != nullptr);
+    LabeledNumber::LabeledNumber(std::string statistic_name) : ScreenElement() {
+        SDL_assert(this->stats_library != nullptr);
+
         this->label = new Texture(this->render.context, this->render.font);
 
-        this->is_int = true;
-        this->watched_number_int = watched_number;
-        this->watched_number_double = nullptr;
-        this->last_number = 0;
-    }
-    LabeledNumber::LabeledNumber(const double* watched_number) : ScreenElement() {
-        SDL_assert(watched_number != nullptr);
-        this->label = new Texture(this->render.context, this->render.font);
+        this->watched_number = this->stats_library->FindIdFromName(statistic_name);
+        SDL_assert(this->watched_number != 0);
 
-        this->is_int = false;
-        this->watched_number_int = nullptr;
-        this->watched_number_double = watched_number;
         this->last_number = 0;
     }
 
@@ -42,12 +35,7 @@ namespace ScreenElement {
 
     bool LabeledNumber::IndividualTick() {
 //        std::cout << "LabeledNumber ticked" << std::endl;
-        int number = 0;
-        if (this->is_int) {
-            number = *(this->watched_number_int);
-        } else {
-            number = (int)(*(this->watched_number_double));
-        }
+        int number = this->stats_library->ReadIntFromId(this->watched_number);
         if (this->last_number != number) {
             this->last_number = number;
 //            this->image_dirty = true;
