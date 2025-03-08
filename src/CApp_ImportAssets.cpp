@@ -24,13 +24,6 @@ SDL_Surface* LoadSurface(std::string path, SDL_PixelFormat* format) {
     return optimized_surface;
 }
 
-bool CApp::AddStringToTextTextures(std::string string) {
-    this->text_textures.push_back(new Texture(this->main_renderer, this->main_font));
-    this->text_textures.back()->LoadInRenderedText(string, {0,0,0,255});
-    if (!this->text_textures.back()->WasSuccessful()) { std::cout << "Failed to create text texture" << std::endl; return false; }
-    return true;
-}
-
 bool CApp::ImportAssets() {
 
 //    this->Source_Surface = loadSurface("assets/kannabmp.bmp", this->Display_Surface->format);

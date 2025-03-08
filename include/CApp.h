@@ -16,6 +16,7 @@
 #include "VoronoiNode.h"
 #include "MouseInfo.h"
 #include "ScreenElement.h"
+#include "StatisticsLibrary.h"
 
 class CApp {
     public:
@@ -50,7 +51,6 @@ class CApp {
 //        Texture* media_texture;
         VoronoiGraph* voronoi_graph;
 
-        std::vector<Texture*> text_textures;
         AtlasNumberDrawer number_renderer;
 
         TTF_Font* main_font;

@@ -18,10 +18,10 @@ CApp::CApp() {
 //    this->media_texture = nullptr;
     this->voronoi_graph = nullptr;
 
-    this->text_textures[0] = nullptr;
-    this->text_textures[1] = nullptr;
-    this->text_textures[2] = nullptr;
-    this->text_textures[3] = nullptr;
+//    this->text_textures[0] = nullptr;
+//    this->text_textures[1] = nullptr;
+//    this->text_textures[2] = nullptr;
+//    this->text_textures[3] = nullptr;
 //    AtlasNumberDrawer this->number_renderer;
     this->main_font = nullptr;
     this->refresh_period = 0;
