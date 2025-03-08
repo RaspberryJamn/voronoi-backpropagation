@@ -58,6 +58,7 @@
 		<Unit filename="include/ScreenElement/LabeledNumber.h" />
 		<Unit filename="include/ScreenElement/Pan.h" />
 		<Unit filename="include/ScreenElement/VoronoiViewport.h" />
+		<Unit filename="include/StatisticsLibrary.h" />
 		<Unit filename="include/Texture.h" />
 		<Unit filename="include/Timer.h" />
 		<Unit filename="include/VoronoiGraph.h" />
@@ -89,6 +90,7 @@
 		<Unit filename="src/ScreenElement/LabeledNumber.cpp" />
 		<Unit filename="src/ScreenElement/Pan.cpp" />
 		<Unit filename="src/ScreenElement/VoronoiViewport.cpp" />
+		<Unit filename="src/StatisticsLibrary.cpp" />
 		<Unit filename="src/Texture.cpp" />
 		<Unit filename="src/Timer.cpp" />
 		<Unit filename="src/VoronoiGraph.cpp" />
