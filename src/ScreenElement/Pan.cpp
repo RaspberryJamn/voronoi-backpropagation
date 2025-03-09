@@ -1,10 +1,13 @@
 #include "ScreenElement/Pan.h"
 //#include <iostream>
+#include "IdkFunctions.h"
 
 namespace ScreenElement {
     Pan::Pan() : ScreenElement() {
         this->internal_dims = {0};
         this->texture = new Texture(this->render.context);
+        this->camera_corner = {0,0};
+        this->camera_corner_initial = {0,0};
     }
 
     Pan::~Pan() {}
@@ -14,6 +17,8 @@ namespace ScreenElement {
         if ((this->bounding_box.w != rect.w)||
             (this->bounding_box.h != rect.h)) {
             this->texture->NewBlankFromDims(rect.w, rect.h); // not handling mouse dragging but whatever
+            this->DrawIndividualUnder();
+            this->DrawIndividualOver();
         }
     }
 
@@ -80,8 +85,29 @@ namespace ScreenElement {
     }
     void Pan::DrawIndividualOver() {
         SDL_SetRenderTarget(this->render.context, this->prior_context);
-        this->texture->Render(0,0);
+        SDL_Rect cut = {this->camera_corner.x, this->camera_corner.y, this->bounding_box.w, this->bounding_box.h};
+        SDL_Rect paste = {0, 0, this->bounding_box.w, this->bounding_box.h};
+        if (this->internal_dims.w < paste.w) {paste.w = this->internal_dims.w;}
+        if (this->internal_dims.h < paste.h) {paste.h = this->internal_dims.h;}
+        this->texture->Render(&cut, &paste);
     }
 
-    void Pan::HandleMouseEvent(MouseInfo mouse) {}
+    void Pan::HandleMouseEvent(MouseInfo& mouse) {
+        if ((mouse.on_down) && (mouse.button_mask & SDL_BUTTON_MIDDLE)) {
+            this->camera_corner_initial.x = this->camera_corner.x;
+            this->camera_corner_initial.y = this->camera_corner.y;
+        }
+        if (mouse.drag_start.button_mask & SDL_BUTTON_MIDDLE) {
+            int dx = mouse.x-mouse.drag_start.x;
+            int dy = mouse.y-mouse.drag_start.y;
+            this->camera_corner.x = this->camera_corner_initial.x-dx;
+            this->camera_corner.y = this->camera_corner_initial.y-dy;
+            if (this->camera_corner.x < 0) {this->camera_corner.x = 0;}
+            if (this->camera_corner.y < 0) {this->camera_corner.y = 0;}
+            if (this->camera_corner.x > this->internal_dims.w-this->bounding_box.w) {this->camera_corner.x = this->internal_dims.w-this->bounding_box.w;}
+            if (this->camera_corner.y > this->internal_dims.h-this->bounding_box.h) {this->camera_corner.y = this->internal_dims.h-this->bounding_box.h;}
+
+
+        }
+    }
 }

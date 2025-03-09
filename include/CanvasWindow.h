@@ -3,6 +3,7 @@
 
 #include <SDL.h>
 #include <ScreenElement.h>
+#include "MouseInfo.h"
 
 class CanvasWindow {
     public:
@@ -17,7 +18,7 @@ class CanvasWindow {
         SDL_Renderer* CreateRenderer();
 
         //Handles window events
-        void HandleEvent(SDL_Event& event);
+        void HandleEvent(SDL_Event& event, MouseInfo& mouse);
 
         ScreenElement::ScreenElement* SetRootElement(ScreenElement::ScreenElement* element);
 

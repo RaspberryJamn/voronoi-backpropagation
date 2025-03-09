@@ -58,7 +58,7 @@ namespace ScreenElement {
 
     VoronoiViewport::~VoronoiViewport() {}
 
-    void VoronoiViewport::HandleMouseEvent(MouseInfo mouse) {}
+    void VoronoiViewport::HandleMouseEvent(MouseInfo& mouse) {}
 
     void VoronoiViewport::RenderFullFrameVoronoi(double* running_loss) {
         double batch_loss = 0;

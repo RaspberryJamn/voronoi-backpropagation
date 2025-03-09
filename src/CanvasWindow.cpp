@@ -60,7 +60,7 @@ SDL_Renderer* CanvasWindow::CreateRenderer() {
     return this->renderer;
 }
 
-void CanvasWindow::HandleEvent(SDL_Event& event) {
+void CanvasWindow::HandleEvent(SDL_Event& event, MouseInfo& mouse) {
     if ((event.type == SDL_WINDOWEVENT) && (event.window.windowID == this->window_id)) {
         switch (event.window.event) {
 
@@ -98,6 +98,9 @@ void CanvasWindow::HandleEvent(SDL_Event& event) {
                 this->minimized = false;
                 break;
         }
+    }
+    if (mouse.status_captured == false) {
+        this->root_element->MouseEvent(mouse);
     }
 }
 

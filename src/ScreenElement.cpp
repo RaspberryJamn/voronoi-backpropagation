@@ -81,7 +81,10 @@ namespace ScreenElement {
         }
     }
 
-    void ScreenElement::MouseEvent(MouseInfo mouse) {
+    void ScreenElement::MouseEvent(MouseInfo& mouse) {
+        if (mouse.status_captured == true) {
+            return;
+        }
         this->HandleMouseEvent(mouse);
         std::for_each(this->child_elements.begin(), this->child_elements.end(), [&](ScreenElement* current_element) {
             current_element->MouseEvent(mouse);

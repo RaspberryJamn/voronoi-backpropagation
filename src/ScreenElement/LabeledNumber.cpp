@@ -79,5 +79,5 @@ namespace ScreenElement {
         if (this->bounding_box.h<string_bounds.h) {this->bounding_box.h=string_bounds.h;}
     }
 
-    void LabeledNumber::HandleMouseEvent(MouseInfo mouse) {}
+    void LabeledNumber::HandleMouseEvent(MouseInfo& mouse) {}
 }

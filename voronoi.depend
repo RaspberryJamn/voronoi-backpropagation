@@ -1,12 +1,13 @@
 # depslib dependency file v1.0
-1740793184 source:c:\users\james\documents\cpp\voronoi\src\canvaswindow.cpp
+1741548691 source:c:\users\james\documents\cpp\voronoi\src\canvaswindow.cpp
 	"CanvasWindow.h"
 
-1740792827 c:\users\james\documents\cpp\voronoi\include\canvaswindow.h
+1741489212 c:\users\james\documents\cpp\voronoi\include\canvaswindow.h
 	<SDL.h>
 	<ScreenElement.h>
+	"MouseInfo.h"
 
-1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl.h
+1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl.h
 	"SDL_main.h"
 	"SDL_stdinc.h"
 	"SDL_assert.h"
@@ -44,12 +45,12 @@
 	"begin_code.h"
 	"close_code.h"
 
-1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_main.h
+1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_main.h
 	"SDL_stdinc.h"
 	"begin_code.h"
 	"close_code.h"
 
-1721649770 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_stdinc.h
+1721653370 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_stdinc.h
 	"SDL_config.h"
 	<sys/types.h>
 	<stdio.h>
@@ -81,12 +82,12 @@
 	<stdio.h>
 	"close_code.h"
 
-1728073049 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_config.h
+1728076649 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_config.h
 	"SDL_platform.h"
 	<winsdkver.h>
 	<sdkddkver.h>
 
-1716842362 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_platform.h
+1716845962 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_platform.h
 	<AvailabilityMacros.h>
 	<TargetConditionals.h>
 	<TargetConditionals.h>
@@ -94,17 +95,17 @@
 	"begin_code.h"
 	"close_code.h"
 
-1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\begin_code.h
+1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\begin_code.h
 
-1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\close_code.h
+1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\close_code.h
 
-1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_assert.h
+1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_assert.h
 	"SDL_stdinc.h"
 	"begin_code.h"
 	<signal.h>
 	"close_code.h"
 
-1704474090 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_atomic.h
+1704477690 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_atomic.h
 	"SDL_stdinc.h"
 	"SDL_platform.h"
 	"begin_code.h"
@@ -112,7 +113,7 @@
 	<mbarrier.h>
 	"close_code.h"
 
-1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_audio.h
+1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_audio.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_endian.h"
@@ -122,12 +123,12 @@
 	"begin_code.h"
 	"close_code.h"
 
-1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_error.h
+1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_error.h
 	"SDL_stdinc.h"
 	"begin_code.h"
 	"close_code.h"
 
-1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_endian.h
+1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_endian.h
 	"SDL_stdinc.h"
 	<intrin.h>
 	<endian.h>
@@ -136,13 +137,13 @@
 	"begin_code.h"
 	"close_code.h"
 
-1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_mutex.h
+1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_mutex.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"begin_code.h"
 	"close_code.h"
 
-1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_thread.h
+1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_thread.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_atomic.h"
@@ -153,18 +154,18 @@
 	"begin_code.h"
 	"close_code.h"
 
-1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_rwops.h
+1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_rwops.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"begin_code.h"
 	"close_code.h"
 
-1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_clipboard.h
+1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_clipboard.h
 	"SDL_stdinc.h"
 	"begin_code.h"
 	"close_code.h"
 
-1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_cpuinfo.h
+1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_cpuinfo.h
 	"SDL_stdinc.h"
 	<intrin.h>
 	<intrin.h>
@@ -186,7 +187,7 @@
 	"begin_code.h"
 	"close_code.h"
 
-1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_events.h
+1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_events.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_video.h"
@@ -200,7 +201,7 @@
 	"begin_code.h"
 	"close_code.h"
 
-1705436636 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_video.h
+1705440236 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_video.h
 	"SDL_stdinc.h"
 	"SDL_pixels.h"
 	"SDL_rect.h"
@@ -208,13 +209,13 @@
 	"begin_code.h"
 	"close_code.h"
 
-1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_pixels.h
+1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_pixels.h
 	"SDL_stdinc.h"
 	"SDL_endian.h"
 	"begin_code.h"
 	"close_code.h"
 
-1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_rect.h
+1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_rect.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_pixels.h"
@@ -222,7 +223,7 @@
 	"begin_code.h"
 	"close_code.h"
 
-1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_surface.h
+1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_surface.h
 	"SDL_stdinc.h"
 	"SDL_pixels.h"
 	"SDL_rect.h"
@@ -231,11 +232,11 @@
 	"begin_code.h"
 	"close_code.h"
 
-1706222995 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_blendmode.h
+1706226595 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_blendmode.h
 	"begin_code.h"
 	"close_code.h"
 
-1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_keyboard.h
+1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_keyboard.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_keycode.h"
@@ -243,21 +244,21 @@
 	"begin_code.h"
 	"close_code.h"
 
-1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_keycode.h
+1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_keycode.h
 	"SDL_stdinc.h"
 	"SDL_scancode.h"
 
-1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_scancode.h
+1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_scancode.h
 	"SDL_stdinc.h"
 
-1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_mouse.h
+1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_mouse.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_video.h"
 	"begin_code.h"
 	"close_code.h"
 
-1720034659 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_joystick.h
+1720038259 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_joystick.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_guid.h"
@@ -265,13 +266,13 @@
 	"begin_code.h"
 	"close_code.h"
 
-1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_guid.h
+1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_guid.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"begin_code.h"
 	"close_code.h"
 
-1704740995 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_gamecontroller.h
+1704744595 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_gamecontroller.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_rwops.h"
@@ -280,17 +281,17 @@
 	"begin_code.h"
 	"close_code.h"
 
-1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_sensor.h
+1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_sensor.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"begin_code.h"
 	"close_code.h"
 
-1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_quit.h
+1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_quit.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 
-1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_gesture.h
+1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_gesture.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_video.h"
@@ -298,70 +299,70 @@
 	"begin_code.h"
 	"close_code.h"
 
-1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_touch.h
+1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_touch.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_video.h"
 	"begin_code.h"
 	"close_code.h"
 
-1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_filesystem.h
+1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_filesystem.h
 	"SDL_stdinc.h"
 	"begin_code.h"
 	"close_code.h"
 
-1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_haptic.h
+1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_haptic.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"SDL_joystick.h"
 	"begin_code.h"
 	"close_code.h"
 
-1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_hidapi.h
+1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_hidapi.h
 	"SDL_stdinc.h"
 	"begin_code.h"
 	"close_code.h"
 
-1725802222 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_hints.h
+1725805822 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_hints.h
 	"SDL_stdinc.h"
 	"begin_code.h"
 	"close_code.h"
 
-1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_loadso.h
+1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_loadso.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"begin_code.h"
 	"close_code.h"
 
-1706413618 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_log.h
+1706417218 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_log.h
 	"SDL_stdinc.h"
 	"begin_code.h"
 	"close_code.h"
 
-1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_messagebox.h
+1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_messagebox.h
 	"SDL_stdinc.h"
 	"SDL_video.h"
 	"begin_code.h"
 	"close_code.h"
 
-1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_metal.h
+1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_metal.h
 	"SDL_video.h"
 	"begin_code.h"
 	"close_code.h"
 
-1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_power.h
+1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_power.h
 	"SDL_stdinc.h"
 	"begin_code.h"
 	"close_code.h"
 
-1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_render.h
+1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_render.h
 	"SDL_stdinc.h"
 	"SDL_rect.h"
 	"SDL_video.h"
 	"begin_code.h"
 	"close_code.h"
 
-1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_shape.h
+1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_shape.h
 	"SDL_stdinc.h"
 	"SDL_pixels.h"
 	"SDL_rect.h"
@@ -370,7 +371,7 @@
 	"begin_code.h"
 	"close_code.h"
 
-1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_system.h
+1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_system.h
 	"SDL_stdinc.h"
 	"SDL_keyboard.h"
 	"SDL_render.h"
@@ -378,32 +379,32 @@
 	"begin_code.h"
 	"close_code.h"
 
-1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_timer.h
+1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_timer.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"begin_code.h"
 	"close_code.h"
 
-1727796357 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_version.h
+1727799957 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_version.h
 	"SDL_stdinc.h"
 	"begin_code.h"
 	"close_code.h"
 
-1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_locale.h
+1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_locale.h
 	"SDL_stdinc.h"
 	"SDL_error.h"
 	"begin_code.h"
 	"close_code.h"
 
-1704143989 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_misc.h
+1704147589 c:\sdl\sdl2-2.30.8\i686-w64-mingw32\include\sdl2\sdl_misc.h
 	"SDL_stdinc.h"
 	"begin_code.h"
 	"close_code.h"
 
-1741402473 source:c:\users\james\documents\cpp\voronoi\src\capp.cpp
+1741547783 source:c:\users\james\documents\cpp\voronoi\src\capp.cpp
 	"CApp.h"
 
-1741401609 c:\users\james\documents\cpp\voronoi\include\capp.h
+1741488791 c:\users\james\documents\cpp\voronoi\include\capp.h
 	<SDL.h>
 	<SDL_image.h>
 	<SDL_ttf.h>
@@ -421,7 +422,7 @@
 	"ScreenElement.h"
 	"StatisticsLibrary.h"
 
-1704144964 c:\sdl\sdl2_image-2.8.2\i686-w64-mingw32\include\sdl2\sdl_image.h
+1704148564 c:\sdl\sdl2_image-2.8.2\i686-w64-mingw32\include\sdl2\sdl_image.h
 	"SDL.h"
 	"SDL_version.h"
 	"begin_code.h"
@@ -431,15 +432,15 @@
 	"CApp.h"
 	<iostream>
 
-1741401319 source:c:\users\james\documents\cpp\voronoi\src\capp_oncleanup.cpp
+1741404919 source:c:\users\james\documents\cpp\voronoi\src\capp_oncleanup.cpp
 	"CApp.h"
 
-1740790826 source:c:\users\james\documents\cpp\voronoi\src\capp_onevent.cpp
+1741548807 source:c:\users\james\documents\cpp\voronoi\src\capp_onevent.cpp
 	"CApp.h"
 	<iostream>
 	"IdkFunctions.h"
 
-1741404638 source:c:\users\james\documents\cpp\voronoi\src\capp_oninit.cpp
+1741408238 source:c:\users\james\documents\cpp\voronoi\src\capp_oninit.cpp
 	"CApp.h"
 	<iostream>
 	<math.h>
@@ -449,7 +450,7 @@
 	"ScreenElement/VoronoiViewport.h"
 	"ScreenElement/LabeledNumber.h"
 
-1740806384 source:c:\users\james\documents\cpp\voronoi\src\capp_onloop.cpp
+1740809984 source:c:\users\james\documents\cpp\voronoi\src\capp_onloop.cpp
 	"CApp.h"
 	<cmath>
 	<iostream>
@@ -457,7 +458,7 @@
 	"IdkFunctions.h"
 	"RGBColor.h"
 
-1740874564 source:c:\users\james\documents\cpp\voronoi\src\capp_onrender.cpp
+1740878164 source:c:\users\james\documents\cpp\voronoi\src\capp_onrender.cpp
 	"CApp.h"
 	"IdkFunctions.h"
 	<vector>
@@ -466,47 +467,47 @@
 	<algorithm>
 	"RGBColor.h"
 
-1705848815 c:\sdl\sdl2_ttf-2.22.0\i686-w64-mingw32\include\sdl2\sdl_ttf.h
+1705852415 c:\sdl\sdl2_ttf-2.22.0\i686-w64-mingw32\include\sdl2\sdl_ttf.h
 	"SDL.h"
 	"begin_code.h"
 	"close_code.h"
 
-1728862262 source:c:\users\james\documents\cpp\voronoi\src\timer.cpp
+1728865862 source:c:\users\james\documents\cpp\voronoi\src\timer.cpp
 	"Timer.h"
 
-1729011418 c:\users\james\documents\cpp\voronoi\include\timer.h
+1729015018 c:\users\james\documents\cpp\voronoi\include\timer.h
 	<SDL.h>
 
-1740805920 c:\users\james\documents\cpp\voronoi\include\texture.h
+1740809520 c:\users\james\documents\cpp\voronoi\include\texture.h
 	<SDL_image.h>
 	<SDL_ttf.h>
 	<iostream>
 	"RGBColor.h"
 
-1740805931 source:c:\users\james\documents\cpp\voronoi\src\texture.cpp
+1740809531 source:c:\users\james\documents\cpp\voronoi\src\texture.cpp
 	"Texture.h"
 	<iostream>
 	"RGBColor.h"
 
-1741403058 source:c:\users\james\documents\cpp\voronoi\src\capp_importassets.cpp
+1741548047 source:c:\users\james\documents\cpp\voronoi\src\capp_importassets.cpp
 	"CApp.h"
 	<iostream>
 	<vector>
 	<string>
 
-1740885111 source:c:\users\james\documents\cpp\voronoi\src\atlasnumberdrawer.cpp
+1740888711 source:c:\users\james\documents\cpp\voronoi\src\atlasnumberdrawer.cpp
 	"AtlasNumberDrawer.h"
 
-1729465268 c:\users\james\documents\cpp\voronoi\include\atlasnumberdrawer.h
+1729468868 c:\users\james\documents\cpp\voronoi\include\atlasnumberdrawer.h
 	"Texture.h"
 	"SDL.h"
 
-1739679208 source:c:\users\james\documents\cpp\voronoi\src\voronoinode.cpp
+1739682808 source:c:\users\james\documents\cpp\voronoi\src\voronoinode.cpp
 	"VoronoiNode.h"
 	<vector>
 	<iostream>
 
-1740712931 c:\users\james\documents\cpp\voronoi\include\voronoinode.h
+1740716531 c:\users\james\documents\cpp\voronoi\include\voronoinode.h
 	"SDL.h"
 	<vector>
 	"AtlasNumberDrawer.h"
@@ -516,7 +517,7 @@
 	"NNLayer/Dense.h"
 	"NNLayer/ODense.h"
 
-1740800383 source:c:\users\james\documents\cpp\voronoi\src\voronoigraph.cpp
+1740803983 source:c:\users\james\documents\cpp\voronoi\src\voronoigraph.cpp
 	"VoronoiGraph.h"
 	"VoronoiNode.h"
 	"IdkFunctions.h"
@@ -527,7 +528,7 @@
 	"NNLayer.h"
 	"RGBColor.h"
 
-1740800323 c:\users\james\documents\cpp\voronoi\include\voronoigraph.h
+1740803923 c:\users\james\documents\cpp\voronoi\include\voronoigraph.h
 	<vector>
 	"RGBColor.h"
 	"Texture.h"
@@ -538,17 +539,17 @@
 	"NNLayer/Sigmoid.h"
 	"NNLayer/Dense.h"
 
-1732749583 c:\users\james\documents\cpp\voronoi\include\lapcounter.h
+1732753183 c:\users\james\documents\cpp\voronoi\include\lapcounter.h
 	"Timer.h"
 
-1732749739 source:c:\users\james\documents\cpp\voronoi\src\lapcounter.cpp
+1732753339 source:c:\users\james\documents\cpp\voronoi\src\lapcounter.cpp
 	"LapCounter.h"
 
-1740799505 c:\users\james\documents\cpp\voronoi\include\voronoiquadtree.h
+1740803105 c:\users\james\documents\cpp\voronoi\include\voronoiquadtree.h
 	<vector>
 	"VoronoiNode.h"
 
-1740799577 source:c:\users\james\documents\cpp\voronoi\src\voronoiquadtree.cpp
+1740803177 source:c:\users\james\documents\cpp\voronoi\src\voronoiquadtree.cpp
 	"VoronoiQuadTree.h"
 	<algorithm>
 	<iostream>
@@ -573,7 +574,7 @@
 	<cstdlib>
 	<ctime>
 
-1739678863 source:c:\users\james\documents\cpp\voronoi\src\voronoigraphreporting.cpp
+1739682463 source:c:\users\james\documents\cpp\voronoi\src\voronoigraphreporting.cpp
 	"VoronoiGraph.h"
 	"CApp.h"
 	<cmath>
@@ -581,114 +582,114 @@
 	<vector>
 	<iostream>
 
-1735429133 source:c:\users\james\documents\cpp\voronoi\src\idkfunctions.cpp
+1735432733 source:c:\users\james\documents\cpp\voronoi\src\idkfunctions.cpp
 	"IdkFunctions.h"
 
-1735429132 c:\users\james\documents\cpp\voronoi\include\idkfunctions.h
+1735432732 c:\users\james\documents\cpp\voronoi\include\idkfunctions.h
 
-1739071000 c:\users\james\documents\cpp\voronoi\include\neuralnetwork.h
+1739074600 c:\users\james\documents\cpp\voronoi\include\neuralnetwork.h
 	"NNLayer.h"
 	<cstdlib>
 	"SDL.h"
 	<algorithm>
 	<vector>
 
-1738385305 c:\users\james\documents\cpp\voronoi\include\nnlayer.h
+1738388905 c:\users\james\documents\cpp\voronoi\include\nnlayer.h
 	<cstddef>
 
-1738385209 source:c:\users\james\documents\cpp\voronoi\src\nnlayer.cpp
+1738388809 source:c:\users\james\documents\cpp\voronoi\src\nnlayer.cpp
 	"NNLayer.h"
 	<cmath>
 
-1740205181 source:c:\users\james\documents\cpp\voronoi\src\neuralnetwork.cpp
+1740208781 source:c:\users\james\documents\cpp\voronoi\src\neuralnetwork.cpp
 	"NeuralNetwork.h"
 	<cmath>
 
-1738385150 source:c:\users\james\documents\cpp\voronoi\src\nnlayer\input.cpp
+1738388750 source:c:\users\james\documents\cpp\voronoi\src\nnlayer\input.cpp
 	"NNLayer/Input.h"
 
-1737757859 c:\users\james\documents\cpp\voronoi\include\nnlayer\input.h
+1737761459 c:\users\james\documents\cpp\voronoi\include\nnlayer\input.h
 	<NNLayer.h>
 	<cmath>
 
-1738385161 source:c:\users\james\documents\cpp\voronoi\src\nnlayer\sigmoid.cpp
+1738388761 source:c:\users\james\documents\cpp\voronoi\src\nnlayer\sigmoid.cpp
 	"NNLayer/Sigmoid.h"
 
-1738385164 c:\users\james\documents\cpp\voronoi\include\nnlayer\sigmoid.h
+1738388764 c:\users\james\documents\cpp\voronoi\include\nnlayer\sigmoid.h
 	<NNLayer.h>
 	<cmath>
 
-1740202646 source:c:\users\james\documents\cpp\voronoi\src\nnlayer\dense.cpp
+1740206246 source:c:\users\james\documents\cpp\voronoi\src\nnlayer\dense.cpp
 	"NNLayer/Dense.h"
 	<cstdlib>
 
-1738385029 c:\users\james\documents\cpp\voronoi\include\nnlayer\dense.h
+1738388629 c:\users\james\documents\cpp\voronoi\include\nnlayer\dense.h
 	<NNLayer.h>
 	<cmath>
 
-1740202496 c:\users\james\documents\cpp\voronoi\include\nnlayer\odense.h
+1740206096 c:\users\james\documents\cpp\voronoi\include\nnlayer\odense.h
 	<NNLayer.h>
 	<cmath>
 
-1740204543 source:c:\users\james\documents\cpp\voronoi\src\nnlayer\odense.cpp
+1740208143 source:c:\users\james\documents\cpp\voronoi\src\nnlayer\odense.cpp
 	"NNLayer/ODense.h"
 	<cstdlib>
 
-1739066915 c:\users\james\documents\cpp\voronoi\include\rgbcolor.h
+1739070515 c:\users\james\documents\cpp\voronoi\include\rgbcolor.h
 	<cmath>
 	"IdkFunctions.h"
 
-1740201855 c:\users\james\documents\cpp\voronoi\include\mouseinfo.h
+1741548790 c:\users\james\documents\cpp\voronoi\include\mouseinfo.h
 	<SDL_stdinc.h>
 
-1741402697 source:c:\users\james\documents\cpp\voronoi\src\screenelement.cpp
+1741547438 source:c:\users\james\documents\cpp\voronoi\src\screenelement.cpp
 	"ScreenElement.h"
 	<vector>
 	<algorithm>
 	<iostream>
 
-1741402598 c:\users\james\documents\cpp\voronoi\include\screenelement.h
+1741489881 c:\users\james\documents\cpp\voronoi\include\screenelement.h
 	"MouseInfo.h"
 	"Texture.h"
 	"AtlasNumberDrawer.h"
 	<vector>
 	"StatisticsLibrary.h"
 
-1740885966 source:c:\users\james\documents\cpp\voronoi\src\screenelement\pan.cpp
+1741547669 source:c:\users\james\documents\cpp\voronoi\src\screenelement\pan.cpp
 	"ScreenElement/Pan.h"
 
-1740878940 c:\users\james\documents\cpp\voronoi\include\screenelement\pan.h
+1741548200 c:\users\james\documents\cpp\voronoi\include\screenelement\pan.h
 	"ScreenElement.h"
 
-1741405151 source:c:\users\james\documents\cpp\voronoi\src\screenelement\voronoiviewport.cpp
+1741489894 source:c:\users\james\documents\cpp\voronoi\src\screenelement\voronoiviewport.cpp
 	"VoronoiViewport.h"
 	"IdkFunctions.h"
 	<iostream>
 	"ScreenElement/LabeledNumber.h"
 	"StatisticsLibrary.h"
 
-1740872532 c:\users\james\documents\cpp\voronoi\include\screenelement\voronoiviewport.h
+1741489919 c:\users\james\documents\cpp\voronoi\include\screenelement\voronoiviewport.h
 	"ScreenElement.h"
 	"VoronoiGraph.h"
 
-1741405048 source:c:\users\james\documents\cpp\voronoi\src\screenelement\labelednumber.cpp
+1741489903 source:c:\users\james\documents\cpp\voronoi\src\screenelement\labelednumber.cpp
 	"ScreenElement/LabeledNumber.h"
 	"Texture.h"
 	<string>
 	"StatisticsLibrary.h"
 	<iostream>
 
-1741405411 c:\users\james\documents\cpp\voronoi\include\screenelement\labelednumber.h
+1741489910 c:\users\james\documents\cpp\voronoi\include\screenelement\labelednumber.h
 	"ScreenElement.h"
 	"AtlasNumberDrawer.h"
 	<string>
 	"StatisticsLibrary.h"
 
-1741394449 c:\users\james\documents\cpp\voronoi\include\statisticslibrary.h
+1741398049 c:\users\james\documents\cpp\voronoi\include\statisticslibrary.h
 	<string>
 	<vector>
 
-1741404554 source:c:\users\james\documents\cpp\voronoi\src\statisticslibrary.cpp
+1741408154 source:c:\users\james\documents\cpp\voronoi\src\statisticslibrary.cpp
 	"StatisticsLibrary.h"
 	<string>
 	<vector>

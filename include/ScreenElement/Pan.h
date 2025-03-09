@@ -15,12 +15,13 @@ namespace ScreenElement {
         bool IndividualTick() override;
         void DrawIndividualUnder() override;
         void DrawIndividualOver() override;
-        void HandleMouseEvent(MouseInfo mouse) override;
+        void HandleMouseEvent(MouseInfo& mouse) override;
 
         Texture* texture;
         SDL_Texture* prior_context;
 
         SDL_Rect internal_dims;
+        SDL_Point camera_corner_initial;
         SDL_Point camera_corner;
     };
 }

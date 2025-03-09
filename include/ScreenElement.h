@@ -27,7 +27,7 @@ namespace ScreenElement {
             bool Tick();
             void Draw();
 
-            void MouseEvent(MouseInfo mouse);
+            void MouseEvent(MouseInfo& mouse);
 
             static StatisticsLibrary* stats_library;
             static RenderUtilType render;
@@ -37,7 +37,7 @@ namespace ScreenElement {
             virtual bool IndividualTick() = 0;
             virtual void DrawIndividualUnder() = 0;
             virtual void DrawIndividualOver() = 0;
-            virtual void HandleMouseEvent(MouseInfo mouse) = 0;
+            virtual void HandleMouseEvent(MouseInfo& mouse) = 0;
 
         protected:
 

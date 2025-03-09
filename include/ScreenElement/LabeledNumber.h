@@ -20,7 +20,7 @@ namespace ScreenElement {
         bool IndividualTick() override;
         void DrawIndividualUnder() override;
         void DrawIndividualOver() override;
-        void HandleMouseEvent(MouseInfo mouse) override;
+        void HandleMouseEvent(MouseInfo& mouse) override;
 
 //        void UpdateTextures();
 

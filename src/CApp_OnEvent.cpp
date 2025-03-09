@@ -8,27 +8,38 @@ void CApp::OnEvent(SDL_Event& event) {
         this->running = false;
     }
 
-    this->main_window->HandleEvent(event);
-
     if (event.type == SDL_MOUSEBUTTONDOWN) {
-        this->mouse.pressed = true;
         this->mouse.button_mask = SDL_GetMouseState(&(this->mouse.x),&(this->mouse.y));
-        this->mouse.drag_start.x = this->mouse.x;
-        this->mouse.drag_start.y = this->mouse.y;
+        this->mouse.on_down = true;
+        this->mouse.status_captured = false;
+        this->mouse.pressed = true;
+        if (this->mouse.started_dragging == false) {
+            this->mouse.drag_start.x = this->mouse.x;
+            this->mouse.drag_start.y = this->mouse.y;
+        }
         this->OnMouseDown();
     }
     if (event.type == SDL_MOUSEBUTTONUP) {
-        this->mouse.pressed = false;
-        this->mouse.started_dragging = false;
-        this->mouse.drag_start.x = 0;
-        this->mouse.drag_start.y = 0;
         this->mouse.button_mask = SDL_GetMouseState(&(this->mouse.x),&(this->mouse.y));
+        this->mouse.status_captured = false;
+        if (this->mouse.button_mask == 0) {
+            this->mouse.pressed = false;
+            this->mouse.on_up = true;
+            this->mouse.started_dragging = false;
+            this->mouse.drag_start.x = 0;
+            this->mouse.drag_start.y = 0;
+            this->mouse.drag_start.button_mask = 0;
+        }
         this->OnMouseUp();
     }
     if (event.type == SDL_MOUSEMOTION) {
         SDL_GetMouseState(&(this->mouse.x),&(this->mouse.y));
+        this->mouse.status_captured = false;
         if (this->mouse.pressed) {
-            this->mouse.started_dragging = true;
+            if (this->mouse.started_dragging == false) {
+                this->mouse.started_dragging = true;
+                this->mouse.drag_start.button_mask = this->mouse.button_mask;
+            }
         }
         this->OnMouseMoved();
         if (this->mouse.pressed) {
@@ -40,6 +51,11 @@ void CApp::OnEvent(SDL_Event& event) {
         this->last_keypress = event.key.keysym.sym;
         this->OnKeyDown(this->last_keypress);
     }
+
+    this->main_window->HandleEvent(event, this->mouse);
+    this->mouse.on_down = false;
+    this->mouse.on_up = false;
+    this->mouse.status_captured = true;
 }
 
 void CApp::OnMouseDown() {
